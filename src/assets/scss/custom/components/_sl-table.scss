@@ -1,0 +1,37 @@
+table.sl-table {
+	border-spacing: 15px 15px;
+
+	thead {
+		background-color: $primary;
+		color: $white;
+		th {
+			text-align: center;
+		}
+	}
+	tbody {
+		tr {
+			background-color: $white;
+			border-spacing: 15px 15px;
+			height: 78px;
+			td {
+				border-top: 12px solid #f9f9f9;;
+				border-radius: 0px 0px 15px 15px;				
+				vertical-align: middle;
+			}
+			td:first-child {
+			  	border-radius:10px 0 0 0;
+			}
+			td:last-child{
+			  border-radius:0 10px 0 0;
+			}			
+		}
+	}
+
+	th:first-child{
+	  border-radius:10px 0 0 0;
+	}
+
+	th:last-child{
+	  border-radius:0 10px 0 0;
+	}
+}

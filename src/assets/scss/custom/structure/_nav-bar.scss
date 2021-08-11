@@ -1,0 +1,133 @@
+.nav-bar {
+  background-color: $white;
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  padding: 0 10px 0 240px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 70px;
+  z-index: 1001;
+
+  .search-bar {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    width: 100%;
+    .search-box {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      .input-group {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        .form-control {
+          width: 100%;
+          border: none;
+          height: 38px;
+          padding-left: 20px;
+          padding-right: 0;
+          box-shadow: none;
+        }
+        i {
+          padding: 0.45rem;
+        }
+      }
+      .dropdown-menu {
+        width: 100%;
+      }
+    }
+  }
+
+  .button-menu-mobile {
+    display: none;
+  }
+
+  li {
+    float: left;
+  }
+
+  .nav-link {
+    padding: 0 15px;
+    min-width: 32px;
+    display: block;
+    line-height: 70px;
+    text-align: center;
+    max-height: 70px;
+  }
+
+  .nav-icons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10001;
+  }
+
+  .notify-item .notify-icon {
+    float: left;
+    height: 36px;
+    width: 36px;
+    font-size: 18px;
+    line-height: 36px;
+    text-align: center;
+    margin-right: 10px;
+    border-radius: 50%;
+    color: #fff;
+  }
+
+  .notify-item .notify-details {
+    margin-bottom: 5px;
+    overflow: hidden;
+    margin-left: 45px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #343a40;
+  }
+
+  .notify-item .user-msg {
+    margin-left: 45px;
+    white-space: normal;
+    line-height: 16px;
+  }
+}
+
+.noti-icon {
+  color: $primary;
+  font-size: 21px;
+}
+
+.noti-icon-badge {
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+}
+
+@media (max-width: 991.98px) {
+  .button-menu-mobile {
+    border: none;
+    color: $primary;
+    display: inline-block !important;
+    height: 70px;
+    line-height: 70px;
+    width: 60px;
+    background-color: transparent;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .nav-bar {
+    padding: 0 10px 0 10px !important;
+  }
+}
+
+body[data-sidebar-size="condensed"] .nav-bar {
+  padding-left: 100px;
+}

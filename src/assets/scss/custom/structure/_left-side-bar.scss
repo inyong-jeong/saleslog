@@ -1,0 +1,221 @@
+[data-simplebar] {
+    position: relative;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.simplebar-wrapper {
+    overflow: hidden;
+    width: inherit;
+    height: inherit;
+    max-width: inherit;
+    max-height: inherit;
+}
+
+.simplebar-height-auto-observer-wrapper {
+    /*box-sizing: inherit!important;
+    height: 100%;
+    width: 100%;
+    max-width: 1px;
+    position: relative;
+    float: left;
+    max-height: 1px;
+    overflow: hidden;
+    z-index: -1;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+    flex-grow: inherit;
+    flex-shrink: 0;
+    flex-basis: 0;*/
+}
+
+.simplebar-mask {
+    /*direction: inherit;
+    position: absolute;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: auto!important;
+    height: auto!important;
+    z-index: 0;*/
+}
+
+.btn-collapse {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+}
+
+.simplebar-placeholder {
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+    pointer-events: none;    
+}
+
+.simplebar-offset {
+    direction: inherit!important;
+    box-sizing: inherit!important;
+    resize: none!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.simplebar-content-wrapper {
+    direction: inherit;
+    box-sizing: border-box!important;
+    position: relative;
+    display: block;
+    height: 100%;
+    width: auto;
+    visibility: visible;
+    overflow: auto;
+    max-width: 100%;
+    max-height: 100%;
+    scrollbar-width: none;
+}
+
+.left-side-menu {
+	width: 240px;
+    background: $white;
+    bottom: 0;
+    padding: 20px 0;
+    position: fixed;
+    transition: all .1s ease-out;
+    top: 0px;
+    box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
+    z-index: 1002;    
+}
+
+body[data-sidebar-size=default] {
+    .logo-sm {
+        display: none;
+    }    
+}
+
+body[data-sidebar-size=condensed] {
+    .logo-lg {
+        display: none;
+    }
+    .left-side-menu {
+        position: absolute;
+        width: 100px!important;
+    }
+
+    #side-menu {
+        padding: 30px 0px;
+    }
+
+    #side-menu>ul>li>a span {
+        display: none;
+        padding-left: 25px;
+    }
+    .simplebar-content-wrapper {
+        overflow: visible!important;
+    }
+
+    .user-box {
+        padding: 40px 0px 0 0;
+        img {
+            width: 44px!important;
+            height: 44px!important;
+        }
+        .user-dropdown {
+            display: none;
+        }
+        .user-title {
+            display: none;
+        }
+    }
+
+}
+
+.side-bar-logo {
+
+}
+
+.side-bar-logo > img {
+	height: 43px;
+}
+
+.user-box {
+	padding: 80px 0px 0 0;
+}
+
+#side-menu {
+	padding: 70px 0px;
+}
+
+#side-menu > ul > li > a {
+	color: $black;
+    display: block;
+    padding: 12px 20px;
+    position: relative;
+    transition: all .4s;
+    font-size: 16px;
+    font-weight: bold;
+    i {
+        color: $primary;
+        width: 16px;
+        height: 16px;
+        margin-left: 25px;
+        margin-right: 16px;        
+    }
+}
+
+.menu-item:hover {
+    span {
+        color: $primary;
+    }
+}
+
+.menu-item.active {
+    border-left: solid 4px $primary;
+    span {
+        color: $primary;
+    }
+}
+
+.user-dropdown {
+    background-color: #f3f7f9;
+    box-shadow: none;
+    padding: 15px 5px;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 10px;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .btn-collapse {
+        display: none;
+    }
+}
+
+@media (max-width: 991.98px) {
+
+    .left-side-menu {
+        display: none;
+        z-index: 10!important;        
+    }
+
+    body[data-sidebar-mode=mobile] .left-side-menu{
+        display: inline-block!important;
+        transition: all 0.2s;
+    }
+}

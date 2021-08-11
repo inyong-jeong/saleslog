@@ -1,0 +1,19 @@
+//
+// badge.scss
+//
+
+.badge {
+  color: $white;
+}
+
+.badge-light {
+  color: $gray-800;
+}
+
+.noti-item-badge {
+  width: 9px;
+  height: 9px;
+  font-size: 0px;
+  position: relative;
+  align-self: flex-start;
+}
