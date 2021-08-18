@@ -7,24 +7,24 @@
 */
 export function fetchActionGenerator(type, ...argName) {
   return {
-    call: function(...args) {
+    call: function (...args) {
       // call 
-      const action = { type, payload : {} };
+      const action = { type, payload: {} };
       argName.forEach((arg, index) => {
         action.payload[argName[index]] = args[index];
       });
       return action;
     },
-    success: function(response) {
+    success: function (response) {
       // resposne
       const successType = type + '_SUCCESS';
-      const action = { type: successType, payload : { response } };
+      const action = { type: successType, payload: { response } };
       return action;
     },
-    error: function(error) {
+    error: function (error) {
       // error
       const errorType = type + '_ERROR';
-      const action = { type: errorType, payload : { error } };
+      const action = { type: errorType, payload: { error } };
       return action;
     }
   };

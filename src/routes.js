@@ -20,6 +20,7 @@ const Password = React.lazy(() => import('./pages/profile/password'));
 const SignIn = React.lazy(() => import('./pages/auth/SignIn'));
 const FindPassword = React.lazy(() => import('./pages/auth/FindPassword'));
 const FindPasswordSucceed = React.lazy(() => import('./pages/auth/FindPasswordSucceed'));
+const ChangePassword = React.lazy(() => import('./pages/auth/ChangePassword'));
 const SignUp = React.lazy(() => import('./pages/auth/sigUp'));
 const ConfirmError = React.lazy(() => import('./pages/confirm/Error'));
 const ConfirmSucceed = React.lazy(() => import('./pages/confirm/Succeed'));
@@ -134,6 +135,7 @@ const routes = [
   { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute },
   { path: '/findpw', name: 'FindPassword', component: FindPassword, route: LandingRoute },
   { path: '/findpwsucceed', name: 'FindPasswordSucceed', component: FindPasswordSucceed, route: LandingRoute },
+  { path: '/change_pw', name: 'ChangePassword', component: ChangePassword, route: LandingRoute },
   { path: '/signup', name: 'SignUp', component: SignUp, route: LandingRoute },
   { path: '/confirm/error', name: 'ConfirmError', component: ConfirmError, route: LandingRoute },
   { path: '/confirm/succeed', name: 'ConfirmSucceed', component: ConfirmSucceed, route: LandingRoute },

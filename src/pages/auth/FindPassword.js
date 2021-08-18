@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { findPassword } from 'redux/actions';
 import { regex } from 'constants/regex';
 import RoundInputField from 'components/RoundInputField';
+import { getCi } from "helpers/domainUtils";
 
 function FindPassword(props) {
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
@@ -30,6 +31,9 @@ function FindPassword(props) {
       setError("이메일 형식이 잘못되었습니다");
     }
   }
+  const handleLandingPage = () => {
+    props.history.push('/');
+  }
 
   useEffect(() => {
     if (props.findPasswordResponse) {
@@ -47,6 +51,11 @@ function FindPassword(props) {
     width: '343px'
   }
 
+  const ImgStyle = {
+    textAlign: 'center',
+    cursor: 'pointer'
+  }
+
   return (
     <div className="container-fluid" style={{ height: viewHeight }}>
       <div className="row" style={{ height: viewHeight }}>
@@ -54,7 +63,10 @@ function FindPassword(props) {
         </div>
         <div className="col-lg-4 col-md-6 col-sm-8 align-self-center">
           <div className="card">
-            <div class="card-body" style={CardStyle}>
+            <div className="card-body" style={CardStyle}>
+              <div style={ImgStyle}>
+                <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
+              </div>
               <form>
                 <div className="form-group mr-3 ml-1">
                   <RoundInputField
@@ -91,8 +103,8 @@ function FindPassword(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+// const mapStateToProps = (state) => {
 
-}
+// }
 
-export default connect(mapStateToProps, { findPassword: findPassword.call })(FindPassword);
+export default connect(null, { findPassword: findPassword.call })(FindPassword);

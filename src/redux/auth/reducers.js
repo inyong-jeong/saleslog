@@ -23,7 +23,10 @@ import {
   ALREADY_EXIST,
   OAUTH_AUTHORIZE,
   OAUTH_AUTHORIZE_SUCCESS,
-  OAUTH_AUTHORIZE_ERROR
+  OAUTH_AUTHORIZE_ERROR,
+  POST_AUTHNUMBER,
+  POST_AUTHNUMBER_SUCCESS,
+  POST_AUTHNUMBER_ERROR
 
 } from 'constants/actionTypes';
 
@@ -32,7 +35,8 @@ let INIT_STATE = {
   policyCheck: false,
   userType: null,
   userForm: null,
-  signUpComplete: false
+  signUpComplete: false,
+  authNumbercheck: false
 };
 
 const Auth = (state = INIT_STATE, action) => {
@@ -70,6 +74,12 @@ const Auth = (state = INIT_STATE, action) => {
       return { ...state, url: action.payload, loading: false, error: null };
     case OAUTH_AUTHORIZE_ERROR:
       return { ...state, error: action.payload, loading: false };
+    case POST_AUTHNUMBER:
+      return { ...state };
+    case POST_AUTHNUMBER_SUCCESS:
+      return { ...state, authNumberResponse: action.payload.response.message, loading: false };
+    case POST_AUTHNUMBER_ERROR:
+      return { ...state, authNumberError: action.payload.error, loading: false };
     case FIND_PASSWORD:
       return { ...state };
     case FIND_PASSWORD_SUCCESS:

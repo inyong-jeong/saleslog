@@ -12,10 +12,10 @@ export const oauthAuthenticate = async (email, password, redirectUri, clientType
   return response;
 }
 
-export const postFindPassword = async (email) => {
-  const response = await fetch(passQueryString(FIND_PASSWORD, { email: email }), { method: 'POST' });
-  return response;
-}
+// export const postFindPassword = async (email) => {
+//   const response = await fetch('https://auth.theklab.co/login/find_pw', { email: email }, { method: 'POST' });
+//   return response;
+// }
 
 //RENEWAL
 
@@ -96,6 +96,113 @@ export const oauthgetrefreshaccesstoken = async (refresh_token, client_id, clien
   formBody = formBody.join("&");
 
   const response = await fetch(('https://auth.theklab.co/oauth/token'),
+    {
+      method: 'POST', body: formBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "Accept": "application/json",
+      }
+    }).then(response => response.json())
+  return response;
+}
+
+export const postFindPassword = async (email) => {
+
+  let body = {
+    'user_email': email
+  };
+
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(body[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+
+  const response = await fetch(('https://auth.theklab.co/login/find_pw'),
+    {
+      method: 'POST', body: formBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "Accept": "application/json",
+      }
+    }).then(response => response.json())
+  return response;
+}
+
+export const postChangePassword = async (code, email, password) => {
+  console.log(code)
+
+  let body = {
+    'user_email': email,
+    'code': code,
+    'new_password': password
+  };
+
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(body[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+
+  const response = await fetch(('https://auth.theklab.co/login/change_pw'),
+    {
+      method: 'POST', body: formBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "Accept": "application/json",
+      }
+    }).then(response => response.json())
+  return response;
+}
+
+export const postAuthorizationNumber = async (email) => {
+
+  let body = {
+    'user_email': email
+  };
+
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(body[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+
+  const response = await fetch(('https://auth.theklab.co/login/cert_mail'),
+    {
+      method: 'POST', body: formBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "Accept": "application/json",
+      }
+    }).then(response => response.json())
+  return response;
+}
+
+export const postClientRegisteration = async (user_email, user_name, user_password, comp_name, comp_domain) => {
+
+  let body = {
+    'user_email': user_email,
+    'user_name': user_name,
+    'user_password': user_password,
+    'comp_name': comp_name,
+    'comp_domain': comp_domain
+  };
+
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(body[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+
+  const response = await fetch(('https://auth.theklab.co/login/regi_user'),
     {
       method: 'POST', body: formBody,
       headers: {

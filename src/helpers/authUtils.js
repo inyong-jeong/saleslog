@@ -61,7 +61,7 @@ export const removeUserId = () => {
   localStorage.removeItem('user_id');
 }
 
-export const removeAllInfo = () => {
+export const Info = () => {
   const items = ['user_id', 'tk-sso-refresh-token', 'tk-sso-token', 'pcke', 'is_authenticateing'];
   items.map((item) => {
     localStorage.removeItem(item);
@@ -146,3 +146,10 @@ export const isUserAuthenticated = () => {
   return userInfo ? true : false;
 }
 
+export const removeAll = () => {
+  const items = ['oauth-refresh-token', 'auth-code', 'is_authenticateing', 'oauth-token'];
+  items.map((item) => {
+    localStorage.removeItem(item);
+    return 0;
+  })
+}

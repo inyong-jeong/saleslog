@@ -41,6 +41,11 @@ const AuthenticatingLayout = (props) => {
     props.history.push('/main')
   }, [])
 
+  // setTimeout(() => {
+  //   props.history.push('/signin');
+
+  // }, 5000)
+
 
 
   return (

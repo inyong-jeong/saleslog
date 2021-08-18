@@ -3,6 +3,7 @@ import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { signOut } from 'redux/actions';
+import { removeAll } from 'helpers/authUtils';
 
 // import { isLearningLogAvailable } from "helpers/domainUtils";
 
@@ -75,9 +76,11 @@ function passId(link, param) {
 function LeftSidebar(props) {
   const [collapsed, setCollpased] = useState(false);
   const [userOpen, setOpen] = useState(false);
-  const onSignOutClick = (e) => {
-    e.preventDefault();
-    props.signOut(props.history);
+
+  const onSignOutClick = () => {
+    removeAll();
+    props.history.push('/signin');
+    // props.signOut(props.history);
   }
 
   useEffect(() => {

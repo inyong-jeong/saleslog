@@ -65,6 +65,7 @@
     "react-bootstrap-table-next": "^3.3.5",
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-chartjs-2": "^2.11.1",
+    "react-chatbot-kit": "^1.1.20",
     "react-cookie": "^3.1.2",
     "react-csv": "^2.0.3",
     "react-datepicker": "^2.16.0",

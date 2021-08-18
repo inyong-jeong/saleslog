@@ -1,13 +1,12 @@
 import React from 'react';
 import ChatBot from 'react-simple-chatbot';
 import Post from 'components/chatbot/Post';
-import Registration from 'components/chatbot/Post';
-
 import Button from 'components/chatbot/Button';
 import AuthNumberCheck from 'components/chatbot/AuthNumberCheck';
 import AuthNumberValid from 'components/chatbot/AuthNumberValid';
 import { regex } from 'constants/regex';
-import { postAuthNumber } from 'redux/actions'
+
+
 import { ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux'
 
@@ -31,29 +30,8 @@ const SimpleForm = (props) => {
     height: '100vh'
   }
 
-  const hidePassword = (d) => {
-    let length = 8;
-
-    if (d.value) length = d.value.length;
-
-    let x = "*****************************";
-    let stars = x.substr(0, length);
-
-    let password_user = document.getElementsByClassName("rsc-ts-user");
-    if (password_user) password_user = password_user[password_user.length - 1];
-    if (password_user) {
-      password_user = password_user.childNodes[1];
-      if (password_user) password_user.innerHTML = stars;
-    }
-  };
-
-  const getAuthNumber = () => {
-    if (props.authNumberResponse) {
-      const AuthNumber = props.authNumberResponse;
-      return AuthNumber;
-    }
-  }
-
+  console.log(props.steps);
+  console.log('인증번호 타입', typeof (props.authNumberResponse));
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -92,31 +70,16 @@ const SimpleForm = (props) => {
                 }
                 return true;
               },
-              trigger: (input) => {
-                // const email = input.value
-                // props.postAuthNumber(email)
-                return '3'
-              }
+              trigger: '11'
             },
             {
-              id: '3',
+              id: '11',
               component: <Post />,
-              // message: '인증번호를 보내드렸어요 인증번호를 입력해주세요.',
               trigger: 'authnumber'
             },
             {
               id: 'authnumber',
               user: true,
-              // trigger: (input) => {
-              //   const AuthNumber = getAuthNumber();
-              //   console.log(AuthNumber);
-              //   if (Number(input) === AuthNumber) {
-              //     return '4'
-              //   } else if (Number(input) !== AuthNumber) {
-              //     return 'authnumber_valid'
-              //   }
-
-              // }
               trigger: 'authnumber_check'
             },
             {
@@ -129,7 +92,7 @@ const SimpleForm = (props) => {
               options: [
                 { value: 'true', label: '인증성공', trigger: '4' },
                 { value: 'false', label: '다시입력', trigger: 'authnumber' },
-                { value: 'retry', label: '인증번호 재발급', trigger: '3' }
+                { value: 'retry', label: '인증번호 재발급', trigger: '11' }
               ]
             },
             {
@@ -139,26 +102,20 @@ const SimpleForm = (props) => {
 
             },
             {
-              id: "password",
+              id: 'password',
               user: true,
-              trigger: ({ value, trigger }) => {
-                hidePassword({ value, trigger });
-                return "5";
-              },
-              inputAttributes: {
-                type: "password",
-              },
-              placeholder: "특수문자 포함 8자 이상으로 입력해주세요.",
+              inputAttributes: { type: 'password' },
+              placeholder: '특수문자 포함 8자 이상으로 입력해주세요.',
               validator: (value) => {
-                if (value.trim().length < 8) {
-                  return "비밀번호는 8자 이상으로 입력해야 합니다. ";
-                } else if (value.trim().length > 20) {
-                  return "비밀번호는 20자 이하로 입력해야 합니다. ";
-                } else if (!(new RegExp(regex.password).exec(value))) {
+                if (!(new RegExp(regex.password).exec(value))) {
                   return '비밀번호 형식이 잘못되었습니다.';
                 }
+                let password_temp = value;
+                value = '******';
+
                 return true;
               },
+              trigger: '5'
             },
             {
               id: '5',
@@ -167,27 +124,15 @@ const SimpleForm = (props) => {
 
             },
             {
-              id: "passwordcheck",
+              id: 'passwordcheck',
               user: true,
-              trigger: ({ value, steps }) => {
-                hidePassword({ value, steps });
-                // console.log(steps);
-                if (value !== steps.password.value) {
+              inputAttributes: { type: 'hidden' },
+              trigger: (input) => {
+                if (!(new RegExp(regex.password).exec(input.value))) {
+                  return 'passwordcheck';
+                } else if (input.value !== input.steps.password.value)
                   return 'passwordcheck'
-                }
-                return "6";
-              },
-              inputAttributes: {
-                type: "password",
-              },
-              placeholder: "특수문자 포함 8자 이상으로 입력해주세요.",
-              validator: (value) => {
-                if (value.trim().length < 8) {
-                  return "비밀번호는 8자 이상으로 입력해야 합니다. ";
-                } else if (value.trim().length > 20) {
-                  return "비밀번호는 20자 이하로 입력해야 합니다. ";
-                }
-                return true;
+                return '6';
               },
             },
             {
@@ -217,8 +162,7 @@ const SimpleForm = (props) => {
             },
             {
               id: '8',
-              // message: '회원가입 되었습니다. 감사합니다.',
-              component: <Registration />,
+              message: '회원가입 되었습니다. 감사합니다.',
               trigger: 'end-message'
             },
             {
@@ -246,11 +190,8 @@ const mapStateToProps = (state) => {
   return { authNumberResponse, authNumberError };
 }
 
-const dispatchToProps = {
-  postAuthNumber: postAuthNumber.call
-}
 
-export default connect(mapStateToProps, dispatchToProps)(SimpleForm);
+export default connect(mapStateToProps, {})(SimpleForm);
 
 // const Review = (props) => {
 //   const [state, setState] = useState({ name: '', email: '', authnumber: '', passwordcheck: '', organization: '', domain: '' });

@@ -16,15 +16,19 @@ import {
   notExistEmail,
   authorize,
   getOauthToken,
-  getRefreshOauthToken
+  getRefreshOauthToken,
+  postAuthNumber,
+  postRegisteration,
+  postInvite,
+  postInviteRegistration
 } from "../actions";
 
 import { checkDevelopmentMode } from "helpers/domainUtils";
 
-import { oauthAuthenticate, postFindPassword, getCheckEmail, postSignUpUser } from 'model/auth';
+import { oauthAuthenticate, postFindPassword, getCheckEmail, postSignUpUser, postAuthorizationNumber } from 'model/auth';
 
 //RENEWAL
-import { oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken } from 'model/auth';
+import { oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken, postChangePassword, postClientRegisteration } from 'model/auth';
 
 import {
   saveSSOSession,
@@ -46,7 +50,8 @@ import {
 
 import {
   AUTHORIZE_REQUEST, SIGN_OUT_USER, GET_ACCESS_TOKEN, GET_REFRESH_TOKEN, CHANGE_PASSWORD,
-  OAUTH_AUTHENTICATE_USER, FIND_PASSWORD, CHECK_EMAIL, SIGNUP_USER, OAUTH_AUTHORIZE, GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN
+  OAUTH_AUTHENTICATE_USER, FIND_PASSWORD, CHECK_EMAIL, SIGNUP_USER, OAUTH_AUTHORIZE,
+  GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION
 } from "constants/actionTypes";
 
 const KEEP_LOGIN_FLAG = -1;
@@ -165,7 +170,7 @@ function* _request({ redirectUri }) {
 
 function* _signOut(history) {
   try {
-    removeAllInfo();
+    // removeAllInfo();
     window.location.href = window.location.origin;
     yield put(signOutSuccess());
   } catch (error) {
@@ -195,9 +200,10 @@ function* _getRefreshToken() {
   }
 }
 
-function* _changePassword({ payload: { email, password } }) {
+function* _changePassword({ payload: { code, email, password } }) {
   try {
-    const response = yield call(fetchChangePassword, email, password);
+
+    const response = yield call(postChangePassword, code, email, password);
     if (response.status === 400) {
       throw new Error("same with previous");
     }
@@ -250,6 +256,7 @@ function* _checkEmail({ payload: { email } }) {
 function* _findPassword({ payload: { email } }) {
   try {
     const response = yield call(postFindPassword, email);
+    console.log(response);
     if (response.staus !== 200) {
       yield put();
     }
@@ -326,6 +333,50 @@ function* _getRefreshOauthToken({ payload: { refresh_token, client_id, client_se
   }
 }
 
+function* _postAuthNumber({ payload: { email } }) {
+  try {
+    const response = yield call(postAuthorizationNumber, email);
+    console.log(response);
+    // setAccessToken(response.access_token);
+    yield put(postAuthNumber.success(response));
+  } catch (error) {
+    yield put(postAuthNumber.error(error.message));
+  }
+}
+
+function* _postRegistration({ payload: { user_email, user_name, user_password, comp_name, comp_domain } }) {
+  try {
+    const response = yield call(postClientRegisteration, user_email, user_name, user_password, comp_name, comp_domain);
+    console.log(response);
+    // setAccessToken(response.access_token);
+    yield put(postRegisteration.success(response));
+  } catch (error) {
+    yield put(postRegisteration.error(error.message));
+  }
+}
+
+function* _postInvite({ payload: { email } }) {
+  try {
+    const response = yield call(postAuthorizationNumber, email);
+    console.log(response);
+    // setAccessToken(response.access_token);
+    yield put(postAuthNumber.success(response));
+  } catch (error) {
+    yield put(postAuthNumber.error(error.message));
+  }
+}
+
+function* _postInviteRegistration({ payload: { email } }) {
+  try {
+    const response = yield call(postAuthorizationNumber, email);
+    console.log(response);
+    // setAccessToken(response.access_token);
+    yield put(postAuthNumber.success(response));
+  } catch (error) {
+    yield put(postAuthNumber.error(error.message));
+  }
+}
+
 export function* watchAuthorizeRequest() {
   yield takeEvery(AUTHORIZE_REQUEST, _request);
 }
@@ -377,6 +428,19 @@ export function* watchGetRefreshOauthoken() {
   yield takeEvery(GET_REFRESH_OAUTH_TOKEN, _getRefreshOauthToken);
 }
 
+export function* watchPostAuthNumber() {
+  yield takeEvery(POST_AUTHNUMBER, _postAuthNumber);
+}
+export function* watchPostRegistration() {
+  yield takeEvery(POST_REGISTRATION, _postRegistration);
+}
+export function* watchPostInvite() {
+  yield takeEvery(POST_INVITE, _postInvite);
+}
+export function* watchPostInviteRegistration() {
+  yield takeEvery(POST_INVITE_REGISTRATION, _postInviteRegistration);
+}
+
 function* authSaga() {
   yield all([
     fork(watchAuthorizeRequest),
@@ -390,7 +454,13 @@ function* authSaga() {
     fork(watchCheckEmail),
     fork(watchOauthAuthorize),
     fork(watchGetOauthoken),
-    fork(watchGetRefreshOauthoken)
+    fork(watchGetRefreshOauthoken),
+    fork(watchPostAuthNumber),
+    fork(watchPostRegistration),
+    fork(watchPostInvite),
+    fork(watchPostInviteRegistration)
+
+
 
   ]);
 }

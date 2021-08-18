@@ -4,7 +4,7 @@ import { Spinner } from 'reactstrap';
 import Card from 'components/Card';
 import { getUser, authorizeRequest, getRefreshToken, tokenExpired, getRefreshOauthToken } from 'redux/actions';
 
-import { getUserId, getOauthRefreshToken, getOauthAccessToken } from 'helpers/authUtils';
+import { getUserId, getOauthRefreshToken, getOauthAccessToken, isUserAuthenticated } from 'helpers/authUtils';
 import StyledButton from 'components/styledcomponent/Button';
 import StyledCheckbox from 'components/styledcomponent/Checkbox';
 import StyledInput from 'components/styledcomponent/Input';
@@ -13,16 +13,16 @@ import StyledInput from 'components/styledcomponent/Input';
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const Navbar = React.lazy(() => import("./Navbar"));
 const LeftSidebar = React.lazy(() => import("./LeftSidebar"));
+const isTokenValid = isUserAuthenticated();
 
 const AuthLayout = (props) => {
 
-  setInterval(() => {
-    // console.log(1)
-    const client_id = 'saleslog.co';
-    const client_secret = "8fba114f8291cf28e443c30aba7cce86";
-    const grant_type = "refresh_token";
-    props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
-  }, 60 * 1000 * 60)
+  // setInterval(() => {
+  //   const client_id = 'saleslog.co';
+  //   const client_secret = "8fba114f8291cf28e443c30aba7cce86";
+  //   const grant_type = "refresh_token";
+  //   props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
+  // }, 60 * 1000 * 60)
   // const shadowStyle = {
   //   position: 'fixed',
   //   top: '0',
@@ -39,13 +39,14 @@ const AuthLayout = (props) => {
   //   console.log(client_secret);
   //   props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
   // }
-
   useEffect(() => {
-    const client_id = 'saleslog.co';
-    const client_secret = "8fba114f8291cf28e443c30aba7cce86";
-    const grant_type = "refresh_token";
-    props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
-  }, [getOauthAccessToken()])
+    if (!isTokenValid) {
+      const client_id = 'saleslog.co';
+      const client_secret = "8fba114f8291cf28e443c30aba7cce86";
+      const grant_type = "refresh_token";
+      props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
+    }
+  }, [isTokenValid])
   // constructor(props) {
   //   super(props);
   //   this.state = { authorizeAgain: false };

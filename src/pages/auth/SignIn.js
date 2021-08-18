@@ -9,7 +9,8 @@ import { getCi } from "helpers/domainUtils";
 import { regex } from 'constants/regex';
 import { isUserAuthorized, isUserAuthenticated, getOauthCode } from 'helpers/authUtils';
 import useInput from 'hooks/useInput';
-import { oauthAuthenticateUser, authorize, getOauthToken } from 'redux/actions';
+import { oauthAuthenticateUser, authorize, getOauthToken, postRegisteration, postInvite, postInviteRegistration } from 'redux/actions';
+import { proxyPath } from '@theklab/saleslog/src/proxy';
 
 
 function SignIn(props) {
@@ -148,6 +149,10 @@ function SignIn(props) {
     props.history.push('/main');
   }
 
+  const handleLandingPage = () => {
+    props.history.push('/');
+  }
+
 
 
   const ViewStyle = {
@@ -164,7 +169,18 @@ function SignIn(props) {
   }
 
   const ImgStyle = {
-    textAlign: 'center'
+    textAlign: 'center',
+    cursor: 'pointer'
+  }
+
+  const handleOnSubmit = () => {
+    const user_email = 'jeong4726@naver.com';
+    const user_name = '정인용';
+    const user_password = 1111;
+    const comp_name = '회사명3';
+    const comp_domain = 'taeipark3';
+
+    props.postRegisteration(user_email, user_name, user_password, comp_name, comp_domain);
   }
 
 
@@ -180,7 +196,7 @@ function SignIn(props) {
             <div className="card">
               <div className="card-body" style={CardStyle}>
                 <div style={ImgStyle}>
-                  <img src={getCi()} className="auth-logo mb-3" alt="logo" />
+                  <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
                 </div>
                 <form>
                   <div className="form-group">
@@ -220,6 +236,7 @@ function SignIn(props) {
                     {/* <button onClick={handleOnClick}> 대시보드 라우팅</button> */}
                     {/* <button onClick={() => { props.history.push('/findpwsucceed') }}> 비밀번호 변경 성공</button> */}
 
+
                     <button
                       className="btn btn-outline-primary"
                       style={{ width: '343px', height: '48px' }}
@@ -244,6 +261,35 @@ function SignIn(props) {
                     </button>
 
                   </div>
+                  <div className="form-group mt-3">
+                    {/* <button onClick={handleOnClick}> 대시보드 라우팅</button> */}
+                    {/* <button onClick={() => { props.history.push('/findpwsucceed') }}> 비밀번호 변경 성공</button> */}
+
+                    <button
+                      className="btn btn-outline-primary"
+                      style={{ width: '343px', height: '48px' }}
+                      disabled={loading}
+                      onClick={handleOnSubmit}
+                    >
+                      신규회원가입(초대아님)
+                    </button>
+
+                  </div>
+                  <div className="form-group mt-3">
+                    {/* <button onClick={handleOnClick}> 대시보드 라우팅</button> */}
+                    {/* <button onClick={() => { props.history.push('/findpwsucceed') }}> 비밀번호 변경 성공</button> */}
+
+                    <button
+                      className="btn btn-outline-primary"
+                      style={{ width: '343px', height: '48px' }}
+                      disabled={loading}
+                      onClick={handletoken}
+                    >
+                      회원초대메일
+                    </button>
+
+                  </div>
+
                   <div className="form-group">
                     <button
                       className="btn btn-outline-primary"
@@ -251,7 +297,7 @@ function SignIn(props) {
                       disabled={loading}
                       onClick={handleSignUpSubmit}
                     >
-                      회원가입
+                      회원가입(초대)
                     </button>
                   </div>
 
@@ -297,7 +343,7 @@ function SignIn(props) {
           </Link>
         </footer> */}
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 }
 
@@ -309,6 +355,7 @@ const mapStateToProps = (state) => {
 const mapStateToDispatch = {
   oauthAuthenticateUser: oauthAuthenticateUser.call,
   authorize: authorize.call,
-  getOauthToken: getOauthToken.call
+  getOauthToken: getOauthToken.call,
+  postRegisteration: postRegisteration.call
 }
 export default connect(mapStateToProps, mapStateToDispatch)(SignIn);
