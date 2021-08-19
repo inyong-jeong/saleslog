@@ -184,12 +184,13 @@ export const postAuthorizationNumber = async (email) => {
   return response;
 }
 
-export const postClientRegisteration = async (user_email, user_name, user_password, comp_name, comp_domain) => {
+export const postClientRegisteration = async (useremail, password, firstname, lastname, comp_name, comp_domain) => {
 
   let body = {
-    'user_email': user_email,
-    'user_name': user_name,
-    'user_password': user_password,
+    'user_email': useremail,
+    'user_password': password,
+    'user_name': firstname,
+    'user_last_name': lastname,
     'comp_name': comp_name,
     'comp_domain': comp_domain
   };
