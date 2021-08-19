@@ -9,12 +9,13 @@ import {
   postAuthNumber,
   postRegisteration,
   postInvite,
-  postInviteRegistration
+  postInviteRegistration,
+  signUpUser,
 } from "../actions";
 
 //RENEWAL
 import {
-  oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken,
+  oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken, postSignUpUser,
   postAuthorizationNumber, postChangePassword, postClientRegisteration, postInviteEmail, postInviteRegister
 } from 'model/auth';
 
@@ -86,9 +87,9 @@ function* _postAuthNumber({ payload: { email } }) {
   }
 }
 
-function* _postRegistration({ payload: { user_email, user_name, user_password, comp_name, comp_domain } }) {
+function* _postRegistration({ payload: { useremail, password, firstname, lastname, comp_name, comp_domain } }) {
   try {
-    const response = yield call(postClientRegisteration, user_email, user_name, user_password, comp_name, comp_domain);
+    const response = yield call(postClientRegisteration, useremail, password, firstname, lastname, comp_name, comp_domain);
     yield put(postRegisteration.success(response));
   } catch (error) {
     yield put(postRegisteration.error(error.message));
@@ -113,6 +114,15 @@ function* _postInviteRegistration({ payload: { user_email, invite_code, user_nam
   }
 }
 
+function* _signUp({ payload: { userType, body } }) {
+  try {
+    console.log(userType, body);
+    const response = yield call(postSignUpUser, userType, body);
+    yield put(signUpUser.success(response));
+  } catch (error) {
+    yield put(signUpUser.error(error.message));
+  }
+}
 
 //renewal
 export function* watchOauthAuthorize() {
@@ -139,6 +149,9 @@ export function* watchPostInvite() {
 export function* watchPostInviteRegistration() {
   yield takeEvery(POST_INVITE_REGISTRATION, _postInviteRegistration);
 }
+export function* watchSignUpUser() {
+  yield takeEvery(SIGNUP_USER, _signUp);
+}
 
 function* authSaga() {
   yield all([
@@ -148,7 +161,8 @@ function* authSaga() {
     fork(watchPostAuthNumber),
     fork(watchPostRegistration),
     fork(watchPostInvite),
-    fork(watchPostInviteRegistration)
+    fork(watchPostInviteRegistration),
+    fork(watchSignUpUser),
   ]);
 }
 

@@ -8,7 +8,12 @@ import {
   POST_AUTHNUMBER,
   POST_REGISTRATION,
   POST_INVITE,
-  POST_INVITE_REGISTRATION
+  POST_INVITE_REGISTRATION,
+  SIGNUP_USER,
+  SET_USER_TYPE,
+  SET_USER_FORM,
+  SET_POLICY_CHECK,
+
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -22,11 +27,24 @@ export const getRefreshOauthToken = fetchActionGenerator(GET_REFRESH_OAUTH_TOKEN
 export const findPassword = fetchActionGenerator(FIND_PASSWORD, 'email');
 export const changePassword = fetchActionGenerator(CHANGE_PASSWORD, 'code', 'email', 'password');
 export const postAuthNumber = fetchActionGenerator(POST_AUTHNUMBER, 'email');
-export const postRegisteration = fetchActionGenerator(POST_REGISTRATION, 'user_email', 'user_name', 'user_password', 'comp_name', 'comp_domain');
+export const postRegisteration = fetchActionGenerator(POST_REGISTRATION, 'useremail', 'password', 'firstname', 'lastname', 'comp_name', 'comp_domain');
 export const postInvite = fetchActionGenerator(POST_INVITE, 'login_id', 'invite_email', 'permission');
 export const postInviteRegistration = fetchActionGenerator(POST_INVITE_REGISTRATION, 'user_email', 'invite_code', 'user_name', 'user_password', 'use_name');
 
+export const setPolicyCheck = (policyCheck) => ({
+  type: SET_POLICY_CHECK,
+  payload: { policyCheck }
+});
+
+export const setUserType = (userType) => ({
+  type: SET_USER_TYPE,
+  payload: { userType }
+});
+
+export const setUserForm = (userForm) => ({
+  type: SET_USER_FORM,
+  payload: { userForm }
+});
 
 
-
-
+export const signUpUser = fetchActionGenerator(SIGNUP_USER, 'userType', 'body');
