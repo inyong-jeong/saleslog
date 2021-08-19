@@ -21,11 +21,13 @@ const SignIn = React.lazy(() => import('./pages/auth/SignIn'));
 const FindPassword = React.lazy(() => import('./pages/auth/FindPassword'));
 const FindPasswordSucceed = React.lazy(() => import('./pages/auth/FindPasswordSucceed'));
 const ChangePassword = React.lazy(() => import('./pages/auth/ChangePassword'));
-const SignUp = React.lazy(() => import('./pages/auth/sigUp'));
+const SignUp = React.lazy(() => import('./pages/auth/SignUp'));
 const ConfirmError = React.lazy(() => import('./pages/confirm/Error'));
 const ConfirmSucceed = React.lazy(() => import('./pages/confirm/Succeed'));
 const FindId = React.lazy(() => import('./pages/auth/FindId'));
 const Authing = React.lazy(() => import('./components/AuthenticatingLayout'));
+// const PostEmail = React.lazy(() => import('./pages/auth/PostEmail'));
+
 
 
 // handle auth and authorization
@@ -141,6 +143,8 @@ const routes = [
   { path: '/confirm/succeed', name: 'ConfirmSucceed', component: ConfirmSucceed, route: LandingRoute },
   { path: '/findid', name: 'FindId', component: FindId, route: LandingRoute },
   { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute },
+  { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute },
+
 
 
   // {
