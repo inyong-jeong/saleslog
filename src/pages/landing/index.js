@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { authorizeRequest } from 'redux/actions';
 import Header from 'components/landing/Header';
 import HeroSection from 'components/landing/HeroSection';
 import BenefitSection from 'components/landing/BenefitSection';
@@ -14,20 +13,14 @@ function Landing(props) {
 
   const onSignInClick = (e) => {
     e.preventDefault();
-    // props.authorizeRequest();
     props.history.push('/signin')
-  }
-
-  const onSignUpClick = (e) => {
-    e.preventDefault();
-    window.location.href = 'https://sso.theklab.co/signup/policy';
   }
 
   return (
     <React.Fragment>
       <div id="landing">
-        <Header onSignInClick={onSignInClick} onSignUpClick={onSignUpClick} />
-        <HeroSection onSignInClick={onSignInClick} />
+        <Header onSignInClick={onSignInClick} />
+        <HeroSection />
         <BenefitSection />
         <FeatureSection />
         <LearningLogSection />
@@ -39,4 +32,4 @@ function Landing(props) {
   );
 }
 
-export default connect(null, { authorizeRequest })(Landing);
+export default connect(null, {})(Landing);

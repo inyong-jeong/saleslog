@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { signOut } from 'redux/actions';
 import { removeAll } from 'helpers/authUtils';
 
 // import { isLearningLogAvailable } from "helpers/domainUtils";
@@ -181,4 +180,4 @@ const mapStateToProps = (state) => {
   return { user };
 }
 
-export default withRouter(connect(mapStateToProps, { signOut })(LeftSidebar));
+export default withRouter(connect(mapStateToProps, {})(LeftSidebar));
