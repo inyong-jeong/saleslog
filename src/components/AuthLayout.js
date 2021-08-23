@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getRefreshOauthToken } from 'redux/actions';
 import { getOauthRefreshToken, isUserAuthenticated } from 'helpers/authUtils';
+import MobileMenu from 'components/MobileMenu'
 
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const Navbar = React.lazy(() => import("./Navbar"));
@@ -30,6 +31,7 @@ const AuthLayout = (props) => {
         </div>
         <footer>
         </footer>
+        <MobileMenu />
       </div>
     </React.Fragment>
   );

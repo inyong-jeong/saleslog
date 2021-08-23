@@ -184,15 +184,13 @@ export const postAuthorizationNumber = async (email) => {
   return response;
 }
 
-export const postClientRegisteration = async (useremail, password, firstname, lastname, comp_name, comp_domain) => {
+export const postClientRegisteration = async (useremail, password, firstname, lastname) => {
 
   let body = {
     'user_email': useremail,
     'user_password': password,
     'user_name': firstname,
     'user_last_name': lastname,
-    'comp_name': comp_name,
-    'comp_domain': comp_domain
   };
 
   let formBody = [];
@@ -260,6 +258,33 @@ export const postInviteRegister = async (user_email, invite_code, user_name, use
   formBody = formBody.join("&");
 
   const response = await fetch(('https://auth.theklab.co/login/regi_user_invite'),
+    {
+      method: 'POST', body: formBody,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "Accept": "application/json",
+      }
+    }).then(response => response.json())
+  return response;
+}
+
+export const postWorkGroupmodel = async (user_email, comp_name, comp_domain) => {
+
+  let body = {
+    'user_email': user_email,
+    'comp_name': comp_name,
+    'comp_domain': comp_domain,
+  };
+
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(body[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+
+  const response = await fetch(('https://auth.theklab.co/login/regi_wgroup'),
     {
       method: 'POST', body: formBody,
       headers: {

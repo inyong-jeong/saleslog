@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from 'react-redux';
-import { Spinner } from "reactstrap";
 import { Helmet } from "react-helmet";
 import { getCi } from "helpers/domainUtils";
 import { regex } from 'constants/regex';
@@ -15,12 +14,10 @@ import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
 
-function SignIn(props) {
-  const [alaramText, setAlarmText] = useState("");
-  const [loading, setLoading] = useState(false);
+function SignUp(props) {
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
-  // 회원가입 데이터
+  // 회원가입 인풋 상태 데이터
   const [useremail, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('')
   const [passwordcheck, onChangePasswordCheck] = useInput('')
@@ -30,7 +27,7 @@ function SignIn(props) {
   const [comp_name, onChangeCompName] = useInput('')
   const [comp_domain, onChangeCompDomain] = useInput('')
 
-  //조건 오류
+  //조건 오류 상태 데이터
   const [term, setTerm] = useState(false)
   const [termError, setTermError] = useState()
   const [emailerror, setEmailError] = useState();
@@ -53,6 +50,7 @@ function SignIn(props) {
   //   }
   // }, [props.error]);
 
+  // 함수 정의
   const onChangeTerm = useCallback((e) => {
     console.log('checked : ', e.target.checked);
     setTerm(e.target.checked);
@@ -86,30 +84,33 @@ function SignIn(props) {
     }
   }
 
-  const handleOnSubmit = () => {
-    if (password !== passwordcheck) {
-      setPassWordError('비밀번호가 일치하지 않습니다.')
-    } else if (!(new RegExp(regex.password).exec(password))) {
-      setPassWordError('비밀번호 형식이 잘못되었습니다.')
-    } else if (term === false) {
-      setTermError('약관에 동의하여 주세요.')
-    } else if (Number(authnumber) !== props.authNumberResponse) {
-      setAuthNumberError('인증번호가 틀렸습니다.')
-    } else if (!(new RegExp(regex.email).exec(useremail))) {
-      setEmailError("이메일 형식이 잘못되었습니다");
-    } else if (comp_name.length >= 20) {
-      setCompNameError('이름은 최대 20자 이내여야 합니다.')
-    } else if (comp_domain.lengh >= 20) {
-      setCompDomainError('영문자, 숫자, 대시(-)를 포함해 4~20자 이내여야 합니다.')
-    }
-    else {
-      props.postRegisteration(useremail, password, firstname, lastname, comp_name, comp_domain)
-    }
-  }
-
   // const handleOnSubmit = () => {
-  //   props.postRegisteration('jeong@theklab.co', '1111', '인용', '정', 'comp_name', 'comp-domain')
+  //   if (password !== passwordcheck) {
+  //     setPassWordError('비밀번호가 일치하지 않습니다.')
+  //   } else if (!(new RegExp(regex.password).exec(password))) {
+  //     setPassWordError('비밀번호 형식이 잘못되었습니다.')
+  //   } else if (term === false) {
+  //     setTermError('약관에 동의하여 주세요.')
+  //   } else if (Number(authnumber) !== props.authNumberResponse) {
+  //     setAuthNumberError('인증번호가 틀렸습니다.')
+  //   } else if (!(new RegExp(regex.email).exec(useremail))) {
+  //     setEmailError("이메일 형식이 잘못되었습니다");
+  //   } else if (comp_name.length >= 20) {
+  //     setCompNameError('이름은 최대 20자 이내여야 합니다.')
+  //   } else if (comp_domain.lengh >= 20) {
+  //     setCompDomainError('영문자, 숫자, 대시(-)를 포함해 4~20자 이내여야 합니다.')
+  //   }
+  //   else {
+  //     props.postRegisteration(useremail, password, firstname, lastname, comp_name, comp_domain)
+  //     props.history.push('/workgroup');
+  //   }
   // }
+
+  const handleOnSubmit = () => {
+    props.postRegisteration('tss0822@naver.co', '1111', '인용', '정')
+    // props.history.push('/workgroup');
+
+  }
 
   // 컴포넌트 스타일링
 
@@ -213,7 +214,7 @@ function SignIn(props) {
                   </div>
                   <div className="form-group">
                     <RoundInputField
-                      id="password"
+                      id="passwordcheck"
                       title="비밀번호"
                       placeholder="비밀번호 확인"
                       type='password'
@@ -221,29 +222,6 @@ function SignIn(props) {
                       onChange={onChangePasswordCheck}
                     />
                     {passworderror && <p className="text-danger mt-2">{passworderror}</p>}
-                  </div>
-                  <h4 style={{ marginBottom: '4px' }}> <strong>동료들과 함께 일하고 소통할 워크그룹을 <br /> 만들어보세요</strong></h4>
-                  <div className="form-group">
-                    <RoundInputField
-                      id="workgroup"
-                      title="워크그룹"
-                      placeholder="워크그룹 이름"
-                      value={comp_name}
-                      onChange={onChangeCompName}
-                    />
-                    {compnameerror && <p className="text-danger mt-2">{compnameerror}</p>}
-                  </div>
-                  <div className="form-group">
-                    <StyledInput
-                      style={{ width: '230px', fontSize: '16px' }}
-                      id="domain"
-                      title="도메인"
-                      placeholder="your-workspace-url"
-                      value={comp_domain}
-                      onChange={onChangeCompDomain}
-                    />
-                    <span style={{ fontSize: '16px', color: 'black' }}>.saleslog.co</span>
-                    {compdomainerror && <p className="text-danger mt-2">{compdomainerror}</p>}
                   </div>
                   <div className="form-group mt-3">
                     <StyledCheckbox
@@ -257,7 +235,6 @@ function SignIn(props) {
                     <button
                       className="btn btn-outline-primary"
                       style={{ width: '343px', height: '48px' }}
-                      disabled={loading}
                       onClick={handleOnSubmit}
                     >
                       다음
@@ -277,12 +254,12 @@ function SignIn(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { error, authNumberResponse, authNumberError } = state.Auth;
-  return { error, authNumberResponse, authNumberError };
+  const { authNumberResponse, authNumberError } = state.Auth;
+  return { authNumberResponse, authNumberError };
 };
 
 const mapStateToDispatch = {
   postRegisteration: postRegisteration.call,
   postAuthNumber: postAuthNumber.call
 }
-export default connect(mapStateToProps, mapStateToDispatch)(SignIn);
+export default connect(mapStateToProps, mapStateToDispatch)(SignUp);

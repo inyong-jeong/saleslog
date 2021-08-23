@@ -18,7 +18,19 @@ import {
   SIGNUP_USER,
   SIGNUP_USER_SUCCESS,
   SIGNUP_USER_FAILED,
-  SIGN_UP_COMPLETE
+  SIGN_UP_COMPLETE,
+  POST_REGISTRATION,
+  POST_REGISTRATION_SUCCESS,
+  POST_REGISTRATION_ERROR,
+  POST_WORKGROUP,
+  POST_WORKGROUP_SUCCESS,
+  POST_WORKGROUP_ERROR,
+  POST_INVITE,
+  POST_INVITE_SUCCESS,
+  POST_INVITE_ERROR,
+
+
+
 } from 'constants/actionTypes';
 
 let INIT_STATE = {
@@ -27,7 +39,11 @@ let INIT_STATE = {
   userType: null,
   userForm: null,
   signUpComplete: false,
-  authNumbercheck: false
+  authNumbercheck: false,
+  email: null,
+  postworkgroupResponse: null,
+  postinviteResponse: null
+
 };
 
 const Auth = (state = INIT_STATE, action) => {
@@ -51,6 +67,24 @@ const Auth = (state = INIT_STATE, action) => {
       return { ...state, authNumberResponse: action.payload.response.message, loading: false };
     case POST_AUTHNUMBER_ERROR:
       return { ...state, authNumberError: action.payload.error, loading: false };
+    case POST_REGISTRATION:
+      return { ...state, email: action.payload.useremail };
+    case POST_REGISTRATION_SUCCESS:
+      return { ...state };
+    case POST_REGISTRATION_ERROR:
+      return { ...state, error: action.payload };
+    case POST_WORKGROUP:
+      return { ...state, email: action.payload.useremail };
+    case POST_WORKGROUP_SUCCESS:
+      return { ...state, postworkgroupResponse: action.payload.response.message };
+    case POST_WORKGROUP_ERROR:
+      return { ...state, error: action.payload };
+    case POST_INVITE:
+      return { ...state };
+    case POST_INVITE_SUCCESS:
+      return { ...state, postinviteResponse: action.payload.response.message.state };
+    case POST_INVITE_ERROR:
+      return { ...state, error: action.payload };
     case FIND_PASSWORD:
       return { ...state };
     case FIND_PASSWORD_SUCCESS:

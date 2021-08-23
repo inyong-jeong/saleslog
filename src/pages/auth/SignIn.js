@@ -235,6 +235,11 @@ function SignIn(props) {
                       회원가입
                     </button>
                   </div>
+                  <div>
+                    파일추가
+                    <input type="file" />
+                  </div>
+
 
                   {props.error && (
                     <p className="text text-danger">로그인에 실패했습니다</p>

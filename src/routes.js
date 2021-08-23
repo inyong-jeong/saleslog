@@ -26,7 +26,11 @@ const ConfirmError = React.lazy(() => import('./pages/confirm/Error'));
 const ConfirmSucceed = React.lazy(() => import('./pages/confirm/Succeed'));
 const FindId = React.lazy(() => import('./pages/auth/FindId'));
 const Authing = React.lazy(() => import('./components/AuthenticatingLayout'));
-// const PostEmail = React.lazy(() => import('./pages/auth/PostEmail'));
+const WorkGroup = React.lazy(() => import('./pages/auth/WorkGroup'));
+const InVite = React.lazy(() => import('./pages/auth/InVite'));
+const CongratuLation = React.lazy(() => import('./pages/auth/CongratuLation'));
+
+
 
 
 
@@ -114,7 +118,8 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 
 
 const routes = [
-  { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },
+
+  //Mai Route
   { path: '/main', name: 'Dashboard', component: Dashboard, route: MainRoute, exact: true },
   { path: '/main/settings', name: 'Settings', component: Settings, route: MainRoute, exact: true },
   { path: '/main/manage/saleslog/:id', name: 'SalesLog', component: SalesLog, route: MainRoute, exact: true },
@@ -134,17 +139,22 @@ const routes = [
   { path: '/main/needs/result', name: 'needs', component: Needs, route: MainRoute, exact: true },
   { path: '/main/tripreport', name: 'TripReport', component: TripReport, route: MainRoute, exact: true },
   { path: '/main/tripreport/triplog/:id', name: 'TripReport', component: TripLog, route: MainRoute, exact: true },
-  { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute },
-  { path: '/findpw', name: 'FindPassword', component: FindPassword, route: LandingRoute },
-  { path: '/findpwsucceed', name: 'FindPasswordSucceed', component: FindPasswordSucceed, route: LandingRoute },
-  { path: '/change_pw', name: 'ChangePassword', component: ChangePassword, route: LandingRoute },
-  { path: '/signup', name: 'SignUp', component: SignUp, route: LandingRoute },
-  { path: '/confirm/error', name: 'ConfirmError', component: ConfirmError, route: LandingRoute },
-  { path: '/confirm/succeed', name: 'ConfirmSucceed', component: ConfirmSucceed, route: LandingRoute },
-  { path: '/findid', name: 'FindId', component: FindId, route: LandingRoute },
-  { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute },
-  { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute },
 
+  //landing Route
+  { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },
+  { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute, exact: true },
+  { path: '/findpw', name: 'FindPassword', component: FindPassword, route: LandingRoute, exact: true },
+  { path: '/findpwsucceed', name: 'FindPasswordSucceed', component: FindPasswordSucceed, route: LandingRoute, exact: true },
+  { path: '/change_pw', name: 'ChangePassword', component: ChangePassword, route: LandingRoute, exact: true },
+  { path: '/signup', name: 'SignUp', component: SignUp, route: LandingRoute, exact: true },
+  { path: '/confirm/error', name: 'ConfirmError', component: ConfirmError, route: LandingRoute, exact: true },
+  { path: '/confirm/succeed', name: 'ConfirmSucceed', component: ConfirmSucceed, route: LandingRoute, exact: true },
+  { path: '/findid', name: 'FindId', component: FindId, route: LandingRoute, exact: true },
+  { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute, exact: true },
+  { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute, exact: true },
+  { path: '/workgroup', name: 'WorkGroup', component: WorkGroup, route: LandingRoute, exact: true },
+  { path: '/invite', name: 'InVite', component: InVite, route: LandingRoute, exact: true },
+  { path: '/congratulation', name: 'CongratuLation', component: CongratuLation, route: LandingRoute, exact: true },
 
 
   // {

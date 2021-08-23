@@ -13,7 +13,7 @@ import {
   SET_USER_TYPE,
   SET_USER_FORM,
   SET_POLICY_CHECK,
-
+  POST_WORKGROUP
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -27,9 +27,11 @@ export const getRefreshOauthToken = fetchActionGenerator(GET_REFRESH_OAUTH_TOKEN
 export const findPassword = fetchActionGenerator(FIND_PASSWORD, 'email');
 export const changePassword = fetchActionGenerator(CHANGE_PASSWORD, 'code', 'email', 'password');
 export const postAuthNumber = fetchActionGenerator(POST_AUTHNUMBER, 'email');
-export const postRegisteration = fetchActionGenerator(POST_REGISTRATION, 'useremail', 'password', 'firstname', 'lastname', 'comp_name', 'comp_domain');
+export const postRegisteration = fetchActionGenerator(POST_REGISTRATION, 'useremail', 'password', 'firstname', 'lastname');
 export const postInvite = fetchActionGenerator(POST_INVITE, 'login_id', 'invite_email', 'permission');
 export const postInviteRegistration = fetchActionGenerator(POST_INVITE_REGISTRATION, 'user_email', 'invite_code', 'user_name', 'user_password', 'use_name');
+export const postWorkGroup = fetchActionGenerator(POST_WORKGROUP, 'user_email', 'comp_name', 'comp_domain');
+
 
 export const setPolicyCheck = (policyCheck) => ({
   type: SET_POLICY_CHECK,

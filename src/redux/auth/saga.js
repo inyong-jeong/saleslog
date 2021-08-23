@@ -11,12 +11,14 @@ import {
   postInvite,
   postInviteRegistration,
   signUpUser,
+  postWorkGroup
 } from "../actions";
 
 //RENEWAL
 import {
   oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken, postSignUpUser,
-  postAuthorizationNumber, postChangePassword, postClientRegisteration, postInviteEmail, postInviteRegister
+  postAuthorizationNumber, postChangePassword, postClientRegisteration, postInviteEmail, postInviteRegister,
+  postWorkGroupmodel
 } from 'model/auth';
 
 import {
@@ -32,7 +34,8 @@ import {
 import {
   AUTHORIZE_REQUEST, SIGN_OUT_USER, GET_ACCESS_TOKEN, GET_REFRESH_TOKEN, CHANGE_PASSWORD,
   OAUTH_AUTHENTICATE_USER, FIND_PASSWORD, CHECK_EMAIL, SIGNUP_USER, OAUTH_AUTHORIZE,
-  GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION
+  GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION,
+  POST_WORKGROUP
 } from "constants/actionTypes";
 
 //RENEWAL
@@ -87,9 +90,10 @@ function* _postAuthNumber({ payload: { email } }) {
   }
 }
 
-function* _postRegistration({ payload: { useremail, password, firstname, lastname, comp_name, comp_domain } }) {
+function* _postRegistration({ payload: { useremail, password, firstname, lastname } }) {
   try {
-    const response = yield call(postClientRegisteration, useremail, password, firstname, lastname, comp_name, comp_domain);
+    const response = yield call(postClientRegisteration, useremail, password, firstname, lastname);
+    console.log(response);
     yield put(postRegisteration.success(response));
   } catch (error) {
     yield put(postRegisteration.error(error.message));
@@ -124,6 +128,15 @@ function* _signUp({ payload: { userType, body } }) {
   }
 }
 
+function* _postWorkGroup({ payload: { user_email, comp_name, comp_domain } }) {
+  try {
+    const response = yield call(postWorkGroupmodel, user_email, comp_name, comp_domain);
+    yield put(postWorkGroup.success(response));
+  } catch (error) {
+    yield put(postWorkGroup.error(error.message));
+  }
+}
+
 //renewal
 export function* watchOauthAuthorize() {
   yield takeEvery(OAUTH_AUTHORIZE, _OauthAuthorize);
@@ -152,6 +165,9 @@ export function* watchPostInviteRegistration() {
 export function* watchSignUpUser() {
   yield takeEvery(SIGNUP_USER, _signUp);
 }
+export function* watchPostWorkGroup() {
+  yield takeEvery(POST_WORKGROUP, _postWorkGroup);
+}
 
 function* authSaga() {
   yield all([
@@ -163,6 +179,8 @@ function* authSaga() {
     fork(watchPostInvite),
     fork(watchPostInviteRegistration),
     fork(watchSignUpUser),
+    fork(watchPostWorkGroup),
+
   ]);
 }
 
