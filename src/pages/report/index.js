@@ -33,13 +33,13 @@ function Report(props) {
   let toDate = new Date().getTime();
   let fromDate = new Date() - (16 * 24 * 60 * 60 * 1000 * 31);
 
-  useEffect(() => {
-    props.getStatType1(1, fromDate, toDate)
-    props.getStatType2(2, fromDate, toDate)
-    props.getStatType3(3, fromDate, toDate)
-    props.getStatType4(4, fromDate, toDate)
-    props.getStatType5(5, fromDate, toDate)
-  }, [date])
+  // useEffect(() => {
+  //   props.getStatType1(1, fromDate, toDate)
+  //   props.getStatType2(2, fromDate, toDate)
+  //   props.getStatType3(3, fromDate, toDate)
+  //   props.getStatType4(4, fromDate, toDate)
+  //   props.getStatType5(5, fromDate, toDate)
+  // }, [date])
 
   useEffect(() => {
     if (props.sheet) {
@@ -130,7 +130,7 @@ function Report(props) {
         </button>
         <DatePickerModal onConfirmClick={getSheets} modal={datePickerModal} toggle={pickerToggle} />
         <div className="row">
-          <div className="col-6" ref={elementRef}>
+          {/* <div className="col-6" ref={elementRef}>
             <ReportCard title="영업사원별 실적">
               <h5 className="">건/월별(평균)</h5>
               <ApexChart />
@@ -141,10 +141,10 @@ function Report(props) {
               <h5 className="">인당 실적/건</h5>
               <BarChart />
             </ReportCard>
-          </div>
+          </div> */}
         </div>
         <div className="row">
-          <div className="col-6">
+          {/* <div className="col-6">
             <ReportCard title="피드백 실적">
               <h5 className="">피드백 수/실적</h5>
               <ApexFeedbackChart />
@@ -161,7 +161,7 @@ function Report(props) {
               <h5 className="">고객사/실적</h5>
               <ApexAccountChart />
             </ReportCard>
-          </div>
+          </div> */}
         </div>
       </div>
     </React.Fragment>

@@ -9,11 +9,11 @@ import { removeAll } from 'helpers/authUtils';
 import ProfileThumbnail from 'components/ProfileThumbnail';
 
 const menuList = [{
-  title: "대시보드",
+  title: "홈",
   icon: "fe-grid",
   to: "/main"
 }, {
-  title: "영업일지",
+  title: "일지",
   icon: "fe-book",
   to: "/main/manage"
 }, {
@@ -21,11 +21,11 @@ const menuList = [{
   icon: "fe-edit",
   to: "/main/upload"
 }, {
-  title: "리포트",
+  title: "고객사",
   icon: "fe-clipboard",
   to: "/main/report"
 }, {
-  title: "공지사항",
+  title: "일정",
   icon: "fe-book-open",
   to: "/main/board"
 }
@@ -125,7 +125,7 @@ function LeftSidebar(props) {
                     </div>
 
                     {/* user profile box */}
-                    <div className="user-box text-center" onClick={() => setOpen(!userOpen)} style={{ cursor: 'pointer' }}>
+                    {/* <div className="user-box text-center" onClick={() => setOpen(!userOpen)} style={{ cursor: 'pointer' }}>
                       <ProfileThumbnail />
                       <Dropdown isOpen={userOpen} toggle={() => setOpen(!userOpen)}>
                         <DropdownToggle tag="a" className="h5 mt-2 d-block text-dark">{props.user.user_name} <i className="fe-chevron-down"></i></DropdownToggle>
@@ -141,7 +141,7 @@ function LeftSidebar(props) {
                         </DropdownMenu>
                       </Dropdown>
                       <p className="user-title text-muted">{props.user.title}</p>
-                    </div>
+                    </div> */}
                     {/* menu list */}
                     <div className="simple-bar-content">
                       <div id="side-menu">

@@ -7,13 +7,18 @@ import Card from 'components/Card';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from 'components/DatePicker';
+// import DatePicker from 'components/styledcomponent/Datepicker';
+
 import ButtonTab from 'components/ButtonTab';
 import { getUserId } from 'helpers/authUtils';
 import CouserModal from 'components/CouserModal'
 import ThumbnailGroup from 'components/ThumbnailGroup';
-
-
-
+import Divider from 'components/Divider'
+import InputField from 'components/InputField'
+import StyledRadio from 'components/styledcomponent/Radio'
+import StyledInput from 'components/styledcomponent/Input';
+import StyledButton from 'components/styledcomponent/Button';
+import { Row, Col, Input } from 'antd';
 const regex = {
   'title': /.{3,}/g,
   'account_name': /.{2,}/g,
@@ -27,7 +32,7 @@ const translated = {
 };
 
 const selectStyle = {
-  control: (defaultStyle) => ({ ...defaultStyle, border: 'none' }),
+  control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
   indicatorSeparator: () => { }
 }
 
@@ -39,7 +44,7 @@ const tabs = [{
   label: "영업일지"
 }, {
   id: "SALESLOG_PROJECT",
-  label: "영업일지 - 신규고객"
+  label: "리드일지"
 }];
 
 // {
@@ -99,46 +104,46 @@ function UploadSalesLog(props) {
   const [coUsers, setCoUsers] = useState([]);
   let body = props.salesLog;
 
-  useEffect(() => {
-    if (body) {
-      setCoUsers([{
-        user_id: body.user_id,
-        user_name: body.user_name
-      }].concat(JSON.parse(body.co_users)));
-    }
-  }, [body]);
-  useEffect(() => {
-    if (props.match.params.id && props.location.state) {
-      setIsPost(false);
-      const { title, meeting_date, account_id, user_id, account_name, log, project_name, co_users, present_report, post_report, implication_needs, implication_strategy } = props.location.state;
-      setLogForm({
-        title: title,
-        meeting_date: meeting_date,
-        account_name: account_name,
-        account_id: account_id,
-        log: log,
-        project_name: project_name,
-        co_users: co_users,
-        present_report: present_report,
-        post_report: post_report,
-        implication_needs: implication_needs,
-        implication_strategy: implication_strategy
-      });
-      setTripLogForm({
-        title: title,
-        meeting_date: meeting_date,
-        account_name: account_name,
-        account_id: account_id,
-        user_id: user_id,
-        log: log,
-        present_report: present_report,
-        post_report: post_report,
-        implication_needs: implication_needs,
-        implication_strategy: implication_strategy
-      });
-    }
-    props.getUserAccounts(getUserId());
-  }, []);
+  // useEffect(() => {
+  //   if (body) {
+  //     setCoUsers([{
+  //       user_id: body.user_id,
+  //       user_name: body.user_name
+  //     }].concat(JSON.parse(body.co_users)));
+  //   }
+  // }, [body]);
+  // useEffect(() => {
+  //   if (props.match.params.id && props.location.state) {
+  //     setIsPost(false);
+  //     const { title, meeting_date, account_id, user_id, account_name, log, project_name, co_users, present_report, post_report, implication_needs, implication_strategy } = props.location.state;
+  //     setLogForm({
+  //       title: title,
+  //       meeting_date: meeting_date,
+  //       account_name: account_name,
+  //       account_id: account_id,
+  //       log: log,
+  //       project_name: project_name,
+  //       co_users: co_users,
+  //       present_report: present_report,
+  //       post_report: post_report,
+  //       implication_needs: implication_needs,
+  //       implication_strategy: implication_strategy
+  //     });
+  //     setTripLogForm({
+  //       title: title,
+  //       meeting_date: meeting_date,
+  //       account_name: account_name,
+  //       account_id: account_id,
+  //       user_id: user_id,
+  //       log: log,
+  //       present_report: present_report,
+  //       post_report: post_report,
+  //       implication_needs: implication_needs,
+  //       implication_strategy: implication_strategy
+  //     });
+  //   }
+  //   props.getUserAccounts(getUserId());
+  // }, []);
 
   useEffect(() => {
     if (props.postSalesLogError) {
@@ -299,12 +304,12 @@ function UploadSalesLog(props) {
     setLogForm(savedLogList[savedLogList.length - e.target.id]);
   }
 
-  useEffect(() => {
-    if (props.postSalesLogResponse !== null) {
-      props.clearPostSalesLogResponse();
-      props.history.push('/main/manage');
-    }
-  }, [props.postSalesLogResponse]);
+  // useEffect(() => {
+  //   if (props.postSalesLogResponse !== null) {
+  //     props.clearPostSalesLogResponse();
+  //     props.history.push('/main/manage');
+  //   }
+  // }, [props.postSalesLogResponse]);
 
   const onSelected = (id) => {
     if (id === "SALESLOG") {
@@ -320,23 +325,70 @@ function UploadSalesLog(props) {
     <React.Fragment>
       <Helmet>
         <title>
-          세일즈로그 - 일지 작성
+          세일즈로그 - 일지 쓰기
         </title>
       </Helmet>
       <div className="container">
         <div className="row">
-          <div className="col">
-            <div className="page-title-box">
-              <h4 className="page-title">일지 작성</h4>
+          <div className="col" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <img src={require('assets/icons/back.png')} />
+            <h4 > <strong>일지 쓰기</strong></h4>
+            <h4 >등록</h4>
+          </div>
+        </div>
+        <div className='mt-2'></div>
+        < Divider />
+        <div className='mt-3'></div>
+        <div className="row">
+          <div className="col-12">
+            <h4>활동 일시</h4>
+            {/* <ButtonTab tab={tabs} onSelected={onSelected} defaultSelected="SALESLOG" /> */}
+          </div>
+        </div>
+        <div className='mt-2'></div>
+        <DatePicker title='미팅 일자' />
+        <div class="row">
+          <div class='col-6'>
+            <div class="form-group">
+              <div class='input-group date' id='datetimepicker3'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class='col-6'>
+            <div class="form-group">
+              <div class='input-group date' id='datetimepicker3'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-12">
-            <ButtonTab tab={tabs} onSelected={onSelected} defaultSelected="SALESLOG" />
+            <h4>일지 구분</h4>
           </div>
         </div>
-        <div className="row">
+        <div className='mt-2'></div>
+        <div className='row'>
+          <div className='col-12' style={{ display: 'flex' }}>
+            <div className='mr-3'>
+              <StyledRadio >영업일지</StyledRadio>
+            </div>
+            <div>
+              <StyledRadio>리드일지</StyledRadio>
+            </div>
+          </div>
+        </div>
+        <div className='mt-2'></div>
+        < Divider />
+        <div className='mt-3'></div>
+        {/* <div className="row">
           <div className="col-12">
             <div className="d-flex justify-content-end align-items-center">
               <ThumbnailGroup thumbnails={coUsers} className="d-inline mr-3" />
@@ -351,8 +403,8 @@ function UploadSalesLog(props) {
               </Dropdown>
             </div>
           </div>
-        </div>
-        {(toggle === 0 || toggle === 1) && <div className="row">
+        </div> */}
+        {/* {(toggle === 0 || toggle === 1) && <div className="row">
           <div className="col-lg-3 col-md-4 col-sm-6">
             <DatePicker title="미팅일자" date={logForm.meeting_date} onDateChange={onDateChange} />
           </div>
@@ -361,55 +413,147 @@ function UploadSalesLog(props) {
           <div className="col-lg-3 col-md-4 col-sm-6">
             <DatePicker title="미팅일자" date={tripLogForm.trip_date} onDateChange={onDateChange} />
           </div>
-        </div>}
-        {toggle === 1 && <div className="row">
+        </div>} */}
+        {/* <div className="row">
           <div className="col-12">
-            <Card title="프로젝트 명">
-              <input type="text" className="form-control border-white" name="project_name" placeholder="프로젝트명을 입력하세요" value={logForm.project_name} onChange={onFormChange} />
-            </Card>
+            <Select
+              placeholder="프로젝트 현황을 선택해주세요"
+              options={salesStatusOption}
+              value={logForm.project_status}
+              onChange={onSalesStatus}
+              styles={selectStyle}
+            />
           </div>
-        </div>}
-        {toggle === 1 && <div className="row">
-          <div className="col-12">
-            <Card title="프로젝트 현황">
-              <Select
-                placeholder="프로젝트 현황을 선택해주세요"
-                options={salesStatusOption}
-                value={logForm.project_status}
-                onChange={onSalesStatus}
-                styles={selectStyle}
-              />
-            </Card>
-          </div>
-        </div>}
+        </div> */}
+        <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <Card title="고객사">
-              <CreatableSelect
-                isClearable
-                placeholder="고객사를 선택 또는 입력하세요"
-                formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
-                options={accountsList.map((v) => { return { value: v.account_id, label: v.account_name } })}
-                value={selectedAccount}
-                onChange={onAccountSelectChange}
-                styles={selectStyle} />
-              {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>}
-            </Card>
+            <h4>고객사</h4>
           </div>
         </div>
-        {(toggle === 0 || toggle === 1) && <div className="row">
+        <div className="mt-2"></div>
+        <div className="row">
           <div className="col-12">
-            <Card title="영업활동 구분">
-              <Select
-                placeholder="영업활동을 선택해주세요"
-                options={salesActivityOption}
-                value={logForm.sales_activity}
-                onChange={onSalesActivity}
-                styles={selectStyle}
-              />
-            </Card>
+            <CreatableSelect
+              isClearable
+              placeholder="고객사 검색"
+              formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
+              options={accountsList.map((v) => { return { value: v.account_id, label: v.account_name } })}
+              value={selectedAccount}
+              onChange={onAccountSelectChange}
+              styles={selectStyle} />
+            {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>}
           </div>
-        </div>}
+        </div>
+        <div className="mt-3"></div>
+        <div className="mt-2"></div>
+        <div className="row">
+          <div className="col-12">
+            <h4>고객사 담당자</h4>
+          </div>
+        </div>
+        <div className="mt-2"></div>
+        <div className="row">
+          <div className="col-12">
+            <CreatableSelect
+              isClearable
+              placeholder="고객사 담당자를 선택해주세요"
+              formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
+              options={accountsList.map((v) => { return { value: v.account_id, label: v.account_name } })}
+              value={selectedAccount}
+              onChange={onAccountSelectChange}
+              styles={selectStyle} />
+            {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>}
+          </div>
+        </div>
+        <div className="mt-3"></div>
+        <div className='mt-2'></div>
+        < Divider />
+        <div className='mt-3'></div>
+        <div className="row">
+          <div className="col-12" style={{ display: 'flex' }}>
+            <h4>영업활동 구분</h4><img src={require('assets/icons/caution.png')} />
+          </div>
+        </div>
+        <div className='mt-3'></div>
+        <div className="row">
+          <div className="col-12">
+            <Select
+              placeholder="영업활동 구분을 선택해주세요."
+              options={salesActivityOption}
+              value={logForm.sales_activity}
+              onChange={onSalesActivity}
+              styles={selectStyle}
+            />
+          </div>
+        </div>
+        <div className='mt-2'></div>
+        <div className="row">
+          <div className="col-12" style={{ display: 'flex' }}>
+            <h4>채널 구분</h4><img src={require('assets/icons/caution.png')} />
+          </div>
+        </div>
+        <div className='mt-3'></div>
+        <div className="row">
+          <div className="col-12">
+            <Select
+              placeholder="영업 채널을 선택해주세요."
+              options={salesActivityOption}
+              value={logForm.sales_activity}
+              onChange={onSalesActivity}
+              styles={selectStyle}
+            />
+          </div>
+        </div>
+        <div className="mt-2"></div>
+        <div className="row">
+          <div className="col-12">
+            <h4>영업 장소</h4>
+          </div>
+        </div>
+        <div className="mt-2"></div>
+        <div className='row' >
+          <div class='col-9'>
+            <div class="form-group">
+              <div class='input-group date' id='datetimepicker3'>
+                <input type='text' class="form-control" placeholder='주소' />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class='col-3'>
+            <div class="form-group">
+              <div class='input-group date' id='datetimepicker3'>
+                <input type='button' class="form-control" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        {/* <Row>
+          <Col xl={24}>
+            <Input
+              style={{ fontSize: '16px' }}
+              // id="user_email"
+              // title="이메일"
+              placeholder="주소"
+            />
+          </Col>
+          <Col span={12}>
+            <StyledButton >주소 검색</StyledButton>
+          </Col>
+        </Row> */}
+
+        {/* <div className="card col-10" style={{ border: '2px solid #DDDDDD', height: '48px', }}>
+          <div className="card-body" >
+          </div>
+        </div> */}
+        <div className="mt-2"></div>
         {/* {toggle === 2 && <div className="row">
           <div className="col-12">
             <Card title="영업활동 구분">
@@ -423,62 +567,6 @@ function UploadSalesLog(props) {
             </Card>
           </div>
         </div>} */}
-        {(toggle === 0 || toggle === 1) && <div className="row">
-          <div className="col-12">
-            <Card title="제목">
-              <input type="text" className="form-control border-white" name="title" placeholder="제목을 입력하세요" value={logForm.title} onChange={onFormChange} />
-            </Card>
-          </div>
-        </div>}
-        {(toggle === 0 || toggle === 1) && <div className="row">
-          <div className="col-12">
-            <Card title="내용">
-              <textarea type="text" rows="6" className="form-control border-white" name="log" placeholder="일지 내용을 입력하세요" value={logForm.log} onChange={onFormChange}></textarea>
-            </Card>
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-12">
-            <Card title="제목">
-              <input type="text" className="form-control border-white" name="title" placeholder="제목을 입력하세요" value={tripLogForm.title} onChange={onTripFormChange} />
-            </Card>
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-12">
-            <Card title="내용">
-              <textarea type="text" rows="6" className="form-control border-white" name="log" placeholder="일지 내용을 입력하세요" value={tripLogForm.log} onChange={onTripFormChange}></textarea>
-            </Card>
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-12">
-            <Card title="현황">
-              <input type="text" className="form-control border-white" name="present_report" placeholder="현황을 입력하세요" value={tripLogForm.present_report} onChange={onTripFormChange} />
-            </Card>
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-12">
-            <Card title="향후진행내용">
-              <textarea type="text" rows="6" className="form-control border-white" name="post_report" placeholder="향후진행내용을 입력하세요" value={tripLogForm.post_report} onChange={onTripFormChange}></textarea>
-            </Card>
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-12">
-            <Card title="시사점-니즈">
-              <input type="text" className="form-control border-white" name="implication_needs" placeholder="시사점-니즈를 입력하세요" value={tripLogForm.implication_needs} onChange={onTripFormChange} />
-            </Card>
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-12">
-            <Card title="시사점-전략">
-              <input type="text" className="form-control border-white" name="implication_strategy" placeholder="시사점-전략을 입력하세요" value={tripLogForm.implication_strategy} onChange={onTripFormChange} />
-            </Card>
-          </div>
-        </div>}
         <div className="row">
           <div className="col-12 d-flex justify-content-center">
             {error && <p className="text-danger">{error}</p>}
@@ -487,21 +575,21 @@ function UploadSalesLog(props) {
             {(toggle === 0 || toggle === 1) && <button className="btn btn-primary" onClick={onFormSubmit} disabled={props.submitLoading}>
               {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
               전송
-              </button>}
+            </button>}
             {toggle === 2 && <button className="btn btn-primary" onClick={onTripFormSubmit} disabled={props.submitLoading}>
               {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
               전송
-              </button>}
+            </button>}
             {(toggle === 0 || toggle === 1) && <button className="btn btn-secondary ml-1" onClick={onSaveClick}>
               임시저장
-              </button>}
+            </button>}
             {(toggle === 2) && <button className="btn btn-secondary ml-1" onClick={onTripSaveClick}>
               임시저장
             </button>}
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 }
 

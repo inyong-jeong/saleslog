@@ -35,7 +35,7 @@ const CongratuLation = React.lazy(() => import('./pages/auth/CongratuLation'));
 
 
 // handle auth and authorization
-const Dashboard = React.lazy(() => import('./pages/main/dashboard'));
+const Home = React.lazy(() => import('./pages/main/home'));
 const Manage = React.lazy(() => import('./pages/manage'));
 const SalesLog = React.lazy(() => import('./pages/manage/saleslog'));
 const Organization = React.lazy(() => import('./pages/organization'));
@@ -120,7 +120,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 const routes = [
 
   //Mai Route
-  { path: '/main', name: 'Dashboard', component: Dashboard, route: MainRoute, exact: true },
+  { path: '/main', name: 'Home', component: Home, route: MainRoute, exact: true },
   { path: '/main/settings', name: 'Settings', component: Settings, route: MainRoute, exact: true },
   { path: '/main/manage/saleslog/:id', name: 'SalesLog', component: SalesLog, route: MainRoute, exact: true },
   { path: '/main/manage', name: 'Manage', component: Manage, route: MainRoute, exact: true },
