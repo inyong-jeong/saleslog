@@ -5,15 +5,17 @@
 .card {
     margin-bottom: $grid-gutter-width;
     box-shadow: $shadow-sm;
-
     .card-drop {
         font-size: 20px;
         line-height: 0;
         color: inherit;
     }
-
-    
 }
+
+.card-body {
+  padding: 0.8rem;
+}
+
 .radius {
     border-radius: 16px;
 }
@@ -84,7 +86,6 @@
 // Custom card box
 .card-box {
     background-color: $white;
-    padding: $card-spacer-x;
     box-shadow: $shadow-sm;
     margin-bottom: $grid-gutter-width;
     @include border-radius($card-border-radius);
