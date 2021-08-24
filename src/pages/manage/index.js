@@ -7,7 +7,7 @@ import SalesLogTable from 'components/manage/SalesLogTable';
 import Card from 'components/Card';
 import ItemTree from 'components/ItemTree';
 import equal from 'fast-deep-equal';
-
+import MobileMenu from 'components/MobileMenu'
 
 const DefaultManageContent = (props) => {
 
@@ -21,15 +21,18 @@ const DefaultManageContent = (props) => {
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-3 col-sm-12">
+        {/* <div className="col-lg-3 col-sm-12">
           <Card title="사원조직도" className="tree-card">
             {props.tree && <ItemTree items={props.tree} />}
           </Card>
-        </div>
-        <div className="col-lg-9 col-sm-12">
+        </div> */}
+        <div className="col-lg-12 col-sm-12">
           <FilterForm />
-          <SalesLogTable />
+          {/* <SalesLogTable /> */}
         </div>
+      </div>
+      <div className="row">
+        <MobileMenu />
       </div>
     </div>
   );
@@ -46,9 +49,9 @@ class DefaultManage extends React.Component {
       page: 0
     };
     const userId = this.props.user.user_id;
-    this.props.getSalesLogs(props.filter);
-    this.props.getUserTree(userId);
-    this.props.getUserAccounts(userId);
+    // this.props.getSalesLogs(props.filter);
+    // this.props.getUserTree(userId);
+    // this.props.getUserAccounts(userId);
   }
 
   _infiniteScroll = () => {
@@ -78,13 +81,13 @@ class DefaultManage extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.filter.page !== this.props.filter.page) {
-      this.props.getSalesLogs(this.idFilter(this.props.filter, this.props.filter.page), true);
+      // this.props.getSalesLogs(this.idFilter(this.props.filter, this.props.filter.page), true);
     }
     // else if (!equal(prevProps.filter.users, this.props.filter.users) || !equal(prevProps.filter.accounts, this.props.filter.accounts)) {
     else if (!equal(prevProps.filter, this.props.filter)) {
-      this.props.clearSalesLogs();
-      for (let i = 0; i <= this.props.filter.page; i++)
-        this.props.getSalesLogs(this.idFilter(this.props.filter, i), true);
+      // this.props.clearSalesLogs();
+      // for (let i = 0; i <= this.props.filter.page; i++)
+      //   this.props.getSalesLogs(this.idFilter(this.props.filter, i), true);
     }
   }
 

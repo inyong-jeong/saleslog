@@ -23,7 +23,7 @@ const AuthLayout = (props) => {
   return (
     <React.Fragment>
       <div id="wrapper">
-        <Navbar />
+        {/* <Navbar /> */}
         <LeftSidebar />
         <div className="content-page">
           {props.children}
@@ -31,7 +31,7 @@ const AuthLayout = (props) => {
         </div>
         <footer>
         </footer>
-        <MobileMenu />
+        {/* <MobileMenu /> */}
       </div>
     </React.Fragment>
   );
