@@ -1,13 +1,34 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { Spinner } from 'reactstrap';
-import { getOauthToken } from 'redux/actions';
+import { getOauthToken, } from 'redux/actions';
+import { isUserAuthenticated, getOauthCode, isUserAuthorized } from 'helpers/authUtils';
+import { removeAll } from 'helpers/authUtils';
+import { POST_WORKGROUP_SUCCESS } from '../constants/actionTypes';
 
 const AuthenticatingLayout = (props) => {
 
+  const handletoken = () => {
+    const client_id = 'saleslog.co';
+    const client_secret = '8fba114f8291cf28e443c30aba7cce86';
+    const grant_type = 'authorization_code';
+    props.getOauthToken(getOauthCode(), client_secret, client_id, grant_type)
+  }
+
   useEffect(() => {
-    props.history.push('/main')
+    if (isUserAuthorized() === true) {
+      handletoken();
+    } else {
+      removeAll();
+      props.history.push('/')
+    }
   }, [])
+
+  useEffect(() => {
+    if (isUserAuthenticated() === true) {
+      props.history.push('/main');
+    }
+  }, [isUserAuthenticated()])
 
   return (
     <div className="container">
@@ -23,8 +44,8 @@ const AuthenticatingLayout = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { tokenResponse, refTokenResponse, tokenError, tokenExpired } = state.Auth;
-  return { tokenResponse, refTokenResponse, tokenError, tokenExpired };
+  const { authcodeResponse, accesstokenResponse } = state.Auth;
+  return { authcodeResponse, accesstokenResponse };
 }
 
 const dispatchToProps = {

@@ -1,149 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Helmet } from "react-helmet";
-import { postSalesLog, postTripSalesLog, putSalesLog, getUserAccounts, clearPostSalesLogResponse, putSalesLogCoUser } from 'redux/actions';
-import Card from 'components/Card';
+import { postSalesLog, selectAccounts, selectAccountperson, postTemporarySalesLog, uploadFile } from 'redux/actions';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import DatePicker from 'components/DatePicker';
-// import DatePicker from 'components/styledcomponent/Datepicker';
-
-import ButtonTab from 'components/ButtonTab';
-import { getUserId } from 'helpers/authUtils';
-import CouserModal from 'components/CouserModal'
-import ThumbnailGroup from 'components/ThumbnailGroup';
 import Divider from 'components/Divider'
-import InputField from 'components/InputField'
-import StyledRadio from 'components/styledcomponent/Radio'
-import StyledInput from 'components/styledcomponent/Input';
-import StyledButton from 'components/styledcomponent/Button';
-import { Row, Col, Input } from 'antd';
-const regex = {
-  'title': /.{3,}/g,
-  'account_name': /.{2,}/g,
-  'log': /.{2,}/g
-};
-
-const translated = {
-  'title': '제목',
-  'account_name': '고객사명',
-  'log': '일지내용'
-};
+import 'antd/dist/antd.css';
+import { TimePicker, Radio, DatePicker, Input } from 'antd';
+import moment from 'moment';
+import useInput from 'hooks/useInput';
 
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
   indicatorSeparator: () => { }
 }
 
-const salesActivityOption = [{ label: '방문', value: 1 }, { label: '전화', value: 2 }, { label: '이메일', value: 3 }];
-const salesStatusOption = [{ label: '시작', value: 0 }, { label: '수주', value: 1 }, { label: '실주', value: 2 }];
+const salesActivityOption =
+  [{ label: '니즈조사', value: '0050001' },
+  { label: '동향/정보수집', value: '0050002' },
+  { label: '제안', value: '0050003' }];
 
-const tabs = [{
-  id: "SALESLOG",
-  label: "영업일지"
-}, {
-  id: "SALESLOG_PROJECT",
-  label: "리드일지"
-}];
+const salesChannelOption =
+  [{ label: '전화', value: '0050001' },
+  { label: '이메일', value: '0050002' },
+  { label: '대면', value: '0050003' },
+  { label: '행사참여', value: '0050004' },
+  { label: '온라인 리서치', value: 2 },
+  { label: '도서-전문정보', value: '0050005' },
+  { label: '소셜 커뮤니티', value: '0050006' },
+  { label: '기타', value: '0050007' }];
 
-// {
-//   id: "TRIP_REPORT",
-//   label: "영업일지 - 출장보고서"
-// }
-
-function getSavedLog() {
-  let logList = window.localStorage.getItem('savedLog');
-  if (!logList) return [];
-  logList = JSON.parse(logList);
-  return logList;
-}
-
-function saveLog(form) {
-  let saved = window.localStorage.getItem('savedLog');
-  if (!saved) saved = '[]';
-  window.localStorage.setItem('savedLog', JSON.stringify(JSON.parse(saved).concat(form)));
-}
-
-export function searchAccounts(accountsNameInput, accountsList) {
-  return accountsList.filter((v) => v.account_name.toLocaleLowerCase().search(accountsNameInput.toLocaleLowerCase()) !== -1);
-}
+const leadActivityOption =
+  [{ label: '조사', value: '0050001' },
+  { label: '접촉', value: '0050002' },
+  { label: '제안', value: '0050003' },
+  { label: '검증', value: '0050004' }];
 
 function UploadSalesLog(props) {
-  const [isPost, setIsPost] = useState(true);
   const [accountsList, setAccountsList] = useState([]);
+  const [accountspersonList, setAccountsPersonList] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(0);
-  const [logForm, setLogForm] = useState({
-    'title': '',
-    'meeting_date': new Date().getTime(),
-    'account_id': '',
-    'account_name': '',
-    'sales_activity': 0,
-    'log': '',
-    'project_name': '',
-    'project_status': 0,
-    'co_users': ''
-  });
-  const [tripLogForm, setTripLogForm] = useState({
-    'title': '',
-    'trip_date': new Date().getTime(),
-    'account_id': '',
-    'user_id': '',
-    'account_name': '',
-    'sales_activity': 0,
-    'log': '',
-    'present_report': '',
-    'post_report': '',
-    'implication_needs': '',
-    'implication_strategy': ''
-  });
-  const [savedLogOpen, setSavedLogOpen] = useState(false);
+  const [selectedAccountperson, setSelectedAccountPerson] = useState(0);
   const [error, setError] = useState();
-  const [savedLogList] = useState(getSavedLog());
-  const [toggle, setToggle] = useState(0);
-  const [coUsers, setCoUsers] = useState([]);
-  let body = props.salesLog;
 
-  // useEffect(() => {
-  //   if (body) {
-  //     setCoUsers([{
-  //       user_id: body.user_id,
-  //       user_name: body.user_name
-  //     }].concat(JSON.parse(body.co_users)));
-  //   }
-  // }, [body]);
-  // useEffect(() => {
-  //   if (props.match.params.id && props.location.state) {
-  //     setIsPost(false);
-  //     const { title, meeting_date, account_id, user_id, account_name, log, project_name, co_users, present_report, post_report, implication_needs, implication_strategy } = props.location.state;
-  //     setLogForm({
-  //       title: title,
-  //       meeting_date: meeting_date,
-  //       account_name: account_name,
-  //       account_id: account_id,
-  //       log: log,
-  //       project_name: project_name,
-  //       co_users: co_users,
-  //       present_report: present_report,
-  //       post_report: post_report,
-  //       implication_needs: implication_needs,
-  //       implication_strategy: implication_strategy
-  //     });
-  //     setTripLogForm({
-  //       title: title,
-  //       meeting_date: meeting_date,
-  //       account_name: account_name,
-  //       account_id: account_id,
-  //       user_id: user_id,
-  //       log: log,
-  //       present_report: present_report,
-  //       post_report: post_report,
-  //       implication_needs: implication_needs,
-  //       implication_strategy: implication_strategy
-  //     });
-  //   }
-  //   props.getUserAccounts(getUserId());
-  // }, []);
+  const [dateString, onDatePickerChange] = useState('');
+  const [location, onChangeLocation] = useInput('');
+  const [title, onChangeTitle] = useInput('')
+  const [content, onChangeContent] = useInput('')
+  const [start, onChangesSartValue] = useState('');
+  const [end, onChangeEndValue] = useState('');
+  const [radiocheck, setValue] = useState('0050001');
+  const [activity, setActivity] = useState('0050001');
+  const [leadactivity, setLeadActivity] = useState('0050001');
+  // const [imgBase64, setImgBase64] = useState([]); // 파일 base64
+  // const [imgFile, setImgFile] = useState(null);	//파일	
+
+  const [channel, setChannel] = useState('0050001');
+  const date = moment(dateString).format('YYYY-MM-DD');
+  const startTime = moment(start).format('HH:mm');
+  const endTime = moment(end).format('HH:mm');
+  const InputStyle = { border: '1px solid #AAAAAA' }
+  const { TextArea } = Input;
+  const format = 'HH:mm';
+  const Dateformat = 'YYYY-MM-DD';
+  const [selectedFiles, setSelectedFiles] = useState(undefined);
+  const [message, setMessage] = useState("");
+  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const fromData = {
+    acc_idx: selectedAccount.value,
+    accm_idx: '10000002',
+    sales_gb: radiocheck,
+    sales_lead_gb: leadactivity,
+    sales_goal: activity,
+    sales_activity: channel,
+    meeting_date: date,
+    meeting_stime: startTime,
+    meeting_etime: endTime,
+    title: title,
+    log: content,
+    addr: location,
+    lati: 0,
+    longi: 0,
+    score: '',
+    cousers: '',
+    fileup: selectedFiles
+  }
 
   useEffect(() => {
     if (props.postSalesLogError) {
@@ -152,173 +94,76 @@ function UploadSalesLog(props) {
   }, [props.postSalesLogError]);
 
   useEffect(() => {
-    setAccountsList(props.accounts);
-  }, [props.accounts]);
+    setAccountsList(props.accountslist);
+  }, [props.accountslist]);
 
-  const onFormChange = (e) => {
-    setLogForm({
-      ...logForm,
-      [e.target.name]: e.target.value
-    });
-    setAccountsList(searchAccounts(logForm.account_name, props.accounts));
-  }
+  useEffect(() => {
+    setAccountsPersonList(props.accountpersonlist);
+  }, [props.accountpersonlist]);
 
-  const onTripFormChange = (e) => {
-    setTripLogForm({
-      ...tripLogForm,
-      [e.target.name]: e.target.value
-    });
-    setAccountsList(searchAccounts(tripLogForm.account_name, props.accounts));
-  }
+  useEffect(() => {
+    props.selectAccounts()
+  }, [])
 
-  const onDateChange = (nextDate) => {
-    if (!nextDate) {
-      return;
-    }
-    setLogForm({
-      ...logForm,
-      'meeting_date': nextDate[0].getTime()
-    });
-    setTripLogForm({
-      ...tripLogForm,
-      'trip_date': nextDate[0].getTime()
-    });
-  }
-
-  const onSalesActivity = (v) => {
-    setLogForm({
-      ...logForm,
-      'sales_activity': v
-    });
-    setTripLogForm({
-      ...tripLogForm,
-      'sales_activity': v
-    });
-  }
-
-  const onSalesStatus = (v) => {
-    setLogForm({
-      ...logForm,
-      'project_status': v
-    });
-  }
-
-  const handleOnChange = (index) => {
-    setLogForm({
-      ...logForm,
-      'co_users': [index]
-    });
-  }
-
-  const checkFormValid = () => {
-    let form = Object.keys(logForm);
-    for (const key of form) {
-      if (regex[key] && !new RegExp(regex[key]).exec(logForm[key])) {
-        setError(`${translated[key]}을 확인해주세요`);
-        return false;
+  useEffect(() => {
+    if (selectedAccount.value) {
+      const accountperson = {
+        acc_idx: selectedAccount.value
       }
+      props.selectAccountperson(accountperson);
     }
-    return true;
-  }
-
-  const checkTripFormValid = () => {
-    let form = Object.keys(tripLogForm);
-    for (const key of form) {
-      if (regex[key] && !new RegExp(regex[key]).exec(tripLogForm[key])) {
-        setError(`${translated[key]}을 확인해주세요`);
-        return false;
-      }
-    }
-    return true;
-  }
-
-  const onFormSubmit = (e) => {
-    if (!checkFormValid())
-      return;
-    if (isPost) {
-      logForm.sales_activity = logForm.sales_activity.value;
-      logForm.project_status = logForm.project_status.value;
-      if (logForm.account_id === 'new') {
-        delete logForm.account_id;
-        logForm.account_name = logForm.account_name.label;
-      }
-      else {
-        delete logForm.account_name;
-
-      }
-      props.postSalesLog(logForm);
-    } else {
-      props.putSalesLog(logForm);
-    }
-  }
-
-  const onTripFormSubmit = (e) => {
-    // if (!checkTripFormValid())
-    //   return;
-    if (isPost) {
-      tripLogForm.sales_activity = tripLogForm.sales_activity.value;
-      tripLogForm.user_id = props.user.user_id;
-      if (tripLogForm.account_id === 'new') {
-        delete logForm.account_id;
-        tripLogForm.account_name = tripLogForm.account_name.label;
-      }
-      else {
-        delete tripLogForm.account_name;
-      }
-      props.postTripSalesLog(tripLogForm);
-    }
-  }
-
-  const onAccountSelectChange = (v, action) => {
-    if (action.action === 'create-option') {
-      setLogForm({ ...logForm, account_name: v, account_id: 'new' });
-      setTripLogForm({ ...tripLogForm, account_name: v, account_id: 'new' });
-      setSelectedAccount(v);
-      return;
-    }
-    setSelectedAccount(v);
-    setLogForm({
-      ...logForm,
-      account_id: v.value,
-      account_name: v.label
-    });
-    setTripLogForm({
-      ...tripLogForm,
-      account_id: v.value,
-      account_name: v.label
-    });
-  }
-  const onSaveClick = (e) => {
-    if (!checkFormValid())
-      return;
-    saveLog(logForm);
-  }
-
-  const onTripSaveClick = (e) => {
-    if (!checkFormValid())
-      return;
-    saveLog(tripLogForm);
-  }
-
-  const onSavedLogClick = (e) => {
-    setLogForm(savedLogList[savedLogList.length - e.target.id]);
-  }
+  }, [selectedAccount])
 
   // useEffect(() => {
-  //   if (props.postSalesLogResponse !== null) {
-  //     props.clearPostSalesLogResponse();
-  //     props.history.push('/main/manage');
-  //   }
-  // }, [props.postSalesLogResponse]);
+  //   if (isFilePicked === 'true') {
+  //     const formData = new FormData();
+  //     formData.append('File', selectedFiles)
+  //     setSelectedFiles(formData)
+  //   } else return;
+  // }, [isFilePicked])
 
-  const onSelected = (id) => {
-    if (id === "SALESLOG") {
-      setToggle(0);
-    } else if (id === "SALESLOG_PROJECT") {
-      setToggle(1);
-    } else if (id === "TRIP_REPORT") {
-      setToggle(2);
-    }
+
+  const onAccountSelectChange = (v, action) => {
+    setSelectedAccount(v);
+  };
+
+  const onAccountPersonSelectChange = (v, action) => {
+    setSelectedAccountPerson(v);
+  }
+
+  const handleOnBack = () => {
+    props.history.push('/main/manage');
+  };
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const onSalesActivity = (option) => {
+    setActivity(option.value);
+  };
+
+  const onLeadActivity = (option) => {
+    setLeadActivity(option.value);
+  }
+
+  const onSalesChannel = (option) => {
+    setChannel(option.value);
+  };
+
+  const onFormSubmit = () => {
+    props.postSalesLog(fromData)
+  }
+
+  const onFormTemporarySubmit = () => {
+    props.postTemporarySalesLog(fromData)
+  }
+
+
+
+  const selectFile = (event) => {
+    setSelectedFiles(event.target.files);
+    setIsFilePicked(true);
   }
 
   return (
@@ -331,7 +176,11 @@ function UploadSalesLog(props) {
       <div className="container">
         <div className="row">
           <div className="col" style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <img src={require('assets/icons/back.png')} />
+            <img
+              src={require('assets/icons/back.png')}
+              onClick={handleOnBack}
+              alt='back_logo'
+              style={{ cursor: 'pointer' }} />
             <h4 > <strong>일지 쓰기</strong></h4>
             <h4 >등록</h4>
           </div>
@@ -346,29 +195,25 @@ function UploadSalesLog(props) {
           </div>
         </div>
         <div className='mt-2'></div>
-        <DatePicker title='미팅 일자' />
-        <div class="row">
-          <div class='col-6'>
-            <div class="form-group">
-              <div class='input-group date' id='datetimepicker3'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class='col-6'>
-            <div class="form-group">
-              <div class='input-group date' id='datetimepicker3'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <DatePicker className='col-12' placeholder='활동일시'
+          defaultValue={moment('0000-00-00', Dateformat)}
+          format={Dateformat}
+          value={dateString}
+          onChange={onDatePickerChange} />
+        <div className='mt-2'></div>
+        <TimePicker className='col-6'
+          defaultValue={moment('00:00', format)}
+          format={format}
+          value={start}
+          onChange={onChangesSartValue}
+          placeholder='00:00' />
+        <TimePicker className='col-6'
+          defaultValue={moment('00:00', format)}
+          format={format}
+          value={end}
+          onChange={onChangeEndValue}
+          placeholder='00:00' />
+        <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
             <h4>일지 구분</h4>
@@ -377,54 +222,15 @@ function UploadSalesLog(props) {
         <div className='mt-2'></div>
         <div className='row'>
           <div className='col-12' style={{ display: 'flex' }}>
-            <div className='mr-3'>
-              <StyledRadio >영업일지</StyledRadio>
-            </div>
-            <div>
-              <StyledRadio>리드일지</StyledRadio>
-            </div>
+            <Radio.Group onChange={onChange} value={radiocheck}>
+              <Radio value={'0050001'}>영업일지</Radio>
+              <Radio value={'0050002'}>리드일지</Radio>
+            </Radio.Group>
           </div>
         </div>
         <div className='mt-2'></div>
         < Divider />
         <div className='mt-3'></div>
-        {/* <div className="row">
-          <div className="col-12">
-            <div className="d-flex justify-content-end align-items-center">
-              <ThumbnailGroup thumbnails={coUsers} className="d-inline mr-3" />
-              <CouserModal buttonLabel='공동작성자 추가' SearchChange={handleOnChange} />
-              <Dropdown id="saved-log" className="search-box ml-2" isOpen={savedLogOpen} toggle={() => setSavedLogOpen(!savedLogOpen)}>
-                <DropdownToggle tag="button" className="d-inline btn btn-primary" style={{ 'display': 'none' }}>저장된 일지</DropdownToggle>
-                <DropdownMenu right>
-                  {savedLogList.reverse().map((v, i) =>
-                    <DropdownItem key={"savedLog_" + i} id={i} onClick={onSavedLogClick}>{v.title}</DropdownItem>
-                  )}
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </div>
-        </div> */}
-        {/* {(toggle === 0 || toggle === 1) && <div className="row">
-          <div className="col-lg-3 col-md-4 col-sm-6">
-            <DatePicker title="미팅일자" date={logForm.meeting_date} onDateChange={onDateChange} />
-          </div>
-        </div>}
-        {toggle === 2 && <div className="row">
-          <div className="col-lg-3 col-md-4 col-sm-6">
-            <DatePicker title="미팅일자" date={tripLogForm.trip_date} onDateChange={onDateChange} />
-          </div>
-        </div>} */}
-        {/* <div className="row">
-          <div className="col-12">
-            <Select
-              placeholder="프로젝트 현황을 선택해주세요"
-              options={salesStatusOption}
-              value={logForm.project_status}
-              onChange={onSalesStatus}
-              styles={selectStyle}
-            />
-          </div>
-        </div> */}
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
@@ -438,11 +244,11 @@ function UploadSalesLog(props) {
               isClearable
               placeholder="고객사 검색"
               formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
-              options={accountsList.map((v) => { return { value: v.account_id, label: v.account_name } })}
+              options={accountsList && accountsList.map((v) => { return { value: v.acc_idx, label: v.account_name } })}
               value={selectedAccount}
               onChange={onAccountSelectChange}
               styles={selectStyle} />
-            {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>}
+            {/* {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>} */}
           </div>
         </div>
         <div className="mt-3"></div>
@@ -458,134 +264,139 @@ function UploadSalesLog(props) {
             <CreatableSelect
               isClearable
               placeholder="고객사 담당자를 선택해주세요"
-              formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
-              options={accountsList.map((v) => { return { value: v.account_id, label: v.account_name } })}
-              value={selectedAccount}
-              onChange={onAccountSelectChange}
+              formatCreateLabel={(v) => `새로운 담당자 "${v}"만들기`}
+              options={accountspersonList && accountspersonList.map((v) => { return { value: v.accm_idx, label: v.man_name } })}
+              value={selectedAccountperson}
+              onChange={onAccountPersonSelectChange}
               styles={selectStyle} />
-            {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>}
+            {/* {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 담당자를 생성합니다.</small>} */}
           </div>
         </div>
         <div className="mt-3"></div>
         <div className='mt-2'></div>
         < Divider />
         <div className='mt-3'></div>
+        {radiocheck === '0050002' ?
+          <div className="row">
+            <div className="col-12">
+              <Select
+                placeholder="리드단계를 선택해주세요."
+                options={leadActivityOption}
+                // value={activity}
+                onChange={onLeadActivity}
+                styles={selectStyle}
+              />
+              <div className='mt-3'></div>
+              < Divider />
+              <div className='mt-2'></div>
+            </div>
+          </div>
+          : null}
         <div className="row">
           <div className="col-12" style={{ display: 'flex' }}>
-            <h4>영업활동 구분</h4><img src={require('assets/icons/caution.png')} />
+            <h4>영업활동 구분</h4><img src={require('assets/icons/caution.png')} alt='caution_logo' />
           </div>
         </div>
-        <div className='mt-3'></div>
+        <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
             <Select
               placeholder="영업활동 구분을 선택해주세요."
               options={salesActivityOption}
-              value={logForm.sales_activity}
+              // value={activity}
               onChange={onSalesActivity}
               styles={selectStyle}
             />
-          </div>
-        </div>
-        <div className='mt-2'></div>
-        <div className="row">
-          <div className="col-12" style={{ display: 'flex' }}>
-            <h4>채널 구분</h4><img src={require('assets/icons/caution.png')} />
           </div>
         </div>
         <div className='mt-3'></div>
         <div className="row">
+          <div className="col-12" style={{ display: 'flex' }}>
+            <h4>채널 구분</h4><img src={require('assets/icons/caution.png')} alt='caition_logo' />
+          </div>
+        </div>
+        <div className='mt-2'></div>
+        <div className="row">
           <div className="col-12">
             <Select
               placeholder="영업 채널을 선택해주세요."
-              options={salesActivityOption}
-              value={logForm.sales_activity}
-              onChange={onSalesActivity}
+              options={salesChannelOption}
+              // value={channel}
+              onChange={onSalesChannel}
               styles={selectStyle}
             />
           </div>
         </div>
-        <div className="mt-2"></div>
+        <div className="mt-3"></div>
         <div className="row">
           <div className="col-12">
             <h4>영업 장소</h4>
           </div>
         </div>
         <div className="mt-2"></div>
-        <div className='row' >
-          <div class='col-9'>
-            <div class="form-group">
-              <div class='input-group date' id='datetimepicker3'>
-                <input type='text' class="form-control" placeholder='주소' />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class='col-3'>
-            <div class="form-group">
-              <div class='input-group date' id='datetimepicker3'>
-                <input type='button' class="form-control" />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-
+        <div className="input-group">
+          <Input type="text"
+            className="form-control"
+            placeholder="상세주소 입력"
+            value={location}
+            onChange={onChangeLocation}
+            style={InputStyle} />
         </div>
-        {/* <Row>
-          <Col xl={24}>
-            <Input
-              style={{ fontSize: '16px' }}
-              // id="user_email"
-              // title="이메일"
-              placeholder="주소"
-            />
-          </Col>
-          <Col span={12}>
-            <StyledButton >주소 검색</StyledButton>
-          </Col>
-        </Row> */}
-
-        {/* <div className="card col-10" style={{ border: '2px solid #DDDDDD', height: '48px', }}>
-          <div className="card-body" >
-          </div>
-        </div> */}
         <div className="mt-2"></div>
-        {/* {toggle === 2 && <div className="row">
+        <Divider />
+        <div className="mt-3"></div>
+        <div className="row">
           <div className="col-12">
-            <Card title="영업활동 구분">
-              <Select
-                placeholder="영업활동을 선택해주세요"
-                options={salesActivityOption}
-                value={tripLogForm.sales_activity}
-                onChange={onSalesActivity}
-                styles={selectStyle}
-              />
-            </Card>
+            <h4>제목</h4>
           </div>
-        </div>} */}
+        </div>
+        <div className="mt-2"></div>
+        <div className="input-group">
+          <Input type="text"
+            className="form-control"
+            placeholder="제목을 입력하세요"
+            style={InputStyle}
+            value={title}
+            onChange={onChangeTitle} />
+        </div>
+        <div className="mt-3"></div>
+        <div className="row" style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 2px 0px 2px' }}>
+          <h4>내용</h4>
+          <h4>임시저장</h4>
+        </div>
+        <div className="mt-2"></div>
+        <div className="input-group">
+          <TextArea className="form-control"
+            placeholder='내용을 입력해주세요'
+            style={{ height: '391px', border: '1px solid #AAAAAA' }}
+            value={content}
+            onChange={onChangeContent}
+          />
+        </div>
+        <div className="row mt-1" style={{ display: 'flex' }}>
+          <div className='col-11'>
+            <input type='file' id='file' onChange={selectFile} multiple />
+            {/* {isFilePicked ?
+              Array(selectedFiles).map((v) => { return <p>{v.name}</p> })
+              : <p>선택된 파일 없음</p>
+            } */}
+            {/* <img onClick={UploadFile} src={require('assets/icons/clip.png')} alt='clip_logo' style={{ cursor: 'pointer' }} /> */}
+            <img src={require('assets/icons/voice.png')} alt='voice_logo' />
+          </div>
+          <div className='col-1'>
+            <img className="ml-2" src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
+          </div>
+        </div>
         <div className="row">
           <div className="col-12 d-flex justify-content-center">
-            {error && <p className="text-danger">{error}</p>}
-          </div>
-          <div className="col-12 d-flex justify-content-center">
-            {(toggle === 0 || toggle === 1) && <button className="btn btn-primary" onClick={onFormSubmit} disabled={props.submitLoading}>
-              {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
-              전송
-            </button>}
-            {toggle === 2 && <button className="btn btn-primary" onClick={onTripFormSubmit} disabled={props.submitLoading}>
-              {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
-              전송
-            </button>}
-            {(toggle === 0 || toggle === 1) && <button className="btn btn-secondary ml-1" onClick={onSaveClick}>
+            <button className="btn btn-primary" onClick={onFormSubmit} disabled={props.submitLoading}>
+              {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+              등록
+            </button>
+            <button className="btn btn-primary" onClick={onFormTemporarySubmit} disabled={props.submitLoading}>
+              {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
               임시저장
-            </button>}
-            {(toggle === 2) && <button className="btn btn-secondary ml-1" onClick={onTripSaveClick}>
-              임시저장
-            </button>}
+            </button>
           </div>
         </div>
       </div>
@@ -594,19 +405,16 @@ function UploadSalesLog(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { user } = state.User;
-  const { accounts } = state.Account;
-  const { salesLogLoading, submitLoading, postSalesLogError, postSalesLogResponse, putSalesLogResponse } = state.SalesLog;
-  return { user, accounts, salesLogLoading, submitLoading, postSalesLogError, postSalesLogResponse, putSalesLogResponse };
+  const { accounts, accountslist, accountpersonlist } = state.Account;
+  const { salesLogLoading, submitLoading, postSalesLogError, postSalesLogResponse } = state.SalesLog;
+  return { accounts, salesLogLoading, submitLoading, postSalesLogError, postSalesLogResponse, accountslist, accountpersonlist };
 };
-
 const mapStateToDispatch = {
   postSalesLog: postSalesLog.call,
-  postTripSalesLog: postTripSalesLog.call,
-  putSalesLog: putSalesLog.call,
-  getUserAccounts: getUserAccounts.call,
-  clearPostSalesLogResponse: clearPostSalesLogResponse,
-  putSalesLogCoUser: putSalesLogCoUser.call
+  postTemporarySalesLog: postTemporarySalesLog.call,
+  selectAccounts: selectAccounts.call,
+  selectAccountperson: selectAccountperson.call,
+  uploadFile: uploadFile.all
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(UploadSalesLog);

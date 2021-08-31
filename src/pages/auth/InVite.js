@@ -18,7 +18,7 @@ function inVite(props) {
   const [invitemail, onChangeInViteMail] = useInput('')
 
   // 초대메일 인풋 상태 데이터
-  const [memberstatus, setMemberStatus] = useState();
+  const [memberstatus, setMemberStatus] = useState(0);
   const [compdomainerror, setCompDomainError] = useState();
 
   useEffect(() => {
@@ -109,7 +109,7 @@ function inVite(props) {
                     <Select
                       placeholder="멤버 구분"
                       options={memberStatusOption}
-                      // value={ }
+                      // value={memberstatus}
                       onChange={onMemberStatus}
                       styles={selectStyle}
                     />
@@ -136,7 +136,7 @@ function inVite(props) {
                     </button>
                   </div>
                   <div className="form-group mt-3">
-                    <StyledButton onClick={() => { props.history.push('/') }}>나중에 초대하기</StyledButton>
+                    <StyledButton onClick={() => { props.history.push('/congratulation') }}>나중에 초대하기</StyledButton>
                   </div>
 
                 </form>

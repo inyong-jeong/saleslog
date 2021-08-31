@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import { getNotifications, putNotification, searchSalesLog, getsearchsalesLog } from "redux/actions";
 import {
   Dropdown,
   DropdownToggle,
@@ -9,7 +8,6 @@ import {
   DropdownItem,
 } from "reactstrap";
 
-import { getUserId } from 'helpers/authUtils';
 import { calculateDiff } from 'helpers/timeUtils';
 
 
@@ -183,16 +181,11 @@ function NavBar(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { notifications } = state.Notification;
-  const { salesLogList, searchsalesLogList } = state.SalesLog;
-  return { notifications, salesLogList, searchsalesLogList }
+
+  return {}
 }
 
 const dispatchToProps = {
-  getNotifications: getNotifications.call,
-  putNotification: putNotification.call,
-  searchSalesLog: searchSalesLog,
-  getsearchsalesLog: getsearchsalesLog.call
 }
 
 export default withRouter(connect(mapStateToProps, dispatchToProps)(NavBar));

@@ -8,11 +8,8 @@ import { getCi } from "helpers/domainUtils";
 import { isUserAuthorized, isUserAuthenticated, getOauthCode } from 'helpers/authUtils';
 import useInput from 'hooks/useInput';
 import { authorize, getOauthToken, postRegisteration, postInvite, postInviteRegistration } from 'redux/actions';
-import { proxyPath } from '@theklab/saleslog/src/proxy';
-
 
 function SignIn(props) {
-  const [alaramText, setAlarmText] = useState("");
   const [loading, setLoading] = useState(false);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
@@ -20,6 +17,18 @@ function SignIn(props) {
   const [password, onChangePassword] = useInput('')
 
   //renewal 
+
+  const updateWindowDimensions = () => {
+    setViewHeight(window.innerHeight);
+  };
+
+  const handleOnClick = () => {
+    props.history.push('/signup')
+  }
+
+  const handleLandingPage = () => {
+    props.history.push('/');
+  }
 
   const handleOnLogin = () => {
     const client_id = 'saleslog.co';
@@ -30,12 +39,15 @@ function SignIn(props) {
     props.authorize(username, password, client_id, redirect_uri, response_type, grant_type, state)
   }
 
-  const handletoken = () => {
-    const client_id = 'saleslog.co';
-    const client_secret = '8fba114f8291cf28e443c30aba7cce86';
-    const grant_type = 'authorization_code';
-    props.getOauthToken(getOauthCode(), client_secret, client_id, grant_type)
-  }
+  const authcode = isUserAuthorized();
+
+  useEffect(() => {
+    if (authcode === true) {
+      props.history.push('/authing')
+    }
+  }, [authcode])
+
+
 
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
@@ -44,40 +56,6 @@ function SignIn(props) {
       window.removeEventListener("resize", updateWindowDimensions);
     };
   }, []);
-
-  useEffect(() => {
-    if (props.error) {
-      setLoading(false);
-    }
-  }, [props.error]);
-
-  useEffect(() => {
-    if (isUserAuthorized()) {
-      handletoken();
-      props.history.push('/authing')
-    }
-  }, [isUserAuthorized()])
-
-  useEffect(() => {
-    if (isUserAuthenticated()) {
-    }
-  }, [isUserAuthenticated()])
-
-
-
-  // const checkValid = (email, password) => {
-  //   let emailRegex = new RegExp(regex.email);
-  //   let passwordRegex = new RegExp(regex.password_signin);
-  //   if (emailRegex.exec(email) === null) {
-  //     return false;
-  //   }
-
-  //   if (passwordRegex.exec(password) === null) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
 
   const ViewStyle = {
     height: viewHeight,
@@ -97,45 +75,7 @@ function SignIn(props) {
     cursor: 'pointer'
   }
 
-  const updateWindowDimensions = () => {
-    setViewHeight(window.innerHeight);
-  };
 
-  const handleOnClick = () => {
-    props.history.push('/signup')
-  }
-
-  const handleLandingPage = () => {
-    props.history.push('/');
-  }
-
-  const handleOnSubmit = () => {
-    const user_email = 'jeong4726@naver.com';
-    const user_name = '정인용';
-    const user_password = 1111;
-    const comp_name = '테스트 ';
-    const comp_domain = 'TEST';
-
-    props.postRegisteration(user_email, user_name, user_password, comp_name, comp_domain);
-  }
-
-  const PostEmailLink = () => {
-    const login_id = 10000026;
-    const invite_email = 'jy.park@theklab.co';
-    const permission = 9;
-
-    props.postInvite(login_id, invite_email, permission);
-  }
-
-  const handleOnInviteSubmit = () => {
-    const user_email = 'hyeyoun4@naver.com';
-    const invite_code = '';
-    const user_name = '박정윤2';
-    const user_password = 1111;
-    const use_name = '';
-
-    props.postInviteRegistration(user_email, invite_code, user_name, user_password, use_name);
-  }
   return (
     <React.Fragment>
       <Helmet>
@@ -183,7 +123,7 @@ function SignIn(props) {
                     </button>
 
                   </div>
-                  <div className="form-group mt-3">
+                  {/* <div className="form-group mt-3">
 
                     <button
                       className="btn btn-outline-primary"
@@ -193,38 +133,7 @@ function SignIn(props) {
                     >
                       엑세스토큰테스트
                     </button>
-
-                  </div>
-                  <div className="form-group mt-3">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      disabled={loading}
-                      onClick={handleOnSubmit}
-                    >
-                      신규회원가입(초대아님)
-                    </button>
-                  </div>
-                  <div className="form-group mt-3">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      disabled={loading}
-                      onClick={PostEmailLink}
-                    >
-                      회원초대메일
-                    </button>
-                  </div>
-                  <div className="form-group">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      disabled={loading}
-                      onClick={handleOnInviteSubmit}
-                    >
-                      회원가입(초대)
-                    </button>
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <button
                       className="btn btn-outline-primary"
@@ -239,13 +148,8 @@ function SignIn(props) {
                     파일추가
                     <input type="file" />
                   </div>
-
-
                   {props.error && (
                     <p className="text text-danger">로그인에 실패했습니다</p>
-                  )}
-                  {alaramText.length > 0 && (
-                    <p className="text text-danger">{alaramText}</p>
                   )}
                   {loading && <Spinner color="primary" />}
                 </form>
@@ -269,27 +173,14 @@ function SignIn(props) {
           </div>
           <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
-        {/* <footer className="footer footer-alt">
-          <Link to="https://theklab.co" className="text-secondary">
-            2020 &copy; TheKlab.co
-          </Link>
-          <span> | </span>
-          <Link to="https://theklab.co/privacy" className="text-secondary">
-            개인정보처리방침
-          </Link>
-          <span> | </span>
-          <Link to="https://theklab.co/policy" className="text-secondary">
-            이용약관
-          </Link>
-        </footer> */}
       </div>
     </React.Fragment >
   );
 }
 
 const mapStateToProps = (state) => {
-  const { url, loading, error } = state.Auth;
-  return { url, loading, error };
+  const { loading, authcodeResponse } = state.Auth;
+  return { loading, authcodeResponse };
 };
 
 const mapStateToDispatch = {

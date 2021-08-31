@@ -9,7 +9,6 @@ import 'wowjs/css/libs/animate.css';
 import { WOW } from 'wowjs';
 
 import { routes } from "./routes";
-import 'flatpickr/dist/themes/light.css';
 
 // setup fake backend
 import { isUserAuthenticated, isUserAuthenticating } from "helpers/authUtils";

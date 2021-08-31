@@ -12,7 +12,7 @@ const isTokenValid = isUserAuthenticated();
 const AuthLayout = (props) => {
 
   useEffect(() => {
-    if (!isTokenValid) {
+    if (!isTokenValid === true) {
       const client_id = 'saleslog.co';
       const client_secret = "8fba114f8291cf28e443c30aba7cce86";
       const grant_type = "refresh_token";
@@ -41,9 +41,8 @@ const AuthLayout = (props) => {
 
 
 const mapStateToProps = (state) => {
-  const { user, error } = state.User;
   const { refTokenResponse, refTokenError } = state.Auth;
-  return { user, error, refTokenResponse, refTokenError };
+  return { refTokenResponse, refTokenError };
 }
 
 const mapDispatchToProps = {

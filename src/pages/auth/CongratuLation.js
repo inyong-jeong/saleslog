@@ -103,7 +103,7 @@ function CongratuLation(props) {
                   </div>
                   <div className='mt-3'></div>
                   <div className="form-group mt-3">
-                    <StyledButton onClick={() => { props.history.push('/') }}>워크스페이스로 가기</StyledButton>
+                    <StyledButton onClick={() => { props.history.push('/signin') }}>세일즈로그 이용하기</StyledButton>
                   </div>
 
                 </form>

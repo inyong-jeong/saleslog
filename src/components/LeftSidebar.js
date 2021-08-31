@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { removeAll } from 'helpers/authUtils';
 
-// import { isLearningLogAvailable } from "helpers/domainUtils";
-
-import ProfileThumbnail from 'components/ProfileThumbnail';
-
 const menuList = [{
   title: "홈",
   icon: "fe-grid",
@@ -23,30 +19,13 @@ const menuList = [{
 }, {
   title: "고객사",
   icon: "fe-clipboard",
-  to: "/main/report"
+  to: "/main"
 }, {
   title: "일정",
   icon: "fe-book-open",
-  to: "/main/board"
+  to: "/main"
 }
 ];
-
-// {
-//   title: "출장보고서",
-//   icon: "fe-edit",
-//   to: "/main/tripreport"
-// },
-// , {
-//   title: "인사관리",
-//   icon: "fe-users",
-//   to: "/main/organization/:id/member"
-// }
-
-// , {
-//   title: "고객사",
-//   icon: "fe-user",
-//   to: "/main/account"
-// }
 
 function openMenu() {
   document.getElementsByTagName('body')[0].setAttribute("data-sidebar-size", "condensed");
@@ -98,15 +77,7 @@ function LeftSidebar(props) {
     }
   }, []);
 
-  const onLogoClick = (e) => {
-    e.preventDefault();
-    props.history.push('/');
-  }
 
-  const onProfileClick = (e) => {
-    e.preventDefault();
-    props.history.push(`/main/profile/${props.user.user_id}`);
-  }
 
   return (
     <React.Fragment>
@@ -118,37 +89,27 @@ function LeftSidebar(props) {
                 <div className="simplebar-offset">
                   <div className="simplebar-content-wrapper">
 
-                    {/* logo */}
-                    <div className="side-bar-logo text-center" onClick={onLogoClick}>
-                      <img className="logo-lg" src='/images/common/logo.png' alt="" />
-                      <img className="logo-sm" src='/images/common/logo-sm.png' alt="" />
-                    </div>
-
                     {/* user profile box */}
-                    {/* <div className="user-box text-center" onClick={() => setOpen(!userOpen)} style={{ cursor: 'pointer' }}>
-                      <ProfileThumbnail />
+                    <div className="user-box text-center" onClick={() => setOpen(!userOpen)} style={{ cursor: 'pointer' }}>
+                      {/* <ProfileThumbnail /> */}
                       <Dropdown isOpen={userOpen} toggle={() => setOpen(!userOpen)}>
-                        <DropdownToggle tag="a" className="h5 mt-2 d-block text-dark">{props.user.user_name} <i className="fe-chevron-down"></i></DropdownToggle>
+                        <DropdownToggle tag="a" className="h5 mt-2 d-block text-dark">  <i className="fe-chevron-down"></i></DropdownToggle>
                         <DropdownMenu className="user-dropdown">
-                          <DropdownItem className="notify-item" onClick={onProfileClick}>
-                            <i className="fe-user mr-1"></i>
-                            <span>개인페이지</span>
-                          </DropdownItem>
                           <DropdownItem className="notify-item" onClick={onSignOutClick}>
                             <i className="fe-log-out mr-1"></i>
                             <span>로그아웃</span>
                           </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
-                      <p className="user-title text-muted">{props.user.title}</p>
-                    </div> */}
+                      <p className="user-title text-muted"> </p>
+                    </div>
                     {/* menu list */}
                     <div className="simple-bar-content">
                       <div id="side-menu">
                         <ul>
                           {menuList.map((v, i) =>
                             <li key={v.to} className={"menu-item " + (isActiveMenu(v.to, props.location.pathname) ? "active" : "")}>
-                              <Link to={passId(v.to, props.user.org_id)}>
+                              <Link to={v.to}>
                                 <i className={v.icon}></i>
                                 <span>{v.title}</span>
                               </Link>
@@ -176,8 +137,7 @@ function LeftSidebar(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { user } = state.User;
-  return { user };
+  return {};
 }
 
 export default withRouter(connect(mapStateToProps, {})(LeftSidebar));

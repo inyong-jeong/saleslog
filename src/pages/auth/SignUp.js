@@ -6,7 +6,6 @@ import { regex } from 'constants/regex';
 import useInput from 'hooks/useInput';
 import { postRegisteration, postAuthNumber } from 'redux/actions';
 
-import { proxyPath } from '@theklab/saleslog/src/proxy';
 
 import StyledCheckbox from 'components/styledcomponent/Checkbox'
 import StyledInput from 'components/styledcomponent/Input';
@@ -24,12 +23,9 @@ function SignUp(props) {
   const [firstname, onChangeFirstName] = useInput('');
   const [lastname, onChangeLastName] = useInput('')
   const [authnumber, onChangeAuthNumber] = useInput('')
-  const [comp_name, onChangeCompName] = useInput('')
-  const [comp_domain, onChangeCompDomain] = useInput('')
 
   //조건 오류 상태 데이터
   const [term, setTerm] = useState(false)
-  const [termError, setTermError] = useState()
   const [emailerror, setEmailError] = useState();
   const [authnumbererror, setAuthNumberError] = useState();
   const [passworderror, setPassWordError] = useState();
@@ -44,11 +40,6 @@ function SignUp(props) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (props.error) {
-  //     setLoading(false);
-  //   }
-  // }, [props.error]);
 
   // 함수 정의
   const onChangeTerm = useCallback((e) => {
@@ -60,9 +51,7 @@ function SignUp(props) {
     setViewHeight(window.innerHeight);
   };
 
-  // const handleOnClick = () => {
-  //   props.history.push('/signup')
-  // }
+
 
   const handleLandingPage = () => {
     props.history.push('/');

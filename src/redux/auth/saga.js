@@ -10,30 +10,25 @@ import {
   postRegisteration,
   postInvite,
   postInviteRegistration,
-  signUpUser,
   postWorkGroup
 } from "../actions";
 
 //RENEWAL
 import {
-  oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken, postSignUpUser,
-  postAuthorizationNumber, postChangePassword, postClientRegisteration, postInviteEmail, postInviteRegister,
+  oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken,
+  postAuthorizationNumber, postClientRegisteration, postInviteEmail, postInviteRegister,
   postWorkGroupmodel
 } from 'model/auth';
 
 import {
-
   setUserAuthenticating,
-  getOauthCode,
   setOauthCode,
-  getOauthAccessToken,
   setOauthAccessToken,
   setOauthRefreshToken
 } from "helpers/authUtils";
 
 import {
-  AUTHORIZE_REQUEST, SIGN_OUT_USER, GET_ACCESS_TOKEN, GET_REFRESH_TOKEN, CHANGE_PASSWORD,
-  OAUTH_AUTHENTICATE_USER, FIND_PASSWORD, CHECK_EMAIL, SIGNUP_USER, OAUTH_AUTHORIZE,
+  OAUTH_AUTHORIZE,
   GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION,
   POST_WORKGROUP
 } from "constants/actionTypes";
@@ -43,15 +38,14 @@ import {
 function* _OauthAuthorize({ payload: { username, password, client_id, redirect_uri, response_type, grant_type, state } }) {
   try {
     const response = yield call(oauthAuthorize, username, password, client_id, redirect_uri, response_type, grant_type, state);
-    if (response.status !== 200) {
-      yield put(authorize.error("error"));
-    } else {
-      setOauthCode(response.message.code);
-      setUserAuthenticating(true);
-      yield put(authorize.success());
-    }
+    console.log(response);
+
+    setOauthCode(response.message.code);
+    setUserAuthenticating(true);
+    yield put(authorize.success(response));
+
   } catch (error) {
-    let message = "error";
+    const message = "error";
     yield put(authorize.error(message));
   }
 }
@@ -118,15 +112,6 @@ function* _postInviteRegistration({ payload: { user_email, invite_code, user_nam
   }
 }
 
-function* _signUp({ payload: { userType, body } }) {
-  try {
-    console.log(userType, body);
-    const response = yield call(postSignUpUser, userType, body);
-    yield put(signUpUser.success(response));
-  } catch (error) {
-    yield put(signUpUser.error(error.message));
-  }
-}
 
 function* _postWorkGroup({ payload: { user_email, comp_name, comp_domain } }) {
   try {
@@ -162,9 +147,6 @@ export function* watchPostInvite() {
 export function* watchPostInviteRegistration() {
   yield takeEvery(POST_INVITE_REGISTRATION, _postInviteRegistration);
 }
-export function* watchSignUpUser() {
-  yield takeEvery(SIGNUP_USER, _signUp);
-}
 export function* watchPostWorkGroup() {
   yield takeEvery(POST_WORKGROUP, _postWorkGroup);
 }
@@ -178,7 +160,6 @@ function* authSaga() {
     fork(watchPostRegistration),
     fork(watchPostInvite),
     fork(watchPostInviteRegistration),
-    fork(watchSignUpUser),
     fork(watchPostWorkGroup),
 
   ]);
