@@ -10,7 +10,7 @@ import { configureStore } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react'
 
 const store = configureStore();
-const st = '2ffff2';
+
 
 ReactDOM.render(<Provider store={store.store}>
   <PersistGate loading={null} persistor={store.persistor} >
