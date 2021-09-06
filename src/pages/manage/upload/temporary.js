@@ -8,7 +8,7 @@ import {
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Divider from 'components/Divider'
-// import 'antd/dist/antd.css';
+import 'antd/dist/antd.css';
 import { TimePicker, Radio, DatePicker, Input } from 'antd';
 import moment from 'moment';
 import useInput from 'hooks/useInput';
@@ -33,22 +33,18 @@ const salesChannelOption =
   { label: '이메일', value: '0050002' },
   { label: '대면', value: '0050003' },
   { label: '행사참여', value: '0050004' },
-  { label: '온라인 리서치', value: '0050005' },
-  { label: '도서-전문정보', value: '0050006' },
-  { label: '소셜 커뮤니티', value: '0050007' },
-  { label: '기타', value: '005000' }];
+  { label: '온라인 리서치', value: 2 },
+  { label: '도서-전문정보', value: '0050005' },
+  { label: '소셜 커뮤니티', value: '0050006' },
+  { label: '기타', value: '0050007' }];
 
 const leadActivityOption =
   [{ label: '조사', value: '0050001' },
   { label: '접촉', value: '0050002' },
   { label: '제안', value: '0050003' },
   { label: '검증', value: '0050004' }];
-console.log(salesChannelOption);
 
 function UploadSalesLog(props) {
-
-  const [channelindex, setChannelIndex] = useState('');
-  const [activityindex, setActivitylIndex] = useState('');
 
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
@@ -61,10 +57,10 @@ function UploadSalesLog(props) {
   const [content, setContent] = useState('')
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
-  const [radiocheck, setRadioCheck] = useState('');
-  const [activity, setActivity] = useState('');
-  const [leadactivity, setLeadActivity] = useState('');
-  const [channel, setChannel] = useState('');
+  const [radiocheck, setRadioCheck] = useState('0050001');
+  const [activity, setActivity] = useState('0050001');
+  const [leadactivity, setLeadActivity] = useState('0050001');
+  const [channel, setChannel] = useState('0050001');
   const InputStyle = { border: '1px solid #AAAAAA' }
   const { TextArea } = Input;
   const format = 'HH:mm';
@@ -75,56 +71,27 @@ function UploadSalesLog(props) {
   const [couser, setCoUser] = useState([])
   const [couserlist, setCoUserList] = useState('');
 
-  const temporaryLogListId = props.temporaryLoglist ? props.temporaryLoglist[0] : null
-
-  function getSeletedChannel(key) {
-    let result = undefined;
-    for (let i = 0; i < salesChannelOption.length; i++) {
-      if (salesChannelOption[i].value === key) {
-        result = i;
-      }
-    }
-    return result
-  }
-
-  function getSeletedActivity(key) {
-    let result = undefined;
-    for (let i = 0; i < salesActivityOption.length; i++) {
-      if (salesActivityOption[i].value === key) {
-        result = i;
-      }
-    }
-    return result
-  }
-
   useEffect(() => {
-    //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
-    if (temporaryLogListId) {
-      const { meeting_date, meeting_stime, meeting_etime, acc_idx, accm_idx, sales_gb, sales_goal, sales_lead_gb
-        , sales_activity, title, log, addr } = props.temporaryLoglist[0]
-      const index = getSeletedChannel(sales_activity);
-      const activityindex = getSeletedActivity(sales_goal)
-      console.log(index)
-      console.log(activityindex)
-      // setDateString(meeting_date)
-      // setStart(meeting_stime)
-      // setEnd(meeting_etime)
-      // setSelectedAccount(acc_idx)
-      // setSelectedAccountPerson(accm_idx)
-      // setRadioCheck(sales_gb)
-      // setLeadActivity(sales_lead_gb)
-      setActivitylIndex(activityindex)
-      setChannelIndex(index)
-      setLocation(addr)
-      setTitle(title)
-      setContent(log)
-      // setFromData({
-      //   ...fromData,
-      //   'title': title
-      // })
+    if (props.temporaryLoglist) {
+      console.log('asdsad');
+      const log = props.temporaryLoglist;
+      setDateString(log.meeting_date);
+      setStart(log.meeting_stime);
+      setEnd(log.meeting_etime);
+      setSelectedAccount(log.acc_idx);
+      setSelectedAccountPerson(log.accm_idx);
+      // setRadioCheck
+      // setLeadActivity
+      // setActivity
+      // setChannel
+      // setSelectedFiles
+      // setLocation
+      setTitle(log.title)
+      // setContent
+      // setCoUser
+      // setCoUserList
     }
-  }, [temporaryLogListId])
-
+  }, [props.temporaryLoglist])
   const [fromData, setFromData] = useState({
     acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
     accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
@@ -239,7 +206,6 @@ function UploadSalesLog(props) {
   }
 
   const onSalesActivity = (option) => {
-    // setActivitylIndex(option)
     setActivity(option.value);
     setFromData({
       ...fromData,
@@ -248,7 +214,6 @@ function UploadSalesLog(props) {
   };
 
   const onSalesChannel = (option) => {
-    // setChannelIndex(option);
     setChannel(option.value);
     setFromData({
       ...fromData,
@@ -271,7 +236,7 @@ function UploadSalesLog(props) {
     setLocation(e.target.value)
     setFromData({
       ...fromData,
-      'addr': e.target.value
+      'addr': location
     })
   }
 
@@ -291,7 +256,6 @@ function UploadSalesLog(props) {
   }
 
   const handleOnChange = (login_idx, user_name) => {
-    console.log(user_name.split('/'));
     const couserlist = {
       id: login_idx,
       user_name,
@@ -320,8 +284,6 @@ function UploadSalesLog(props) {
 
     })
     props.postSalesLog(fromData)
-    window.alert("일지가 등록되었습니다.")
-
   }
   const onFormTemporarySubmit = () => {
     const result = getFields(couser, 'id');
@@ -332,8 +294,6 @@ function UploadSalesLog(props) {
 
     })
     props.postTemporarySalesLog(fromData)
-    window.alert("일지가 임시저장 되었습니다.")
-
   }
   const [lists, setLists] = useState([
   ]);
@@ -468,7 +428,7 @@ function UploadSalesLog(props) {
               <Select
                 placeholder="리드단계를 선택해주세요."
                 options={leadActivityOption}
-                value={leadActivityOption.activity}
+                // value={activity}
                 onChange={onLeadActivity}
                 styles={selectStyle}
               />
@@ -489,8 +449,7 @@ function UploadSalesLog(props) {
             <Select
               placeholder="영업활동 구분을 선택해주세요."
               options={salesActivityOption}
-              value={salesActivityOption[activityindex]}
-              // defaultValue={salesActivityOption}
+              // value={activity}
               onChange={onSalesActivity}
               styles={selectStyle}
             />
@@ -508,8 +467,7 @@ function UploadSalesLog(props) {
             <Select
               placeholder="영업 채널을 선택해주세요."
               options={salesChannelOption}
-              value={salesChannelOption[channelindex]}
-              // defaultValue={salesChannelOption[0]}
+              // value={channel}
               onChange={onSalesChannel}
               styles={selectStyle}
             />
@@ -576,10 +534,12 @@ function UploadSalesLog(props) {
         </div>
         <div className="row">
           <div className="col-12 d-flex justify-content-center">
-            <button className="btn btn-primary" onClick={onFormSubmit} >
+            <button className="btn btn-primary" onClick={onFormSubmit} disabled={props.submitLoading}>
+              {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
               등록
             </button>
-            <button className="btn btn-primary ml-2" onClick={onFormTemporarySubmit} >
+            <button className="btn btn-primary" onClick={onFormTemporarySubmit} disabled={props.submitLoading}>
+              {props.submitLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
               임시저장
             </button>
           </div>
@@ -591,8 +551,8 @@ function UploadSalesLog(props) {
 
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
-  const { userList, temporaryLoglist } = state.SalesLog;
-  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist };
+  const { salesLogLoading, submitLoading, postSalesLogError, postSalesLogResponse, userList } = state.SalesLog;
+  return { accounts, userList, salesLogLoading, submitLoading, postSalesLogError, postSalesLogResponse, accountslist, accountpersonlist };
 };
 const mapStateToDispatch = {
   postSalesLog: postSalesLog.call,

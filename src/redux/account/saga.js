@@ -35,7 +35,6 @@ function* _getUserAccounts({ payload: { userId } }) {
 function* _selectAccounts() {
   try {
     const response = yield call(get_fetch, 'https://backend.saleslog.co/saleslog/sel_accounts');
-    console.log(response);
     yield put(selectAccounts.success(response));
   } catch (error) {
     yield put(selectAccounts.error(error.message));

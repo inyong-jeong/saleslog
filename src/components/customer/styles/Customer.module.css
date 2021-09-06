@@ -1,0 +1,33 @@
+.Wrapper {
+  margin: 0 auto;
+}
+
+.SearchInput {
+  border: 1px solid #000;
+  margin: 0 auto;
+  padding: 10px;
+  width: 100%;
+  outline: none;
+}
+
+.Line {
+  margin: 0 auto;
+  width: 98%;
+  border-bottom: 2px solid #dadada;
+}
+
+.SingleCustomer {
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 120px;
+  font-size: 12px;
+  border-bottom: 1px solid #dadada;
+  padding: 5px 2px;
+}
+
+.SingleCustomerDetails>p {
+  text-align: start;
+  line-height: 12px;
+}

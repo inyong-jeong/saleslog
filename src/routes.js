@@ -24,6 +24,12 @@ const Home = React.lazy(() => import('./pages/main/home'));
 const Manage = React.lazy(() => import('./pages/manage'));
 const SalesLog = React.lazy(() => import('./pages/manage/saleslog'));
 const Upload = React.lazy(() => import('./pages/manage/upload'));
+const Temporary = React.lazy(() => import('./pages/manage/upload/temporary'));
+
+//고객, 고객담당자 관련 route 
+const Customer = React.lazy(() => import('./pages/customer'))
+const CustomerAdd = React.lazy(() => import('./pages/customer/register'))
+const CustomerManagerRegister = React.lazy(() => import('./pages/customer/registerManager'))
 
 
 const LandingRoute = ({ component: Component, roles, ...rest }) => (
@@ -54,6 +60,12 @@ const routes = [
   { path: '/main/manage', name: 'Manage', component: Manage, route: MainRoute, exact: true },
   { path: '/main/upload', name: 'Upload', component: Upload, route: LandingRoute, exact: true },
   { path: '/main/upload/:id', name: 'Upload', component: Upload, route: MainRoute, exact: true },
+  // { path: '/main/upload/temporary/:id', name: 'Temporary', component: Temporary, route: MainRoute, exact: true },
+  //고객사 
+  { path: '/main/customer', name: 'Customer', component: Customer, route: MainRoute, exact: true },
+  { path: '/main/customer/register', name: 'CustomerAdd', component: CustomerAdd, route: MainRoute, exact: true },
+  { path: '/main/customer/register_manager', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
+
   //landing Route
   { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },
   { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute, exact: true },

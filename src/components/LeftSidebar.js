@@ -19,12 +19,13 @@ const menuList = [{
 }, {
   title: "고객사",
   icon: "fe-clipboard",
-  to: "/main"
-}, {
-  title: "일정",
-  icon: "fe-book-open",
-  to: "/main"
-}
+  to: "/main/customer"
+},
+  // {
+  //   title: "일정",
+  //   icon: "fe-book-open",
+  //   to: "/main"
+  // }
 ];
 
 function openMenu() {
