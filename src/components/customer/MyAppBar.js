@@ -28,6 +28,7 @@ const MyAppBar = ({ barTitle, showBackButton }) => {
     <div>
       <div style={{ marginBottom: 70 }}>
         <AppBar
+          style={{ height: '48px', justifyContent: 'center' }}
           elevation={1}
           className={classes.appBar}
           color='default'>
@@ -49,7 +50,7 @@ const MyAppBar = ({ barTitle, showBackButton }) => {
                 </div>
             }
             <Typography variant="h6"
-              style={{ fontSize: 16, fontWeight: 'normal' }}>
+              style={{ fontSize: 14, fontWeight: 'normal' }}>
               {barTitle}
             </Typography>
           </Toolbar>

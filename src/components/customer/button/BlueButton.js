@@ -6,11 +6,13 @@ const BlueButton = ({ name, type }) => {
       type={type}
       style={{
         marginBottom: 14,
-        width: '80%',
-        fontSize: 16,
-        backgroundColor: '#0000FF',
+        width: '100%',
+        fontSize: 14,
+        backgroundColor: '#333333',
         color: '#fff',
-        fontWeight: 'bold'
+        borderRadius: "2px",
+        margin: 10,
+        boxSizing: 'border-box'
       }}>{name}</Button>
   );
 }
