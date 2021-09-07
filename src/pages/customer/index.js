@@ -1,5 +1,5 @@
 
-import MyNavigation from 'components/customer/MyNavigation';
+import MyNavigation from '../../components/styledcomponent/ MyNavigation';
 // import CustomerAdd from 'components/customer/CustomerAdd'
 import CustomerShow from 'components/customer/CustomerShow'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';

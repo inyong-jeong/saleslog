@@ -5,7 +5,6 @@ const BlueButton = ({ name, type }) => {
     <Button
       type={type}
       style={{
-        marginBottom: 14,
         width: '100%',
         fontSize: 14,
         backgroundColor: '#333333',

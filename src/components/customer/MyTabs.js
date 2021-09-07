@@ -41,25 +41,16 @@ export default function MyTabs({
             disabled={true}
             gradeType={emptyType}
           />
-          {/* <CustomerItems tabCode={tabCode} value={value} isSearchClicked={isSearchClicked}
-            sortType={sortType} grade={grade} employee={employee} /> */}
           <GetCustomer tabCode={tabCode} value={value} isSearchClicked={isSearchClicked}
             sortType={sortType} grade={grade} employee={employee} />
         </TabPane>
         <TabPane tab="영업활동" key="2">
           <SelectFilter gradeType={scoreType} />
-          {/* <CustomerItems tabCode={tabCode} value={value} isSearchClicked={isSearchClicked}
-            sortType={sortType} grade={grade} employee={employee}
-          />
-           */}
           <GetCustomer tabCode={tabCode} value={value} isSearchClicked={isSearchClicked}
             sortType={sortType} grade={grade} employee={employee} />
         </TabPane>
         <TabPane tab="리드관리" key="3">
           <SelectFilter gradeType={stageType} />
-          {/* <CustomerItems tabCode={tabCode} value={value} isSearchClicked={isSearchClicked}
-            sortType={sortType} grade={grade} employee={employee}
-          /> */}
           <GetCustomer tabCode={tabCode} value={value} isSearchClicked={isSearchClicked}
             sortType={sortType} grade={grade} employee={employee} />
         </TabPane>

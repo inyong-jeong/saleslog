@@ -7,7 +7,10 @@ import {
   GET_CUSTOMER_SUCCESS,
   GET_CUSTOMER_OPTION_USERS,
   GET_CUSTOMER_OPTION_USERS_SUCCESS,
-  GET_CUSTOMER_OPTION_USERS_FAILED
+  GET_CUSTOMER_OPTION_USERS_FAILED,
+  POST_CUSTOMER_MANAGER,
+  POST_CUSTOMER_MANAGER_FAILED,
+  POST_CUSTOMER_MANAGER_SUCCESS
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -17,7 +20,9 @@ const initialState = {
   list: null,
   listCounts: null,
   userLists: null,
-  userListsResponse: null
+  userListsResponse: null,
+  postCustomerMangerResponse: null,
+
 }
 
 const Customer = (state = initialState, action) => {
@@ -47,6 +52,15 @@ const Customer = (state = initialState, action) => {
       return { ...state, userListsResponse: true, userLists: action.payload.response.message }
     case GET_CUSTOMER_OPTION_USERS_FAILED:
       return { ...state, userListsResponse: false, }
+
+    case POST_CUSTOMER_MANAGER:
+      return { ...state, loading: true }
+
+    case POST_CUSTOMER_MANAGER_SUCCESS:
+      return { ...state, loading: false, postCustomerMangerResponse: true }
+
+    case POST_CUSTOMER_MANAGER_FAILED:
+      return { ...state, loading: false, postCustomerMangerResponse: false }
 
     default:
       return { ...state };

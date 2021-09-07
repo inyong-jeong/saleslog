@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomerAdd from 'components/customer/CustomerAdd';
-import MyNavigation from 'components/customer/MyNavigation';
+import MyNavigation from '../../../components/styledcomponent/ MyNavigation';
 import { useMediaQuery } from 'react-responsive';
 
 const CustomerRegisterPage = () => {

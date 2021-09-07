@@ -49,7 +49,8 @@ const post_fetch_files = async (url, data) => {
   const token = getOauthAccessToken();
   let formData = new FormData();
   for (let key in data) {
-    if (key === 'fileup') {
+    if (key === 'fileup' || key === 'man_photo') {
+
       if (data[key] && data[key].length > 0) {
         for (let i = 0; i < data[key].length; i++) {
           // if (data[key].length === 0) {
@@ -57,9 +58,9 @@ const post_fetch_files = async (url, data) => {
           // }
           formData.append(key, data[key][i]);
         }
+        console.log(formData)
       }
     } else {
-
       formData.append(key, data[key]);
     }
   }
@@ -72,7 +73,6 @@ const post_fetch_files = async (url, data) => {
   })
     .then(res => res.json())
     .then(json => {
-
       console.log(json);
       return json
     })

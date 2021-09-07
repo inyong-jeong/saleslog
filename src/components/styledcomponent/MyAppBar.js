@@ -4,7 +4,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/styles';
 
 import { ArrowBackIos } from '@material-ui/icons';
-import { useHistory } from 'react-router';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -13,30 +12,29 @@ const useStyles = makeStyles({
     right: 10,
   }
 })
-// 앱바(위에 보이는 상단바)
-//뒤로가기 버튼이 보이게 하고 싶다면 showBackButton prop 사용 
-const MyAppBar = ({ barTitle, showBackButton, badgeContent }) => {
+
+//순서대로 제목, 백버튼, 백버튼 클릭시 이동할 곳 경로 정의해주면 됨 
+const MyAppBar = ({ barTitle, showBackButton, navigateTo }) => {
 
   const classes = useStyles();
-
-  const history = useHistory()
-  const navigateBack = () => history.push('/customer')
-
-  //const [value, setValue] = useState('')
 
   return (
     <div>
       <div style={{ marginBottom: 70 }}>
-        <AppBar className={classes.appBar} color='default'>
+        <AppBar
+          style={{ height: '48px', justifyContent: 'center' }}
+          elevation={1}
+          className={classes.appBar}
+          color='default'>
           <Toolbar>
             {
               showBackButton ?
-                <IconButton color="inherit" onClick={navigateBack}>
+                <IconButton color="inherit" onClick={navigateTo}>
                   <ArrowBackIos />
                 </IconButton>
                 : <div className={classes.appBarIcon}>
                   <IconButton color="inherit">
-                    <Badge badgeContent={10} color="secondary">
+                    <Badge badgeContent={0} color="secondary">
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>
@@ -45,7 +43,8 @@ const MyAppBar = ({ barTitle, showBackButton, badgeContent }) => {
                   </IconButton>
                 </div>
             }
-            <Typography variant="h6">
+            <Typography variant="h6"
+              style={{ fontSize: 14, fontWeight: 'normal' }}>
               {barTitle}
             </Typography>
           </Toolbar>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomFab from './button/CustomFab';
 import styles from './styles/Customer.module.css'
-import MyAppBar from "./MyAppBar";
+import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { useMediaQuery } from "react-responsive";
 import { Input } from "antd";
 import SelectFilter from "./SelectFilter";
@@ -72,7 +72,7 @@ const CustomerShow = () => {
   }
 
   return (
-    <div>
+    <div style={{ paddingLeft: 5, paddingRight: 5, }}>
       {isMobile && <MyAppBar barTitle={'고객'} />}
       <Search
         placeholder="고객 검색"

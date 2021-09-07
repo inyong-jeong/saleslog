@@ -10,11 +10,7 @@ import { useDispatch } from "react-redux";
 import TextArea from "antd/lib/input/TextArea";
 import StyledSelect from '../styledcomponent/StyledSelect';
 import { useHistory } from "react-router";
-import { Button, Tooltip } from "antd";
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import Form from "rc-field-form/es/Form";
-import FormItem from "antd/lib/form/FormItem";
-
+import { Button } from "antd";
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -80,6 +76,10 @@ const CustomerRegisterInfo = () => {
       acc_fax: '',
       sales_gb: '',
       acc_url: '',
+      man_name: '',
+      dept: '',
+      posi: '',
+      tel: '',
     }
   )
 
@@ -105,10 +105,6 @@ const CustomerRegisterInfo = () => {
     })
   }
   const history = useHistory()
-
-  const registerAccountsMan = (e) => {
-    history.push('/main/customer/register_manager')
-  }
 
   const onChangeCustomer = (value) => {
     setInputs({ ...inputs, sales_gb: value })
@@ -209,10 +205,6 @@ const CustomerRegisterInfo = () => {
             onChange={onChangeGradeType}
             placeholder="등급/단계">
             {options}
-            {/* <Option value="발굴">발굴</Option>
-            <Option value="접촉">접촉</Option>
-            <Option value="제안">제안</Option>
-            <Option value="검증">검증</Option> */}
           </StyledSelect>
         </FormControl>
       </div>
@@ -257,8 +249,42 @@ const CustomerRegisterInfo = () => {
       </div>
 
       <div>
-        <Typography variant='h6' align='left' className={classes.title}>연락처 정보</Typography>
-        <Button className={classes.addBtnStyle} onClick={registerAccountsMan}> + 담당자 추가 </Button>
+        <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
+        <div className={classes.innerBox}>
+          <label className={classes.laebelStyle}>담당자 이름 </label>
+          <Input
+            name='man_name'
+            onChange={handleChange}
+            value={inputs.man_name}
+            placeholder="담당자 이름을 입력해주세요."
+            margin="normal"
+          />
+          <label className={classes.laebelStyle}>담당자 부서</label>
+          <Input
+            name='dept'
+            onChange={handleChange}
+            value={inputs.dept}
+            placeholder="담당자 부서를 입력해주세요"
+            margin="normal"
+          />
+          <label className={classes.laebelStyle}>담당자 직책</label>
+          <Input
+            name='posi'
+            onChange={handleChange}
+            value={inputs.posi}
+            placeholder="담당자 직책을 입력해주세요"
+            margin="normal"
+          />
+          <label className={classes.laebelStyle}>담당자 연락처</label>
+          <Input
+            name='tel'
+            onChange={handleChange}
+            value={inputs.tel}
+            placeholder="담당자 연락처를 입력해주세요"
+            margin="normal"
+          />
+          {/* <Button className={classes.addBtnStyle} onClick={registerAccountsMan}> + 담당자 추가 </Button> */}
+        </div>
       </div>
 
       <div>

@@ -14,7 +14,7 @@ import {
   selectAccountperson
 } from './actions';
 
-import { getUserAccountsCall, selectAccountCall, selectAccountPersonCall } from 'model/account';
+import { getUserAccountsCall } from 'model/account';
 
 import {
   get_fetch,

@@ -9,9 +9,9 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 
 const persistConfig = {
-  key: 'primary',
-  whitelist: ['User'],
-  storage,
+    key: 'primary',
+    whitelist: ['User'],
+    storage,
 }
 
 export function configureStore(initialState) {

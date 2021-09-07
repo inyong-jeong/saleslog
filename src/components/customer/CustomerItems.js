@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCustomer } from '../../redux/customer/actions';
 import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -55,6 +55,8 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   let responseLists = state.list
   const [isBottom, setIsBottom] = useState(false)
   const [listCount, setListCount] = useState(listCounts)
+  const history = useHistory()
+  let restCount
 
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, page))
@@ -72,11 +74,6 @@ const CustomerItems = ({ inputs, page, setPage }) => {
     }
   }, [loading])
 
-  //각 고객사 클릭 
-  const handleCustomerClick = (e) => {
-
-  }
-
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, page))
   }, [isBottom])
@@ -90,7 +87,6 @@ const CustomerItems = ({ inputs, page, setPage }) => {
     setListCount(listCounts)
   }, [listCounts])
 
-
   return (
     <InfiniteScroll
       hasMore={true}
@@ -103,7 +99,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
         {cusotomerList ?
           cusotomerList.map((singleList, index) => {
             return (
-              <div onClick={handleCustomerClick} key={index}>
+              <div onClick={() => history.push(`/main/customer/details/${singleList.acc_idx}`)} key={index}>
                 <ListItem>
                   <div>
                     <Avatar alt={singleList.account_name} src="/static/images/avatar/1.jpg" className={classes.square} variant="rounded" />
@@ -118,15 +114,16 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                     </p>
                     <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.ceo_name} {singleList.reg_num}</p>
                     <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.addr1}</p>
-                    <div style={{ marginTop: 6, }}>
+                    <div style={{ marginTop: 6 }}>
                       {singleList.man_names ?
-                        singleList.man_names.split(',').map((singleName, index) => {
-                          return (
-                            <p key={index} style={graybox}>{singleName}</p>
-                          )
-                        }) : ''
-                      }
-
+                        singleList.man_names.split(',').map((singleName, index, array) => {
+                          if (array.length > 3) restCount = array.length - 3
+                          if (index < 3) {
+                            return <p key={index} style={graybox}>{singleName}</p>
+                          }
+                        })
+                        : ''}
+                      {restCount > 0 && singleList.man_names ? <span style={{ fontSize: 12, color: '#333333' }}>외 {restCount}명</span> : ''}
                     </div>
                   </div>
                 </ListItem>

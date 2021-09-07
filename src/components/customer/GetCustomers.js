@@ -60,10 +60,6 @@ const GetCustomer = ({
 
   const [inputs, setInputs] = useState({
     srch: query,
-    // order: sortType, // 1. 최근 (디폴트) 2. 고객명순
-    // sales_gb: tabCode,
-    // score: grade,
-    // users: employee,
     pageno: pageNumber,
   })
 
