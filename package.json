@@ -9,7 +9,6 @@
     "@material-ui/icons": "^4.11.2",
     "@react-pdf/renderer": "^1.6.16",
     "@svgr/webpack": "4.1.0",
-    "@theklab/saleslog": "^0.2.6",
     "@yaireo/tagify": "^4.7.2",
     "antd": "^4.16.10",
     "availity-reactstrap-validation": "^2.7.1",

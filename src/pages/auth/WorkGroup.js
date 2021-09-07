@@ -6,7 +6,7 @@ import { regex } from 'constants/regex';
 import useInput from 'hooks/useInput';
 import { postRegisteration, postAuthNumber, postWorkGroup } from 'redux/actions';
 
-import { proxyPath } from '@theklab/saleslog/src/proxy';
+//import { proxyPath } from '@theklab/saleslog/src/proxy';
 
 import StyledCheckbox from 'components/styledcomponent/Checkbox'
 import StyledInput from 'components/styledcomponent/Input';
