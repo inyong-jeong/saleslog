@@ -10,6 +10,8 @@ import { getAllCustomer } from '../../redux/customer/actions';
 import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -60,18 +62,21 @@ const CustomerItems = ({ inputs, page, setPage }) => {
 
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, page))
-    console.log('inputs changed', inputs)
+
   }, [inputs])
 
   //paging 
   useEffect(() => {
     if (responseLists && loading == false) {
       if (page == 1) {
+
         setCustomerList(responseLists)
       } else {
         setCustomerList(cusotomerList.concat(responseLists))
       }
     }
+    //console.log('cs', cusotomerList)
+    console.log('res', responseLists)
   }, [loading])
 
   useEffect(() => {
@@ -93,6 +98,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
       dataLength={10}
       next={handleNextPage}
     >
+      {/* {loading && <CircularProgress />} */}
       <List className={classes.root}>
         <Text style={{ fontSize: 12 }}>{listCounts ? listCounts : 0} 개의 고객</Text>
         <Divider style={{ margin: 0 }} />

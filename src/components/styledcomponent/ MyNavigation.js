@@ -25,9 +25,7 @@ const MyNavigation = () => {
       onChange={(e, newValue) => {
         setValue(newValue);
 
-        //이전 탭 -value
-        //클릭 탭 -newValue 
-        console.log(e)
+        console.log(newValue)
       }}
       showLabels>
       <BottomNavigationAction label="홈" value="home" icon={<Home />} />

@@ -5,13 +5,13 @@ import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { useMediaQuery } from "react-responsive";
 import { Input } from "antd";
 import SelectFilter from "./SelectFilter";
-import { Tabs } from 'antd';
+import FullTabs from "../styledcomponent/FullTabs";
 import { useHistory } from "react-router-dom";
 import CustomerItems from "./CustomerItems";
 import { getUsers } from "../../redux/customer/actions";
 import { useSelector, useDispatch } from "react-redux";
 
-const { TabPane } = Tabs;
+const { TabPane } = FullTabs;
 const { Search } = Input;
 
 const CustomerShow = () => {
@@ -30,7 +30,6 @@ const CustomerShow = () => {
 
   useEffect(() => {
     setUsers(state.userLists)
-
   }, [state.userListsResponse])
 
   //옵션 사원들 가져오기
@@ -85,7 +84,7 @@ const CustomerShow = () => {
           borderColor: '#000'
         }} />
       <>
-        <Tabs defaultActiveKey="1" onChange={onTabChange} >
+        <FullTabs defaultActiveKey="1" onChange={onTabChange} >
           <TabPane tab="전체" key="1" >
             <SelectFilter
               users={users}
@@ -132,7 +131,7 @@ const CustomerShow = () => {
               setInputs={setInputs}
               inputs={inputs} />
           </TabPane>
-        </Tabs>
+        </FullTabs>
       </>
       <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
