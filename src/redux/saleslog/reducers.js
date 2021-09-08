@@ -16,7 +16,13 @@ import {
   GET_TEMPORARY_LIST_ERROR,
   DELETE_TEMPORARY_LOG,
   DELETE_TEMPORARY_LOG_SUCCESS,
-  DELETE_TEMPORARY_LOG_ERROR
+  DELETE_TEMPORARY_LOG_ERROR,
+  GET_SALESLOGS,
+  GET_SALESLOGS_SUCCESS,
+  GET_SALESLOGS_ERROR,
+  SEARCH_SALESLOG_LIST,
+  SEARCH_SALESLOG_LIST_SUCCESS,
+  SEARCH_SALESLOG_LIST_ERROR
 
 } from '../../constants/actionTypes';
 
@@ -25,7 +31,14 @@ const INIT_STATE = {
   userlist: [],
   temporaryLoglists: [],
   temporaryLoglist: null,
-  temporaryloglistresponse: false
+  temporaryloglistresponse: false,
+  loglist: [],
+  searchloglist: [],
+  // logresponse: false,
+  //영업일지 불러오기 관련
+  loadLogsLoading: false,
+  loadLogsDone: false,
+  // hasMoreLogs: true,
 
 };
 
@@ -67,6 +80,20 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, deletetemporaryLogresponse: action.payload.response.message.fieldCount };
     case DELETE_TEMPORARY_LOG_ERROR:
       return { ...state, };
+    //영업일지 불러오기 관련
+    case GET_SALESLOGS:
+      return { ...state, loadLogsLoading: true, loadLogsDone: false };
+    case GET_SALESLOGS_SUCCESS:
+      return { ...state, loadLogsLoading: false, loadLogsDone: true, loglist: action.payload.response.message };
+    case GET_SALESLOGS_ERROR:
+      return { ...state, loadLogsLoading: false, logresponse: false };
+    case SEARCH_SALESLOG_LIST:
+      return { ...state };
+    case SEARCH_SALESLOG_LIST_SUCCESS:
+      return { ...state, searchloglist: action.payload.response.message };
+    case SEARCH_SALESLOG_LIST_ERROR:
+      return { ...state };
+
     default:
       return { ...state };
   }

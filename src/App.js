@@ -1,5 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { HashRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
+
 import { createHashHistory } from "history";
 import { syncHistoryWithStore } from "react-router-redux";
 import { connect } from "react-redux";
@@ -90,6 +92,8 @@ class App extends Component {
 
     );
 
+
+
     return (
       // rendering the router with layout
       <HashRouter history={history}>
@@ -115,6 +119,7 @@ class App extends Component {
             );
           })}
         </React.Fragment>
+
       </HashRouter>
     );
   }

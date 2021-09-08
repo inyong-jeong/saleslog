@@ -9,10 +9,16 @@ import {
   POST_REGISTRATION,
   POST_INVITE,
   POST_INVITE_REGISTRATION,
-  POST_WORKGROUP
+  POST_WORKGROUP,
+  CHECK_ACCESS_TOKEN,
+
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
+
+
+//토큰 만료 확인
+export const checkAccessToken = fetchActionGenerator(CHECK_ACCESS_TOKEN);
 
 
 // renewal login acion

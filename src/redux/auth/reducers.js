@@ -20,7 +20,13 @@ import {
   OAUTH_AUTHORIZE_ERROR,
   GET_OAUTH_TOKEN,
   GET_OAUTH_TOKEN_SUCCESS,
-  GET_OAUTH_TOKEN_ERROR
+  GET_OAUTH_TOKEN_ERROR,
+  CHECK_ACCESS_TOKEN,
+  CHECK_ACCESS_TOKEN_SUCCESS,
+  CHECK_ACCESS_TOKEN_ERROR,
+  GET_REFRESH_OAUTH_TOKEN,
+  GET_REFRESH_OAUTH_TOKEN_SUCCESS,
+  GET_REFRESH_OAUTH_TOKEN_ERROR
 } from 'constants/actionTypes';
 
 let INIT_STATE = {
@@ -28,11 +34,28 @@ let INIT_STATE = {
   email: null,
   postworkgroupResponse: null,
   postinviteResponse: null,
-  authcodeResponse: null
+  authcodeResponse: null,
+  accesstokenerror: null,
+  response: null,
+  refreshtokenresponse: null
 };
 
 const Auth = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
+    //토큰 만료 확인 
+    case CHECK_ACCESS_TOKEN:
+      return { ...state };
+    case CHECK_ACCESS_TOKEN_SUCCESS:
+      return { ...state, response: action.payload.response.message.auth_ok };
+    case CHECK_ACCESS_TOKEN_ERROR:
+      return { ...state, accesstokenerror: action.payload.error.message };
+    //리프레쉬 토큰
+    case GET_REFRESH_OAUTH_TOKEN:
+      return { ...state };
+    case GET_REFRESH_OAUTH_TOKEN_SUCCESS:
+      return { ...state, accesstokenerror: null };
+    case GET_REFRESH_OAUTH_TOKEN_ERROR:
+      return { ...state, refreshtokenresponse: action.payload.error };
     //RENEWAL
     case OAUTH_AUTHORIZE:
       return { ...state };
@@ -45,7 +68,7 @@ const Auth = (state = INIT_STATE, action) => {
     case GET_OAUTH_TOKEN_SUCCESS:
       return { ...state, accesstokenResponse: action.payload.response.access_token };
     case GET_OAUTH_TOKEN_ERROR:
-      return { ...state, authcodeError: action.payload };
+      return { ...state, accesstokenerror: action.payload.response.message };
     case POST_AUTHNUMBER:
       return { ...state };
     case POST_AUTHNUMBER_SUCCESS:

@@ -7,7 +7,13 @@ import {
   SELECT_USER_LIST,
   GET_TEMPORARY_LISTS,
   GET_TEMPORARY_LIST,
-  DELETE_TEMPORARY_LOG
+  DELETE_TEMPORARY_LOG,
+  GET_SALESLOGS,
+  GET_SALESLOG,
+  SEARCH_SALESLOG_LIST,
+  PUT_SALESLOG,
+  PUT_FILE,
+  DELETE_FILE,
 } from '../../constants/actionTypes';
 
 import {
@@ -16,7 +22,13 @@ import {
   getUserList,
   getTemporaryLogLists,
   getTemporaryLogList,
-  deleteTemporaryLogList
+  deleteTemporaryLogList,
+  getLogLists,
+  getLogList,
+  searchLogList,
+  putSalesLog,
+  putFile,
+  deleteFile
 } from './actions';
 
 import {
@@ -25,6 +37,8 @@ import {
   post_fetch_files
 } from 'model/FetchManage'
 
+
+//일지작성 관련
 
 function* _postSalesLog({ payload: { data } }) {
   try {
@@ -48,7 +62,6 @@ function* _postTemporarySalesLog({ payload: { data } }) {
 
 function* _getUserList({ payload: { data } }) {
   try {
-    // console.log('1111111111111111', data)
     const response = yield call(post_fetch, 'https://backend.saleslog.co/org/search_users', data);
 
     yield put(getUserList.success(response));
@@ -69,7 +82,6 @@ function* _getTemporaryLogLists() {
 function* _getTemporaryLogList({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/detail_saleslog_temp', data);
-    yield console.log('res:::::::::::::', response);
     yield put(getTemporaryLogList.success(response));
   } catch (error) {
     yield put(getTemporaryLogList.error(error));
@@ -84,6 +96,64 @@ function* _deleteTemporaryLogList({ payload: { data } }) {
     yield put(deleteTemporaryLogList.error(error));
   }
 }
+
+//영업일지 관련
+function* _getLogLists({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/list_saleslog', data);
+    yield put(getLogLists.success(response));
+  } catch (error) {
+    yield put(getLogLists.error(error));
+  }
+}
+
+function* _getLogList({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/detail_saleslog', data);
+    yield put(getLogList.success(response));
+  } catch (error) {
+    yield put(getLogList.error(error));
+  }
+}
+
+function* _searchLogList({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/search_saleslog', data);
+    yield put(searchLogList.success(response));
+  } catch (error) {
+    yield put(searchLogList.error(error));
+  }
+}
+
+function* _putSalesLog({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_saleslog', data);
+    yield put(putSalesLog.success(response));
+  } catch (error) {
+    yield put(putSalesLog.error(error));
+  }
+}
+
+function* _putFile({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_saleslog_file', data);
+    yield put(putFile.success(response));
+  } catch (error) {
+    yield put(putFile.error(error));
+  }
+}
+
+function* _deleteFile({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog_file', data);
+    yield put(deleteFile.success(response));
+  } catch (error) {
+    yield put(deleteFile.error(error));
+  }
+}
+
+
+//일지작성 관련
 
 export function* watchPostSalesLog() {
   yield takeEvery(POST_SALESLOG, _postSalesLog);
@@ -109,14 +179,49 @@ export function* watchDeleteTemporaryLogList() {
   yield takeEvery(DELETE_TEMPORARY_LOG, _deleteTemporaryLogList);
 }
 
+//영업일지 관련
+
+export function* watchgetLogLists() {
+  yield takeEvery(GET_SALESLOGS, _getLogLists);
+}
+
+export function* watchgetLogList() {
+  yield takeEvery(GET_SALESLOG, _getLogList);
+}
+
+export function* watchsearchLogList() {
+  yield takeEvery(SEARCH_SALESLOG_LIST, _searchLogList);
+}
+
+export function* watchputSalesLog() {
+  yield takeEvery(PUT_SALESLOG, _putSalesLog);
+}
+
+export function* watchputFile() {
+  yield takeEvery(PUT_FILE, _putFile);
+}
+
+export function* watchdeleteFile() {
+  yield takeEvery(DELETE_FILE, _deleteFile);
+}
+
 function* salesLogSaga() {
   yield all([
+    //일지작성 관련
     fork(watchPostSalesLog),
     fork(watchPostTemporarySalesLog),
     fork(watchGetUserList),
     fork(watchGetTemporaryLogLists),
     fork(watchGetTemporaryLogList),
     fork(watchDeleteTemporaryLogList),
+    //영업일지 관련
+    fork(watchgetLogLists),
+    fork(watchgetLogList),
+    fork(watchsearchLogList),
+    fork(watchputSalesLog),
+    fork(watchputFile),
+    fork(watchdeleteFile),
+
   ]);
 }
 

@@ -32,7 +32,7 @@ const CustomerAdd = React.lazy(() => import('./pages/customer/register'))
 const CustomerManagerRegister = React.lazy(() => import('./pages/customer/registerManager'))
 const CustomerDetails = React.lazy(() => import('./pages/customer/profile/'))
 
-const LandingRoute = ({ component: Component, roles, ...rest }) => (
+const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
     if (props.match.path === '/' && isTokenValid) {

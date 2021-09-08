@@ -10,7 +10,8 @@ import {
   postRegisteration,
   postInvite,
   postInviteRegistration,
-  postWorkGroup
+  postWorkGroup,
+  checkAccessToken
 } from "../actions";
 
 //RENEWAL
@@ -20,17 +21,18 @@ import {
   postWorkGroupmodel
 } from 'model/auth';
 
+import { get_fetch, check_fetch, post_fetch } from 'model/FetchManage'
 import {
   setUserAuthenticating,
   setOauthCode,
   setOauthAccessToken,
-  setOauthRefreshToken
+  setOauthRefreshToken,
 } from "helpers/authUtils";
 
 import {
   OAUTH_AUTHORIZE,
   GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION,
-  POST_WORKGROUP
+  POST_WORKGROUP, CHECK_ACCESS_TOKEN
 } from "constants/actionTypes";
 
 //RENEWAL
@@ -39,7 +41,6 @@ function* _OauthAuthorize({ payload: { username, password, client_id, redirect_u
   try {
     const response = yield call(oauthAuthorize, username, password, client_id, redirect_uri, response_type, grant_type, state);
     console.log(response);
-
     setOauthCode(response.message.code);
     setUserAuthenticating(true);
     yield put(authorize.success(response));
@@ -122,6 +123,16 @@ function* _postWorkGroup({ payload: { user_email, comp_name, comp_domain } }) {
   }
 }
 
+function* _checkAccessToken() {
+  try {
+    const response = yield call(check_fetch, 'https://backend.saleslog.co/secure');
+    yield put(checkAccessToken.success(response));
+  } catch (error) {
+    yield put(checkAccessToken.error(error));
+    console.log(error)
+  }
+}
+
 //renewal
 export function* watchOauthAuthorize() {
   yield takeEvery(OAUTH_AUTHORIZE, _OauthAuthorize);
@@ -151,6 +162,12 @@ export function* watchPostWorkGroup() {
   yield takeEvery(POST_WORKGROUP, _postWorkGroup);
 }
 
+//토큰 만료 확인
+
+export function* watchCheckAccessToken() {
+  yield takeEvery(CHECK_ACCESS_TOKEN, _checkAccessToken);
+}
+
 function* authSaga() {
   yield all([
     fork(watchOauthAuthorize),
@@ -161,6 +178,9 @@ function* authSaga() {
     fork(watchPostInvite),
     fork(watchPostInviteRegistration),
     fork(watchPostWorkGroup),
+    //토큰만료 확인
+    fork(watchCheckAccessToken),
+
 
   ]);
 }
