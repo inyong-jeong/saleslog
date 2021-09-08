@@ -105,7 +105,7 @@ const CustomerRegisterInfo = () => {
   }
 
   const handleChange = (e) => {
-    const value = e.target.value.trim()
+    const value = e.target.value
 
     setInputs({
       ...inputs,
@@ -137,6 +137,7 @@ const CustomerRegisterInfo = () => {
 
 
   const onTagChange = (e) => {
+    e.preventDefault()
     const obj = e.detail.tagify.value
 
     const result = obj.map(e =>

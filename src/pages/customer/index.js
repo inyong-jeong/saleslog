@@ -24,7 +24,7 @@ const CustomerManagePage = () => {
   return (
     <ThemeProvider theme={theme}>
       <CustomerShow />
-      {isMobile && <MyNavigation />}
+      {/* {isMobile && <MyNavigation />} */}
     </ThemeProvider>
   );
 }

@@ -29,7 +29,7 @@ const CustomerDetail = () => {
           </TabPane>
         </FullTabs>
       </div>
-      {isMobile && <MyNavigation />}
+      {/* {isMobile && <MyNavigation />} */}
     </div>);
 }
 

@@ -106,7 +106,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
           cusotomerList.map((singleList, index) => {
             return (
               <div onClick={() => history.push(`/main/customer/details/${singleList.acc_idx}`)} key={index}>
-                <ListItem>
+                <ListItem style={{ height: 120 }}>
                   <div>
                     <Avatar alt={singleList.account_name} src="/static/images/avatar/1.jpg" className={classes.square} variant="rounded" />
                   </div>
@@ -118,17 +118,26 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                         </p>
                         : ''}
                     </p>
+                    <br />
+                    {
+                      singleList.tags ?
+                        singleList.tags.split(',').map((singleTag) =>
+                          <span key={singleTag} style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0, color: '#666666', }}>
+                            #{singleTag} </span>
+                        )
+                        : ''}
                     <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.ceo_name} {singleList.reg_num}</p>
                     <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.addr1}</p>
                     <div style={{ marginTop: 6 }}>
-                      {singleList.man_names ?
-                        singleList.man_names.split(',').map((singleName, index, array) => {
-                          if (array.length > 3) restCount = array.length - 3
-                          if (index < 3) {
-                            return <p key={index} style={graybox}>{singleName}</p>
-                          }
-                        })
-                        : ''}
+                      {
+                        singleList.man_names ?
+                          singleList.man_names.split(',').map((singleName, index, array) => {
+                            if (array.length > 3) restCount = array.length - 3
+                            if (index < 3) {
+                              return <p key={index} style={graybox}>{singleName}</p>
+                            }
+                          })
+                          : ''}
                       {restCount > 0 && singleList.man_names ? <span style={{ fontSize: 12, color: '#333333' }}>외 {restCount}명</span> : ''}
                     </div>
                   </div>
