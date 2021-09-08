@@ -23,7 +23,9 @@ const WgroupManagePage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      test123
+       <li>정보 수정</li>
+      <li>맴버 관리</li>
+      <li>조직도 설정</li>
       {/* {isMobile && <MyNavigation />} */}
     </ThemeProvider>
   );
