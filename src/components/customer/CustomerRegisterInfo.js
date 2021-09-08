@@ -12,8 +12,8 @@ import StyledSelect from '../styledcomponent/StyledSelect';
 import { useHistory } from "react-router";
 import Tags from "@yaireo/tagify/dist/react.tagify" // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
-
 const { Option } = StyledSelect;
+
 const useStyles = makeStyles({
   FormControl: {
     minWidth: 120,
@@ -63,8 +63,6 @@ const CustomerRegisterInfo = () => {
 
   const dispatch = useDispatch()
   const classes = useStyles()
-  const inputRef = useRef()
-
 
   const [inputs, setInputs] = useState(
     {
@@ -94,7 +92,7 @@ const CustomerRegisterInfo = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!inputs.account_name || !inputs.ceo_name) {
+    if (!inputs.account_name || !inputs.ceo_name || !inputs.man_name) {
       return alert('필수항목을 확인하세요')
     }
     if (inputs.account_name.includes('(주)' || '주식회사')) {
@@ -105,11 +103,17 @@ const CustomerRegisterInfo = () => {
   }
 
   const handleChange = (e) => {
-    const value = e.target.value
+
+    if ('detail' in e) {
+      const obj = e.detail.tagify.value
+      const result = obj.map(e => e.value)
+      setInputs(inputs => ({ ...inputs, tags: result }))
+      return
+    }
 
     setInputs({
       ...inputs,
-      [e.target.name]: value
+      [e.target.name]: e.target.value
     })
   }
   const history = useHistory()
@@ -124,7 +128,7 @@ const CustomerRegisterInfo = () => {
   }
   const onChangeGradeType = (value) => {
     setInputs({ ...inputs, score: value })
-    console.log(inputs)
+
   }
   const [gradeType, setGradeType] = useState([])
   const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
@@ -134,25 +138,6 @@ const CustomerRegisterInfo = () => {
   for (let result of gradeType) {
     options.push(<Option key={Object.values(result)}> {Object.keys(result)}</Option>)
   }
-
-
-  const onTagChange = (e) => {
-    e.preventDefault()
-    const obj = e.detail.tagify.value
-
-    const result = obj.map(e =>
-      e.value
-    )
-    const overTen = result.find(elem => elem.length > 10)
-    if (overTen) {
-      //   return alert("태그 1개당 10글자를 넘을 수 없습니다.")
-    }
-    setInputs({
-      ...inputs,
-      'tags': result
-    })
-  }
-
   const settings = {
     'maxTags': 3,
   }
@@ -164,26 +149,22 @@ const CustomerRegisterInfo = () => {
       <div>
         <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
         <div className={classes.innerBox}>
-          <label className={classes.laebelStyle}>고객명
-          </label>
+          <label className={classes.laebelStyle}>고객명 *</label>
           <Input
-            ref={inputRef}
             name='account_name'
             onChange={handleChange}
             value={inputs.account_name}
             required
-            label="고객사명"
             placeholder="고객명을 입력해주세요."
             margin="normal"
           />
           <p className={classes.description}>주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.</p>
-          <label className={classes.laebelStyle}>대표자명</label>
+          <label className={classes.laebelStyle}>대표자명 *</label>
           <Input
             name='ceo_name'
             onChange={handleChange}
             value={inputs.ceo_name}
             required
-            label="대표자명"
             placeholder="대표자명을 입력해주세요."
             margin="normal"
           />
@@ -192,7 +173,6 @@ const CustomerRegisterInfo = () => {
             name='reg_num'
             onChange={handleChange}
             value={inputs.reg_num}
-            label="사업자 등록번호"
             placeholder="숫자만 입력해주세요."
             margin="normal"
           />
@@ -201,7 +181,6 @@ const CustomerRegisterInfo = () => {
             name='addr1'
             onChange={handleChange}
             value={inputs.addr1}
-            label="주소"
             placeholder="주소를 입력해주세요."
             margin="normal"
           />
@@ -281,7 +260,7 @@ const CustomerRegisterInfo = () => {
       <div>
         <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
         <div className={classes.innerBox}>
-          <label className={classes.laebelStyle}>담당자 이름 </label>
+          <label className={classes.laebelStyle}>담당자 이름 *</label>
           <Input
             name='man_name'
             onChange={handleChange}
@@ -334,15 +313,15 @@ const CustomerRegisterInfo = () => {
         <Typography variant='h6' align='left' className={classes.title}>태그 등록</Typography>
         <div className={classes.innerBox}>
           <Tags
+            value={inputs.tags}
             settings={settings}
             placeholder='태그를 입력해주세요'
-            onChange={onTagChange} />
+            onChange={handleChange} />
           <p className={classes.descriptionTag}>태그당 입력가능 한 글자 수는 10자입니다.</p>
           <p className={classes.descriptionTag}>태그는 최대 3개까지 입력할 수 있습니다.</p>
         </div>
       </div>
       <BlueButton name='등록하기' type="submit" />
-
       <div style={{ height: '60px' }}></div>
     </form>
 

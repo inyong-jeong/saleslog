@@ -1,7 +1,10 @@
 import React from 'react';
 const CustomerLogPage = () => {
-  return (<>
-  </>);
+  return (
+    <>
+
+    </>
+  );
 }
 
 export default CustomerLogPage;

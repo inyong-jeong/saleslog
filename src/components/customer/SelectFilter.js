@@ -3,7 +3,7 @@ import StyledSelect from '../styledcomponent/StyledSelect';
 const { Option } = StyledSelect;
 
 function onSearch(val) {
-
+  console.log('filter name search::: ', val)
 }
 
 const eachSelectStyle = {
@@ -16,16 +16,21 @@ const SelectFilter = ({
   inputs,
   setInputs,
   disabled,
-  gradeType
+  gradeType,
+  setPage,
 }) => {
+
   const onChangeSortType = (value) => {
     setInputs({ ...inputs, order: value })
+    setPage(1)
   }
   const onChangeGradeType = (value) => {
     setInputs({ ...inputs, score: value })
+    setPage(1)
   }
   const onChangeUsers = (value) => {
     setInputs({ ...inputs, users: value })
+    setPage(1)
   }
 
   //등급 옵션 
@@ -40,12 +45,14 @@ const SelectFilter = ({
       userNames.push(<Option key={user.login_idx}>{user.user_name}</Option>)
     })
   }
-
+  const handleDeselect = e => {
+    //console.log(e)
+  }
   return (
     <div style={{ display: 'flex' }}>
 
       <StyledSelect
-        onDeselect="전체"
+        onDeselect={handleDeselect}
         showArrow
         showSearch={false}
         mode="multiple"
@@ -65,6 +72,7 @@ const SelectFilter = ({
         <Option key={''}>전체</Option>)
         {userNames}
       </StyledSelect>
+
       <StyledSelect
         style={eachSelectStyle}
         placeholder="최근 등록순"

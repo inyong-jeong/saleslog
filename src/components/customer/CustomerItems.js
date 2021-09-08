@@ -10,13 +10,12 @@ import { getAllCustomer } from '../../redux/customer/actions';
 import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-    marginBottom: 70, //nav bottom tab 
+    marginBottom: 100, //nav bottom tab 
   },
   square: {
     color: '#000',
@@ -37,7 +36,6 @@ const graybox = {
   borderRadius: '2px'
 }
 const bluebox = {
-  display: 'inline',
   fontSize: 11,
   backgroundColor: '#000fff',
   marginLeft: 6,
@@ -55,67 +53,70 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   const listCounts = state.listCounts
   const loading = state.loading
   let responseLists = state.list
-  const [isBottom, setIsBottom] = useState(false)
-  const [listCount, setListCount] = useState(listCounts)
   const history = useHistory()
   let restCount
 
   useEffect(() => {
-    dispatch(getAllCustomer.call(inputs, page))
+    dispatch(getAllCustomer.call(inputs, 1))
+  }, [])
 
+  useEffect(() => {
+    if (page == 1 && loading == false) {
+      dispatch(getAllCustomer.call(inputs, page))
+    }
   }, [inputs])
+
+  useEffect(() => {
+    if (loading == true) return
+    dispatch(getAllCustomer.call(inputs, page))
+  }, [page])
 
   //paging 
   useEffect(() => {
     if (responseLists && loading == false) {
       if (page == 1) {
-
-        setCustomerList(responseLists)
-      } else {
-        setCustomerList(cusotomerList.concat(responseLists))
+        return setCustomerList(responseLists)
       }
+      setCustomerList(cusotomerList.concat(responseLists))
     }
-    //console.log('cs', cusotomerList)
-    console.log('res', responseLists)
   }, [loading])
-
-  useEffect(() => {
-    dispatch(getAllCustomer.call(inputs, page))
-  }, [isBottom])
+  console.log('new response ::::', responseLists)
+  console.log('concat response ::::', cusotomerList)
 
   const handleNextPage = () => {
-    setPage(page + 1)
-    setIsBottom(isBottom => !isBottom)
+    if (listCounts >= cusotomerList.length) {
+      // console.log('page::::::::::::', page)
+      if (loading == true) return
+      setPage(page + 1)
+    }
   }
-
-  useEffect(() => {
-    setListCount(listCounts)
-  }, [listCounts])
 
   return (
     <InfiniteScroll
       hasMore={true}
-      dataLength={10}
-      next={handleNextPage}
-    >
+      dataLength={cusotomerList.length}
+      next={handleNextPage}>
       {/* {loading && <CircularProgress />} */}
       <List className={classes.root}>
-        <Text style={{ fontSize: 12 }}>{listCounts ? listCounts : 0} 개의 고객</Text>
+        <Text style={{ fontSize: 12 }} >{listCounts ? listCounts : 0} 개의 고객</Text>
         <Divider style={{ margin: 0 }} />
         {cusotomerList ?
           cusotomerList.map((singleList, index) => {
             return (
-              <div onClick={() => history.push(`/main/customer/details/${singleList.acc_idx}`)} key={index}>
+              <div onClick={() => history.push(`/main/customer/details/${singleList.acc_idx}`)} key={singleList.num}>
                 <ListItem style={{ height: 120 }}>
                   <div>
-                    <Avatar alt={singleList.account_name} src="/static/images/avatar/1.jpg" className={classes.square} variant="rounded" />
+                    <Avatar alt={singleList.account_name} className={classes.square} variant="rounded" >
+                      {singleList.account_name.charAt(0)}
+                    </Avatar>
                   </div>
                   <div>
+                    <p style={{ fontSize: 30, backgroundColor: '#000', color: '#fff' }}>{singleList.num}</p>
                     <p style={{ display: 'inline', fontSize: 14, fontWeight: '500' }}>{singleList.account_name}
                       {singleList.sales_lead_gb_t ?
-                        <p style={bluebox}>
+                        <span style={bluebox}>
                           {singleList.sales_lead_gb_t}
-                        </p>
+                        </span>
                         : ''}
                     </p>
                     <br />
@@ -150,7 +151,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                   margin: 10,
                 }}>
                   {
-                    singleList.acc_etc ? singleList.acc_etc : <p style={{ color: '#DDDDDD' }}>고객사 메모 없음</p>
+                    singleList.acc_etc ? singleList.acc_etc : <span style={{ color: '#DDDDDD' }}>고객사 메모 없음</span>
                   }
 
                 </p>
@@ -159,7 +160,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
             )
           })
           : <div>
-            <Typography> 고객사를 가져오는데 오류가 발생했습니다.</Typography>
+            <Typography > 고객사를 가져오는데 오류가 발생했습니다.</Typography>
           </div>
         }
       </List>

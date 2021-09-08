@@ -11,7 +11,7 @@ const CustomerRegisterPage = () => {
   return (
     <div>
       <CustomerAdd />
-      {/* {isMobile && <MyNavigation />} */}
+      {isMobile && <MyNavigation />}
     </div>
   );
 }

@@ -45,18 +45,18 @@ const CustomerShow = () => {
     sales_gb: '',
     score: '',
     users: '',
-    pageno: 1,
+    pageno: page,
   })
 
   //tab
   const onTabChange = (key) => {
     switch (key) {
       case '2':
-        setInputs({ ...inputs, sales_gb: '001001' })
+        setInputs({ ...inputs, sales_gb: '0010001' })
         setPage(1)
         break
       case '3':
-        setInputs({ ...inputs, sales_gb: '001002' })
+        setInputs({ ...inputs, sales_gb: '0010002' })
         setPage(1)
         break
       default:
