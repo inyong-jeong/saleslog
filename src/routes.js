@@ -33,7 +33,7 @@ const CustomerManagerRegister = React.lazy(() => import('./pages/customer/regist
 const CustomerDetails = React.lazy(() => import('./pages/customer/profile/'))
 
 //워크그룹
-const WGroup = React.lazy(() => import('./pages/wgroup'))
+const Wgroup = React.lazy(() => import('./pages/wgroup'))
 
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
@@ -70,6 +70,9 @@ const routes = [
   { path: '/main/customer/register_manager', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
   { path: '/main/customer/details/:id', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
 
+  //워크그룹 
+  { path: '/main/wgroup', name: 'Wgroup', component: Wgroup, route: MainRoute, exact: true },
+  
   //landing Route
   { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },
   { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute, exact: true },
