@@ -32,6 +32,10 @@ const CustomerAdd = React.lazy(() => import('./pages/customer/register'))
 const CustomerManagerRegister = React.lazy(() => import('./pages/customer/registerManager'))
 const CustomerDetails = React.lazy(() => import('./pages/customer/profile/'))
 
+//워크그룹
+const WGroup = React.lazy(() => import('./pages/wgroup'))
+
+
 const LandingRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
@@ -42,6 +46,7 @@ const LandingRoute = ({ component: Component, roles, ...rest }) => (
     return <Component {...props} />
   }} />
 );
+
 
 const MainRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
