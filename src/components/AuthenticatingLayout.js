@@ -4,7 +4,6 @@ import { Spinner } from 'reactstrap';
 import { getOauthToken, } from 'redux/actions';
 import { isUserAuthenticated, getOauthCode, isUserAuthorized } from 'helpers/authUtils';
 import { removeAll } from 'helpers/authUtils';
-import { POST_WORKGROUP_SUCCESS } from '../constants/actionTypes';
 
 const AuthenticatingLayout = (props) => {
 
@@ -18,11 +17,8 @@ const AuthenticatingLayout = (props) => {
   useEffect(() => {
     if (isUserAuthorized() === true) {
       handletoken();
-    } else {
-      removeAll();
-      props.history.push('/')
     }
-  }, [])
+  }, [isUserAuthorized()])
 
   useEffect(() => {
     if (isUserAuthenticated() === true) {

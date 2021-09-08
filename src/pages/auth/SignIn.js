@@ -30,7 +30,9 @@ function SignIn(props) {
     props.history.push('/');
   }
 
-  const handleOnLogin = () => {
+
+  const handleOnLogin = (e) => {
+    e.preventDefault();
     const client_id = 'saleslog.co';
     const redirect_uri = 'https://auth.theklab.co/oauth/client_auth';
     const response_type = 'code';
@@ -117,7 +119,9 @@ function SignIn(props) {
                       className="btn btn-outline-primary"
                       style={{ width: '343px', height: '48px' }}
                       disabled={loading}
-                      onClick={handleOnLogin}
+                      onClick={(e) => {
+                        handleOnLogin(e)
+                      }}
                     >
                       로그인
                     </button>

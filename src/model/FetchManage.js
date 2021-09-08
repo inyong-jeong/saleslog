@@ -1,4 +1,25 @@
 import { getOauthAccessToken } from 'helpers/authUtils'
+
+
+//토큰 만료 확인
+
+const check_fetch = async (url) => {
+  const token = getOauthAccessToken();
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  const result = await response.json()
+  const data = await result
+  if (data.success !== true) {
+    throw new Error(data.message)
+  }
+  return data
+}
+
+
 //get 
 const get_fetch = async (url) => {
   const token = getOauthAccessToken();
@@ -16,6 +37,7 @@ const get_fetch = async (url) => {
   }
   return data
 }
+
 
 //post 
 const post_fetch = async (url, body) => {
@@ -83,4 +105,4 @@ const post_fetch_files = async (url, data) => {
   return response
 }
 
-export { post_fetch, get_fetch, post_fetch_files }
+export { post_fetch, get_fetch, post_fetch_files, check_fetch }

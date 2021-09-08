@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getRefreshOauthToken } from 'redux/actions';
-import { getOauthRefreshToken, isUserAuthenticated } from 'helpers/authUtils';
+import { getRefreshOauthToken, checkAccessToken } from 'redux/actions';
+import { getOauthRefreshToken, removeAll } from 'helpers/authUtils';
 import 'antd/dist/antd.css';
 import MyNavigation from "./styledcomponent/ MyNavigation";
 import { useMediaQuery } from "react-responsive";
 
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
-const Navbar = React.lazy(() => import("./Navbar"));
+// const Navbar = React.lazy(() => import("./Navbar"));
 const LeftSidebar = React.lazy(() => import("./LeftSidebar"));
-const isTokenValid = isUserAuthenticated();
 
 const AuthLayout = (props) => {
 
@@ -19,13 +18,24 @@ const AuthLayout = (props) => {
 
 
   useEffect(() => {
-    if (!isTokenValid === true) {
+    props.checkAccessToken()
+  }, [])
+
+  useEffect(() => {
+    if (props.accesstokenerror === '토큰만료') {
       const client_id = 'saleslog.co';
       const client_secret = "8fba114f8291cf28e443c30aba7cce86";
       const grant_type = "refresh_token";
       props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
     }
-  }, [isTokenValid])
+  }, [props.accesstokenerror])
+
+  useEffect(() => {
+    if (props.refreshtokenresponse) {
+      removeAll()
+    }
+
+  }, [props.refreshtokenresponse])
 
   return (
     <React.Fragment>
@@ -34,7 +44,6 @@ const AuthLayout = (props) => {
         <LeftSidebar />
         <div className="content-page">
           {props.children}
-          {/* <button onClick={handleOnClick}>test</button>// */}
         </div>
         <footer>
         </footer>
@@ -49,12 +58,13 @@ const AuthLayout = (props) => {
 
 
 const mapStateToProps = (state) => {
-  const { refTokenResponse, refTokenError } = state.Auth;
-  return { refTokenResponse, refTokenError };
+  const { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse } = state.Auth;
+  return { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse };
 }
 
 const mapDispatchToProps = {
-  getRefreshOauthToken: getRefreshOauthToken.call
+  getRefreshOauthToken: getRefreshOauthToken.call,
+  checkAccessToken: checkAccessToken.call
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthLayout);
