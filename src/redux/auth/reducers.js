@@ -39,7 +39,7 @@ let INIT_STATE = {
   accesstokenerror: null,
   response: null,
   refreshtokenresponse: null,
-  isShowNaviBar: false,
+  isShowNaviBar: true,
 };
 
 const Auth = (state = INIT_STATE, action) => {
