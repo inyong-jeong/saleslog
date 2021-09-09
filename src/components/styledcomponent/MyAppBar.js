@@ -2,19 +2,32 @@ import { AppBar, Badge, Toolbar, Typography, IconButton } from '@material-ui/cor
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/styles';
-
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
+import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import { ArrowBackIos } from '@material-ui/icons';
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   appBarIcon: {
     position: 'absolute',
     right: 10,
-  }
-})
+  },
+  textButtonStyle: {
+    position: 'absolute',
+    right: 10,
+  },
 
-//순서대로 제목, 백버튼, 백버튼 클릭시 이동할 곳 경로 정의해주면 됨 
-const MyAppBar = ({ barTitle, showBackButton, navigateTo }) => {
+
+})
+//앱바 제목 - bartitle
+//뒤로가기 버튼 보이기 - showbackbutton
+// 뒤로가기 클릭시 정의해주는 path - navigate to
+// 수정 버튼 보이기 및 클릭이벤트 - edit click 
+// 등록 버튼 보이기 및 클릭이벤트 - save click 
+// 알림 클릭 ->notiClick
+// 프로필 클릭 ->profileClick
+const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick }) => {
 
   const classes = useStyles();
 
@@ -33,15 +46,30 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo }) => {
                   <ArrowBackIos />
                 </IconButton>
                 : <div className={classes.appBarIcon}>
-                  <IconButton color="inherit">
+                  <IconButton color="inherit" onClick={notiClick}>
                     <Badge badgeContent={0} color="secondary">
-                      <NotificationsIcon />
+                      <NotificationsNoneOutlinedIcon />
                     </Badge>
                   </IconButton>
                   <IconButton color="inherit">
-                    <AccountCircle />
+                    <PermIdentityOutlinedIcon onClick={profileClick} />
                   </IconButton>
                 </div>
+            }
+            {
+              onEditClick &&
+              <div className={classes.textButtonStyle}>
+                <Button size="small" onClick={onEditClick} >
+                  수정
+                </Button>
+              </div>
+            }
+            {onSaveClick &&
+              <div className={classes.textButtonStyle}>
+                <Button size="small" onClick={onSaveClick} >
+                  저장
+                </Button>
+              </div>
             }
             <Typography variant="h6"
               style={{ fontSize: 14, fontWeight: 'normal' }}>
