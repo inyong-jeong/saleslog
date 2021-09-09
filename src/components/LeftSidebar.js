@@ -20,6 +20,10 @@ const menuList = [{
   title: "고객사",
   icon: "fe-clipboard",
   to: "/main/customer"
+}, {
+  title: "워크그룹",
+  icon: "fe-clipboard",
+  to: "/main/workgroup"
 },
   // {
   //   title: "일정",

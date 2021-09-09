@@ -1,16 +1,11 @@
-
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
 import React, { useEffect } from 'react';
-import { getRefreshOauthToken } from '../../redux/actions';
-
-import { testval } from '../../redux/store.js'
-
+import { Divider } from 'antd';
+import  IconLabel from 'components/IconLabel';
 
 
 const theme = createTheme({
@@ -29,6 +24,7 @@ const WgroupManagePage = (props) => {
     query: "(max-width:991px)"
   });
 
+  // 하단 네비 설정 
   const dispatch = useDispatch()
   useEffect(()=> {
     dispatch({
@@ -39,11 +35,9 @@ const WgroupManagePage = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <li>정보 수정</li>
-      <li>맴버 관리</li>
-      <li>조직도 설정</li>
-      { props.MyNavigation}
-      {/* {isMobile && <MyNavigation />} */}
+      <IconLabel title="정보 수정" pathUri="main/customer"></IconLabel>
+      <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
+      <IconLabel title="조직도 설정" pathUri="main/customer"></IconLabel>
     </ThemeProvider>
   );
 }
