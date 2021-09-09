@@ -26,7 +26,8 @@ import {
   CHECK_ACCESS_TOKEN_ERROR,
   GET_REFRESH_OAUTH_TOKEN,
   GET_REFRESH_OAUTH_TOKEN_SUCCESS,
-  GET_REFRESH_OAUTH_TOKEN_ERROR
+  GET_REFRESH_OAUTH_TOKEN_ERROR,
+  SET_NAVIBAR_SHOW,
 } from 'constants/actionTypes';
 
 let INIT_STATE = {
@@ -37,7 +38,8 @@ let INIT_STATE = {
   authcodeResponse: null,
   accesstokenerror: null,
   response: null,
-  refreshtokenresponse: null
+  refreshtokenresponse: null,
+  isShowNaviBar: false,
 };
 
 const Auth = (state = INIT_STATE, action) => {
@@ -99,6 +101,9 @@ const Auth = (state = INIT_STATE, action) => {
       return { ...state, findPasswordResponse: action.payload.response };
     case FIND_PASSWORD_FAILED:
       return { ...state, findPasswordError: action.payload.error };
+    //NAVI BAR
+    case SET_NAVIBAR_SHOW:
+      return { ...state, isShowNaviBar: action.payload };
     default: return { ...state };
   }
 }

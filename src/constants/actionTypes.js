@@ -20,6 +20,8 @@ export const GET_REFRESH_OAUTH_TOKEN = 'GET_REFRESH_OAUTH_TOKEN'; //리프레쉬
 export const GET_REFRESH_OAUTH_TOKEN_SUCCESS = 'GET_REFRESH_OAUTH_TOKEN_SUCCESS'; //리프레쉬 토큰 가져오기
 export const GET_REFRESH_OAUTH_TOKEN_ERROR = 'GET_REFRESH_OAUTH_TOKEN_ERROR'; //리프레쉬 토큰 가져오기
 
+export const SET_NAVIBAR_SHOW = 'SET_NAVIBAR_SHOW'; //하단 네비바 보여주기
+
 
 // export const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';//비밀번호 변경

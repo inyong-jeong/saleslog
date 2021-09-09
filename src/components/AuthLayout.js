@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getRefreshOauthToken, checkAccessToken } from 'redux/actions';
 import { getOauthRefreshToken, removeAll } from 'helpers/authUtils';
@@ -16,7 +16,9 @@ const AuthLayout = (props) => {
     query: "(max-width:991px)"
   });
 
-
+  // 하단 NaviBar Show
+  const [isNaviShow, setisNaviShow] = useState(false)
+  
   useEffect(() => {
     props.checkAccessToken()
   }, [])
@@ -34,20 +36,23 @@ const AuthLayout = (props) => {
     if (props.refreshtokenresponse) {
       removeAll()
     }
-
   }, [props.refreshtokenresponse])
+
+  useEffect(() => {
+    setisNaviShow(props.isShowNaviBar);
+  }, [props.isShowNaviBar])
 
   return (
     <React.Fragment>
       <div id="wrapper">
         {/* <Navbar /> */}
         <LeftSidebar />
-        <div className="content-page">
-          {props.children}
+        <div className="content-page"> 
+          { props.children }          
         </div>
         <footer>
         </footer>
-        {isMobile && <MyNavigation />}
+        { isMobile && isNaviShow && <MyNavigation />}
 
       </div>
     </React.Fragment>
@@ -58,8 +63,8 @@ const AuthLayout = (props) => {
 
 
 const mapStateToProps = (state) => {
-  const { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse } = state.Auth;
-  return { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse };
+  const { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar } = state.Auth;
+  return { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar };
 }
 
 const mapDispatchToProps = {

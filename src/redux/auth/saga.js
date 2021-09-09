@@ -34,6 +34,7 @@ import {
   GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION,
   POST_WORKGROUP, CHECK_ACCESS_TOKEN
 } from "constants/actionTypes";
+import { SET_NAVIBAR_SHOW, SET_NAVIBAR_SHOW_SUCCESS } from "../../constants/actionTypes";
 
 //RENEWAL
 
@@ -168,6 +169,7 @@ export function* watchCheckAccessToken() {
   yield takeEvery(CHECK_ACCESS_TOKEN, _checkAccessToken);
 }
 
+
 function* authSaga() {
   yield all([
     fork(watchOauthAuthorize),
@@ -181,8 +183,8 @@ function* authSaga() {
     //토큰만료 확인
     fork(watchCheckAccessToken),
 
-
   ]);
 }
+
 
 export default authSaga;

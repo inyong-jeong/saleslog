@@ -23,7 +23,7 @@ function* _postCustomerManager({ payload: { body } }) {
 
   } catch (error) {
     yield put(postCustomerManger.error(error))
-    yield alert(error)
+  //  yield alert(error)
   }
 }
 
@@ -35,7 +35,7 @@ function* _postCustomer({ payload: { body } }) {
 
   } catch (error) {
     yield put(postCustomer.error(error))
-    yield alert(error)
+   // yield alert(error)
   }
 }
 
@@ -47,7 +47,7 @@ function* _getCustomer({ payload: { body, pageno } }) {
 
   } catch (error) {
     yield put(getAllCustomer.error(error))
-    yield alert(error)
+ //   yield alert(error)
   }
 }
 function* _getUser({ payload: { body } }) {
@@ -56,7 +56,7 @@ function* _getUser({ payload: { body } }) {
     yield put(getUsers.success(response))
   } catch (error) {
     yield put(getUsers.error(error))
-    yield alert(error)
+  //  yield alert(error)
   }
 }
 
