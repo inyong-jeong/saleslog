@@ -33,9 +33,9 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
 
   return (
     <div>
-      <div style={{ marginBottom: 70 }}>
+      <div style={{ marginBottom: 0 , paddingBottom:0}}>
         <AppBar
-          style={{ height: '48px', justifyContent: 'center' }}
+          style={{ height: 48, justifyContent: 'center' }}
           elevation={1}
           className={classes.appBar}
           color='default'>

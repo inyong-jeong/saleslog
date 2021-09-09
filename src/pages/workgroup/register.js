@@ -4,10 +4,8 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useEffect } from 'react';
-import MyAppBar from "components/styledcomponent/MyAppBar";
-import  IconLabel from 'components/IconLabel';
-import { useHistory } from 'react-router';
 import { Divider } from 'antd';
+import  IconLabel from 'components/IconLabel';
 
 
 const useStyles = makeStyles({
@@ -41,10 +39,6 @@ const WgroupManagePage = (props) => {
     query: "(max-width:991px)"
   });
 
-  const history = useHistory()
-
-  const navigateTo = () => history.push('/main/customer')
-
   // 하단 네비 설정 
   const dispatch = useDispatch()
   useEffect(()=> {
@@ -56,16 +50,12 @@ const WgroupManagePage = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {isMobile && <MyAppBar barTitle={'워크그룹'} navigateTo={navigateTo} />}      
       <IconLabel title="정보 수정" pathUri="main/customer"></IconLabel>
-      <Divider style={{margin:10}}/>
       <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
-      <Divider style={{margin:10}}/>
       <IconLabel title="조직도 설정" pathUri="main/customer"></IconLabel>
-      <Divider style={{margin:10}}/>
       <div className={classes.bottomBar} >
         <IconLabel title="워크그룹 나가기" pathUri="main/customer" isIcon={false}></IconLabel>
-        <div>&nbsp; |&nbsp; </div>
+        <div >|</div>
         <IconLabel title="워크그룹 삭제" pathUri="main/customer" isIcon={false}></IconLabel>
       </div>
     </ThemeProvider>
