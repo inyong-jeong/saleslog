@@ -35,7 +35,7 @@ const CustomerDetail = () => {
         navigateTo={navigateTo}
         onEditClick={onEditClick}
       />}
-      <div style={{ paddingLeft: 5, paddingRight: 5, }}>
+      <div>
         <FullTabs defaultActiveKey="1" >
           <TabPane tab="프로필" key="1" >
             <CustomerProfilePage />

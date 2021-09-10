@@ -52,10 +52,8 @@ const SelectFilter = ({
     <div style={{ display: 'flex' }}>
 
       <StyledSelect
-        onDeselect={handleDeselect}
         showArrow
         showSearch={false}
-        mode="multiple"
         disabled={disabled}
         style={eachSelectStyle}
         placeholder="등급/단계"

@@ -1,7 +1,7 @@
 import MyAppBar from "../../../components/styledcomponent/MyAppBar"
-import React, { useState, } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { makeStyles, Typography } from "@material-ui/core"
 import { Collapse } from 'antd';
 import { useDispatch } from "react-redux";
@@ -63,8 +63,16 @@ const RegisterManager = () => {
     query: "(max-width:991px)"
   });
 
+
   const history = useHistory()
-  const navigateTo = () => history.push('/main/customer/register')
+  const location = useLocation()
+  const acc_idx = location.state.acc_idx
+
+  useEffect(() => {
+    setAccoutManagerInputs({ ...accountMangerInputs, 'acc_idx': acc_idx })
+  }, [])
+
+  const navigateTo = () => history.push(`/main/customer`)
 
   //inputs
 
@@ -90,13 +98,13 @@ const RegisterManager = () => {
       org_history: '',
       family: '',
       etc: '',
-      man_photo: '',
+      man_photo: null,
     }
   )
 
   //file
   const handleChange = (e) => {
-    const value = e.target.value.trim()
+    const value = e.target.value
 
     setAccoutManagerInputs({
       ...accountMangerInputs,
@@ -104,9 +112,14 @@ const RegisterManager = () => {
     })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const onSaveClick = (e) => {
     dispatch(postCustomerManger.call(accountMangerInputs))
+    // history.push({
+    //   pathname: '/main/customer',
+    //   state: {
+    //     needRefresh: true,
+    //   }
+    // })
   }
 
   const handleFileChange = (e) => {
@@ -123,10 +136,10 @@ const RegisterManager = () => {
 
   return (
 
-    <div style={{ paddingLeft: 5, paddingRight: 5 }}>
-      {isMobile && <MyAppBar barTitle={'담당자 등록'} showBackButton navigateTo={navigateTo} />}
+    <div>
+      {isMobile && <MyAppBar barTitle={'담당자 추가'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />}
 
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <div>
         <div>
           <input type="file" name="man_photo" onChange={handleFileChange} />
           <p>명함을 등록해주세요.</p>
@@ -134,7 +147,7 @@ const RegisterManager = () => {
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>담당자명
+            <label className={classes.laebelStyle}>담당자명 *
             </label>
             <Input
               name='man_name'
@@ -294,9 +307,8 @@ const RegisterManager = () => {
             </Collapse>
           </div>
         </div>
-        <BlueButton name='등록하기' type="submit" />
         <div style={{ height: '60px' }}></div>
-      </form>
+      </div>
     </div>
 
 

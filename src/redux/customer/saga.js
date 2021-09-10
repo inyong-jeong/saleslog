@@ -48,8 +48,8 @@ function* _getCustomerDetails({ payload: { body } }) {
 }
 function* _postCustomerManager({ payload: { body } }) {
   try {
+    console.log(body)
     const response = yield call(post_fetch_files, BASE_URL + ACC_MAN_REGISTER, body)
-
     yield put(postCustomerManger.success(response))
     yield alert(response.message)
 

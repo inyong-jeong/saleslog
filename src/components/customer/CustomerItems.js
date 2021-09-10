@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const graybox = {
+export const graybox = {
   display: 'inline',
   marginRight: 5,
   fontSize: 11,

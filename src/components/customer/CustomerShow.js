@@ -45,7 +45,7 @@ const CustomerShow = () => {
 
   //옵션 사원들 가져오기
   const [users, setUsers] = useState([])
-  const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
+  const scoreType = [{ '전체': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
   const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
   const emptyType = []
 
@@ -82,7 +82,7 @@ const CustomerShow = () => {
   }
 
   return (
-    <div style={{ paddingLeft: 5, paddingRight: 5, }}>
+    <div>
       {isMobile && <MyAppBar barTitle={'고객'} />}
       <Search
         placeholder="고객 검색"

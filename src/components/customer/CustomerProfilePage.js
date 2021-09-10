@@ -6,16 +6,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCustomerDetails } from '../../redux/customer/actions';
 import { Button } from 'antd';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { graybox } from './CustomerItems';
+import { useHistory } from 'react-router';
 
 
 const CustomerProfilePage = () => {
+
+
   const classes = useStyles()
   const lineStyle = {
     borderWidth: '1px',
     borderColor: '#dddddd',
     borderStyle: 'dashed'
   };
-
+  const history = useHistory()
   const dispatch = useDispatch()
   const location = useLocation()
   const state = useSelector(state => state.Customer)
@@ -39,9 +43,17 @@ const CustomerProfilePage = () => {
   }, [customerId])
 
   const registerAccountsMan = () => {
+    history.push({
+      pathname: '/main/customer/register_manager',
+      state: {
+        acc_idx: customerId
+      }
+    })
 
   }
-
+  const handleCustomerManagerClick = e => {
+    console.log('man_names clicked :::::')
+  }
   return (
     <div style={{ paddingLeft: 5, paddingRight: 5, marginBottom: 70 }}>
       {state.getCustomerDetailsResponse ?
@@ -103,7 +115,17 @@ const CustomerProfilePage = () => {
           <div>
             <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
             <div className={classes.innerBox}>
-              <Button className={classes.addBtnStyle} onClick={registerAccountsMan}> + 담당자 추가 </Button>
+              <label className={classes.laebelStyle}>담당자</label>
+              <p style={{ fontSize: 12, color: '#333333' }}>담당자를 클릭하여 담당자 상세정보를 확인하세요.</p>
+
+              <div>
+                {
+                  acc_details.man_names.split(',').map(singleName => {
+                    return <p key={singleName} style={graybox} onClick={handleCustomerManagerClick}>{singleName}</p>
+                  })
+                }
+              </div>
+              <Button style={{ marginTop: 15, fontSize: 14 }} onClick={registerAccountsMan}> + 담당자 추가 </Button>
             </div>
           </div>
 

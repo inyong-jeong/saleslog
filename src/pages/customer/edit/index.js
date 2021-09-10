@@ -54,11 +54,6 @@ const useStyles = makeStyles({
     padding: 0,
     color: '#666666'
   },
-  addBtnStyle: {
-    margin: 10,
-    fontSize: 14,
-    color: '#333333',
-  }
 
 })
 
@@ -92,8 +87,24 @@ const CustomerEditPage = () => {
     customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
   }, [customerId])
 
+  const [gradeType, setGradeType] = useState([])
+  const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
+  const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
+
+  const options = []
+  for (let result of gradeType) {
+    options.push(<Option key={Object.values(result)}> {Object.keys(result)}</Option>)
+  }
+
+  //기존정보 보여주기 
   useEffect(() => {
     if (state.loading == false) {
+      if (inputs.sales_gb == '0010001') {
+        setGradeType(scoreType)
+      } else {
+        setGradeType(stageType)
+      }
+
       setInputs(
         {
           ...inputs,
@@ -117,7 +128,7 @@ const CustomerEditPage = () => {
         }
       )
     }
-
+    console.log(inputs)
   }, [state.loading])
 
   const [inputs, setInputs] = useState(
@@ -187,14 +198,7 @@ const CustomerEditPage = () => {
     setInputs({ ...inputs, score: value })
 
   }
-  const [gradeType, setGradeType] = useState([])
-  const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
-  const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
 
-  const options = []
-  for (let result of gradeType) {
-    options.push(<Option key={Object.values(result)}> {Object.keys(result)}</Option>)
-  }
   const settings = {
     'maxTags': 5,
   }

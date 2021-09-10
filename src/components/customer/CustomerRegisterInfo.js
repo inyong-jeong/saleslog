@@ -223,7 +223,7 @@ const CustomerRegisterInfo = () => {
     'maxTags': 5,
   }
 
-  const desc1 = ""
+
   return (
     <>
       {isMobile && <MyAppBar
@@ -356,7 +356,7 @@ const CustomerRegisterInfo = () => {
               placeholder="담당자 이름을 입력해주세요."
               margin="normal"
             />
-            <label className={classes.laebelStyle}>담당자 부서</label>
+            <label className={classes.laebelStyle}>담당자 부서 *</label>
             <Input
               name='dept'
               onChange={handleChange}
