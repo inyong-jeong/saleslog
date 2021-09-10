@@ -12,7 +12,6 @@ import { useHistory } from 'react-router';
 
 const CustomerProfilePage = () => {
 
-
   const classes = useStyles()
   const lineStyle = {
     borderWidth: '1px',
@@ -25,6 +24,11 @@ const CustomerProfilePage = () => {
   const state = useSelector(state => state.Customer)
   const acc_details = state.customerDetails
   const [customerId, setCustomerId] = useState(null)
+
+  const manIds = []
+  const manNames = []
+  const names_ids = []
+  const [managerId, setManagerId] = useState(null)
 
   useEffect(() => {
     dispatch({
@@ -51,11 +55,25 @@ const CustomerProfilePage = () => {
     })
 
   }
-  const handleCustomerManagerClick = e => {
-    console.log('man_names clicked :::::')
+  const managerClick = e => {
+    const value = e.target.innerHTML
+
+    names_ids.forEach((val, idIndex) => {
+      if (val == value) {
+        setManagerId(idIndex)
+      }
+    })
+    history.push({
+      pathname: '/main/manager/profile',
+      state: {
+        accm_idx: managerId,
+        acc_idx: customerId
+      }
+    })
   }
+
   return (
-    <div style={{ paddingLeft: 5, paddingRight: 5, marginBottom: 70 }}>
+    <div>
       {state.getCustomerDetailsResponse ?
         <>
           <div>
@@ -119,9 +137,20 @@ const CustomerProfilePage = () => {
               <p style={{ fontSize: 12, color: '#333333' }}>담당자를 클릭하여 담당자 상세정보를 확인하세요.</p>
 
               <div>
-                {
+                {acc_details.man_names &&
                   acc_details.man_names.split(',').map(singleName => {
-                    return <p key={singleName} style={graybox} onClick={handleCustomerManagerClick}>{singleName}</p>
+                    manNames.push(singleName)
+                  })
+                }
+                {acc_details.accm_idxs &&
+                  acc_details.accm_idxs.split(',').map(manId => {
+                    manIds.push(manId)
+                  })
+                }
+                {
+                  manNames.map((obj, index) => {
+                    names_ids[manIds[index]] = obj
+                    return <p key={manIds[index]} style={graybox} onClick={managerClick}>{obj}</p>
                   })
                 }
               </div>
@@ -153,7 +182,7 @@ const CustomerProfilePage = () => {
               </p>
             </div>
           </div>
-        </> : console.log('loading...')
+        </> : console.log('customer profile loading...')
       }
     </div>
   )

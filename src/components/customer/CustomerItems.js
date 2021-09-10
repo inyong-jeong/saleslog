@@ -144,9 +144,13 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                       {
                         singleList.man_names ?
                           singleList.man_names.split(',').map((singleName, index, array) => {
-                            if (array.length > 3) restCount = array.length - 3
+                            if (array.length > 3) {
+                              restCount = array.length - 3
+                            } else {
+                              restCount = 0
+                            }
                             if (index < 3) {
-                              return <p key={index} style={graybox}>{singleName}</p>
+                              return <p key={singleName} style={graybox}>{singleName}</p>
                             }
                           })
                           : ''}

@@ -16,7 +16,10 @@ import {
   GET_CUSTOMER_DETAILS_SUCCESS,
   POST_EDIT_CUSTOMER_ERROR,
   POST_EDIT_CUSTOMER_SUCCESS,
-  POST_EDIT_CUSTOMER
+  POST_EDIT_CUSTOMER,
+  GET_MANAGER_INFO,
+  GET_MANAGER_INFO_ERROR,
+  GET_MANAGER_INFO_SUCCESS
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -31,6 +34,8 @@ const initialState = {
   getCustomerDetailsResponse: null,
   customerDetails: null,
   postCustomerEditResponse: null,
+  getMangerResponse: null,
+  managerDetails: null
 
 }
 
@@ -77,6 +82,13 @@ const Customer = (state = initialState, action) => {
       return { ...state, loading: false, postCustomerEditResponse: true }
     case POST_EDIT_CUSTOMER_ERROR:
       return { ...state, loading: false, postCustomerEditResponse: false }
+
+    case GET_MANAGER_INFO:
+      return { ...state, loading: true, }
+    case GET_MANAGER_INFO_SUCCESS:
+      return { ...state, loading: false, getMangerResponse: true, managerDetails: action.payload.response.message }
+    case GET_MANAGER_INFO_ERROR:
+      return { ...state, loading: false, getMangerResponse: false }
 
     default:
       return { ...state };

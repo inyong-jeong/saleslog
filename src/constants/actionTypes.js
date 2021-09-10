@@ -133,6 +133,7 @@ export const PUT_ACCOUNT_PERSON = 'PUT_ACCOUNT_PERSON';  //고객 담당자 수�
 export const PUT_ACCOUNT_PERSON_SUCCESS = 'PUT_ACCOUNT_PERSON_SUCCESS';
 export const PUT_ACCOUNT_PERSON_ERROR = 'PUT_ACCOUNT_PERSON_ERROR';
 
+//! failed -> error로 모두 고칠 것 09. 10 
 //customers
 //고객사 등록
 export const POST_CUSTOMER = 'POST_CUSTOMER'
@@ -158,6 +159,22 @@ export const GET_CUSTOMER_DETAILS_ERROR = 'GET_CUSTOMER_DETAILS_ERROR'
 export const POST_EDIT_CUSTOMER = 'POST_EDIT_CUSTOMER'
 export const POST_EDIT_CUSTOMER_SUCCESS = 'POST_EDIT_CUSTOMER_SUCCESS'
 export const POST_EDIT_CUSTOMER_ERROR = 'POST_EDIT_CUSTOMER_ERROR'
+//당당자 가져오기 
+export const GET_MANAGER_INFO = 'GET_MANAGER_INFO'
+export const GET_MANAGER_INFO_SUCCESS = 'GET_MANAGER_INFO_SUCCESS'
+export const GET_MANAGER_INFO_ERROR = 'GET_MANAGER_INFO_ERROR'
+
+
+
+
+
+
+
+
+
+
+
+
 //기존 것
 //ACCOUNT
 export const GET_USER_ACCOUNT = 'GET_USER_ACCOUNT';

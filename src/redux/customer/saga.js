@@ -7,7 +7,7 @@ import {
 } from '../../constants/actionTypes'
 import {
   postCustomer, getAllCustomer, getUsers, postCustomerManger,
-  getCustomerDetails, postEditCustomer
+  getCustomerDetails, postEditCustomer, getManagerInfo
 } from './actions'
 
 //customer api 
@@ -18,6 +18,16 @@ const ACC_MAN_REGISTER = 'regi_accounts_man'
 const ACC_LIST = 'list_accounts'
 const USERS_URL = 'https://backend.saleslog.co/org/search_users'
 const CUSTOMER_DETAILS = 'detail_accounts'
+
+
+function* _getManagerInfo({ payload: { body } }) {
+  try {
+
+
+  } catch (error) {
+
+  }
+}
 
 function* _postEditCustomer({ payload: { body } }) {
   console.log('SAGA :::::::', body)
