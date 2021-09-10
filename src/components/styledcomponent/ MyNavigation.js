@@ -32,8 +32,6 @@ const MyNavigation = () => {
       <BottomNavigationAction label="홈" value="main" icon={<Home />} />
       <BottomNavigationAction label="일지" value="main/manage" icon={<Create />} />
       <BottomNavigationAction label="고객" value="main/customer" icon={<Business />} />
-      {/* <BottomNavigationAction label="일정" value="main/schedule" icon={<CalendarToday />} />
-      */}
       <BottomNavigationAction label="워크그룹" value="main/workgroup" icon={<GroupWork />} />
 
     </BottomNavigation>

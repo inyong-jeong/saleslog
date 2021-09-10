@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCustomer } from '../../redux/customer/actions';
 import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +54,15 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   const loading = state.loading
   let responseLists = state.list
   const history = useHistory()
+  const location = useLocation()
   let restCount
+
+  useEffect(() => {
+    if (location.state) {
+
+      window.location.reload()
+    }
+  }, [location])
 
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, 1))
@@ -80,8 +88,8 @@ const CustomerItems = ({ inputs, page, setPage }) => {
       setCustomerList(cusotomerList.concat(responseLists))
     }
   }, [loading])
-  console.log('new response ::::', responseLists)
-  console.log('concat response ::::', cusotomerList)
+  //console.log('new response ::::', responseLists)
+  //console.log('concat response ::::', cusotomerList)
 
   const handleNextPage = () => {
     if (listCounts >= cusotomerList.length) {
@@ -103,7 +111,10 @@ const CustomerItems = ({ inputs, page, setPage }) => {
         {cusotomerList ?
           cusotomerList.map((singleList, index) => {
             return (
-              <div onClick={() => history.push(`/main/customer/details/${singleList.acc_idx}`)} key={singleList.num}>
+              <div onClick={() => history.push({
+                pathname: `/main/customer/details/${singleList.acc_idx}`,
+                state: { acc_idx: singleList.acc_idx }
+              })} key={singleList.num}>
                 <ListItem style={{ height: 120 }}>
                   <div>
                     <Avatar alt={singleList.account_name} className={classes.square} variant="rounded" >
@@ -111,11 +122,11 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                     </Avatar>
                   </div>
                   <div>
-                    <p style={{ fontSize: 30, backgroundColor: '#000', color: '#fff' }}>{singleList.num}</p>
+                    {/* <p style={{ fontSize: 30, backgroundColor: '#000', color: '#fff' }}>{singleList.num}</p> */}
                     <p style={{ display: 'inline', fontSize: 14, fontWeight: '500' }}>{singleList.account_name}
-                      {singleList.sales_lead_gb_t ?
+                      {singleList.score ?
                         <span style={bluebox}>
-                          {singleList.sales_lead_gb_t}
+                          {singleList.score}
                         </span>
                         : ''}
                     </p>

@@ -2,6 +2,7 @@ import React from 'react';
 import CustomerAdd from 'components/customer/CustomerAdd';
 import MyNavigation from '../../../components/styledcomponent/ MyNavigation';
 import { useMediaQuery } from 'react-responsive';
+import CustomerRegisterInfo from '../../../components/customer/CustomerRegisterInfo';
 
 const CustomerRegisterPage = () => {
   const isMobile = useMediaQuery({
@@ -10,8 +11,7 @@ const CustomerRegisterPage = () => {
 
   return (
     <div>
-      <CustomerAdd />
-      {isMobile && <MyNavigation />}
+      <CustomerRegisterInfo />
     </div>
   );
 }

@@ -10,7 +10,13 @@ import {
   GET_CUSTOMER_OPTION_USERS_FAILED,
   POST_CUSTOMER_MANAGER,
   POST_CUSTOMER_MANAGER_FAILED,
-  POST_CUSTOMER_MANAGER_SUCCESS
+  POST_CUSTOMER_MANAGER_SUCCESS,
+  GET_CUSTOMER_DETAILS,
+  GET_CUSTOMER_DETAILS_ERROR,
+  GET_CUSTOMER_DETAILS_SUCCESS,
+  POST_EDIT_CUSTOMER_ERROR,
+  POST_EDIT_CUSTOMER_SUCCESS,
+  POST_EDIT_CUSTOMER
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -22,6 +28,9 @@ const initialState = {
   userLists: null,
   userListsResponse: null,
   postCustomerMangerResponse: null,
+  getCustomerDetailsResponse: null,
+  customerDetails: null,
+  postCustomerEditResponse: null,
 
 }
 
@@ -29,25 +38,20 @@ const Customer = (state = initialState, action) => {
   switch (String(action.type)) {
     case POST_CUSTOMER:
       return { ...state, loading: true }
-
     case POST_CUSTOMER_SUCCESS:
       return { ...state, loading: false, postCustomerResponse: true }
-
     case POST_CUSTOMER_FAILED:
       return { ...state, loading: false, postCustomerResponse: false }
 
     case GET_CUSTOMER:
       return { ...state, loading: true }
-
     case GET_CUSTOMER_SUCCESS:
       return { ...state, loading: false, getCustomerResponse: true, list: action.payload.response.message[0], listCounts: action.payload.response.message[1][0].totalCnt }
-
     case GET_CUSTOMER_FAILED:
       return { ...state, loading: false, getCustomerResponse: false }
 
     case GET_CUSTOMER_OPTION_USERS:
       return { ...state, userListsResponse: false }
-
     case GET_CUSTOMER_OPTION_USERS_SUCCESS:
       return { ...state, userListsResponse: true, userLists: action.payload.response.message }
     case GET_CUSTOMER_OPTION_USERS_FAILED:
@@ -55,12 +59,24 @@ const Customer = (state = initialState, action) => {
 
     case POST_CUSTOMER_MANAGER:
       return { ...state, loading: true }
-
     case POST_CUSTOMER_MANAGER_SUCCESS:
       return { ...state, loading: false, postCustomerMangerResponse: true }
-
     case POST_CUSTOMER_MANAGER_FAILED:
       return { ...state, loading: false, postCustomerMangerResponse: false }
+
+    case GET_CUSTOMER_DETAILS:
+      return { ...state, loading: true, }
+    case GET_CUSTOMER_DETAILS_SUCCESS:
+      return { ...state, loading: false, getCustomerDetailsResponse: true, customerDetails: action.payload.response.message[0] }
+    case GET_CUSTOMER_DETAILS_ERROR:
+      return { ...state, loading: false, getCustomerDetailsResponse: false }
+
+    case POST_EDIT_CUSTOMER:
+      return { ...state, loading: true }
+    case POST_EDIT_CUSTOMER_SUCCESS:
+      return { ...state, loading: false, postCustomerEditResponse: true }
+    case POST_EDIT_CUSTOMER_ERROR:
+      return { ...state, loading: false, postCustomerEditResponse: false }
 
     default:
       return { ...state };

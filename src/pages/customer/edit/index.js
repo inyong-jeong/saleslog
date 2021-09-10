@@ -3,17 +3,18 @@ import {
 } from "@material-ui/core"
 import { useState, useEffect } from "react"
 import React from 'react';
-import { getCustomerDetails, postCustomer, postEditCustomer } from "../../redux/customer/actions";
-import Input from '../styledcomponent/Input'
+import { getCustomerDetails, postEditCustomer } from "../../../redux/customer/actions";
+import Input from '../../../components/styledcomponent/Input'
 import { useDispatch, useSelector } from "react-redux";
 import TextArea from "antd/lib/input/TextArea";
-import StyledSelect from '../styledcomponent/StyledSelect';
+import StyledSelect from '../../../components/styledcomponent/StyledSelect';
 import { useHistory } from "react-router";
 import Tags from "@yaireo/tagify/dist/react.tagify" // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
 import { useMediaQuery } from 'react-responsive';
-import MyAppBar from "../../components/styledcomponent/MyAppBar";
+import MyAppBar from "../../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { useLocation } from 'react-router-dom'
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -61,7 +62,8 @@ const useStyles = makeStyles({
 
 })
 
-const CustomerRegisterInfo = () => {
+const CustomerEditPage = () => {
+
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
@@ -70,17 +72,28 @@ const CustomerRegisterInfo = () => {
 
   const dispatch = useDispatch()
   const classes = useStyles()
-  /*
   const state = useSelector(state => state.Customer)
-  useEffect(() => {
-    if (editMode) {
-      dispatch(getCustomerDetails.call({ acc_idx: customerId }))
-      // console.log(location.state)
-    }
-  }, [editMode])
+  const acc_details = state.customerDetails
+  const [customerId, setCustomerId] = useState(null)
+  const location = useLocation()
 
   useEffect(() => {
-    if (state.getCustomerDetailsResponse) {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: false
+    })
+  }, [])
+
+  useEffect(() => {
+    setCustomerId(acc_details.acc_idx)
+  }, [location])
+
+  useEffect(() => {
+    customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
+  }, [customerId])
+
+  useEffect(() => {
+    if (state.loading == false) {
       setInputs(
         {
           ...inputs,
@@ -92,21 +105,20 @@ const CustomerRegisterInfo = () => {
           zipcode: acc_details.zipcode ? acc_details.zipcode : '',
           addr1: acc_details.addr1 ? acc_details.addr1 : '',
           addr2: acc_details.addr2 ? acc_details.addr2 : '',
-          lati: acc_details.lati ? acc_details.lati : '',
-          longi: acc_details.logi ? acc_details.logi : '',
+          lati: 0,
+          longi: 0,
           reg_num: acc_details.reg_num ? acc_details.reg_num : '',
           acc_etc: acc_details.acc_etc ? acc_details.acc_etc : '',
           tags: acc_details.tags ? acc_details.tags : '',
           acc_fax: acc_details.acc_fax ? acc_details.acc_fax : '',
           sales_gb: acc_details.sales_gb ? acc_details.sales_gb : '',
           acc_url: acc_details.acc_url ? acc_details.acc_url : '',
-          acc_idx: location.state.customerId
+          acc_idx: customerId
         }
       )
     }
 
-  }, [state.getCustomerDetailsResponse])
-  */
+  }, [state.loading])
 
   const [inputs, setInputs] = useState(
     {
@@ -126,63 +138,27 @@ const CustomerRegisterInfo = () => {
       acc_fax: '',
       sales_gb: '',
       acc_url: '',
-      man_name: '',
-      dept: '',
-      posi: '',
-      tel: '',
+      acc_idx: '', //고객사 id 
     }
   )
 
-  //조건
-  /*
-  1. 고객명 띄어쓰기 없음, 주식회사, (주) 예외처리
-  2. 대표자 총 3명까지
-  3. 사업자 번호 숫자만 허용 10자리 (- 로 출력되게 나중에 처리)
-  4. 고객구분  라벨 메시지 
-  거래고객 : 현재 거래 중인 고객- 리드고객  : 신규 고객으로 유치하고자 하는 타깃 고객
-  거래고객일떄 등급 메시지 : - 고객의 거래규모, 신용도, 재무상태 등 거래와 관련된 다양한 요소를 참고하여 임의의 관리 등급을 지정해서 관리할 수 있습니다.
-  리드고객일떄  둥굽 메시지 : - 리드관리는 [발굴] → [조사] → [제안] → [검증] 단계로 과정을 구분합니다. 향후 고객으로 전환된 경우 ‘영업활동‘ 고객으로 고객 구분을 변경해서 관리할 수 있습니다.- 리드관리 단계는 상황에 따라 축소 또는 생략할 수 있습니다.리드 단계의 정의- 발굴 : 잠재고객으로 선정 후 고객의 니즈 파악, 거래가능성 등 조사를 진행 중인 단계- 접촉 : 잠재고객과 접촉을 위한 사전 활동 또는 접촉 중인 단계- 제안 : 자사의 상품(서비스)에 대한 규격, 품질, 가격 등 구체적 제안 및 제안을 준비하거나 진행 중인 단계- 검증 : 자사의 상품(서비스) 공급(계약)을 위한 최종 검증(POC) 및 검증과 유사한 활동이 진행 중인 단계
-  5. 담당자 라벨 메시지
-  - 고객(기업)의 대표자, 핵심 관리자, 거래 담당자 등 임직원 인물 정보는 거래 가능성을 높이는 효과적인 세일즈 활동에 핵심 자원입니다.
-  6. 태그 메시지
-  - 태그는 고객 목록에 고객 정보와 함께 출력되는 인식이 용이한 핵심키워드 입니다.
-  7. 태그 인식자 # ? (가능할지 확인)
-  8. 
-  */
-
   const onSaveClick = (e) => {
-    if (!inputs.account_name || !inputs.ceo_name || !inputs.man_name || !inputs.dept) {
+    if (!inputs.account_name || !inputs.ceo_name) {
       return alert('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
     }
     if (inputs.account_name.includes('(주)' || '주식회사')) {
       return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
-    // if (editMode) {
-    //   console.log(inputs)
-    //   dispatch(postEditCustomer.call(inputs))
-    //   history.push('/main/customer')
-    //   return
-    // }
 
-    dispatch(postCustomer.call(inputs))
+    dispatch(postEditCustomer.call(inputs))
     history.push({
       pathname: '/main/customer',
       state: {
         needRefresh: true,
       }
     })
-
+    return
   }
-
-  useEffect(() => {
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: false
-    })
-    // setCustomerId(null)
-    // setEditMode(null)
-
-  }, [])
 
   const handleChange = (e) => {
     if ('detail' in e) {
@@ -223,11 +199,10 @@ const CustomerRegisterInfo = () => {
     'maxTags': 5,
   }
 
-  const desc1 = ""
   return (
     <>
       {isMobile && <MyAppBar
-        barTitle={'고객 등록하기'}
+        barTitle={'고객 수정하기'}
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
@@ -346,44 +321,6 @@ const CustomerRegisterInfo = () => {
         </div>
 
         <div>
-          <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
-          <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>담당자 이름 *</label>
-            <Input
-              name='man_name'
-              onChange={handleChange}
-              value={inputs.man_name}
-              placeholder="담당자 이름을 입력해주세요."
-              margin="normal"
-            />
-            <label className={classes.laebelStyle}>담당자 부서</label>
-            <Input
-              name='dept'
-              onChange={handleChange}
-              value={inputs.dept}
-              placeholder="담당자 부서를 입력해주세요"
-              margin="normal"
-            />
-            <label className={classes.laebelStyle}>담당자 직책</label>
-            <Input
-              name='posi'
-              onChange={handleChange}
-              value={inputs.posi}
-              placeholder="담당자 직책을 입력해주세요"
-              margin="normal"
-            />
-            <label className={classes.laebelStyle}>담당자 연락처</label>
-            <Input
-              name='tel'
-              onChange={handleChange}
-              value={inputs.tel}
-              placeholder="담당자 연락처를 입력해주세요"
-              margin="normal"
-            />
-          </div>
-        </div>
-
-        <div>
           <Typography variant='h6' align='left' className={classes.title}>메모</Typography>
           <div className={classes.innerBox}>
             <TextArea
@@ -411,9 +348,8 @@ const CustomerRegisterInfo = () => {
         {/* <BlueButton name='등록하기' type="submit" /> */}
         <div style={{ height: '60px' }}></div>
       </div>
-
     </>
-
   );
 }
-export default CustomerRegisterInfo
+
+export default CustomerEditPage;

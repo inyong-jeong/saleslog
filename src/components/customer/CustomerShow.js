@@ -10,18 +10,29 @@ import { useHistory } from "react-router-dom";
 import CustomerItems from "./CustomerItems";
 import { getUsers } from "../../redux/customer/actions";
 import { useSelector, useDispatch } from "react-redux";
-
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 const { TabPane } = FullTabs;
 const { Search } = Input;
 
 const CustomerShow = () => {
   const history = useHistory()
-  const navigateTo = () => history.push('/main/customer/register')
+  const navigateTo = () => history.push({
+    pathname: '/main/customer/register',
+    state: {
+      customerId: null,
+      editMode: false
+    }
+  })
   const dispatch = useDispatch()
   const state = useSelector(state => state.Customer)
 
   useEffect(() => {
     dispatch(getUsers.call({ srch: '' }))
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: true
+    })
+
   }, [])
   //tablet & mobile 
   const isMobile = useMediaQuery({

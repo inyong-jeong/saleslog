@@ -31,6 +31,7 @@ const Customer = React.lazy(() => import('./pages/customer'))
 const CustomerAdd = React.lazy(() => import('./pages/customer/register'))
 const CustomerManagerRegister = React.lazy(() => import('./pages/customer/registerManager'))
 const CustomerDetails = React.lazy(() => import('./pages/customer/profile/'))
+const CustomerEdit = React.lazy(() => import('./pages/customer/edit'))
 
 //워크그룹, 그룹 수정 , 그룹 나가기
 const Workgroup = React.lazy(() => import('./pages/workgroup'))
@@ -70,11 +71,12 @@ const routes = [
   { path: '/main/customer/register', name: 'CustomerAdd', component: CustomerAdd, route: MainRoute, exact: true },
   { path: '/main/customer/register_manager', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
   { path: '/main/customer/details/:id', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
+  { path: '/main/customer/edit', name: 'CustomerEdit', component: CustomerEdit, route: MainRoute, exact: true },
 
   //워크그룹 
   { path: '/main/workgroup', name: 'Workgroup', component: Workgroup, route: MainRoute, exact: true },
   { path: '/main/workgroup/register', name: 'Workgroup', component: WorkgroupReg, route: MainRoute, exact: true },
-  
+
   //landing Route
   { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },
   { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute, exact: true },

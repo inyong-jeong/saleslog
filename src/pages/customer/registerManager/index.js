@@ -38,12 +38,17 @@ export const useStyles = makeStyles({
   laebelStyle: {
     marginTop: 10,
     color: '#111111',
-    fontWeight: 'normal',
+    fontWeight: 500,
     fontSize: 14,
   },
   description: {
     fontSize: 12,
     color: '#666666'
+  },
+  showDetails: {
+    fontSize: 14,
+    color: '#333333',
+    fontWeight: 'normal'
   },
   addBtnStyle: {
     margin: 10,

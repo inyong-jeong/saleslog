@@ -9,12 +9,9 @@ const CustomerAdd = () => {
     query: "(max-width:991px)"
   });
 
-  const history = useHistory()
-
-  const navigateTo = () => history.push('/main/customer')
   return (
     <>
-      {isMobile && <MyAppBar barTitle={'고객 등록하기'} showBackButton navigateTo={navigateTo} />}
+
       <CustomerRegisterInfo />
     </>
   );
