@@ -1,8 +1,13 @@
 import React from 'react';
 import { Avatar } from 'antd';
 import { useHistory } from 'react-router';
-import { red } from '@material-ui/core/colors';
 
+// IconLabel=============
+// 텍스트 - title
+// 아이콘 보이기 - isIcon (true/false)
+// 아이콘 형태 - iconShape ('':원모양 / 'square':사각모양)
+// 아이콘 크기 - iconSize
+// 링크  - pathUri
 const IconLabel = (props) => {
   const history = useHistory();
 

@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
+import  AvatarUp from 'components/AvatarUp';
 import  IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
-import { Divider } from 'antd';
+import { Avatar, Divider } from 'antd';
+import { transform } from 'babel-core';
 
 
 const useStyles = makeStyles({
@@ -56,7 +58,10 @@ const WgroupManagePage = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {isMobile && <MyAppBar barTitle={'워크그룹'} navigateTo={navigateTo} />}      
+      {isMobile && <MyAppBar barTitle={'워크그룹'} navigateTo={navigateTo} />}     
+      <div style={{height:10}}></div>
+      <AvatarUp  iconShape='square' iconSize={90} style={{top:10}}></AvatarUp> 
+      
       <IconLabel title="정보 수정" pathUri="main/workgroup/register"></IconLabel>
       <Divider style={{margin:10}}/>
       <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>

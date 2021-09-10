@@ -38,11 +38,11 @@ function NavBar(props) {
   }, []);
 
 
-  useEffect(() => {
-    const cnt = props.notifications.filter((v) => !v.checked).length;
-    setUnReadCount(cnt > 9 ? 9 : cnt);
-    setNotiItems(props.notifications);
-  }, [props.notifications]);
+    useEffect(() => {
+      const cnt = props.notifications.filter((v) => !v.checked).length;
+      setUnReadCount(cnt > 9 ? 9 : cnt);
+      setNotiItems(props.notifications);
+    }, [props.notifications]);
 
   const onNotiClick = (index) => {
     let noti = notiItems[index];
