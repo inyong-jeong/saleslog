@@ -70,9 +70,10 @@ const post_fetch = async (url, body) => {
 const post_fetch_files = async (url, data) => {
   const token = getOauthAccessToken();
   let formData = new FormData();
+  console.log(data)
   for (let key in data) {
     if (key === 'fileup' || key === 'man_photo') {
-
+console.log(key)
       if (data[key] && data[key].length > 0) {
         for (let i = 0; i < data[key].length; i++) {
           // if (data[key].length === 0) {

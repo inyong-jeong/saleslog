@@ -3,13 +3,15 @@ import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import  AvatarUp from 'components/AvatarUp';
 import  IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
 import { Avatar, Divider } from 'antd';
 import { transform } from 'babel-core';
+import { postWorkGroupLogo } from '../../../redux/workgroup/actions';
+import cmm from '../../../constants/common';
 
 
 const useStyles = makeStyles({
@@ -56,11 +58,33 @@ const WgroupManagePage = (props) => {
     )
   },[])
 
+
+  // body
+  const [inputs, setInputs] = useState(
+    {
+      fileup: null,
+    }
+  )
+
+
+
+  const handleChange = e => {    
+    const fileUploaded = e.target.files[0];
+    console.log("handle chagne ",fileUploaded )
+
+
+    //setInputs({ ...inputs, score: value })
+    if (fileUploaded !== undefined) {
+      
+      dispatch(postWorkGroupLogo.call({fileup:fileUploaded}))
+    }
+    
+  }
   return (
     <ThemeProvider theme={theme}>
       {isMobile && <MyAppBar barTitle={'워크그룹'} navigateTo={navigateTo} />}     
       <div style={{height:10}}></div>
-      <AvatarUp  iconShape='square' iconSize={90} style={{top:10}}></AvatarUp> 
+      <AvatarUp  iconShape='square' iconSize={90} style={{ top:10}} handleChange={handleChange} ></AvatarUp> 
       
       <IconLabel title="정보 수정" pathUri="main/workgroup/register"></IconLabel>
       <Divider style={{margin:10}}/>

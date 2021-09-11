@@ -3,6 +3,7 @@ import authSaga from './auth/saga';
 import salesLogSaga from './saleslog/saga';
 import accountSaga from './account/saga';
 import customerSaga from './customer/saga';
+import WorkgroupSaga from './workgroup/saga';
 
 
 export default function* rootSaga(getState) {
@@ -10,6 +11,7 @@ export default function* rootSaga(getState) {
     authSaga(),
     salesLogSaga(),
     accountSaga(),
-    customerSaga()
+    customerSaga(),
+    WorkgroupSaga(),
   ]);
 }
