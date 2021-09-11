@@ -1,4 +1,4 @@
-// 상수
+// 상수 및 공통함수
 const cmm = {};
 
 //API 서버 PATH
@@ -9,5 +9,15 @@ cmm.FILE_PATH_FILES = '/files/';
 
 //업로드 파일경로 (회원사진)
 cmm.FILE_PATH_PHOTOS = '/photos/'; 
+
+
+//빈값 체크
+cmm.isEmpty = (data) => {
+    if (data === undefined || data === null || data === '') {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 module.exports = cmm;

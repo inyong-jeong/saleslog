@@ -74,10 +74,11 @@ const AvatarUp = (props) => {
       alignItems: 'center',
     }}
     >
-      { ((imgsrc===undefined || imgsrc==='')?true:false) && 
+      { ((imgsrc===undefined || imgsrc==='' || imgsrc===null)?true:false) && 
       <Avatar 
         shape={props.iconShape} 
         size={(props.iconSize===undefined)?20:props.iconSize} 
+        style={props.style}
         onClick={(e) => {
           e.preventDefault();
           handleClick();
@@ -86,10 +87,12 @@ const AvatarUp = (props) => {
         <PlusOutlined style={{ fontSize: '50px'  }}  /> 
       </Avatar>
       }
-      { ((imgsrc===undefined || imgsrc==='')?false:true) && 
+      { ((imgsrc===undefined || imgsrc==='' || imgsrc===null)?false:true) && 
       <Avatar 
         shape={props.iconShape} 
         size={(props.iconSize===undefined)?20:props.iconSize} 
+        style={props.style}
+        src={props.imgsrc}
         
       />
       }
@@ -105,7 +108,7 @@ const AvatarUp = (props) => {
       </Avatar>
       
       <div style={{ padding:5 , marginTop:2}}>{props.title}</div>
-      <input type="file" name="fileup" ref={hiddenFileInput} style={{display:'none'}} 
+      <input type="file" ref={hiddenFileInput} style={{display:'none'}} 
       onChange={props.handleChange}
       />
     </div>
