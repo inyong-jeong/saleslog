@@ -25,9 +25,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent:'center'
   },
-
 });
-
 
 const theme = createTheme({
   palette: {
