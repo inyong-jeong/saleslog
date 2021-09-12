@@ -75,6 +75,7 @@ const AvatarUp = (props) => {
     }}
     >
       { ((imgsrc===undefined || imgsrc==='' || imgsrc===null)?true:false) && 
+      <div style={{ justifyContent:'center',alignItems:'center'}}>
       <Avatar 
         shape={props.iconShape} 
         size={(props.iconSize===undefined)?20:props.iconSize} 
@@ -83,9 +84,11 @@ const AvatarUp = (props) => {
           e.preventDefault();
           handleClick();
         }}
-      >
-        <PlusOutlined style={{ fontSize: '50px'  }}  /> 
+      > 
+      <PlusOutlined style={{ position:'relative', top:20, fontSize: '50px'  }}  /> 
       </Avatar>
+      
+      </div>
       }
       { ((imgsrc===undefined || imgsrc==='' || imgsrc===null)?false:true) && 
       <Avatar 
@@ -100,7 +103,7 @@ const AvatarUp = (props) => {
       
       onClick={(e) => {
         e.preventDefault();
-        
+        handleClick();
       }}
       
       >      

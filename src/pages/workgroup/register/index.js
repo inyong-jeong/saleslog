@@ -1,15 +1,14 @@
 import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import  AvatarUp from 'components/AvatarUp';
 import  IconLabel from 'components/IconLabel';
 import Input from 'components/styledcomponent/Input'
 import { useHistory } from 'react-router';
-import { Avatar, Divider } from 'antd';
+import { Avatar, Divider, notification } from 'antd';
 import { transform } from 'babel-core';
 import { getWorkGroupInfo, postWorkGroupLogo, postWorkGroupUpd } from 'redux/workgroup/actions';
 import  cmm  from 'constants/common';
@@ -52,6 +51,7 @@ const WgroupManagePage = (props) => {
       comp_domain: '',
       prevImg: null,
       fileup: null,
+      errResult: '',
 
     }
   )
@@ -88,6 +88,7 @@ const WgroupManagePage = (props) => {
         comp_domain:data[0].org_domain, 
         prevImg: (cmm.isEmpty(data[0].logo_url)?'':cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) 
       })      
+      console.log(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url);
     }
       
   },[data])
@@ -105,13 +106,23 @@ const WgroupManagePage = (props) => {
 
   useEffect(()=> {
     if (!cmm.isEmpty(updRes)) {  
-      state.postWorkGroupUpdRes = null;    
-      history.push({
-        pathname: '/main/workgroup',
-        state: {
-          needRefresh: true,
-        }
-      })
+      state.postWorkGroupUpdRes = null;
+      if (updRes.state === false && updRes.message.message.indexOf('사용중인 업체') > 0) {
+        setInputs({ 
+          ...inputs, 
+          errResult:'이미 사용중인 URL 입니다.\n다른 URL을 입력하거나 숫자를 조합해 보세요.'          
+        })
+      } else {
+        const interval = setInterval(() => {
+          history.push({
+            pathname: '/main/workgroup',
+            state: {
+              needRefresh: true,
+            }
+          })
+        },1000);
+        return () => clearInterval(interval);
+      }
     }      
   },[updRes])
 
@@ -125,7 +136,11 @@ const WgroupManagePage = (props) => {
         fileup: fileUploaded, 
         prevImg: reader.result })      
     }
-    reader.readAsDataURL(e.target.files[0]);
+    if (!cmm.isEmpty(e.target.files))
+    {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    
     
   }
 
@@ -197,6 +212,11 @@ const WgroupManagePage = (props) => {
                   width:200
                 }}>&nbsp;.saleslog.com</label>
       </div>
+      { 
+        inputs.errResult.split('\n').map( item => { 
+          return (<span key={item} style={{ fontSize:11, color:'#EE1818' }}>{item}<br/></span>)
+        }) 
+      }
 
     </ThemeProvider>
   );

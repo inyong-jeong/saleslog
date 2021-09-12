@@ -20,4 +20,26 @@ cmm.isEmpty = (data) => {
     }
 }
 
+//json tree data 
+cmm.getTreeData = (array) => {  
+    var map = {};
+    for(var i = 0; i < array.length; i++){
+      var obj = {"key" : array[i]['dept_idx'], "title" : array[i]['dept_name'] , "LVL" : array[i]['lvl'], };
+      obj.children = [];
+      map[obj.key] = obj;
+      var parent = array[i]['parent_idx'] || '-';
+  
+      if(!map[parent]){
+        map[parent] = {
+          children: []
+        };
+      }
+      map[parent].children.push(obj);
+    }
+  
+    return map['-'].children;
+  
+  }
+
+
 module.exports = cmm;

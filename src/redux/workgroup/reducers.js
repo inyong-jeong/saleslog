@@ -8,12 +8,16 @@ import {
   POST_WORKGROUP_UPD,
   POST_WORKGROUP_UPD_SUCCESS,
   POST_WORKGROUP_UPD_ERROR,
+  GET_DEPT_INFO,
+  GET_DEPT_INFO_SUCCESS,
+  GET_DEPT_INFO_ERROR,
 } from '../../constants/actionTypes';
 
 const initialState = {
   postWorkgroupLogoRes: null, 
   getWorkGroupInfoRes: null,
   postWorkGroupUpdRes: null,
+  getDeptInfoRes: null,
   loading: true,
   data: null,
   
@@ -36,10 +40,16 @@ const Workgroup = (state = initialState, action) => {
     case POST_WORKGROUP_UPD:
       return { ...state, loading: true }
     case POST_WORKGROUP_UPD_SUCCESS:
-      return { ...state, loading: false, postWorkGroupUpdRes: action.payload.response.message }
+      return { ...state, loading: false, postWorkGroupUpdRes: action.payload.response }
     case POST_WORKGROUP_UPD_ERROR:
-      return { ...state, loading: false, postWorkGroupUpdRes: false }
-    
+      return { ...state, loading: false, postWorkGroupUpdRes: {state:false,message:action.payload.error}}
+    case GET_DEPT_INFO:
+      return { ...state, loading: true }
+    case GET_DEPT_INFO_SUCCESS:
+      return { ...state, loading: false, getDeptInfoRes: action.payload.response.message }
+    case GET_DEPT_INFO_ERROR:
+      return { ...state, loading: false, getDeptInfoRes: false }
+      
     default:
       return { ...state };
   }

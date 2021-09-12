@@ -84,7 +84,7 @@ const WgroupManagePage = (props) => {
       <Divider style={{margin:10}}/>
       <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
       <Divider style={{margin:10}}/>
-      <IconLabel title="조직도 설정" pathUri="main/customer"></IconLabel>
+      <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
       <Divider style={{margin:10}}/>
       <div className={classes.bottomBar} >
         <IconLabel title="워크그룹 나가기" pathUri="main/customer" isIcon={false}></IconLabel>
