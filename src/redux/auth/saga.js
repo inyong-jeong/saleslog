@@ -38,9 +38,9 @@ import { SET_NAVIBAR_SHOW, SET_NAVIBAR_SHOW_SUCCESS } from "../../constants/acti
 
 //RENEWAL
 
-function* _OauthAuthorize({ payload: { username, password, client_id, redirect_uri, response_type, grant_type, state } }) {
+function* _OauthAuthorize({ payload: { username, password, client_id, redirect_uri, response_type, grant_type, state, scope } }) {
   try {
-    const response = yield call(oauthAuthorize, username, password, client_id, redirect_uri, response_type, grant_type, state);
+    const response = yield call(oauthAuthorize, username, password, client_id, redirect_uri, response_type, grant_type, state, scope);
     console.log(response);
     setOauthCode(response.message.code);
     setUserAuthenticating(true);

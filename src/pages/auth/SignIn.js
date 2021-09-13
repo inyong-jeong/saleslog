@@ -15,6 +15,9 @@ function SignIn(props) {
 
   const [username, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('')
+  const [platform, setPlatForm] = useState('pc');
+
+
 
   //renewal 
 
@@ -30,18 +33,30 @@ function SignIn(props) {
     props.history.push('/');
   }
 
-
   const handleOnLogin = (e) => {
+
     e.preventDefault();
     const client_id = 'saleslog.co';
     const redirect_uri = 'https://auth.theklab.co/oauth/client_auth';
     const response_type = 'code';
     const grant_type = 'authorization_code';
     const state = 'myState';
-    props.authorize(username, password, client_id, redirect_uri, response_type, grant_type, state)
+    props.authorize(username, password, client_id, redirect_uri, response_type, grant_type, state, platform)
   }
 
   const authcode = isUserAuthorized();
+
+  useEffect(() => {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(
+        navigator.userAgent
+      )
+    ) {
+      setPlatForm("mobile");
+    } else {
+      setPlatForm("pc");
+    }
+  }, []);
 
   useEffect(() => {
     if (authcode === true) {

@@ -23,7 +23,7 @@ export const checkAccessToken = fetchActionGenerator(CHECK_ACCESS_TOKEN);
 
 // renewal login acion
 
-export const authorize = fetchActionGenerator(OAUTH_AUTHORIZE, 'username', 'password', 'client_id', 'redirect_uri', 'response_type', 'grant_type', 'state');
+export const authorize = fetchActionGenerator(OAUTH_AUTHORIZE, 'username', 'password', 'client_id', 'redirect_uri', 'response_type', 'grant_type', 'state', 'scope');
 export const getOauthToken = fetchActionGenerator(GET_OAUTH_TOKEN, 'code', 'client_secret', 'client_id', 'grant_type');
 export const getRefreshOauthToken = fetchActionGenerator(GET_REFRESH_OAUTH_TOKEN, 'refresh_token', 'client_id', 'client_secret', 'grant_type');
 export const findPassword = fetchActionGenerator(FIND_PASSWORD, 'email');

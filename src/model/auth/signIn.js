@@ -19,7 +19,7 @@ export const oauthAuthenticate = async (email, password, redirectUri, clientType
 
 //RENEWAL
 
-export const oauthAuthorize = async (username, password, client_id, redirect_uri, response_type, grant_type, state) => {
+export const oauthAuthorize = async (username, password, client_id, redirect_uri, response_type, grant_type, state, scope) => {
 
   let body = {
     'username': username,
@@ -28,7 +28,8 @@ export const oauthAuthorize = async (username, password, client_id, redirect_uri
     'redirect_uri': redirect_uri,
     'response_type': response_type,
     'grant_type': grant_type,
-    'state': state
+    'state': state,
+    'scope': scope
   };
 
   let formBody = [];
