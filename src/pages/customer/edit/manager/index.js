@@ -1,18 +1,15 @@
-import MyAppBar from "../../../components/styledcomponent/MyAppBar"
+import MyAppBar from '../../../../components/styledcomponent/MyAppBar';
 import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useHistory, useLocation } from 'react-router';
 import { makeStyles, Typography } from "@material-ui/core"
 import { Collapse } from 'antd';
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
-import Input from "../../../components/styledcomponent/Input";
+import Input from '../../../../components/styledcomponent/Input'
 import TextArea from "antd/lib/input/TextArea";
-import { postCustomerManger } from "../../../redux/customer/actions";
 import { DatePicker } from "antd";
 import 'moment/locale/ko';
 import locale from 'antd/es/date-picker/locale/ko_KR';
-import AvatarUp from "../../../components/AvatarUp";
 
 const { Panel } = Collapse
 
@@ -59,21 +56,20 @@ export const useStyles = makeStyles({
 
 })
 
-const RegisterManager = () => {
+const EditCustomerManager = () => {
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
 
 
   const history = useHistory()
-  const params = useParams()
+  const location = useLocation()
 
-  useEffect(() => {
-    setAccoutManagerInputs({ ...accountMangerInputs, 'acc_idx': params.accId })
-    console.log(params)
-  }, [])
 
-  const navigateTo = () => history.push(`/main/customer/details/${params.accId}/${params.managerId}`)
+  const navigateTo = () => {
+    //   history.push(`/main/customer`)
+
+  }
 
   //inputs
 
@@ -81,7 +77,7 @@ const RegisterManager = () => {
   const classes = useStyles()
   const [accountMangerInputs, setAccoutManagerInputs] = useState(
     {
-      acc_idx: params.accId,
+      acc_idx: '',
       man_name: '',
       dept: '',
       posi: '',
@@ -114,13 +110,7 @@ const RegisterManager = () => {
   }
 
   const onSaveClick = (e) => {
-    dispatch(postCustomerManger.call(accountMangerInputs))
-    // history.push({
-    //   pathname: '/main/customer',
-    //   state: {
-    //     needRefresh: true,
-    //   }
-    // })
+
   }
 
   const handleFileChange = (e) => {
@@ -138,20 +128,12 @@ const RegisterManager = () => {
   return (
 
     <div>
-      {isMobile && <MyAppBar barTitle={'담당자 추가'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />}
+      {isMobile && <MyAppBar barTitle={'담당자 프로필 수정'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />}
 
       <div>
         <div>
           <input type="file" name="man_photo" onChange={handleFileChange} />
-          {/* <AvatarUp 
-                  iconShape='square' 
-                  style={{ 
-                    padding:0,
-                    margin:0,
-                    width:90,
-                    height:90,
-                  }} 
-                  handleChange={handleFileChange} />  */}
+
           <p>명함을 등록해주세요.</p>
         </div>
         <div>
@@ -325,4 +307,4 @@ const RegisterManager = () => {
   );
 }
 
-export default RegisterManager;
+export default EditCustomerManager;

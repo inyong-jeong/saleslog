@@ -15,6 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 
+
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
   FormControl: {
@@ -70,43 +71,6 @@ const CustomerRegisterInfo = () => {
 
   const dispatch = useDispatch()
   const classes = useStyles()
-  /*
-  const state = useSelector(state => state.Customer)
-  useEffect(() => {
-    if (editMode) {
-      dispatch(getCustomerDetails.call({ acc_idx: customerId }))
-      // console.log(location.state)
-    }
-  }, [editMode])
-
-  useEffect(() => {
-    if (state.getCustomerDetailsResponse) {
-      setInputs(
-        {
-          ...inputs,
-          account_name: acc_details.account_name ? acc_details.account_name : "",
-          score: acc_details.score ? acc_details.score : '',
-          ceo_name: acc_details.ceo_name ? acc_details.ceo_name : '',
-          acc_tel: acc_details.acc_tel ? acc_details.acc_tel : '',
-          acc_email: acc_details.acc_email ? acc_details.acc_email : '',
-          zipcode: acc_details.zipcode ? acc_details.zipcode : '',
-          addr1: acc_details.addr1 ? acc_details.addr1 : '',
-          addr2: acc_details.addr2 ? acc_details.addr2 : '',
-          lati: acc_details.lati ? acc_details.lati : '',
-          longi: acc_details.logi ? acc_details.logi : '',
-          reg_num: acc_details.reg_num ? acc_details.reg_num : '',
-          acc_etc: acc_details.acc_etc ? acc_details.acc_etc : '',
-          tags: acc_details.tags ? acc_details.tags : '',
-          acc_fax: acc_details.acc_fax ? acc_details.acc_fax : '',
-          sales_gb: acc_details.sales_gb ? acc_details.sales_gb : '',
-          acc_url: acc_details.acc_url ? acc_details.acc_url : '',
-          acc_idx: location.state.customerId
-        }
-      )
-    }
-
-  }, [state.getCustomerDetailsResponse])
-  */
 
   const [inputs, setInputs] = useState(
     {
@@ -157,21 +121,16 @@ const CustomerRegisterInfo = () => {
     if (inputs.account_name.includes('(주)' || '주식회사')) {
       return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
-    // if (editMode) {
-    //   console.log(inputs)
-    //   dispatch(postEditCustomer.call(inputs))
-    //   history.push('/main/customer')
-    //   return
-    // }
-
     dispatch(postCustomer.call(inputs))
-    history.push({
-      pathname: '/main/customer',
-      state: {
-        needRefresh: true,
-      }
-    })
 
+    setInterval(() => {
+      history.push({
+        pathname: '/main/customer',
+        state: {
+          needRefresh: true,
+        }
+      })
+    }, 1000);
   }
 
   useEffect(() => {

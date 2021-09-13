@@ -37,6 +37,14 @@ const ManagerProfilePage = () => {
   }
 
   const onEditClick = () => {
+    history.push({
+      pathname: '/main/manager/edit',
+      state: {
+        editMode: true,
+        accm_idx: '',
+        acc_idx: '',
+      }
+    })
 
   }
   return (

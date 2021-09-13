@@ -30,7 +30,7 @@ const Temporary = React.lazy(() => import('./pages/manage/upload/temporary'));
 const Customer = React.lazy(() => import('./pages/customer'))
 const CustomerAdd = React.lazy(() => import('./pages/customer/register'))
 const CustomerManagerRegister = React.lazy(() => import('./pages/customer/registerManager'))
-const CustomerDetails = React.lazy(() => import('./pages/customer/profile/'))
+const CustomerDetails = React.lazy(() => import('./pages/customer/profile'))
 const CustomerEdit = React.lazy(() => import('./pages/customer/edit'))
 const ManagerProfile = React.lazy(() => import('./pages/customer/profile/manager'))
 const ManagerEdit = React.lazy(() => import('./pages/customer/edit/manager'))
@@ -72,10 +72,10 @@ const routes = [
   //고객사 
   { path: '/main/customer', name: 'Customer', component: Customer, route: MainRoute, exact: true },
   { path: '/main/customer/register', name: 'CustomerAdd', component: CustomerAdd, route: MainRoute, exact: true },
-  { path: '/main/customer/register_manager', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
-  { path: '/main/customer/details/:id', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
-  { path: '/main/customer/edit', name: 'CustomerEdit', component: CustomerEdit, route: MainRoute, exact: true },
-  { path: '/main/manager/profile', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
+  { path: '/main/customer/register_manager/:accId/:managerId', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
+  { path: '/main/customer/details/:accId/:managerId', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
+  { path: '/main/customer/edit/:accId/:managerId', name: 'CustomerEdit', component: CustomerEdit, route: MainRoute, exact: true },
+  { path: '/main/manager/profile/:accId/:managerId', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
   { path: '/main/manager/edit', name: 'ManagerEdit', component: ManagerEdit, route: MainRoute, exact: true },
 
   //워크그룹 

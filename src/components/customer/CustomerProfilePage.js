@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useStyles } from '../../pages/customer/registerManager';
 import Typography from '@material-ui/core/Typography';
-import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCustomerDetails } from '../../redux/customer/actions';
 import { Button } from 'antd';
-import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { graybox } from './CustomerItems';
+import { grayboxLink } from './CustomerItems';
 import { useHistory } from 'react-router';
 
-
-const CustomerProfilePage = () => {
+const CustomerProfilePage = ({ customerId, managerId }) => {
 
   const classes = useStyles()
   const lineStyle = {
@@ -20,27 +17,12 @@ const CustomerProfilePage = () => {
   };
   const history = useHistory()
   const dispatch = useDispatch()
-  const location = useLocation()
   const state = useSelector(state => state.Customer)
   const acc_details = state.customerDetails
-  const [customerId, setCustomerId] = useState(null)
 
   const manIds = []
   const manNames = []
   const names_ids = []
-  const [managerId, setManagerId] = useState(null)
-
-  useEffect(() => {
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: false
-    })
-  }, [])
-
-  useEffect(() => {
-    setCustomerId(location.state.acc_idx)
-  }, [location])
-
 
   useEffect(() => {
     customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
@@ -48,28 +30,25 @@ const CustomerProfilePage = () => {
 
   const registerAccountsMan = () => {
     history.push({
-      pathname: '/main/customer/register_manager',
-      state: {
-        acc_idx: customerId
-      }
+      pathname: `/main/customer/register_manager/${customerId}/${managerId}`,
     })
 
   }
   const managerClick = e => {
-    const value = e.target.innerHTML
+    // const value = e.target.innerHTML
 
-    names_ids.forEach((val, idIndex) => {
-      if (val == value) {
-        setManagerId(idIndex)
-      }
-    })
-    history.push({
-      pathname: '/main/manager/profile',
-      state: {
-        accm_idx: managerId,
-        acc_idx: customerId
-      }
-    })
+    // names_ids.forEach((val, idIndex) => {
+    //   if (val == value) {
+    //     setManagerId(idIndex)
+    //   }
+    // })
+    // history.push({
+    //   pathname: '/main/manager/profile',
+    //   state: {
+    //     accm_idx: managerId,
+    //     acc_idx: customerId
+    //   }
+    // })
   }
 
   return (
@@ -150,7 +129,7 @@ const CustomerProfilePage = () => {
                 {
                   manNames.map((obj, index) => {
                     names_ids[manIds[index]] = obj
-                    return <p key={manIds[index]} style={graybox} onClick={managerClick}>{obj}</p>
+                    return <p key={manIds[index]} style={grayboxLink} onClick={managerClick}>{obj}</p>
                   })
                 }
               </div>

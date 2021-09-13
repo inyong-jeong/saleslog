@@ -14,7 +14,8 @@ import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
 import { useMediaQuery } from 'react-responsive';
 import MyAppBar from "../../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { useLocation } from 'react-router-dom'
+import { useParams } from "react-router";
+
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -63,25 +64,23 @@ const CustomerEditPage = () => {
     query: "(max-width:991px)"
   });
 
-  const navigateTo = () => history.push('/main/customer')
+  const navigateTo = () => history.push(`/main/customer/details/${params.accId}/${params.managerId}`)
 
+  const params = useParams()
   const dispatch = useDispatch()
   const classes = useStyles()
   const state = useSelector(state => state.Customer)
   const acc_details = state.customerDetails
   const [customerId, setCustomerId] = useState(null)
-  const location = useLocation()
 
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: false
     })
+    setCustomerId(params.accId)
+    console.log('edit parmas:::', params)
   }, [])
-
-  useEffect(() => {
-    setCustomerId(acc_details.acc_idx)
-  }, [location])
 
   useEffect(() => {
     customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
@@ -98,8 +97,8 @@ const CustomerEditPage = () => {
 
   //기존정보 보여주기 
   useEffect(() => {
-    if (state.loading == false) {
-      if (inputs.sales_gb == '0010001') {
+    if (state.loading === false) {
+      if (inputs.sales_gb === '0010001') {
         setGradeType(scoreType)
       } else {
         setGradeType(stageType)
@@ -124,11 +123,10 @@ const CustomerEditPage = () => {
           acc_fax: acc_details.acc_fax ? acc_details.acc_fax : '',
           sales_gb: acc_details.sales_gb ? acc_details.sales_gb : '',
           acc_url: acc_details.acc_url ? acc_details.acc_url : '',
-          acc_idx: customerId
+          acc_idx: acc_details.acc_idx
         }
       )
     }
-    console.log(inputs)
   }, [state.loading])
 
   const [inputs, setInputs] = useState(
@@ -160,14 +158,17 @@ const CustomerEditPage = () => {
     if (inputs.account_name.includes('(주)' || '주식회사')) {
       return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
+    console.log(inputs)
 
     dispatch(postEditCustomer.call(inputs))
-    history.push({
-      pathname: '/main/customer',
-      state: {
-        needRefresh: true,
-      }
-    })
+    setInterval(() => {
+      history.push({
+        pathname: '/main/customer',
+        state: {
+          needRefresh: true,
+        }
+      })
+    }, 1000);
     return
   }
 
@@ -188,7 +189,7 @@ const CustomerEditPage = () => {
 
   const onChangeCustomer = (value) => {
     setInputs({ ...inputs, sales_gb: value })
-    if (value == '0010001') {
+    if (value === '0010001') {
       setGradeType(scoreType)
     } else {
       setGradeType(stageType)

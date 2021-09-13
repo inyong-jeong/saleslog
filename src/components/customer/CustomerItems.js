@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const graybox = {
+const graybox = {
   display: 'inline',
   marginRight: 5,
   fontSize: 11,
@@ -34,6 +34,17 @@ export const graybox = {
   color: '#fff',
   padding: 3,
   borderRadius: '2px'
+}
+
+export const grayboxLink = {
+  display: 'inline',
+  marginRight: 5,
+  fontSize: 11,
+  backgroundColor: '#666666',
+  color: '#fff',
+  padding: 3,
+  borderRadius: '2px',
+  cursor: 'pointer'
 }
 const bluebox = {
   fontSize: 11,
@@ -58,8 +69,8 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   let restCount
 
   useEffect(() => {
-    if (location.state) {
 
+    if (location.state) {
       window.location.reload()
     }
   }, [location])
@@ -112,8 +123,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
           cusotomerList.map((singleList, index) => {
             return (
               <div onClick={() => history.push({
-                pathname: `/main/customer/details/${singleList.acc_idx}`,
-                state: { acc_idx: singleList.acc_idx }
+                pathname: `/main/customer/details/${singleList.acc_idx}/${singleList.accm_idxs}`
               })} key={singleList.num}>
                 <ListItem style={{ height: 120 }}>
                   <div>

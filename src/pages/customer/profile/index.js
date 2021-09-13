@@ -1,31 +1,41 @@
-import React, { useState } from 'react';
-import MyNavigation from '../../../components/styledcomponent/ MyNavigation';
+import React, { useState, useEffect } from 'react';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import { useHistory } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 import FullTabs from '../../../components/styledcomponent/FullTabs';
 import CustomerProfilePage from '../../../components/customer/CustomerProfilePage';
 import CustomerLogPage from '../../../components/customer/CustomerLogPage';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+
 const { TabPane } = FullTabs;
 const CustomerDetail = () => {
 
+  const params = useParams()
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
   const history = useHistory()
-  const state = useSelector(state => state.Customer)
+  const dispatch = useDispatch()
+
+  const [customerId, setCustomerId] = useState(null)
+  const [managerId, setManagerId] = useState(null)
+
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: false
+    })
+    setCustomerId(params.accId)
+    setManagerId(params.managerId)
+  }, [])
+
 
   const navigateTo = () => history.push('/main/customer')
 
   const onEditClick = () => {
-
-    history.push({
-      pathname: '/main/customer/edit',
-      state: {
-        editMode: true
-      }
-    })
+    history.push(`/main/customer/edit/${customerId}/${managerId}`)
   }
 
   return (
@@ -38,10 +48,10 @@ const CustomerDetail = () => {
       <div>
         <FullTabs defaultActiveKey="1" >
           <TabPane tab="프로필" key="1" >
-            <CustomerProfilePage />
+            <CustomerProfilePage customerId={customerId} managerId={managerId} />
           </TabPane>
           <TabPane tab="일지" key="2">
-            <CustomerLogPage />
+            <CustomerLogPage customerId={customerId} />
           </TabPane>
         </FullTabs>
       </div>
