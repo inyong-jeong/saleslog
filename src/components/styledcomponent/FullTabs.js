@@ -2,15 +2,21 @@ import styled from 'styled-components';
 import { Tabs } from 'antd';
 
 const FullTabs = styled(Tabs)`
-.ant-tabs-nav {
-width: 100% !important;
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #333333 !important; 
+  font-weight: 500;
+
 }
+
+${'' /* .ant-tabs-nav {
+width: 100% !important;
+} */}
 
 .ant-tabs-tab{
 display: block; // centers text inside tabs
 flex: 1;
 text-align: center;
-color: #333333;
 
 }
 .ant-tabs-tab:hover{
@@ -27,6 +33,12 @@ width: 100% !important;
   color: #333333
   font-size: 14px;
 }
+.ant-tabs-ink-bar {
+  position: absolute;
+  background: #000000;
+  pointer-events: none;
+}
+
 `;
 
 export default FullTabs;
