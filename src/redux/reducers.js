@@ -5,6 +5,8 @@ import Account from './account/reducers';
 import { routerReducer } from 'react-router-redux'
 import Customer from './customer/reducers';
 import Workgroup from './workgroup/reducers';
+import Organization from './organization/reducers';
+
 
 export default combineReducers({
   Auth,
@@ -12,5 +14,6 @@ export default combineReducers({
   Account,
   Customer,
   Workgroup,
+  Organization,
   routing: routerReducer
 });
