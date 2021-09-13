@@ -1,15 +1,15 @@
 import {
   POST_CUSTOMER,
-  POST_CUSTOMER_FAILED,
+  POST_CUSTOMER_ERROR,
   POST_CUSTOMER_SUCCESS,
   GET_CUSTOMER,
-  GET_CUSTOMER_FAILED,
+  GET_CUSTOMER_ERROR,
   GET_CUSTOMER_SUCCESS,
   GET_CUSTOMER_OPTION_USERS,
   GET_CUSTOMER_OPTION_USERS_SUCCESS,
-  GET_CUSTOMER_OPTION_USERS_FAILED,
+  GET_CUSTOMER_OPTION_USERS_ERROR,
   POST_CUSTOMER_MANAGER,
-  POST_CUSTOMER_MANAGER_FAILED,
+  POST_CUSTOMER_MANAGER_ERROR,
   POST_CUSTOMER_MANAGER_SUCCESS,
   GET_CUSTOMER_DETAILS,
   GET_CUSTOMER_DETAILS_ERROR,
@@ -45,28 +45,28 @@ const Customer = (state = initialState, action) => {
       return { ...state, loading: true }
     case POST_CUSTOMER_SUCCESS:
       return { ...state, loading: false, postCustomerResponse: true }
-    case POST_CUSTOMER_FAILED:
+    case POST_CUSTOMER_ERROR:
       return { ...state, loading: false, postCustomerResponse: false }
 
     case GET_CUSTOMER:
       return { ...state, loading: true }
     case GET_CUSTOMER_SUCCESS:
       return { ...state, loading: false, getCustomerResponse: true, list: action.payload.response.message[0], listCounts: action.payload.response.message[1][0].totalCnt }
-    case GET_CUSTOMER_FAILED:
+    case GET_CUSTOMER_ERROR:
       return { ...state, loading: false, getCustomerResponse: false }
 
     case GET_CUSTOMER_OPTION_USERS:
       return { ...state, userListsResponse: false }
     case GET_CUSTOMER_OPTION_USERS_SUCCESS:
       return { ...state, userListsResponse: true, userLists: action.payload.response.message }
-    case GET_CUSTOMER_OPTION_USERS_FAILED:
+    case GET_CUSTOMER_OPTION_USERS_ERROR:
       return { ...state, userListsResponse: false, }
 
     case POST_CUSTOMER_MANAGER:
       return { ...state, loading: true }
     case POST_CUSTOMER_MANAGER_SUCCESS:
       return { ...state, loading: false, postCustomerMangerResponse: true }
-    case POST_CUSTOMER_MANAGER_FAILED:
+    case POST_CUSTOMER_MANAGER_ERROR:
       return { ...state, loading: false, postCustomerMangerResponse: false }
 
     case GET_CUSTOMER_DETAILS:

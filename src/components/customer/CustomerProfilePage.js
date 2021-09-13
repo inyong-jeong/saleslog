@@ -182,7 +182,7 @@ const CustomerProfilePage = () => {
               </p>
             </div>
           </div>
-        </> : console.log('customer profile loading...')
+        </> : console.log('고객 프로필 loading...')
       }
     </div>
   )

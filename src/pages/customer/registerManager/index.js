@@ -12,6 +12,7 @@ import { postCustomerManger } from "../../../redux/customer/actions";
 import { DatePicker } from "antd";
 import 'moment/locale/ko';
 import locale from 'antd/es/date-picker/locale/ko_KR';
+import AvatarUp from "../../../components/AvatarUp";
 
 const { Panel } = Collapse
 
@@ -124,7 +125,7 @@ const RegisterManager = () => {
 
   const handleFileChange = (e) => {
     console.log(e)
-    setAccoutManagerInputs({ ...accountMangerInputs, [e.target.name]: e.target.files })
+    setAccoutManagerInputs({ ...accountMangerInputs, man_photo: e.target.files })
   }
 
   const onChangeBirthday = (date, dateString) => {
@@ -142,6 +143,15 @@ const RegisterManager = () => {
       <div>
         <div>
           <input type="file" name="man_photo" onChange={handleFileChange} />
+          {/* <AvatarUp 
+                  iconShape='square' 
+                  style={{ 
+                    padding:0,
+                    margin:0,
+                    width:90,
+                    height:90,
+                  }} 
+                  handleChange={handleFileChange} />  */}
           <p>명함을 등록해주세요.</p>
         </div>
         <div>
