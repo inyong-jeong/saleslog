@@ -78,7 +78,7 @@ const WgroupManagePage = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {isMobile && <MyAppBar barTitle={(cmm.isEmpty(inputs.data))?'워크그룹':inputs.data.organization} navigateTo={navigateTo} />}     
+      {<MyAppBar barTitle={(cmm.isEmpty(inputs.data))?'워크그룹':inputs.data.organization} navigateTo={navigateTo} />}     
       <div style={{height:20}}></div>
       <IconLabel title="정보 수정" pathUri="main/workgroup/register"></IconLabel>
       <Divider style={{margin:10}}/>

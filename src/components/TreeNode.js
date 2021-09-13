@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PlusSquareOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusSquareOutlined, CheckOutlined, MinusOutlined } from '@ant-design/icons';
 import { makeStyles } from '@material-ui/styles';
 import cmm from '../constants/common';
+import TreeInput  from 'components/TreeInput';
+import { useMediaQuery } from 'react-responsive';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 const useStyles = makeStyles({
   circle: {
@@ -25,27 +28,63 @@ const useStyles = makeStyles({
 // TreeNode=============
 // 
 const TreeNode = (props) => {  
-  console.log('props.children::::::::::::::::',props.children.length)
+  
   const hasChildren = (!cmm.isEmpty(props.children) && props.children.length > 0)?true:false;
   const classes = useStyles();  
-  const { changeTitle } = props;
+  const [inputs, setInputs] = useState(
+    {
+      dept_idx: props.dept_idx,
+      dept_name:props.title,
+      lvl:props.lvl,
+      isChange:false,
+      isDelete:false,
+      isBtnShow:false,
+    }
+  )
+  
 
   
   const handleClick = event => {
+    //console.log(event)
     // hiddenFileInput.current.click();
   };
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:991px)"
+  });
+
+  const inputChange = (data) => {
+    
+    setInputs({ 
+      ...inputs, 
+      dept_idx :data.idx ,        
+      dept_name : data.title,
+      isChange : true,
+    })      
+    
+  }
+
+  const handleInputFocus = (data)  => {
+    
+    setInputs({ 
+      ...inputs, 
+      isBtnShow : data,
+    })
+  }
 
   const renderChildren = (children) => {
     return (
         <ul style={{ paddingLeft:30 }}>
           { children.map((nodeProps) => {
               const { id, ...others } = nodeProps;
-              console.log('TreeNode nodeProps:::::::::',id, nodeProps)
               
               return (
                 <TreeNode
-                  key={id}                  
+                  key={id}
                   {...others}
+                  regiDept={ props.regiDept }
+                  updDept={ props.updDept }
+                  delDept={ props.delDept }
                 />
               );
           })}
@@ -60,7 +99,7 @@ const TreeNode = (props) => {
             style={{ 
               alignItems: 'center',
               background: 'none',
-              margin: 10,
+              margin: 15,
             }}>
         
         <div className="EditableItem" style={{ height: '25px'}}>
@@ -68,22 +107,83 @@ const TreeNode = (props) => {
             <PlusSquareOutlined 
                   style={{ 
                     position:'relative', 
-                    fontSize:16 ,
+                    fontSize:14 ,
                     top:-4, 
                     marginRight:10
                   }}
-                  onClick={ props.addChild }
+
+                  onClick={(e) => {
+                    
+                    props.regiDept({dept_name:'부서',parent_idx:inputs.dept_idx,level:(inputs.lvl+1)})
+
+                  }}
                   
                   />}
           {((props.lvl < 3)?false:true) && <span style={{ width:25, marginRight:10 }}>&nbsp;&nbsp;</span>}
-          <input name={props.id}
-                className="EditableItem-Text"
-                onChange={(e) => { changeTitle(e.target.value) }}
-                value={props.title}
-                placeholder="부서 or 팀 명"
+          <TreeInput
+                key={props.id}
+                text={props.title}
+                style={{ padding:5, fontSize:13, width: 160 + ((!isMobile)?150:0) +  ((3-props.lvl)*20) + ((props.lvl===1)?14:0)+ ((props.lvl===2)?4:0) }}
+                inputChange= { inputChange }
+                inputFocusChange = { handleInputFocus }
+                dept_idx={props.dept_idx}
+
               />
-          <CheckOutlined  style={{ padding:10, fontSize:16 }}/>&nbsp;&nbsp;&nbsp;
-          <DeleteOutlined  style={{ fontSize:16 }}/>&nbsp;
+          {(inputs.isBtnShow || inputs.isChange) &&
+          <CheckOutlined  
+                  style={{ 
+                    position:'relative',                    
+                    fontSize:14 ,
+                    top:-4,
+                    marginLeft:15,
+                  }}
+
+                  onClick= {(e) => {
+                    
+                    props.updDept({dept_idx:inputs.dept_idx, dept_name:inputs.dept_name})
+                    setInputs({ 
+                      ...inputs, 
+                      isChange : false,
+                    })
+                  }}
+                  /> }
+          {(inputs.isBtnShow || inputs.isDelete) &&
+          <MinusOutlined
+                  style={{ 
+                    position:'relative',                    
+                    fontSize:14 ,
+                    top:-4,
+                    marginLeft:15,
+                  }}
+                  
+                  onMouseEnter={(e) => {
+                    
+                    setInputs({ 
+                      ...inputs, 
+                      isDelete : true,
+                    })
+                  }}
+
+                  onMouseOut ={(e) => {
+                    
+                    setInputs({ 
+                      ...inputs, 
+                      isDelete : false,
+                    })
+                  }}
+                  
+                  onMouseDown= {(e) => {
+                    
+                    props.delDept({dept_idx:inputs.dept_idx})                    
+                    setInputs({ 
+                      ...inputs, 
+                      isDelete : false,
+                    })
+                  }}
+                  
+                  />}
+                  
+                  
         </div>
       </div>
       {hasChildren && renderChildren(props.children)}
