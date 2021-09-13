@@ -22,9 +22,26 @@ import {
   GET_SALESLOGS_ERROR,
   SEARCH_SALESLOG_LIST,
   SEARCH_SALESLOG_LIST_SUCCESS,
-  SEARCH_SALESLOG_LIST_ERROR
+  SEARCH_SALESLOG_LIST_ERROR,
+  GET_SALESLOG,
+  GET_SALESLOG_SUCCESS,
+  GET_SALESLOG_ERROR,
+  POST_COMMENT,
+  POST_COMMENT_SUCCESS,
+  POST_COMMENT_ERROR,
+  PUT_COMMENT,
+  PUT_COMMENT_SUCCESS,
+  PUT_COMMENT_ERROR,
+  DELETE_COMMENT,
+  DELETE_COMMENT_SUCCESS,
+  DELETE_COMMENT_ERROR,
+  GET_COMMENT_LISTS,
+  GET_COMMENT_LISTS_SUCCESS,
+  GET_COMMENT_LISTS_ERROR
 
 } from '../../constants/actionTypes';
+
+
 
 const INIT_STATE = {
   submitLoading: false,
@@ -32,13 +49,22 @@ const INIT_STATE = {
   temporaryLoglists: [],
   temporaryLoglist: null,
   temporaryloglistresponse: false,
-  loglist: [],
-  searchloglist: [],
+  loglist: null,
+  loglistcount: null,
+  searchloglist: null,
   // logresponse: false,
   //영업일지 불러오기 관련
   loadLogsLoading: false,
   loadLogsDone: false,
+  loadSearchsLoading: false,
+  loadSearchsDone: false,
   // hasMoreLogs: true,
+  log: null,
+  commentlists: null,
+  comment: null,
+  commentchange: null,
+  commentdelete: null,
+
 
 };
 
@@ -84,14 +110,45 @@ const SalesLog = (state = INIT_STATE, action) => {
     case GET_SALESLOGS:
       return { ...state, loadLogsLoading: true, loadLogsDone: false };
     case GET_SALESLOGS_SUCCESS:
-      return { ...state, loadLogsLoading: false, loadLogsDone: true, loglist: action.payload.response.message };
+      return { ...state, loadLogsLoading: false, loadLogsDone: true, loglist: action.payload.response.message[0], loglistcount: action.payload.response.message[1][0].totalCnt };
     case GET_SALESLOGS_ERROR:
       return { ...state, loadLogsLoading: false, logresponse: false };
     case SEARCH_SALESLOG_LIST:
-      return { ...state };
+      return { ...state, loadLogsLoading: true, loadLogsDone: false };
     case SEARCH_SALESLOG_LIST_SUCCESS:
-      return { ...state, searchloglist: action.payload.response.message };
+      return { ...state, loglist: action.payload.response.message, loadLogsLoading: false, loadLogsDone: true };
     case SEARCH_SALESLOG_LIST_ERROR:
+      return { ...state, loadLogsLoading: false, loadLogsDone: false };
+    case GET_SALESLOG:
+      return { ...state };
+    case GET_SALESLOG_SUCCESS:
+      return { ...state, log: action.payload.response.message };
+    case GET_SALESLOG_ERROR:
+      return { ...state };
+    //피드백 관련
+    case POST_COMMENT:
+      return { ...state };
+    case POST_COMMENT_SUCCESS:
+      return { ...state, comment: action.payload.response.message.insertId };
+    case POST_COMMENT_ERROR:
+      return { ...state };
+    case PUT_COMMENT:
+      return { ...state };
+    case PUT_COMMENT_SUCCESS:
+      return { ...state, commentchange: action.payload.response.message };
+    case PUT_COMMENT_ERROR:
+      return { ...state };
+    case DELETE_COMMENT:
+      return { ...state };
+    case DELETE_COMMENT_SUCCESS:
+      return { ...state, commentdelete: action.payload.response.message };
+    case DELETE_COMMENT_ERROR:
+      return { ...state };
+    case GET_COMMENT_LISTS:
+      return { ...state };
+    case GET_COMMENT_LISTS_SUCCESS:
+      return { ...state, commentlists: action.payload.response.message };
+    case GET_COMMENT_LISTS_ERROR:
       return { ...state };
 
     default:

@@ -14,6 +14,10 @@ import {
   PUT_SALESLOG,
   PUT_FILE,
   DELETE_FILE,
+  POST_COMMENT,
+  PUT_COMMENT,
+  DELETE_COMMENT,
+  GET_COMMENT_LISTS
 } from '../../constants/actionTypes';
 
 import {
@@ -28,7 +32,11 @@ import {
   searchLogList,
   putSalesLog,
   putFile,
-  deleteFile
+  deleteFile,
+  postComment,
+  putComment,
+  deleteComment,
+  getCommentLists
 } from './actions';
 
 import {
@@ -119,6 +127,7 @@ function* _getLogList({ payload: { data } }) {
 function* _searchLogList({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/search_saleslog', data);
+    console.log(response)
     yield put(searchLogList.success(response));
   } catch (error) {
     yield put(searchLogList.error(error));
@@ -149,6 +158,48 @@ function* _deleteFile({ payload: { data } }) {
     yield put(deleteFile.success(response));
   } catch (error) {
     yield put(deleteFile.error(error));
+  }
+}
+
+//피드백 관련
+
+function* _postComment({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_feedback', data);
+    console.log('post', response)
+    yield put(postComment.success(response));
+  } catch (error) {
+    yield put(postComment.error(error));
+  }
+}
+function* _putComment({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_feedback', data);
+    console.log('put', response)
+
+    yield put(putComment.success(response));
+  } catch (error) {
+    yield put(putComment.error(error));
+  }
+}
+function* _deleteComment({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_feedback', data);
+    console.log('delete', response)
+
+    yield put(deleteComment.success(response));
+  } catch (error) {
+    yield put(deleteComment.error(error));
+  }
+}
+function* _getCommentLists({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/list_feedback', data);
+    console.log('get', response)
+
+    yield put(getCommentLists.success(response));
+  } catch (error) {
+    yield put(getCommentLists.error(error));
   }
 }
 
@@ -205,6 +256,21 @@ export function* watchdeleteFile() {
   yield takeEvery(DELETE_FILE, _deleteFile);
 }
 
+//피드백 
+
+export function* watchpostComment() {
+  yield takeEvery(POST_COMMENT, _postComment);
+}
+export function* watchputComment() {
+  yield takeEvery(PUT_COMMENT, _putComment);
+}
+export function* watchdeleteComment() {
+  yield takeEvery(DELETE_COMMENT, _deleteComment);
+}
+export function* watchgetCommentLists() {
+  yield takeEvery(GET_COMMENT_LISTS, _getCommentLists);
+}
+
 function* salesLogSaga() {
   yield all([
     //일지작성 관련
@@ -221,6 +287,11 @@ function* salesLogSaga() {
     fork(watchputSalesLog),
     fork(watchputFile),
     fork(watchdeleteFile),
+    //피드백 관련
+    fork(watchpostComment),
+    fork(watchputComment),
+    fork(watchdeleteComment),
+    fork(watchgetCommentLists),
 
   ]);
 }

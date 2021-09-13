@@ -12,7 +12,10 @@ import {
   PUT_SALESLOG,
   PUT_FILE,
   DELETE_FILE,
-
+  POST_COMMENT,
+  PUT_COMMENT,
+  DELETE_COMMENT,
+  GET_COMMENT_LISTS
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -34,4 +37,9 @@ export const putSalesLog = fetchActionGenerator(PUT_SALESLOG, 'data');
 export const putFile = fetchActionGenerator(PUT_FILE, 'data');
 export const deleteFile = fetchActionGenerator(DELETE_FILE, 'data');
 
+//피드백 관련
 
+export const postComment = fetchActionGenerator(POST_COMMENT, 'data');
+export const putComment = fetchActionGenerator(PUT_COMMENT, 'data');
+export const deleteComment = fetchActionGenerator(DELETE_COMMENT, 'data');
+export const getCommentLists = fetchActionGenerator(GET_COMMENT_LISTS, 'data');
