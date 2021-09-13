@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Tabs, Row, Col } from 'antd';
+import { Tabs, Row, Col } from 'antd';
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
 import LeadLogFilter from 'components/LeadLogFilter';
 import { connect } from 'react-redux';
+import FullTabs from "components/styledcomponent/FullTabs";
+import History from 'components/search/history.js'
+import SearchBar from 'components/search/searchbar.js'
 import {
   getLogLists, getLogList, searchLogList,
   putSalesLog, putFile, deleteFile
@@ -13,159 +16,164 @@ const { TabPane } = Tabs;
 function SalesLogList(props) {
 
 
-  const [key, setKey] = useState(1);
-  const [loggb, setLogGb] = useState('0010001');
-  const [page, setPage] = useState(1);
+  const [loglists, setLogLists] = useState([]);
   const [data, setData] = useState({
-    log_gb: loggb,
+    log_gb: '',
     sales_man: '',
     sales_lead_gb: '',
     sales_goal: '',
     sales_activity: '',
     accts: '',
     accts_man: '',
-    pageno: page
+    pageno: 1,
+    srch: ''
   })
-  const [isBottom, setIsBottom] = useState(false)
 
-  const [salesloglist, setSalesLogList] = useState([]);
-  const [leadloglist, setLeadLogList] = useState([]);
-
-  let Lists = props.loglist;
-
-  console.log(salesloglist);
-  // tab 바뀔때 data 변화
-
-  useEffect(() => {
-    if (key === 1) {
-
-      setLogGb('0010001')
-      setData({ ...data, 'log_gb': loggb })
-      // props.getLogLists(data)
-
-    } else if (key === 2) {
-
-      setLogGb('0010002')
-      setData({ ...data, 'log_gb': loggb })
-      // props.getLogLists(data)
-
-    } else return;
-  }, [key])
-
-  //data 바뀔때 call
+  // 처음 업로드 될 때 dispatch, data 바뀔 때 call
   useEffect(() => {
     props.getLogLists(data)
   }, [data])
 
-  // page 바뀔 때 call
+  // 데이터 받아 온 것 set
   useEffect(() => {
-    if (Lists && !props.loadLogsLoading) {
-      if (page === 1) {
-        setSalesLogList(Lists)
-      } else {
-        setSalesLogList(salesloglist.concat(Lists))
+    if (props.loglist && !props.loadLogsLoading) {
+      if (data.pageno === 1) {
+        return setLogLists(props.loglist)
       }
+      setLogLists(loglists.concat(props.loglist))
     }
   }, [props.loadLogsLoading])
 
-  // useEffect(() => {
-  //   props.getLogLists(data)
-  // }, [isBottom])
-
 
   const handleNextPage = () => {
-    setPage(page + 1)
-    // setIsBottom(isBottom => !isBottom)
-  }
-  // console.log('dddd', salesloglist)
-
-  // useEffect(() => {
-  //   if (key === 1 && props.loglist) {
-  //     setSalesLogList([...salesloglist, salesloglist.concat(props.loglist)])
-
-  //   } else if (key === 2 && props.loglist) {
-  //     setLeadLogList([...leadloglist, leadloglist.concat(props.loglist)])
-
-  //   }
-  // }, [pagenumber])
-
-
-  const selectTab = (key) => {
-    setKey(key)
-  }
-
-  //영업일지 리스트
-  // 영업일지 검색
-
-  const test1 = () => {
-    const data = {
-      srch: '삼성전자',
-      lageno: 1
+    if (props.loglistcount >= loglists.length) {
+      if (props.loadLogsLoading === true) return
+      data.pageno = data.pageno + 1
+      setData({ ...data, 'pageno': data.pageno })
     }
-    props.searchLogList(data)
-  }
-  const test2 = () => {
-
-  }
-  const test3 = () => {
-
-  }
-  const test4 = () => {
-
-  }
-  const test5 = () => {
-
   }
 
+  // tab 바뀔 때 sets
+  const onTabChange = (key) => {
+    switch (key) {
+      case '2':
+        setData({ ...data, log_gb: '0010001', pageno: 1 })
+        break
+      case '3':
+        setData({ ...data, log_gb: '0010002', pageno: 1 })
+        break
+      default:
+        setData({ ...data, log_gb: '', pageno: 1 })
+    }
+  }
 
-  // useEffect(() => {
-  //   function onScroll() {
-  //     if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-  //       if (!props.loadLogsLoading && props.loglist.length > 0) {
-  //         const count = pagenumber + 1;
-  //         setPageNumber(count)
-  //         setData({ ...data, 'pageno': pagenumber })
-  //         props.getLogLists(data)
+  const test = () => {
+    data.pageno = data.pageno + 1
+    setData({ ...data, 'pageno': data.pageno })
+  }
 
-  //       }
-  //     }
-  //   }
-  //   window.addEventListener('scroll', onScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll);
-  //   };
-  // }, [props.loglist, props.loadLogsLoading])
+  const TabStyle = {
+    width: '100%', textAlign: 'center'
+  }
+
+  //검색어 기능 구현
+  const [keywords, setKeywords] = useState(
+    JSON.parse(localStorage.getItem('keywords') || '[]'),
+  )
+
+  useEffect(() => {
+    localStorage.setItem('keywords', JSON.stringify(keywords))
+  }, [keywords])
+
+
+  //검색어 추가
+  const handleAddKeyword = (text) => {
+    console.log('text', text)
+    const newKeyword = {
+      id: Date.now(),
+      text: text,
+    }
+    setKeywords([newKeyword, ...keywords])
+    setData({ ...data, srch: text, pageno: 1 })
+  }
+
+  //검색어 삭제
+  const handleRemoveKeyword = (id) => {
+    const nextKeyword = keywords.filter((thisKeyword) => {
+      return thisKeyword.id !== id
+    })
+    setKeywords(nextKeyword)
+  }
+
+  //검색어 전체 삭제
+  const handleClearKeywords = () => {
+    setKeywords([])
+  }
+
+  //최근검색어 display
+  const [focus, setFocus] = useState(false)
+  const onSearch = (keyword) => {
+    if (keyword) {
+      setFocus(keyword)
+    } else {
+      return setFocus(false);
+    }
+  }
+  const onEnter = (v) => {
+    setFocus(v);
+  }
+
   return (
-    <><div style={{ display: 'block' }}>
-      <button onClick={test1}>test2</button>
-      <button onClick={test2}>test3</button>
-      <button onClick={test3}>4</button>
-      <button onClick={test4}>5</button>
-      <button onClick={test5}>6</button>
-    </div>
+    <>
+      <div onClick={test}>testsss</div>
       <Row>
         <Col md={24} lg={24} xs={24}>
-          <Input.Search placeholder='검색어를 입력해주세요'></Input.Search>
+          <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
+          {focus && <History
+            keywords={keywords}
+            onClearKeywords={handleClearKeywords}
+            onRemoveKeyword={handleRemoveKeyword}
+          />}
         </Col>
       </Row>
       <Row>
         <Col sm={24} xs={24} md={24} lg={24} >
-          <Tabs style={{ width: '100%' }} size='large' type='line' defaultActiveKey="1" onChange={selectTab}>
-            <TabPane tab={<div style={{ width: '100%', textAlign: 'center' }}>영업일지</div>} key="1">
-              <SalesLogFilter />
-              {salesloglist.map((v) => (
-                <LogList key={v.slog_idx} loglist={v} handleNextPage={handleNextPage} />
+          <FullTabs size='large' type='line' defaultActiveKey="1" onChange={onTabChange}>
+            <TabPane tab={<div style={TabStyle}>전체</div>} key="1">
+              <SalesLogFilter data={data} setData={setData} />
+              {loglists.map((v) => (
+                <LogList key={v.slog_idx}
+                  loglist={v}
+                  handleNextPage={handleNextPage}
+                  // isnotbottom={isnotbottom}
+                  loglists={loglists} />
               ))
               }
             </TabPane>
-            <TabPane tab={<div style={{ width: '200px', textAlign: 'center' }}>리드일지</div>} key="2">
+            <TabPane tab={<div style={TabStyle}>영업일지</div>} key="2">
+              <SalesLogFilter data={data} setData={setData} />
+              {loglists.map((v) => (
+                <LogList key={v.slog_idx}
+                  loglist={v}
+                  handleNextPage={handleNextPage}
+                  // isnotbottom={isnotbottom}
+                  loglists={loglists} />
+              ))
+              }
+            </TabPane>
+            <TabPane tab={<div style={TabStyle}>리드일지</div>} key="3">
               <LeadLogFilter />
-              {salesloglist.map((v) => (
-                <LogList key={v.slog_idx} loglist={v} handleNextPage={handleNextPage} />
+              {loglists.map((v) => (
+                <LogList key={v.slog_idx}
+                  loglist={v}
+                  handleNextPage={handleNextPage}
+                  // isnotbottom={isnotbottom}
+                  loglists={loglists} />
               ))
               }
             </TabPane>
-          </Tabs>
+          </FullTabs>
+
         </Col>
       </Row>
       <Row>
@@ -175,9 +183,10 @@ function SalesLogList(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { loglist, loadLogsLoading } = state.SalesLog;
-  return { loglist, loadLogsLoading };
+  const { loglist, loadLogsLoading, searchloglist, loadSearchsLoading, loglistcount } = state.SalesLog;
+  return { loglist, loadLogsLoading, searchloglist, loadSearchsLoading, loglistcount };
 };
+
 const mapStateToDispatch = {
   getLogLists: getLogLists.call,
   getLogList: getLogList.call,
@@ -187,4 +196,70 @@ const mapStateToDispatch = {
   deleteFile: deleteFile.call
 }
 
+
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLogList);
+
+
+  // useEffect(() => {
+  //   if (loggb === '0010001') {
+  //     if (!keyword) {
+  //       const result = {
+  //         log_gb: loggb,
+  //         sales_man: '',
+  //         sales_lead_gb: '',
+  //         sales_goal: '',
+  //         sales_activity: '',
+  //         accts: '',
+  //         accts_man: '',
+  //         pageno: page
+  //       }
+  //       props.getLogLists(result)
+  //     } else if (keyword) {
+  //       const body = {
+  //         srch: keyword,
+  //         pageno: page
+  //       }
+  //       props.searchLogList(body);
+  //     }
+
+  //   } else if (loggb === '0010002') {
+  //     if (!keyword) {
+  //       const result = {
+  //         log_gb: loggb,
+  //         sales_man: '',
+  //         sales_lead_gb: '',
+  //         sales_goal: '',
+  //         sales_activity: '',
+  //         accts: '',
+  //         accts_man: '',
+  //         pageno: page
+  //       }
+  //       props.getLogLists(result)
+  //     } else if (keyword) {
+  //       const body = {
+  //         srch: keyword,
+  //         pageno: page
+  //       }
+  //       props.searchLogList(body);
+  //     }
+  //   }
+  // }, [page, keyword])
+  // page 바뀔 때 set
+  // useEffect(() => {
+  //   if (props.loglist && props.loadLogsLoading === false) {
+  //     if (page === 1) {
+  //       if (loggb === '0010001') {
+  //         setSalesLogList(props.loglist)
+  //       } else if (loggb === '0010002')
+  //         setLeadLogList(props.loglist)
+  //     } else if (page !== 1) {
+  //       if (loggb === '0010001') {
+  //         setSalesLogList(salesloglist.concat(props.loglist))
+  //       } else if (loggb === '0010002') {
+  //         setLeadLogList(leadloglist.concat(props.loglist))
+  //       }
+  //     }
+  //   }
+
+  // }, [props.loadLogsLoading])
+
