@@ -1,13 +1,11 @@
 import { AppBar, Badge, Toolbar, Typography, IconButton } from '@material-ui/core';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/styles';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import { ArrowBackIos } from '@material-ui/icons';
 import React from 'react';
 import Button from '@material-ui/core/Button';
-
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 const useStyles = makeStyles({
   appBarIcon: {
     position: 'absolute',
@@ -27,16 +25,18 @@ const useStyles = makeStyles({
 // 등록 버튼 보이기 및 클릭이벤트 - save click 
 // 알림 클릭 ->notiClick
 // 프로필 클릭 ->profileClick
-const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick }) => {
+//navigateNext ->  텍스트 옆에 다른 곳으로 이동하는 오른쪽 버튼 넣어주고 싶을 때 정의 
+const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick, navigateNext }) => {
 
   const classes = useStyles();
 
   return (
     <div>
-      <div style={{ marginBottom: 0 , paddingBottom:0}}>
+      <div>
         <AppBar
           style={{ height: 48, justifyContent: 'center' }}
           elevation={1}
+          position='relative'
           className={classes.appBar}
           color='default'>
           <Toolbar>
@@ -75,6 +75,12 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
               style={{ fontSize: 14, fontWeight: 'normal' }}>
               {barTitle}
             </Typography>
+            {
+              navigateNext &&
+              <IconButton color="inherit" onClick={navigateNext}>
+                <NavigateNextIcon />
+              </IconButton>
+            }
           </Toolbar>
         </AppBar>
       </div>
