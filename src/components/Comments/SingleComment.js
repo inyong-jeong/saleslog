@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Comment, Avatar, Button, Input } from 'antd';
-import Axios from 'axios';
-import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
-import { postComment, deleteComment, putComment } from 'redux/actions';
-import { Label } from 'reactstrap';
+import { postComment, deleteComment, putComment, getprofile } from 'redux/actions';
+import { LaptopWindowsOutlined } from '@material-ui/icons';
 
 const { TextArea } = Input;
+
 function SingleComment(props) {
-  const user = useSelector(state => state.user);
   const [CommentValue, setCommentValue] = useState("")
   const [CommentChangeValue, setCommentChangeValue] = useState(props.comment.note)
 
@@ -33,15 +31,28 @@ function SingleComment(props) {
   }
 
   const OnDelete = () => {
-    const body = {
-      fd_idx: props.idx
+
+    if (props.comment.user_name !== props.profileinformation[0].user_name) {
+      window.alert('본인의 피드맥만 삭제할 수 있습니다.')
+    } else {
+      const body = {
+        fd_idx: props.idx
+      }
+      props.deleteComment(body)
     }
-    props.deleteComment(body)
   }
 
   const OnChange = () => {
+    console.log(1111, props.comment.user_name)
+    console.log(1111, props.profileinformation[0].user_name)
 
-    setOpenChange(!openchange)
+
+    if (props.comment.user_name !== props.profileinformation[0].user_name) {
+      window.alert('본인의 피드맥만 수정할 수 있습니다.')
+    } else {
+      setOpenChange(!openchange)
+    }
+
   }
 
   const actions = [
@@ -56,6 +67,8 @@ function SingleComment(props) {
 
     }
   }, [props.commentdelete])
+
+
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -77,7 +90,7 @@ function SingleComment(props) {
       <Comment
         key={props.idx}
         actions={actions}
-        author={props.comment.user_name}
+        author={<div>{props.comment.user_name} {props.comment.title}</div>}
         avatar={
           <Avatar
             src={props.comment.thumb_url}
@@ -119,12 +132,15 @@ function SingleComment(props) {
 
 const mapStateToProps = (state) => {
   const { commentdelete } = state.SalesLog;
-  return { commentdelete };
+  const { profileinformation } = state.Profile;
+
+  return { commentdelete, profileinformation };
 };
 const mapStateToDispatch = {
   deleteComment: deleteComment.call,
   postComment: postComment.call,
-  putComment: putComment.call
+  putComment: putComment.call,
+  // getprofile: getprofile.call
 
 }
 
