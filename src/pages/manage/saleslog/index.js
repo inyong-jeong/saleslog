@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import {
-  getLogList, getCommentLists
-} from 'redux/actions';
+import { getLogList, getCommentLists, getprofile } from 'redux/actions';
 import { connect } from 'react-redux';
-import { Row, Col, Divider } from 'antd'
+import { Row, Col } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
 import Chart from 'react-apexcharts';
 import Comments from 'components/Comments/Comments'
-
+import LogModal from 'components/Modal';
 function SalesLog(props) {
 
   const [CommentLists, setCommentLists] = useState([])
   const body = {
     slog_idx: props.match.params.id
   }
-
   let Log = props.log && props.log[0]
+
+
+  const handleOnBack = () => {
+    props.history.push('/main/manage');
+  }
+
+  const updateComment = (newComment) => {
+    setCommentLists(CommentLists.concat(newComment))
+  }
+
   useEffect(() => {
     if (props.match.params.id) {
       const body = {
@@ -25,23 +32,9 @@ function SalesLog(props) {
     }
   }, [])
 
-  const handleOnBack = () => {
-    props.history.push('/main/manage');
-  }
-
-
-
-  const series = [1, 1, 1, 1]
-  const option = {
-    labels: ['전략니즈', '상품니즈', '운영니즈', '개인니즈'],
-  };
-
-  const updateComment = (newComment) => {
-    setCommentLists(CommentLists.concat(newComment))
-  }
-
   useEffect(() => {
     props.getCommentLists(body)
+    props.getprofile()
   }, [])
 
   useEffect(() => {
@@ -71,8 +64,15 @@ function SalesLog(props) {
   }
     , [props.commentchange])
 
-  console.log(props.commentlists)
-  console.log(Log)
+  const series = [1, 1, 1, 1]
+  const option = {
+    labels: ['전략니즈', '상품니즈', '운영니즈', '개인니즈'],
+  };
+
+  const handleOnRevise = () => {
+    props.history.push(`/main/upload/${props.match.params.id}`)
+  }
+
   return (
     <>
       <div className='container'>
@@ -85,7 +85,14 @@ function SalesLog(props) {
             alt='back_logo'
             style={{ cursor: 'pointer' }} />
           <h3>영업일지 상세</h3>
-          <h4>편집</h4>
+          {/* <h4 onClick={handleOnClick}>편집</h4> */}
+          <div style={{ display: 'flex' }}>
+            {/* <LogModal buttonLabel='수정' /> */}
+            <span style={{ cursor: 'pointer' }} onClick={handleOnRevise}>수정</span>
+            &nbsp;
+            &nbsp;
+            <LogModal buttonLabel='삭제' />
+          </div>
         </div>
         {/* </Col> */}
         {/* </Row> */}
@@ -168,7 +175,9 @@ const mapStateToProps = (state) => {
 };
 const mapStateToDispatch = {
   getLogList: getLogList.call,
-  getCommentLists: getCommentLists.call
+  getCommentLists: getCommentLists.call,
+  getprofile: getprofile.call
+
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLog);

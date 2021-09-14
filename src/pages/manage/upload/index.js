@@ -121,6 +121,34 @@ function UploadSalesLog(props) {
     }
   }, [temporaryLogListId])
 
+  useEffect(() => {
+    //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
+    if (props.match.params.id) {
+      const { meeting_date, meeting_stime, meeting_etime, acc_idx, accm_idx, sales_gb, sales_goal, sales_lead_gb
+        , sales_activity, title, log, addr } = props.log[0]
+      const index = getSeletedChannel(sales_activity);
+      const activityindex = getSeletedActivity(sales_goal)
+      console.log(index)
+      console.log(activityindex)
+      // setDateString(meeting_date)
+      // setStart(meeting_stime)
+      // setEnd(meeting_etime)
+      // setSelectedAccount(acc_idx)
+      // setSelectedAccountPerson(accm_idx)
+      // setRadioCheck(sales_gb)
+      // setLeadActivity(sales_lead_gb)
+      setActivitylIndex(activityindex)
+      setChannelIndex(index)
+      setLocation(addr)
+      setTitle(title)
+      setContent(log)
+      // setFromData({
+      //   ...fromData,
+      //   'title': title
+      // })
+    }
+  }, [props.match.params.id])
+
   const [fromData, setFromData] = useState({
     acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
     accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
@@ -346,7 +374,11 @@ function UploadSalesLog(props) {
     setLists(lists.filter(list => list.id !== id));
     setCoUser(couser.filter(couserList => couserList.id !== id))
   }
+  console.log(props)
 
+  const onCancel = () => {
+    props.history.push(`/main/manage/saleslog/${props.match.params.id}`)
+  }
   return (
     <React.Fragment>
       <Helmet>
@@ -363,8 +395,8 @@ function UploadSalesLog(props) {
               onClick={handleOnBack}
               alt='back_logo'
               style={{ cursor: 'pointer' }} />
-            <h4 > <strong>일지 쓰기</strong></h4>
-            <h4 >등록</h4>
+            {!props.match.params.id ? <h4 > <strong>일지 쓰기</strong></h4> : <h4 > <strong>일지 수정</strong></h4>}
+            <div ></div>
           </div>
         </div>
         <div className='mt-2'></div>
@@ -546,7 +578,8 @@ function UploadSalesLog(props) {
         <div className="mt-3"></div>
         <div className="row" style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 2px 0px 2px' }}>
           <h4>내용</h4>
-          <LogListModal buttonLabel='임시저장함' />
+          {!props.match.params.id ? <LogListModal buttonLabel='임시저장함' /> : <></>}
+
         </div>
         <div className="mt-2"></div>
         <div className="input-group">
@@ -557,9 +590,9 @@ function UploadSalesLog(props) {
             onChange={onChangeContent}
           />
         </div>
-        <div className="row mt-1" style={{ display: 'flex' }}>
+        {!props.match.params.id ? <div className="row mt-1" style={{ display: 'flex' }}>
           <div className='col-10'>
-            <label className='input-file-button' for='input-file' style={{ backgroundColor: 'white', padding: '5px', cursor: 'pointer' }}>
+            <label className='input-file-button' htmlfor='input-file' style={{ backgroundColor: 'white', padding: '5px', cursor: 'pointer' }}>
               <img src={require('assets/icons/clip.png')} alt='clip_logo' />
             </label>
             <input type='file' id='input-file' onChange={selectFile} multiple />
@@ -569,8 +602,8 @@ function UploadSalesLog(props) {
             <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
             <CouserList lists={lists} handleonRemove={handleonRemove} />
           </div>
-        </div>
-        <div className="row">
+        </div> : <div className='mt-1'></div>}
+        {!props.match.params.id ? <div className="row">
           <div className="col-12 d-flex justify-content-center">
             <button className="btn btn-primary" onClick={onFormSubmit} >
               등록
@@ -579,7 +612,18 @@ function UploadSalesLog(props) {
               임시저장
             </button>
           </div>
-        </div>
+        </div> :
+          <div className="row">
+            <div className="col-12 d-flex justify-content-center">
+              <button className="btn btn-primary" onClick={onFormSubmit} >
+                수정
+              </button>
+              <button className="btn btn-primary ml-2" onClick={onCancel} >
+                취소
+              </button>
+            </div>
+          </div>
+        }
       </div >
     </React.Fragment >
   );
@@ -587,8 +631,8 @@ function UploadSalesLog(props) {
 
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
-  const { userList, temporaryLoglist } = state.SalesLog;
-  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist };
+  const { userList, temporaryLoglist, log } = state.SalesLog;
+  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist, log };
 };
 const mapStateToDispatch = {
   postSalesLog: postSalesLog.call,
