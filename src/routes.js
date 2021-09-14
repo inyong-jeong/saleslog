@@ -75,8 +75,8 @@ const routes = [
   { path: '/main/customer/register_manager/:accId/:managerId', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
   { path: '/main/customer/details/:accId/:managerId', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
   { path: '/main/customer/edit/:accId/:managerId', name: 'CustomerEdit', component: CustomerEdit, route: MainRoute, exact: true },
-  { path: '/main/manager/profile/:accId/:managerId', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
-  { path: '/main/manager/edit', name: 'ManagerEdit', component: ManagerEdit, route: MainRoute, exact: true },
+  { path: '/main/manager/profile/:accId/:singleId', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
+  { path: '/main/manager/editManager/:singleId/:accId', name: 'ManagerEdit', component: ManagerEdit, route: MainRoute, exact: true },
 
   //워크그룹 
   { path: '/main/workgroup', name: 'Workgroup', component: Workgroup, route: MainRoute, exact: true },
