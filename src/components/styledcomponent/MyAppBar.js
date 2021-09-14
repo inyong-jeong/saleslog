@@ -1,13 +1,13 @@
 import { AppBar, Badge, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
-import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import { ArrowBackIos } from '@material-ui/icons';
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useMediaQuery } from "react-responsive";
 import { Divider } from 'antd';
+import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
+import { ReactComponent as Person } from '../.././assets/icons/person.svg'
 
 const useStyles = makeStyles({
   appBarIcon: {
@@ -56,12 +56,12 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
               isMobile && !showBackButton &&
               <div div className={classes.appBarIcon}>
                 <IconButton color="inherit" onClick={notiClick}>
-                  <Badge badgeContent={0} color="secondary">
-                    <NotificationsNoneOutlinedIcon />
+                  <Badge badgeContent={1} color="secondary">
+                    <Noti />
                   </Badge>
                 </IconButton>
                 <IconButton color="inherit">
-                  <PermIdentityOutlinedIcon onClick={profileClick} />
+                  <Person onClick={profileClick} />
                 </IconButton>
               </div>
             }
