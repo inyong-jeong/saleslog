@@ -1,7 +1,7 @@
 import MyAppBar from "../../../components/styledcomponent/MyAppBar"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 import { makeStyles, Typography } from "@material-ui/core"
 import { Collapse } from 'antd';
 import { useDispatch } from "react-redux";
@@ -15,7 +15,6 @@ import locale from 'antd/es/date-picker/locale/ko_KR';
 import AvatarUp from "../../../components/AvatarUp";
 
 const { Panel } = Collapse
-
 export const useStyles = makeStyles({
   FormControl: {
     minWidth: 120,
@@ -64,7 +63,7 @@ const RegisterManager = () => {
     query: "(max-width:991px)"
   });
 
-
+  const menuDiv = useRef()
   const history = useHistory()
   const params = useParams()
 
@@ -73,10 +72,9 @@ const RegisterManager = () => {
     console.log(params)
   }, [])
 
-  const navigateTo = () => history.push(`/main/customer/details/${params.accId}/${params.managerId}`)
-
-  //inputs
-
+  const navigateTo = () => history.goBack()
+  const [isHiddenMenu, setIsHiddenMenu] = useState(true)
+  const [hideText, setHideText] = useState(false)
   const dispatch = useDispatch()
   const classes = useStyles()
   const [accountMangerInputs, setAccoutManagerInputs] = useState(
@@ -102,6 +100,7 @@ const RegisterManager = () => {
       man_photo: null,
     }
   )
+  const [preview, setPreview] = useState(null)
 
   //file
   const handleChange = (e) => {
@@ -115,17 +114,24 @@ const RegisterManager = () => {
 
   const onSaveClick = (e) => {
     dispatch(postCustomerManger.call(accountMangerInputs))
-    // history.push({
-    //   pathname: '/main/customer',
-    //   state: {
-    //     needRefresh: true,
-    //   }
-    // })
+    history.goBack()
   }
 
   const handleFileChange = (e) => {
-    console.log(e)
-    setAccoutManagerInputs({ ...accountMangerInputs, man_photo: e.target.files })
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      setAccoutManagerInputs({
+        ...accountMangerInputs,
+        man_photo: e.target.files
+      })
+      setPreview(reader.result)
+    }
+
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+      setHideText(true)
+    }
+
   }
 
   const onChangeBirthday = (date, dateString) => {
@@ -134,26 +140,30 @@ const RegisterManager = () => {
   const onChangeMarryDay = (date, dateString) => {
     setAccoutManagerInputs({ ...accountMangerInputs, 'merryday': dateString })
   }
+  const handleHideMenu = () => {
+    setIsHiddenMenu(prev => !prev)
+
+  }
 
   return (
 
     <div>
-      {isMobile && <MyAppBar barTitle={'담당자 추가'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />}
+      <MyAppBar barTitle={'담당자 추가'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />
 
-      <div>
-        <div>
-          <input type="file" name="man_photo" onChange={handleFileChange} />
-          {/* <AvatarUp 
-                  iconShape='square' 
-                  style={{ 
-                    padding:0,
-                    margin:0,
-                    width:90,
-                    height:90,
-                  }} 
-                  handleChange={handleFileChange} />  */}
-          <p>명함을 등록해주세요.</p>
+      <div style={{ marginTop: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <AvatarUp
+            iconShape='square'
+            imgsrc={preview ? preview : ''}
+            height={200}
+            style={{
+              padding: 0,
+              width: 300,
+              height: 200,
+            }}
+            handleChange={handleFileChange} />
         </div>
+        {hideText ? <p></p> : <p style={{ textAlign: 'center', marginRight: 36 }}>명함을 등록해주세요.</p>}
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
@@ -167,7 +177,7 @@ const RegisterManager = () => {
               placeholder="담당자명"
               margin="normal"
             />
-            <label className={classes.laebelStyle}>직급 및 소속 </label>
+            <label className={classes.laebelStyle}>직급 및 소속 *</label>
             <Input
               name='posi'
               onChange={handleChange}
@@ -224,7 +234,7 @@ const RegisterManager = () => {
               margin="normal"
             />
 
-            <label className={classes.laebelStyle}>자택 주소 </label>
+            <label className={classes.laebelStyle}>자택 주소</label>
             <Input
               name='local_area'
               value={accountMangerInputs.local_area}
@@ -248,9 +258,15 @@ const RegisterManager = () => {
           </div>
         </div>
         <div>
-          <Typography variant='h6' align='left' className={classes.title}>기타 정보 </Typography>
-          <div style={{ padding: 10 }}>
-            <Collapse accordion bordered={false} >
+
+          <Typography variant='h6' align='left' className={classes.title}>
+            기타정보
+            {/* <span onClick={handleHideMenu}>
+              <ExpandMoreIcon />
+            </span> */}
+          </Typography>
+          <div style={{ padding: 5 }} ref={menuDiv}>
+            <Collapse accordion ghost>
               <Panel header="인물 메모" key="1" >
                 <TextArea
                   placeholder="담당자를 한 눈에 떠올릴 수 있도록 인물 총평을 기록해두시면 세일즈 활동에 불필요 한 실수를 최소화하는데 도움됩니다."
@@ -319,7 +335,7 @@ const RegisterManager = () => {
         </div>
         <div style={{ height: '60px' }}></div>
       </div>
-    </div>
+    </div >
 
 
   );

@@ -8,7 +8,8 @@ import {
   GET_CUSTOMER_DETAILS,
   POST_EDIT_CUSTOMER,
   POST_EDIT_MANAGER_INFO,
-  GET_MANAGER_INFO
+  GET_MANAGER_INFO,
+  POST_EDIT_NAMECARD
 } from '../../constants/actionTypes'
 
 import {
@@ -19,7 +20,8 @@ import {
   getCustomerDetails,
   postEditCustomer,
   getManagerInfo,
-  postEditManager
+  postEditManager,
+  postEditNamecard
 } from './actions'
 import { successMessage } from '../../constants/commonFunc'
 
@@ -31,29 +33,44 @@ const ACC_MAN_REGISTER = 'regi_accounts_man'
 const ACC_LIST = 'list_accounts'
 const USERS_URL = 'https://backend.saleslog.co/org/search_users'
 const CUSTOMER_DETAILS = 'detail_accounts'
-const EDIT_MANAGER = 'upd_accounts_man'
+const DETAIL_MANAGER_EDIT = 'upd_accounts_man'
 const DETAIL_MANAGER = 'detail_accounts_man'
+const NAMECARD_EDIT = 'upd_accounts_man_photo'
+
+function* _postEditNamecard({ payload: { body } }) {
+  try {
+    const response = yield call(post_fetch_files, BASE_URL + NAMECARD_EDIT, body)
+    yield put(postEditNamecard.success(response))
+  }
+  catch (error) {
+    yield put(postEditNamecard.error(error))
+  }
+}
 
 function* _postEditManager({ payload: { body } }) {
   try {
-
+    // console.log('SAGA :::::::', body)
+    const response = yield call(post_fetch, BASE_URL + DETAIL_MANAGER_EDIT, body)
+    yield successMessage('담당자 수정이 완료되었습니다.')
+    yield put(postEditManager.success(response))
 
   } catch (error) {
-
+    yield put(getManagerInfo.error(error))
   }
 }
 
 function* _getManagerInfo({ payload: { body } }) {
   try {
-
+    const response = yield call(post_fetch, BASE_URL + DETAIL_MANAGER, body)
+    yield put(getManagerInfo.success(response))
 
   } catch (error) {
+    yield put(getManagerInfo.error(error))
 
   }
 }
 
 function* _postEditCustomer({ payload: { body } }) {
-  console.log('SAGA :::::::', body)
   try {
     const response = yield call(post_fetch, BASE_URL + ACC_EDIT, body)
     yield successMessage('고객사 수정이 완료되었습니다.')
@@ -127,6 +144,10 @@ function* _getUser({ payload: { body } }) {
   }
 }
 
+function* watchPostEditNamecard() {
+  yield takeEvery(POST_EDIT_NAMECARD, _postEditNamecard)
+}
+
 function* watchPostCustomer() {
   yield takeEvery(POST_CUSTOMER, _postCustomer)
 }
@@ -161,7 +182,8 @@ function* customerSaga() {
     fork(watchGetCustomerDetails),
     fork(watchPostEditCustomer),
     fork(watchPostEditManager),
-    fork(watchGetMangerInfo)
+    fork(watchGetMangerInfo),
+    fork(watchPostEditNamecard)
   ])
 }
 

@@ -68,12 +68,12 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   const location = useLocation()
   let restCount
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (location.state) {
-      window.location.reload()
-    }
-  }, [location])
+  //   if (location.state) {
+  //     window.location.reload()
+  //   }
+  // }, [location])
 
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, 1))

@@ -18,7 +18,7 @@ const AuthLayout = (props) => {
 
   // 하단 NaviBar Show
   const [isNaviShow, setisNaviShow] = useState(false)
-  
+
   useEffect(() => {
     props.checkAccessToken()
   }, [])
@@ -47,12 +47,12 @@ const AuthLayout = (props) => {
       <div id="wrapper">
         {/* <Navbar /> */}
         <LeftSidebar />
-        <div className="content-page"> 
-          { props.children }          
+        <div className="content-page">
+          {props.children}
         </div>
         <footer>
         </footer>
-        { isMobile && isNaviShow && <MyNavigation />}
+        {isMobile && isNaviShow && <MyNavigation />}
 
       </div>
     </React.Fragment>

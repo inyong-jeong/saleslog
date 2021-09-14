@@ -20,7 +20,10 @@ import {
   GET_MANAGER_INFO,
   GET_MANAGER_INFO_ERROR,
   GET_MANAGER_INFO_SUCCESS,
-  POST_EDIT_MANAGER_INFO
+  POST_EDIT_MANAGER_INFO,
+  POST_EDIT_NAMECARD,
+  POST_EDIT_NAMECARD_ERROR,
+  POST_EDIT_NAMECARD_SUCCESS
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -38,7 +41,7 @@ const initialState = {
   getMangerResponse: null,
   managerDetails: null,
   postManagerEditResponse: null,
-
+  postNamecardResponse: null,
 }
 
 const Customer = (state = initialState, action) => {
@@ -88,16 +91,23 @@ const Customer = (state = initialState, action) => {
     case GET_MANAGER_INFO:
       return { ...state, loading: true, }
     case GET_MANAGER_INFO_SUCCESS:
-      return { ...state, loading: false, getMangerResponse: true, managerDetails: action.payload.response.message }
+      return { ...state, loading: false, getMangerResponse: true, managerDetails: action.payload.response.message[0] }
     case GET_MANAGER_INFO_ERROR:
       return { ...state, loading: false, getMangerResponse: false }
 
     case POST_EDIT_MANAGER_INFO:
       return { ...state, loading: true }
     case POST_EDIT_CUSTOMER_SUCCESS:
-      return { ...state, loading: true, postManagerEditResponse: true }
+      return { ...state, loading: false, postManagerEditResponse: true }
     case POST_EDIT_CUSTOMER_ERROR:
-      return { ...state, loading: true, postManagerEditResponse: false }
+      return { ...state, loading: false, postManagerEditResponse: false }
+
+    case POST_EDIT_NAMECARD:
+      return { ...state, loading: true }
+    case POST_EDIT_NAMECARD_SUCCESS:
+      return { ...state, loading: false, postNamecardResponse: true }
+    case POST_EDIT_NAMECARD_ERROR:
+      return { ...state, loading: false, postNamecardResponse: false }
 
     default:
       return { ...state };

@@ -1,8 +1,7 @@
 import MyAppBar from '../../../../components/styledcomponent/MyAppBar';
 import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useHistory, useLocation } from 'react-router';
-import { makeStyles, Typography } from "@material-ui/core"
+import { Typography } from "@material-ui/core"
 import { Collapse } from 'antd';
 import { useDispatch } from "react-redux";
 import Input from '../../../../components/styledcomponent/Input'
@@ -10,75 +9,44 @@ import TextArea from "antd/lib/input/TextArea";
 import { DatePicker } from "antd";
 import 'moment/locale/ko';
 import locale from 'antd/es/date-picker/locale/ko_KR';
+import { useHistory, useParams } from 'react-router';
+import { useStyles } from '../../registerManager';
+import { getManagerInfo, postEditManager, postEditNamecard } from '../../../../redux/customer/actions';
+import { SET_NAVIBAR_SHOW } from '../../../../constants/actionTypes';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { errorMessage } from '../../../../constants/commonFunc';
+import AvatarUp from '../../../../components/AvatarUp';
+import cmm from 'constants/common';
 
 const { Panel } = Collapse
-
-export const useStyles = makeStyles({
-  FormControl: {
-    minWidth: 120,
-  },
-  outer: {
-    background: '#ececec',
-    marginBottom: 70, //bottom navigation 뒤에 가려짐 
-  },
-
-  title: {
-    fontSize: 14,
-    background: '#F6F6F6',
-    paddingLeft: 10,
-    paddingTop: 3,
-    paddingBottom: 3,
-    color: '#666666',
-  },
-  innerBox: {
-    padding: 10,
-  },
-  laebelStyle: {
-    marginTop: 10,
-    color: '#111111',
-    fontWeight: 500,
-    fontSize: 14,
-  },
-  description: {
-    fontSize: 12,
-    color: '#666666'
-  },
-  showDetails: {
-    fontSize: 14,
-    color: '#333333',
-    fontWeight: 'normal'
-  },
-  addBtnStyle: {
-    margin: 10,
-    fontSize: 14,
-    color: '#333333',
-  }
-
-})
-
 const EditCustomerManager = () => {
+  const classes = useStyles()
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
-
-
+  const params = useParams()
   const history = useHistory()
-  const location = useLocation()
-
-
-  const navigateTo = () => {
-    //   history.push(`/main/customer`)
-
-  }
-
-  //inputs
-
   const dispatch = useDispatch()
-  const classes = useStyles()
+  const state = useSelector(state => state.Customer)
+  const managerDetails = state.managerDetails
+  const [preview, setPreview] = useState(null)
+  const [chagnedPhoto, setChagnedPhoto] = useState(null)
+
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: false
+    })
+    dispatch(getManagerInfo.call({ acc_idx: params.accId, accm_idx: params.singleId }))
+  }, [])
+
+
   const [accountMangerInputs, setAccoutManagerInputs] = useState(
     {
-      acc_idx: '',
+      acc_idx: params.accId,
       man_name: '',
+      accm_idx: params.singleId,
       dept: '',
       posi: '',
       birthday: '',
@@ -95,9 +63,43 @@ const EditCustomerManager = () => {
       org_history: '',
       family: '',
       etc: '',
-      man_photo: null,
     }
   )
+
+  useEffect(() => {
+    if (state.loading === false) {
+      setAccoutManagerInputs(
+        {
+          ...accountMangerInputs,
+          acc_idx: params.accId,
+          accm_idx: params.singleId,
+          man_name: managerDetails.man_name,
+          dept: managerDetails.dept,
+          posi: managerDetails.posi,
+          birthday: managerDetails.birthday,
+          merryday: managerDetails.merryday,
+          email: managerDetails.email,
+          tel: managerDetails.tel,
+          org_tel: managerDetails.org_tel,
+          fax: managerDetails.fax,
+          school: managerDetails.school,
+          local_area: managerDetails.local_area,
+          personality: managerDetails.personality,
+          interest: managerDetails.interest,
+          hobby: managerDetails.hobby,
+          org_history: managerDetails.org_history,
+          family: managerDetails.family,
+          etc: managerDetails.etc,
+        }
+      )
+      setPreview(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + managerDetails.man_photo)
+    }
+  }, [state.loading])
+
+  const navigateTo = () => {
+    history.goBack()
+  }
+
 
   //file
   const handleChange = (e) => {
@@ -110,12 +112,35 @@ const EditCustomerManager = () => {
   }
 
   const onSaveClick = (e) => {
-
+    if (!accountMangerInputs.man_name || !accountMangerInputs.posi) {
+      return errorMessage('담당자명과 직급 및 소속은 필수 항목입니다.')
+    }
+    //담당자 정보 수정 
+    dispatch(postEditManager.call(accountMangerInputs))
+    //명함 사진 수정 
+    dispatch(postEditNamecard.call({
+      acc_idx: params.accId,
+      accm_idx: params.singleId,
+      man_photo: chagnedPhoto ? chagnedPhoto : ''
+    }))
+    history.goBack()
   }
 
   const handleFileChange = (e) => {
-    console.log(e)
-    setAccoutManagerInputs({ ...accountMangerInputs, man_photo: e.target.files })
+
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      setAccoutManagerInputs({
+        ...accountMangerInputs,
+        man_photo: e.target.files
+      })
+      setPreview(reader.result)
+      setChagnedPhoto(e.target.files)
+    }
+
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
   }
 
   const onChangeBirthday = (date, dateString) => {
@@ -128,13 +153,22 @@ const EditCustomerManager = () => {
   return (
 
     <div>
-      {isMobile && <MyAppBar barTitle={'담당자 프로필 수정'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />}
+      <MyAppBar barTitle={'담당자 프로필 수정'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />
 
       <div>
         <div>
-          <input type="file" name="man_photo" onChange={handleFileChange} />
-
-          <p>명함을 등록해주세요.</p>
+          <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
+            <AvatarUp
+              iconShape='square'
+              imgsrc={preview ? preview : ''}
+              height={200}
+              style={{
+                padding: 0,
+                width: 300,
+                height: 200,
+              }}
+              handleChange={handleFileChange} />
+          </div>
         </div>
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
@@ -149,7 +183,7 @@ const EditCustomerManager = () => {
               placeholder="담당자명"
               margin="normal"
             />
-            <label className={classes.laebelStyle}>직급 및 소속 </label>
+            <label className={classes.laebelStyle}>직급 및 소속 *</label>
             <Input
               name='posi'
               onChange={handleChange}
@@ -222,17 +256,17 @@ const EditCustomerManager = () => {
           <div className={classes.innerBox}>
             <label className={classes.laebelStyle}>생일 </label>
             <br />
-            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday' />
+            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday' value={moment(accountMangerInputs.birthday)} />
             <br />
             <label className={classes.laebelStyle}>결혼기념일 </label>
             <br />
-            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday' />
+            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday' value={moment(accountMangerInputs.merryday)} />
           </div>
         </div>
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기타 정보 </Typography>
           <div style={{ padding: 10 }}>
-            <Collapse accordion bordered={false} >
+            <Collapse accordion ghost>
               <Panel header="인물 메모" key="1" >
                 <TextArea
                   placeholder="담당자를 한 눈에 떠올릴 수 있도록 인물 총평을 기록해두시면 세일즈 활동에 불필요 한 실수를 최소화하는데 도움됩니다."
