@@ -6,6 +6,8 @@ import { routerReducer } from 'react-router-redux'
 import Customer from './customer/reducers';
 import Workgroup from './workgroup/reducers';
 import Organization from './organization/reducers';
+import Profile from './profile/reducers';
+
 
 
 export default combineReducers({
@@ -15,5 +17,6 @@ export default combineReducers({
   Customer,
   Workgroup,
   Organization,
+  Profile,
   routing: routerReducer
 });
