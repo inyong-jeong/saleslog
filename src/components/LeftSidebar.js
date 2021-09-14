@@ -25,11 +25,6 @@ const menuList = [{
   icon: "fe-clipboard",
   to: "/main/workgroup"
 },
-  // {
-  //   title: "일정",
-  //   icon: "fe-book-open",
-  //   to: "/main"
-  // }
 ];
 
 function openMenu() {

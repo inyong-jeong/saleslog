@@ -374,7 +374,6 @@ function UploadSalesLog(props) {
     setLists(lists.filter(list => list.id !== id));
     setCoUser(couser.filter(couserList => couserList.id !== id))
   }
-  console.log(props)
 
   const onCancel = () => {
     props.history.push(`/main/manage/saleslog/${props.match.params.id}`)

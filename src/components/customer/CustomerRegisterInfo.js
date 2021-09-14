@@ -63,11 +63,8 @@ const useStyles = makeStyles({
 })
 
 const CustomerRegisterInfo = () => {
-  const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
-  });
 
-  const navigateTo = () => history.push('/main/customer')
+  const navigateTo = () => history.goBack()
 
   const dispatch = useDispatch()
   const classes = useStyles()
@@ -114,24 +111,7 @@ const CustomerRegisterInfo = () => {
   8. 
   */
 
-  const onSaveClick = (e) => {
-    if (!inputs.account_name || !inputs.ceo_name || !inputs.man_name || !inputs.dept) {
-      return alert('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
-    }
-    if (inputs.account_name.includes('(주)' || '주식회사')) {
-      return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
-    }
-    dispatch(postCustomer.call(inputs))
 
-    setInterval(() => {
-      history.push({
-        pathname: '/main/customer',
-        state: {
-          needRefresh: true,
-        }
-      })
-    }, 1000);
-  }
 
   useEffect(() => {
     dispatch({
@@ -142,6 +122,17 @@ const CustomerRegisterInfo = () => {
     // setEditMode(null)
 
   }, [])
+
+  const onSaveClick = (e) => {
+    if (!inputs.account_name || !inputs.ceo_name || !inputs.man_name || !inputs.dept) {
+      return alert('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
+    }
+    if (inputs.account_name.includes('(주)' || '주식회사')) {
+      return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
+    }
+    dispatch(postCustomer.call(inputs))
+    //history.goBack()
+  }
 
   const handleChange = (e) => {
     if ('detail' in e) {
@@ -185,12 +176,12 @@ const CustomerRegisterInfo = () => {
 
   return (
     <>
-      {isMobile && <MyAppBar
+      <MyAppBar
         barTitle={'고객 등록하기'}
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
-      />}
+      />
 
       <div>
         <div>

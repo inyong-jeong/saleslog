@@ -13,9 +13,6 @@ const { TabPane } = FullTabs;
 const CustomerDetail = () => {
 
   const params = useParams()
-  const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
-  });
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -32,7 +29,7 @@ const CustomerDetail = () => {
   }, [])
 
 
-  const navigateTo = () => history.push('/main/customer')
+  const navigateTo = () => history.goBack()
 
   const onEditClick = () => {
     history.push(`/main/customer/edit/${customerId}/${managerId}`)
@@ -40,11 +37,11 @@ const CustomerDetail = () => {
 
   return (
     <div>
-      {isMobile && <MyAppBar barTitle={'고객 프로필'}
+      <MyAppBar barTitle={'고객 프로필'}
         showBackButton
         navigateTo={navigateTo}
         onEditClick={onEditClick}
-      />}
+      />
       <div>
         <FullTabs defaultActiveKey="1" >
           <TabPane tab="프로필" key="1" >
@@ -55,7 +52,6 @@ const CustomerDetail = () => {
           </TabPane>
         </FullTabs>
       </div>
-      {/* {isMobile && <MyNavigation />} */}
     </div>);
 }
 

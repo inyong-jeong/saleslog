@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStyles } from '../../pages/customer/registerManager';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
   const dispatch = useDispatch()
   const state = useSelector(state => state.Customer)
   const acc_details = state.customerDetails
+  const [singleId, setSingleId] = useState(null)
 
   const manIds = []
   const manNames = []
@@ -35,21 +36,21 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
 
   }
   const managerClick = e => {
-    // const value = e.target.innerHTML
+    const value = e.target.innerHTML
 
-    // names_ids.forEach((val, idIndex) => {
-    //   if (val == value) {
-    //     setManagerId(idIndex)
-    //   }
-    // })
-    // history.push({
-    //   pathname: '/main/manager/profile',
-    //   state: {
-    //     accm_idx: managerId,
-    //     acc_idx: customerId
-    //   }
-    // })
+    names_ids.forEach((val, idIndex) => {
+      if (val == value) {
+        return setSingleId(idIndex)
+      }
+    })
   }
+  useEffect(() => {
+
+    singleId &&
+      history.push({
+        pathname: `/main/manager/profile/${customerId}/${singleId}`,
+      })
+  }, [singleId])
 
   return (
     <div>

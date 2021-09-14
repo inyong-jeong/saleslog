@@ -15,6 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import MyAppBar from "../../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useParams } from "react-router";
+import { errorMessage } from "../../../constants/commonFunc";
 
 
 const { Option } = StyledSelect;
@@ -60,31 +61,21 @@ const useStyles = makeStyles({
 
 const CustomerEditPage = () => {
 
-  const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
-  });
-
-  const navigateTo = () => history.push(`/main/customer/details/${params.accId}/${params.managerId}`)
+  const navigateTo = () => history.goBack()
 
   const params = useParams()
   const dispatch = useDispatch()
   const classes = useStyles()
   const state = useSelector(state => state.Customer)
   const acc_details = state.customerDetails
-  const [customerId, setCustomerId] = useState(null)
 
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: false
     })
-    setCustomerId(params.accId)
-    console.log('edit parmas:::', params)
+    dispatch(getCustomerDetails.call({ acc_idx: params.accId }))
   }, [])
-
-  useEffect(() => {
-    customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
-  }, [customerId])
 
   const [gradeType, setGradeType] = useState([])
   const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
@@ -107,22 +98,22 @@ const CustomerEditPage = () => {
       setInputs(
         {
           ...inputs,
-          account_name: acc_details.account_name ? acc_details.account_name : "",
-          score: acc_details.score ? acc_details.score : '',
-          ceo_name: acc_details.ceo_name ? acc_details.ceo_name : '',
-          acc_tel: acc_details.acc_tel ? acc_details.acc_tel : '',
-          acc_email: acc_details.acc_email ? acc_details.acc_email : '',
-          zipcode: acc_details.zipcode ? acc_details.zipcode : '',
-          addr1: acc_details.addr1 ? acc_details.addr1 : '',
-          addr2: acc_details.addr2 ? acc_details.addr2 : '',
+          account_name: acc_details.account_name,
+          score: acc_details.score,
+          ceo_name: acc_details.ceo_name,
+          acc_tel: acc_details.acc_tel,
+          acc_email: acc_details.acc_email,
+          zipcode: acc_details.zipcode,
+          addr1: acc_details.addr1,
+          addr2: acc_details.addr2,
           lati: 0,
           longi: 0,
-          reg_num: acc_details.reg_num ? acc_details.reg_num : '',
-          acc_etc: acc_details.acc_etc ? acc_details.acc_etc : '',
-          tags: acc_details.tags ? acc_details.tags : '',
-          acc_fax: acc_details.acc_fax ? acc_details.acc_fax : '',
-          sales_gb: acc_details.sales_gb ? acc_details.sales_gb : '',
-          acc_url: acc_details.acc_url ? acc_details.acc_url : '',
+          reg_num: acc_details.reg_num,
+          acc_etc: acc_details.acc_etc,
+          tags: acc_details.tags,
+          acc_fax: acc_details.acc_fax,
+          sales_gb: acc_details.sales_gb,
+          acc_url: acc_details.acc_url,
           acc_idx: acc_details.acc_idx
         }
       )
@@ -153,23 +144,14 @@ const CustomerEditPage = () => {
 
   const onSaveClick = (e) => {
     if (!inputs.account_name || !inputs.ceo_name) {
-      return alert('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
+      return errorMessage('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
     }
     if (inputs.account_name.includes('(주)' || '주식회사')) {
-      return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
+      return errorMessage('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
-    console.log(inputs)
 
     dispatch(postEditCustomer.call(inputs))
-    setInterval(() => {
-      history.push({
-        pathname: '/main/customer',
-        state: {
-          needRefresh: true,
-        }
-      })
-    }, 1000);
-    return
+    history.goBack()
   }
 
   const handleChange = (e) => {
@@ -206,12 +188,12 @@ const CustomerEditPage = () => {
 
   return (
     <>
-      {isMobile && <MyAppBar
+      <MyAppBar
         barTitle={'고객 수정하기'}
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
-      />}
+      />
 
       <div>
         <div>
