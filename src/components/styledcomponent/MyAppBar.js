@@ -6,6 +6,9 @@ import { ArrowBackIos } from '@material-ui/icons';
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { useMediaQuery } from "react-responsive";
+import { Divider } from 'antd';
+
 const useStyles = makeStyles({
   appBarIcon: {
     position: 'absolute',
@@ -15,8 +18,6 @@ const useStyles = makeStyles({
     position: 'absolute',
     right: 10,
   },
-
-
 })
 //앱바 제목 - bartitle
 //뒤로가기 버튼 보이기 - showbackbutton
@@ -28,33 +29,41 @@ const useStyles = makeStyles({
 //navigateNext ->  텍스트 옆에 다른 곳으로 이동하는 오른쪽 버튼 넣어주고 싶을 때 정의 
 const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick, navigateNext }) => {
 
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:991px)"
+  });
+
   const classes = useStyles();
 
   return (
     <div>
       <div>
         <AppBar
-          style={{ height: 48, justifyContent: 'center' }}
-          elevation={1}
+          style={{ height: 48, justifyContent: 'center', background: '#ffffff' }}
+          elevation={0}
           position='relative'
-          className={classes.appBar}
           color='default'>
           <Toolbar>
             {
-              showBackButton ?
-                <IconButton color="inherit" onClick={navigateTo}>
-                  <ArrowBackIos />
+              showBackButton &&
+              <IconButton color="inherit" onClick={navigateTo}>
+                <ArrowBackIos />
+              </IconButton>
+
+            }
+            {
+              isMobile && !showBackButton &&
+              <div div className={classes.appBarIcon}>
+                <IconButton color="inherit" onClick={notiClick}>
+                  <Badge badgeContent={0} color="secondary">
+                    <NotificationsNoneOutlinedIcon />
+                  </Badge>
                 </IconButton>
-                : <div className={classes.appBarIcon}>
-                  <IconButton color="inherit" onClick={notiClick}>
-                    <Badge badgeContent={0} color="secondary">
-                      <NotificationsNoneOutlinedIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton color="inherit">
-                    <PermIdentityOutlinedIcon onClick={profileClick} />
-                  </IconButton>
-                </div>
+                <IconButton color="inherit">
+                  <PermIdentityOutlinedIcon onClick={profileClick} />
+                </IconButton>
+              </div>
             }
             {
               onEditClick &&
@@ -83,8 +92,9 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
             }
           </Toolbar>
         </AppBar>
+        <Divider style={{ margin: 0 }} />
       </div>
-    </div>
+    </div >
   );
 }
 
