@@ -7,7 +7,7 @@ import React, {useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import  IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
-import { Divider } from 'antd';
+import { Modal, Divider, Button } from 'antd';
 import { getWorkGroupInfo } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 
@@ -39,9 +39,10 @@ const WgroupManagePage = (props) => {
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const navigateTo = () => history.push('/main/customer')
+  const navigateNext = () => { setIsShowModal(true)}
   const dispatch = useDispatch()
   const data = state.data;
-
+  const [isShowModal, setIsShowModal] = useState(false)
   // body
   const [inputs, setInputs] = useState(
     {
@@ -78,7 +79,11 @@ const WgroupManagePage = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {<MyAppBar barTitle={(cmm.isEmpty(inputs.data))?'워크그룹':inputs.data.organization} navigateTo={navigateTo} />}     
+      {<MyAppBar 
+          barTitle={(cmm.isEmpty(inputs.data))?'워크그룹':inputs.data.organization} 
+          navigateTo={navigateTo} 
+          navigateNext={navigateNext} 
+          />}     
       <div style={{height:20}}></div>
       <IconLabel title="정보 수정" pathUri="main/workgroup/register"></IconLabel>
       <Divider style={{margin:10}}/>
@@ -91,6 +96,50 @@ const WgroupManagePage = (props) => {
         <div>&nbsp; |&nbsp; </div>
         <IconLabel title="워크그룹 삭제" pathUri="main/customer" isIcon={false}></IconLabel>
       </div>
+      <Modal
+        title="워크그룹 선택"
+        style={{ positon:'fixed', left:0, top:100}}
+        visible={isShowModal}
+        width={((isMobile)?'90%':'50%')}        
+        onOk={() => { setIsShowModal(false) }}
+        onCancel={() => { setIsShowModal(false) }}
+        footer={[
+          <div key={1} 
+              style={{
+                position:'absolute', 
+                display:'flex',
+                justifyContent:'center',
+                backgroundColor:'#ffffff',
+                left:0, 
+                width:'100%', 
+                height:70
+              }}><div
+                    style={{ 
+                      margin:5, 
+                      fontSize:16, 
+                      width:'90%', 
+                      backgroundColor:'#333333',
+                      height:48,
+                    }}><Button 
+                          ghost
+                          style={{  
+                            fontSize:16, 
+                            width:'100%', 
+                            height:'100%'
+                          }}
+                          key={1} 
+                          onClick={() => { 
+                              setIsShowModal(false)
+                          }}>워크그룹 생성</Button></div>
+          </div>
+        ]}
+        >
+          <Button 
+              onClick={() => { setIsShowModal(false)}}
+              style={{ width:100}}
+              
+              >test</Button>
+      </Modal>
     </ThemeProvider>
   );
 }

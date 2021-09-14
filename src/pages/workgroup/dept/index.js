@@ -68,6 +68,9 @@ const WgroupDeptPage = (props) => {
 
   function initializedСopy(nodes, location) {
     const nodesCopy = [];
+    if (cmm.isEmpty(nodes)) {
+      return [];
+    }
     for (let i = 0; i < nodes.length; i++) {
         const { children, title, dept_idx, lvl } = nodes[i];        
         const hasChildren = children !== undefined;
@@ -129,6 +132,7 @@ const WgroupDeptPage = (props) => {
 
   //부서리스트 fetch 후
   useEffect(()=> {
+    
     if (!cmm.isEmpty(data)) {
       setInputs({ 
         ...inputs, 
@@ -168,6 +172,11 @@ const WgroupDeptPage = (props) => {
 //
 //json tree data 
   const getTreeData = (array) => {  
+    
+    if (!array) {
+      return null;
+    }
+
     var map = {};
     for(var i = 0; i < array.length; i++){
       var obj = {"dept_idx" : array[i]['dept_idx'], "title" : array[i]['dept_name'] , "lvl" : array[i]['lvl'] };
