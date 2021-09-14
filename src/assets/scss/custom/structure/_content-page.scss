@@ -1,9 +1,9 @@
 .content-page {
     margin-left: 240px;
     overflow: visible;
-    padding: 0 15px 65px 15px;
+    padding: 0 0 65px 0;
     min-height: 80vh;
-    margin-top: 70px;
+    //margin-top: 70px;
 }
 
 body[data-sidebar-size=condensed] .content-page {
@@ -15,8 +15,8 @@ body[data-sidebar-size=condensed] .content-page {
     .content-page,
     body[data-sidebar-size=condensed] .content-page {
         margin-left: 0 !important;
-        padding: 0,16;
-        margin-top: 56px;
+        //padding: 0, 16;
+        //margin-top: 56px;
 
     }
 }
