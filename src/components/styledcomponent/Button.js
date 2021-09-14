@@ -4,12 +4,12 @@ import Standard from 'components/standard';
 
 
 const StyledButton = styled(Button)`
-  width: 343px;
+  width: 100%;
   height: 48px;
   color: ${Standard.colors.white};
   font-size: 14px;
-  background-color: ${Standard.colors.blue};
-  border: 1px solid ${Standard.colors.blue};/
+  background-color: #333333;
+  border: 1px solid #333333;/
   padding: 1px;
   margin: 0px;
   `;
