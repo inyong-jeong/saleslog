@@ -6,31 +6,12 @@ import TreeInput  from 'components/TreeInput';
 import { useMediaQuery } from 'react-responsive';
 import { propTypes } from 'react-bootstrap/esm/Image';
 
-const useStyles = makeStyles({
-  circle: {
-    left:-20, 
-    top:35, 
-    backgroundColor:'rgba(52, 52, 52, 0.5)', 
-    alignItems:'center', 
-    justifyContent:'center'
-  },
-  square: {
-    left:-15, 
-    top:43, 
-    backgroundColor:'rgba(52, 52, 52, 0.5)', 
-    alignItems:'center', 
-    justifyContent:'center'
-  },
-
-
-})
 
 // TreeNode=============
 // 
 const TreeNode = (props) => {  
   
   const hasChildren = (!cmm.isEmpty(props.children) && props.children.length > 0)?true:false;
-  const classes = useStyles();  
   const [inputs, setInputs] = useState(
     {
       dept_idx: props.dept_idx,
@@ -41,8 +22,14 @@ const TreeNode = (props) => {
       isBtnShow:false,
     }
   )
+  const windowSize = () => {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
+  }
   
-
   
   const handleClick = event => {
     //console.log(event)
@@ -71,7 +58,7 @@ const TreeNode = (props) => {
       isBtnShow : data,
     })
   }
-
+console.log(windowSize().width)
   const renderChildren = (children) => {
     return (
         <ul style={{ paddingLeft:30 }}>
@@ -97,6 +84,8 @@ const TreeNode = (props) => {
     <li key={props.id}>
       <div className="Treenode" 
             style={{ 
+              display:'flex',
+              width:'100%',
               alignItems: 'center',
               background: 'none',
               margin: 15,
@@ -123,7 +112,7 @@ const TreeNode = (props) => {
           <TreeInput
                 key={props.id}
                 text={props.title}
-                style={{ padding:5, fontSize:13, width: 160 + ((!isMobile)?150:0) +  ((3-props.lvl)*20) + ((props.lvl===1)?14:0)+ ((props.lvl===2)?4:0) }}
+                style={{ padding:5,  fontSize:13, width: ((!isMobile)?300:(cmm.windowSize().width-165)) +  ((3-props.lvl)*20) + ((props.lvl===1)?14:0)+ ((props.lvl===2)?4:0) }}
                 inputChange= { inputChange }
                 inputFocusChange = { handleInputFocus }
                 dept_idx={props.dept_idx}

@@ -173,7 +173,7 @@ const WgroupDeptPage = (props) => {
 //json tree data 
   const getTreeData = (array) => {  
     
-    if (!array) {
+    if (!array || array.length <= 0) {
       return null;
     }
 

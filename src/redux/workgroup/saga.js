@@ -121,7 +121,7 @@ function* _getWorkGroupList({ payload: { body } }) {
   try {
 
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_LIST , body)
-    
+    yield console.log('fetch result',response);
     yield put(getWorkGroupList.success(response))
   } catch (error) {
     yield put(getWorkGroupList.error(error))
@@ -135,7 +135,7 @@ function* _postWorkGroupChange({ payload: { body } }) {
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_CHANGE , body)
     
     yield put(postWorkGroupChange.success(response))
-    yield _success(response, '생성 되었습니다.')
+    yield _success(response, '워크그룹이 변경 되었습니다.')
 
   } catch (error) {
     yield put(postWorkGroupChange.error(error))

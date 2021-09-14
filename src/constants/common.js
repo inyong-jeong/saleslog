@@ -20,6 +20,12 @@ cmm.isEmpty = (data) => {
   }
 }
 
+//windows screen size
+cmm.windowSize = () => {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {width, height};
+}
+
 //json tree data 
 cmm.getTreeData = (array) => {
   var map = {};

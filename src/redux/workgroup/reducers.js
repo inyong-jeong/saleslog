@@ -85,9 +85,9 @@ const Workgroup = (state = initialState, action) => {
     case POST_WORKGROUP_REGI_ERROR:
       return { ...state, loading: false, postWorkGroupRegiRes: {state:false,message:action.payload.error}}
     case GET_WORKGROUP_LIST:
-      return { ...state, loading: true, getWorkGroupListRes: false }
+      return { ...state, loading: true }
     case GET_WORKGROUP_LIST_SUCCESS:
-      return { ...state, loading: false, getWorkGroupListRes: action.payload.response }
+      return { ...state, loading: false, getWorkGroupListRes: action.payload.response.message }
     case GET_WORKGROUP_LIST_ERROR:
       return { ...state, loading: false, getWorkGroupListRes: {state:false,message:action.payload.error}}
     case POST_WORKGROUP_CHANGE:
