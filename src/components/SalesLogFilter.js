@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { TreeSelect, Row, Col } from 'antd';
-import Select from 'react-select';
+import { TreeSelect, Row, Col, Select } from 'antd';
+// import Select from 'react-select';
+
 import { connect } from 'react-redux';
 import {
   getorganization, getorganizationusers, searchLogList
 } from 'redux/actions';
 
-const { TreeNode } = TreeSelect;
 
 const SalesLogFilter = (props) => {
 
@@ -14,9 +14,18 @@ const SalesLogFilter = (props) => {
   const [selectedOrganization2, setSelectedOrganization2] = useState(undefined);
   const [selectedOrganization3, setSelectedOrganization3] = useState(undefined);
 
+  const [biglist, setBigList] = useState(undefined);
+  const [middlelist, setMiddleList] = useState(undefined);
+  const [smalllist, setSmallList] = useState(undefined);
+
+
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
   const [channel, setChannel] = useState('');
+  const [key, setKey] = useState(0);
+
+  const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
+
 
   const salesActivityOption =
     [{ label: '니즈조사', value: '0050001' },
@@ -39,68 +48,124 @@ const SalesLogFilter = (props) => {
     { label: '제안', value: '0050003' },
     { label: '검증', value: '0050004' }];
 
-  const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
   const [filterdata, setFilterData] = useState({
     dept_idx: 0,
     typ: 'lvl'
   })
 
+  const [data, setData] = useState({
+    dept_idx: 0,
+    typ: 'tree'
+  })
+
+  //마운트 될 때 
   useEffect(() => {
     props.getorganization(filterdata)
   }, [])
 
+  // 대분류 선택
   useEffect(() => {
     if (selectedOrganization1) {
       props.getorganization(filterdata)
+      setKey(1)
     }
   }, [selectedOrganization1])
 
   useEffect(() => {
+    if (props.organizationlist) {
+      if (key === 0) {
+        setBigList(props.organizationlist)
+      } else if (key === 1) {
+        setMiddleList(props.organizationlist)
+      } else if (key === 2) {
+        setSmallList(props.organizationlist)
+      }
+    }
+  }, [props.organizationlist])
+
+  //중분류 선택
+  useEffect(() => {
     if (selectedOrganization2) {
       props.getorganization(filterdata)
+      setKey(2)
     }
   }, [selectedOrganization2])
 
+  // 소분류 선택
   useEffect(() => {
     if (selectedOrganization3) {
-      props.getorganizationusers(filterdata)
+      props.getorganizationusers(data)
+      // setKey(3)
     }
   }, [selectedOrganization3])
 
+  // 멤버 선택
   useEffect(() => {
     if (selectedOrganizationuser) {
+
+      console.log(selectedOrganizationuser)
       props.setData({ ...props.data, 'srch': selectedOrganizationuser })
-      props.searchLogList(props.data)
+      // props.searchLogList(props.data)
     }
   }, [selectedOrganizationuser])
 
-  const selectStyle = {
-    control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
-    indicatorSeparator: () => { }
-  }
+  useEffect(() => {
+    props.getorganizationusers(data)
+  }, [data])
+
+  // useEffect(() => {
+  //   if(data) {
+  //     props.getorganizationusers(data)
+  //   }
+  // }, [data])
+
+  const selectStyle =
+    { width: '100%' }
+
 
   const onOrganizationSelectChange1 = (v) => {
     console.log(v)
     setSelectedOrganization1(v);
-    setFilterData({ ...filterdata, 'dept_idx': v.value })
+    // setBigList(props.organizationlist)
+    setFilterData({ ...filterdata, 'dept_idx': v })
+    setData({ ...data, 'dept_idx': v })
   }
 
   const onOrganizationSelectChange2 = (v) => {
     setSelectedOrganization2(v);
-    setFilterData({ ...filterdata, 'dept_idx': v.value })
-
+    // setMiddleList(props.organizationlist)
+    setFilterData({ ...filterdata, 'dept_idx': v })
+    setData({ ...data, 'dept_idx': v })
   }
-  // document.addEventListener('touchstart', handler, { passive: true });
   const onOrganizationSelectChange3 = (v) => {
-
     setSelectedOrganization3(v);
-    setFilterData({ ...filterdata, 'dept_idx': v.value })
+    // setSmallList(props.organizationlist)
+    setFilterData({ ...filterdata, 'dept_idx': v })
+    setData({ ...data, 'dept_idx': v })
   }
 
-  const onOrganizationUserSelectChange = (v) => {
-    setSelectedOrganizationUser(v);
-    setFilterData({ ...filterdata, 'dept_idx': v.value, 'typ': 'tree' })
+  function filterList(label) {
+    let list = []
+    for (let i = 0; i < props.organizationuserlist.length; i++) {
+      for (let j = 0; j < label.length; j++) {
+        if (label[j] === props.organizationuserlist[i].user_name) {
+          list = list.concat(props.organizationuserlist[i].dept_idx);
+        } else if (label === []) {
+          list = [];
+        }
+      }
+    }
+    return list
+  }
+
+  const onOrganizationUserSelectChange = (label) => {
+    setSelectedItems(label);
+    console.log(filterList(label));
+    let memberlist = filterList(label)
+    setSelectedOrganizationUser(memberlist);
+    // setFilterData({ ...filterdata, 'dept_idx': v, 'typ': 'tree' })
+    // setData({ ...data, 'dept_idx': v })
   }
 
   const onLeadActivity = (option) => {
@@ -128,44 +193,57 @@ const SalesLogFilter = (props) => {
       'sales_activity': option.value
     })
   };
+
+
+
+  const [selectedItems, setSelectedItems] = useState([])
+  const filteredlist = props.organizationuserlist && props.organizationuserlist.map(v => v.user_name);
+  const filteredOptions = filteredlist && filteredlist.filter((v) => !selectedItems.includes(v))
   return (
     <>
       <Row gutter={6}>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='대분류'
-            styles={selectStyle}
-            options={props.organizationlist && props.organizationlist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            style={selectStyle}
+            options={biglist && biglist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
             value={selectedOrganization1}
             onChange={onOrganizationSelectChange1}
           />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='중분류'
-            styles={selectStyle}
-            options={selectedOrganization1 && props.organizationlist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            style={selectStyle}
+            options={middlelist && middlelist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
             onChange={onOrganizationSelectChange2}
             value={selectedOrganization2} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='소분류'
-            styles={selectStyle}
-            options={selectedOrganization2 && props.organizationlist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            style={selectStyle}
+            options={smalllist && smalllist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
             onChange={onOrganizationSelectChange3}
             value={selectedOrganization3} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='멤버'
-            styles={selectStyle}
+            mode='multiple'
+            style={selectStyle}
             onChange={onOrganizationUserSelectChange}
-            value={selectedOrganizationuser}
-          />
+            value={selectedItems}
+          >
+            {filteredOptions && filteredOptions.map((item, index) => (
+              <Select.Option key={index} value={item}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
         </Col>
       </Row>
       <Row className='mt-1'></Row>
       <Row gutter={6}>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='단계'
-            styles={selectStyle}
+            style={selectStyle}
             // isDisabled={true}
             options={leadActivityOption}
             value={leadActivityOption.value}
@@ -176,19 +254,18 @@ const SalesLogFilter = (props) => {
             onChange={onSalesActivity}
             options={salesActivityOption}
             value={salesActivityOption.value}
-            styles={selectStyle} />
+            style={selectStyle} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='채널'
             options={salesChannelOption}
             value={salesChannelOption.value}
             onChange={onSalesChannel}
-
-            styles={selectStyle} />
+            style={selectStyle} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='니즈'
-            styles={selectStyle} />
+            style={selectStyle} />
         </Col>
       </Row>
     </>
@@ -197,8 +274,8 @@ const SalesLogFilter = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { organizationlist, bigresponse } = state.Organization;
-  return { organizationlist, bigresponse };
+  const { organizationlist, bigresponse, organizationuserlist } = state.Organization;
+  return { organizationlist, bigresponse, organizationuserlist };
 };
 const mapStateToDispatch = {
   getorganization: getorganization.call,

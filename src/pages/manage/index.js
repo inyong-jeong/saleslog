@@ -130,6 +130,8 @@ function SalesLogList(props) {
         <Col md={24} lg={24} xs={24}>
           <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
           {focus && <History
+
+
             keywords={keywords}
             onClearKeywords={handleClearKeywords}
             onRemoveKeyword={handleRemoveKeyword}
@@ -162,7 +164,7 @@ function SalesLogList(props) {
               }
             </TabPane>
             <TabPane tab={<div style={TabStyle}>리드일지</div>} key="3">
-              <LeadLogFilter />
+              <SalesLogFilter />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
                   loglist={v}

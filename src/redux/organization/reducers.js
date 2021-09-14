@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   organizationlist: null,
-
+  organizationuserlist: null
 }
 
 const Organization = (state = initialState, action) => {
@@ -23,7 +23,7 @@ const Organization = (state = initialState, action) => {
     case GET_ORGANIZATION_USER:
       return { ...state }
     case GET_ORGANIZATION_USER_SUCCESS:
-      return { ...state }
+      return { ...state, organizationuserlist: action.payload.response.message }
     case GET_ORGANIZATION_USER_ERROR:
       return { ...state }
     default:
