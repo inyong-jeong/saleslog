@@ -13,10 +13,6 @@ const menuList = [{
   icon: "fe-book",
   to: "/main/manage"
 }, {
-  title: "일지작성",
-  icon: "fe-edit",
-  to: "/main/upload"
-}, {
   title: "고객사",
   icon: "fe-clipboard",
   to: "/main/customer"

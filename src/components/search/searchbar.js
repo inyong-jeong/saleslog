@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
+import { Input } from "antd";
+const { Search } = Input;
 
 const horizontalCenter = css`
   position: absolute;
@@ -51,14 +53,14 @@ const InputContainer = styled.div`
   position: relative;
 `
 
-const Input = styled.input`
-  width: 100%;
-  background-color: #fff;
-  font-weight: 700;
-  font-size: 20px;
-  box-sizing: border-box;
+// const Input = styled.input`
+//   width: 100%;
+//   background-color: #fff;
+//   font-weight: 700;
+//   font-size: 20px;
+//   box-sizing: border-box;
 
-`
+// `
 
 function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
 
@@ -83,20 +85,31 @@ function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
   const hasKeyword = !!keyword
 
   return (
-    <Container>
-      <InputContainer>
-        <Input
+    <>
+      <div>
+        {/* <Input
           placeholder="검색어를 입력해주세요"
           type='text'
           active={hasKeyword}
           value={keyword}
           onChange={handleKeyword}
           onKeyDown={handleEnter}
-        />
-        {keyword && <RemoveIcon onClick={handleClearKeyword} />}
-      </InputContainer>
-      <SearchIcon onClick={handleEnter} style={{ cursor: 'pointer' }} />
-    </Container>
+        /> */}
+        <Search
+          placeholder="검색어를 입력해주세요"
+          allowClear
+          value={keyword}
+          onChange={handleKeyword}
+          onSearch={handleEnter}
+          style={{
+            width: '100%',
+            marginBottom: 10,
+            marginTop: 10,
+          }} />
+        {/* {keyword && <RemoveIcon onClick={handleClearKeyword} />} */}
+      </div>
+      {/* <SearchIcon onClick={handleEnter} style={{ cursor: 'pointer' }} /> */}
+    </>
   )
 }
 

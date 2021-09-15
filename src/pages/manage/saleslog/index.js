@@ -6,6 +6,7 @@ import StyledCard from 'components/styledcomponent/Card'
 import Chart from 'react-apexcharts';
 import Comments from 'components/Comments/Comments'
 import LogModal from 'components/Modal';
+import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 function SalesLog(props) {
 
   const [CommentLists, setCommentLists] = useState([])
@@ -75,28 +76,7 @@ function SalesLog(props) {
 
   return (
     <>
-      <div className='container'>
-        {/* <Row> */}
-        {/* <Col > */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <img
-            src={require('assets/icons/back.png')}
-            onClick={handleOnBack}
-            alt='back_logo'
-            style={{ cursor: 'pointer' }} />
-          <h3>영업일지 상세</h3>
-          {/* <h4 onClick={handleOnClick}>편집</h4> */}
-          <div style={{ display: 'flex' }}>
-            {/* <LogModal buttonLabel='수정' /> */}
-            <span style={{ cursor: 'pointer' }} onClick={handleOnRevise}>수정</span>
-            &nbsp;
-            &nbsp;
-            <LogModal buttonLabel='삭제' />
-          </div>
-        </div>
-        {/* </Col> */}
-        {/* </Row> */}
-      </div>
+      <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />
       <Row>
         <Col sm={24} xs={24} md={24} lg={24}>
           {Log && <StyledCard>

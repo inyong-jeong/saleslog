@@ -18,6 +18,10 @@ const useStyles = makeStyles({
     position: 'absolute',
     right: 10,
   },
+  tempButtonStyle: {
+    position: 'absolute',
+    right: 80,
+  },
 })
 //앱바 제목 - bartitle
 //뒤로가기 버튼 보이기 - showbackbutton
@@ -27,7 +31,7 @@ const useStyles = makeStyles({
 // 알림 클릭 ->notiClick
 // 프로필 클릭 ->profileClick
 //navigateNext ->  텍스트 옆에 다른 곳으로 이동하는 오른쪽 버튼 넣어주고 싶을 때 정의 
-const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick, navigateNext }) => {
+const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick, navigateNext, tempSaveClick }) => {
 
 
   const isMobile = useMediaQuery({
@@ -73,6 +77,16 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
                 </Button>
               </div>
             }
+
+            {
+              tempSaveClick &&
+              <div className={classes.tempButtonStyle}>
+                <Button size="small" onClick={tempSaveClick} >
+                  임시저장
+                </Button>
+              </div>
+            }
+
             {onSaveClick &&
               <div className={classes.textButtonStyle}>
                 <Button size="small" onClick={onSaveClick} >

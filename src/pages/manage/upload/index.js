@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
+import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import {
   postSalesLog, selectAccounts, selectAccountperson,
   postTemporarySalesLog, uploadFile, getUserList
@@ -380,26 +381,8 @@ function UploadSalesLog(props) {
   }
   return (
     <React.Fragment>
-      <Helmet>
-        <title>
-          세일즈로그 - 일지 쓰기
-        </title>
-      </Helmet>
+      <MyAppBar barTitle={'일지쓰기'} showBackButton onSaveClick={onFormSubmit} navigateTo={handleOnBack} tempSaveClick={onFormTemporarySubmit} />
       <div className="container">
-        <div className="row">
-          {/* <button onClick={test}></button> */}
-          <div className="col" style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <img
-              src={require('assets/icons/back.png')}
-              onClick={handleOnBack}
-              alt='back_logo'
-              style={{ cursor: 'pointer' }} />
-            {!props.match.params.id ? <h4 > <strong>일지 쓰기</strong></h4> : <h4 > <strong>일지 수정</strong></h4>}
-            <div ></div>
-          </div>
-        </div>
-        <div className='mt-2'></div>
-        < Divider />
         <div className='mt-3'></div>
         <div className="row">
           <div className="col-12">
@@ -604,21 +587,18 @@ function UploadSalesLog(props) {
         </div> : <div className='mt-1'></div>}
         {!props.match.params.id ? <div className="row">
           <div className="col-12 d-flex justify-content-center">
-            <button className="btn btn-primary" onClick={onFormSubmit} >
+            {/* <button className="btn btn-primary" onClick={onFormSubmit} >
               등록
             </button>
             <button className="btn btn-primary ml-2" onClick={onFormTemporarySubmit} >
               임시저장
-            </button>
+            </button> */}
           </div>
         </div> :
           <div className="row">
             <div className="col-12 d-flex justify-content-center">
               <button className="btn btn-primary" onClick={onFormSubmit} >
                 수정
-              </button>
-              <button className="btn btn-primary ml-2" onClick={onCancel} >
-                취소
               </button>
             </div>
           </div>

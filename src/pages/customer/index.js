@@ -85,7 +85,6 @@ const CustomerShow = () => {
           width: '100%',
           marginBottom: 10,
           marginTop: 10,
-          borderColor: '#000'
         }} />
       <>
         <FullTabs defaultActiveKey="1" onChange={onTabChange} >

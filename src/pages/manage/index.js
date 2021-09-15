@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styles from '../../components/customer/styles/Customer.module.css'
 import { Tabs, Row, Col } from 'antd';
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
@@ -11,10 +12,16 @@ import {
   getLogLists, getLogList, searchLogList,
   putSalesLog, putFile, deleteFile
 } from 'redux/actions';
+import MyAppBar from '../../components/styledcomponent/MyAppBar';
+import CustomFab from '../../components/customer/button/CustomFab';
+import { useHistory } from 'react-router';
+
 const { TabPane } = Tabs;
-
 function SalesLogList(props) {
-
+  const history = useHistory()
+  const navigateTo = () => history.push({
+    pathname: '/main/upload'
+  })
 
   const [loglists, setLogLists] = useState([]);
   const [data, setData] = useState({
@@ -125,23 +132,23 @@ function SalesLogList(props) {
 
   return (
     <>
-      <div onClick={test}>testsss</div>
-      <Row>
-        <Col md={24} lg={24} xs={24}>
-          <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
-          {focus && <History
+      <MyAppBar barTitle={'일지'} profileClick notiClick />
+      {/* <Row>
+        <Col md={24} lg={24} xs={24}> */}
+      <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
+      {focus && <History
 
 
-            keywords={keywords}
-            onClearKeywords={handleClearKeywords}
-            onRemoveKeyword={handleRemoveKeyword}
-          />}
-        </Col>
-      </Row>
+        keywords={keywords}
+        onClearKeywords={handleClearKeywords}
+        onRemoveKeyword={handleRemoveKeyword}
+      />}
+      {/* </Col>
+      </Row> */}
       <Row>
         <Col sm={24} xs={24} md={24} lg={24} >
-          <FullTabs size='large' type='line' defaultActiveKey="1" onChange={onTabChange}>
-            <TabPane tab={<div style={TabStyle}>전체</div>} key="1">
+          <FullTabs type='line' defaultActiveKey="1" onChange={onTabChange}>
+            <TabPane tab="전체" key="1">
               <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
@@ -152,7 +159,7 @@ function SalesLogList(props) {
               ))
               }
             </TabPane>
-            <TabPane tab={<div style={TabStyle}>영업일지</div>} key="2">
+            <TabPane tab="영업일지" key="2">
               <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
@@ -163,7 +170,7 @@ function SalesLogList(props) {
               ))
               }
             </TabPane>
-            <TabPane tab={<div style={TabStyle}>리드일지</div>} key="3">
+            <TabPane tab="리드일지" key="3">
               <SalesLogFilter />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
@@ -179,6 +186,9 @@ function SalesLogList(props) {
         </Col>
       </Row>
       <Row>
+        <div className={styles.Wrapper}>
+          <CustomFab navigateTo={navigateTo} />
+        </div>
       </Row>
     </>
   )
