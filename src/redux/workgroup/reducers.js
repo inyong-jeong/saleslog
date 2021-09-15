@@ -108,12 +108,13 @@ const Workgroup = (state = initialState, action) => {
       return { ...state, loading: false, postWorkGroupDelRes: action.payload.response }
     case POST_WORKGROUP_DEL_ERROR:
       return { ...state, loading: false, postWorkGroupDelRes: {state:false,message:action.payload.error}}
-    case GET_GROUP_MEMBER_LIST:
+    case GET_GROUP_MEMBER_LIST:      
       return { ...state, loading: true, getGroupMemberListRes: false }
     case GET_GROUP_MEMBER_LIST_SUCCESS:
-      return { ...state, loading: false, postWorkGroupUpdRes: action.payload.response }
+      console.log('fetch:::::result::::::::::::',action.payload.response.message)
+      return { ...state, loading: false, getGroupMemberListRes: action.payload.response.message }
     case GET_GROUP_MEMBER_LIST_ERROR:
-      return { ...state, loading: false, postWorkGroupUpdRes: {state:false,message:action.payload.error}}
+      return { ...state, loading: false, getGroupMemberListRes: {state:false,message:action.payload.error}}
     case GET_DEPT_INFO:
       return { ...state, loading: true  }
     case GET_DEPT_INFO_SUCCESS:

@@ -42,7 +42,7 @@ const theme = createTheme({
   },
 });
 
-const WgroupManagePage = (props) => {  
+const WgroupMemberPage = (props) => {  
   const classes = useStyles();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
@@ -132,7 +132,7 @@ const WgroupManagePage = (props) => {
       <div style={{height:20}}></div>
       <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
       <Divider style={{margin:10}}/>
-      <IconLabel title="맴버 관리" pathUri="main/workgroup/member"></IconLabel>
+      <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
       <Divider style={{margin:10}}/>
       <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
       <Divider style={{margin:10}}/>
@@ -186,7 +186,7 @@ const WgroupManagePage = (props) => {
           {((wgList) ? wgList.map((item, index) =>{
                       const { organization, org_domain, org_idx, logo_url, member_cnt, accounts_cnt } = item;            
                       return (
-                        <div key={index} >
+                        <div >
                           <ListItem key={index} 
                               style={{
                                 padding:5,
@@ -231,4 +231,4 @@ const WgroupManagePage = (props) => {
   );
 }
 
-export default WgroupManagePage;
+export default WgroupMemberPage;

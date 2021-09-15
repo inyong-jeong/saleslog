@@ -40,6 +40,10 @@ const Workgroup = React.lazy(() => import('./pages/workgroup'))
 const WorkgroupReg = React.lazy(() => import('./pages/workgroup/register'))
 const WorkgroupUpd = React.lazy(() => import('./pages/workgroup/update'))
 const WorkgroupDeptReg = React.lazy(() => import('./pages/workgroup/dept'))
+const WorkgroupMember = React.lazy(() => import('./pages/workgroup/member'))
+const WorkgroupMemberInvite = React.lazy(() => import('./pages/workgroup/member/invite'))
+const WorkgroupMemberProfile = React.lazy(() => import('./pages/workgroup/member/profile'))
+
 
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
@@ -81,9 +85,13 @@ const routes = [
 
   //워크그룹 
   { path: '/main/workgroup', name: 'Workgroup', component: Workgroup, route: MainRoute, exact: true },
-  { path: '/main/workgroup/register', name: 'Workgroup', component: WorkgroupReg, route: MainRoute, exact: true },
-  { path: '/main/workgroup/update', name: 'Workgroup', component: WorkgroupUpd, route: MainRoute, exact: true },
+  { path: '/main/workgroup/register', name: 'WorkgroupReg', component: WorkgroupReg, route: MainRoute, exact: true },
+  { path: '/main/workgroup/update', name: 'WorkgroupUpd', component: WorkgroupUpd, route: MainRoute, exact: true },
   { path: '/main/workgroup/dept', name: 'WorkgroupDeptReg', component: WorkgroupDeptReg, route: MainRoute, exact: true },
+  { path: '/main/workgroup/member', name: 'WorkgroupMember', component: WorkgroupMember, route: MainRoute, exact: true },
+  { path: '/main/workgroup/member/invite', name: 'WorkgroupMemberInvite', component: WorkgroupMemberInvite, route: MainRoute, exact: true },
+  { path: '/main/workgroup/member/profile', name: 'WorkgroupMemberProfile', component: WorkgroupMemberProfile, route: MainRoute, exact: true },
+
 
   //landing Route
   { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },

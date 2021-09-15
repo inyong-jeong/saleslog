@@ -112,7 +112,6 @@ function* _postWorkGroupRegi({ payload: { body } }) {
     yield _success(response, '생성 되었습니다.')
 
   } catch (error) {
-    yield console.log('register:::::::::::',error)
     yield put(postWorkGroupRegi.error(error))
   }
 }
@@ -177,7 +176,7 @@ function* _getGroupMemberList({ payload: { body } }) {
   try {
 
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_LIST , body)
-    
+    yield console.log('result:::::::::::::::::::',response)
     yield put(getGroupMemberList.success(response))
 
   } catch (error) {
