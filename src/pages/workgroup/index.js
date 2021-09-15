@@ -73,10 +73,16 @@ const WgroupManagePage = (props) => {
 
   //워크그룹 체인지
   const handelWGroupChange = (idx) => {     
-    //워크그룹 리스트 가져오기
+    //워크그룹 변경
     dispatch(postWorkGroupChange.call({chg_idx:idx}))    
   }
 
+  //워크그룹 생성
+  const handelWGroupRegi = () => {     
+    //워크그룹 생성페이지 이동
+    history.push('/main/workgroup/register');
+    setIsShowModal(false)
+  }
 
   useEffect(() => {
     if (state.getWorkGroupListRes) {
@@ -124,7 +130,7 @@ const WgroupManagePage = (props) => {
           navigateNext={navigateNext} 
           />}     
       <div style={{height:20}}></div>
-      <IconLabel title="정보 수정" pathUri="main/workgroup/register"></IconLabel>
+      <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
       <Divider style={{margin:10}}/>
       <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
       <Divider style={{margin:10}}/>
@@ -168,7 +174,7 @@ const WgroupManagePage = (props) => {
                           }}
                           key={1} 
                           onClick={() => { 
-                              setIsShowModal(false)
+                            handelWGroupRegi()
                           }}>워크그룹 생성</Button></div>
           </div>
         ]}

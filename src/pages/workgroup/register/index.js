@@ -8,22 +8,19 @@ import AvatarUp from 'components/AvatarUp';
 import IconLabel from 'components/IconLabel';
 import Input from 'components/styledcomponent/Input'
 import { useHistory } from 'react-router';
-import { Avatar, Divider, notification } from 'antd';
+import { Avatar, Divider, Modal, notification } from 'antd';
 import { transform } from 'babel-core';
-import { getWorkGroupInfo, postWorkGroupLogo, postWorkGroupUpd } from 'redux/workgroup/actions';
+import { postWorkGroupRegi } from 'redux/workgroup/actions';
+import { alertMessage } from 'constants/commonFunc';
 import cmm from 'constants/common';
 
 
 const useStyles = makeStyles({
-  bottomBar: {
-    width: '100%',
-    position: 'fixed',
-    bottom: 60,
-    left: 0,
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent: 'center'
+  bodyContent: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop:0,
+    width: '100%'
   },
 });
 
@@ -41,18 +38,14 @@ const WgroupManagePage = (props) => {
   const history = useHistory()
   const navigateTo = () => history.push('/main/workgroup')
   const dispatch = useDispatch()
-  const data = state.data;
-  const updRes = state.postWorkGroupUpdRes;
+  const regiRes = state.postWorkGroupRegiRes;
 
   // body
   const [inputs, setInputs] = useState(
     {
       comp_name: '',
       comp_domain: '',
-      prevImg: null,
-      fileup: null,
       errResult: '',
-
     }
   )
 
@@ -63,52 +56,24 @@ const WgroupManagePage = (props) => {
 
   useEffect(() => {
     // 하단 네비 설정   
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: true
-    }
-    )
-
-    //워크그룹 정보 가져오기
-    dispatch(getWorkGroupInfo.call())
+    dispatch({type: SET_NAVIBAR_SHOW,payload: true})
   }, [])
-
-
-  useEffect(() => {
-    if (inputs.fileup !== null) {
-      dispatch(postWorkGroupLogo.call({ fileup: inputs.fileup }))
-    }
-  }, [inputs.fileup])
-
-
-  useEffect(() => {
-    if (!cmm.isEmpty(data)) {
-      setInputs({
-        ...inputs,
-        comp_name: data[0].organization,
-        comp_domain: data[0].org_domain,
-        prevImg: (cmm.isEmpty(data[0].logo_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url)
-      })
-      console.log(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url);
-    }
-
-  }, [data])
 
   const onSaveClick = (e) => {
     if (!inputs.comp_name || !inputs.comp_domain) {
-      return alert('워크그룹 이름,URL 은 필수 항목입니다.')
+      return alertMessage('워크그룹 이름,URL 은 필수 항목입니다.')
     }
     if (inputs.comp_name.includes('(주)' || '주식회사')) {
       return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
-    dispatch(postWorkGroupUpd.call(inputs))
+    dispatch(postWorkGroupRegi.call(inputs))
     return
   }
 
   useEffect(() => {
-    if (!cmm.isEmpty(updRes)) {
-      state.postWorkGroupUpdRes = null;
-      if (updRes.state === false && updRes.message.message.indexOf('사용중인 업체') > 0) {
+    if (!cmm.isEmpty(regiRes)) {
+      state.postWorkGroupRegiRes  = null;
+      if (regiRes.state === false && regiRes.message.message.indexOf('사용중인 업체') > 0) {
         setInputs({
           ...inputs,
           errResult: '이미 사용중인 URL 입니다.\n다른 URL을 입력하거나 숫자를 조합해 보세요.'
@@ -125,7 +90,7 @@ const WgroupManagePage = (props) => {
         return () => clearInterval(interval);
       }
     }
-  }, [updRes])
+  }, [regiRes])
 
 
   const handleChangeFile = e => {
@@ -156,70 +121,61 @@ const WgroupManagePage = (props) => {
   return (
     <ThemeProvider theme={theme}>
       {isMobile && <MyAppBar
-        barTitle={(cmm.isEmpty(inputs.comp_name)) ? '워크그룹' : inputs.comp_name}
+        barTitle={'워크그룹 생성'}
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
 
       />}
-      <div style={{ height: 40 }}></div>
-      <div style={{ display: 'flex' }}>
-        <AvatarUp imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
-          iconShape='square'
-          height={90}
-          style={{
-            padding: 0,
-            margin: 0,
-            width: 90,
-            height: 90
-          }}
-          handleChange={handleChangeFile} />
+      <div >
+        <div style={{ height: 40 }}></div>
+        <div style={{ display: 'flex' }}>
+          
+          <div style={{
+            position: 'relative',
+            bottom: 0,
+            top: 10,
+            width: '100%',
+            justifyContent: 'bottom',
+            alignItems: 'top'
+          }}>
+            <label >워크그룹 이름 *</label><br />
+            <Input
+              name='comp_name'
+              onChange={handleChange}
+              value={inputs.comp_name}
+              required
+              placeholder="워크그룹 이름을 입력해주세요."
+              margin="normal"
+            />
+          </div>
+        </div>
+        <Divider style={{ margin: '30,10' }} />
+        <label className={classes.laebelStyle}>워크그룹 URL *</label>
         <div style={{
-          position: 'relative',
-          bottom: 0,
-          left: -20,
-          top: 10,
-          width: '100%',
-          justifyContent: 'bottom',
-          alignItems: 'top'
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}>
-          <label >워크그룹 이름 *</label><br />
           <Input
-            name='comp_name'
+            name='comp_domain'
             onChange={handleChange}
-            value={inputs.comp_name}
+            value={inputs.comp_domain}
             required
-            placeholder="워크그룹 이름을 입력해주세요."
+            placeholder="URL 입력해주세요."
             margin="normal"
           />
+          <label style={{
+            fontSize: 18,
+            width: 200
+          }}>&nbsp;.saleslog.com</label>
         </div>
+        {
+          inputs.errResult.split('\n').map(item => {
+            return (<span key={item} style={{ fontSize: 11, color: '#EE1818' }}>{item}<br /></span>)
+          })
+        }
       </div>
-      <Divider style={{ margin: '30,10' }} />
-      <label className={classes.laebelStyle}>워크그룹 URL *</label>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <Input
-          name='comp_domain'
-          onChange={handleChange}
-          value={inputs.comp_domain}
-          required
-          placeholder="URL 입력해주세요."
-          margin="normal"
-        />
-        <label style={{
-          fontSize: 18,
-          width: 200
-        }}>&nbsp;.saleslog.com</label>
-      </div>
-      {
-        inputs.errResult.split('\n').map(item => {
-          return (<span key={item} style={{ fontSize: 11, color: '#EE1818' }}>{item}<br /></span>)
-        })
-      }
-
     </ThemeProvider>
   );
 }

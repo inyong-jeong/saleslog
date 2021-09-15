@@ -38,6 +38,7 @@ const ManagerEdit = React.lazy(() => import('./pages/customer/edit/manager'))
 //워크그룹, 그룹 수정 , 그룹 나가기
 const Workgroup = React.lazy(() => import('./pages/workgroup'))
 const WorkgroupReg = React.lazy(() => import('./pages/workgroup/register'))
+const WorkgroupUpd = React.lazy(() => import('./pages/workgroup/update'))
 const WorkgroupDeptReg = React.lazy(() => import('./pages/workgroup/dept'))
 
 const LandingRoute = ({ component: Component, ...rest }) => (
@@ -81,6 +82,7 @@ const routes = [
   //워크그룹 
   { path: '/main/workgroup', name: 'Workgroup', component: Workgroup, route: MainRoute, exact: true },
   { path: '/main/workgroup/register', name: 'Workgroup', component: WorkgroupReg, route: MainRoute, exact: true },
+  { path: '/main/workgroup/update', name: 'Workgroup', component: WorkgroupUpd, route: MainRoute, exact: true },
   { path: '/main/workgroup/dept', name: 'WorkgroupDeptReg', component: WorkgroupDeptReg, route: MainRoute, exact: true },
 
   //landing Route

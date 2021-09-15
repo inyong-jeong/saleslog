@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 
 export const successMessage = (msg) => {
   message.success({
@@ -18,4 +18,11 @@ export const errorMessage = (msg) => {
       marginTop: '100px',
     },
   });
+}
+
+export const alertMessage = (msg) => {
+  Modal.info({
+    content: msg,
+    onOk() {},
+  })
 }
