@@ -5,10 +5,15 @@ import { getOauthRefreshToken, removeAll } from 'helpers/authUtils';
 import 'antd/dist/antd.css';
 import MyNavigation from "./styledcomponent/ MyNavigation";
 import { useMediaQuery } from "react-responsive";
-
+import { Layout } from 'antd'
+import LeftMenu from "./common/LeftMenu";
+import TopMenu from "./common/TopMenu";
+import styles from '../assets/style/Main.module.css'
+import RightMenu from "./common/RightMenu";
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
-// const Navbar = React.lazy(() => import("./Navbar"));
-const LeftSidebar = React.lazy(() => import("./LeftSidebar"));
+
+const { Content, Sider } = Layout;
+
 
 const AuthLayout = (props) => {
 
@@ -43,24 +48,44 @@ const AuthLayout = (props) => {
   }, [props.isShowNaviBar])
 
   return (
-    <React.Fragment>
-      <div id="wrapper">
-        {/* <Navbar /> */}
-        <LeftSidebar />
-        <div className="content-page">
-          {props.children}
-        </div>
-        <footer>
-        </footer>
-        {isMobile && isNaviShow && <MyNavigation />}
-
-      </div>
-    </React.Fragment>
+    <Layout>
+      {isMobile ?
+        <Layout style={{ backgroundColor: '#fff' }}>
+          <div>
+            {/* content-page 스타일 생략함  */}
+            {props.children}
+          </div>
+          <MyNavigation />
+        </Layout>
+        :
+        <Layout>
+          <TopMenu />
+          <div style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <Layout className={styles.content}>
+              <Content>
+                <Layout style={{ backgroundColor: '#fff' }}>
+                  <Sider width={180} style={{ borderRight: 'solid', borderWidth: 1, borderColor: '#EAEAEA' }}>
+                    <LeftMenu />
+                  </Sider>
+                  <Content style={{ margin: 10 }}>
+                    {props.children}
+                  </Content>
+                  <Sider width={282}>
+                    <RightMenu />
+                  </Sider>
+                </Layout>
+              </Content>
+            </Layout>
+          </div>
+        </Layout>
+      }
+    </Layout>
   );
 }
-
-
-
 
 const mapStateToProps = (state) => {
   const { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar } = state.Auth;

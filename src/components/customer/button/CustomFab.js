@@ -8,6 +8,7 @@ const FAB_POSITION = {
   bottom: 90,
   left: 'auto',
   position: 'fixed',
+  zIndex: 10,
 }
 const CustomFab = ({ navigateTo }) => {
 

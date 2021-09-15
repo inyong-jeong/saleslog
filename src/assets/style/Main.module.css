@@ -1,0 +1,11 @@
+/* AuthLayout style  */
+.content {
+  max-width: 1190px;
+}
+
+.innerContent {
+  margin: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

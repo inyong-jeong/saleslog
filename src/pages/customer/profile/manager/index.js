@@ -117,7 +117,7 @@ const ManagerProfilePage = () => {
 
               <Typography variant='h6' align='left' className={classes.title}>기타 정보</Typography>
               <div style={{ padding: 5 }}>
-                <Collapse accordion ghost>
+                <Collapse accordion ghost expandIconPosition='right'>
                   <Panel header="인물 메모" key="1" >
                     <p className={classes.showDetails}>{managerDetails.etc}</p>
                   </Panel>

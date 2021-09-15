@@ -43,9 +43,9 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
   return (
     <div>
       <div>
-        <AppBar
-          style={{ height: 48, justifyContent: 'center', background: '#ffffff' }}
-          elevation={0}
+        <div
+          style={{ height: 48, justifyContent: 'center', alignItems: 'center', background: '#ffffff' }}
+
           position='relative'
           color='default'>
           <Toolbar>
@@ -105,7 +105,7 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
               </IconButton>
             }
           </Toolbar>
-        </AppBar>
+        </div>
         <Divider style={{ margin: 0 }} />
       </div>
     </div >

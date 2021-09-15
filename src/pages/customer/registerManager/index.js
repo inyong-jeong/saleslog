@@ -266,7 +266,7 @@ const RegisterManager = () => {
             </span> */}
           </Typography>
           <div style={{ padding: 5 }} ref={menuDiv}>
-            <Collapse accordion ghost>
+            <Collapse accordion ghost expandIconPosition='right'>
               <Panel header="인물 메모" key="1" >
                 <TextArea
                   placeholder="담당자를 한 눈에 떠올릴 수 있도록 인물 총평을 기록해두시면 세일즈 활동에 불필요 한 실수를 최소화하는데 도움됩니다."
