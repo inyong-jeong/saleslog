@@ -7,7 +7,7 @@ import Customer from './customer/reducers';
 import Workgroup from './workgroup/reducers';
 import Organization from './organization/reducers';
 import Profile from './profile/reducers';
-
+import Support from './support/reducers';
 
 
 export default combineReducers({
@@ -18,5 +18,6 @@ export default combineReducers({
   Workgroup,
   Organization,
   Profile,
+  Support,
   routing: routerReducer
 });

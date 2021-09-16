@@ -6,7 +6,7 @@ import customerSaga from './customer/saga';
 import WorkgroupSaga from './workgroup/saga';
 import organizationSaga from './organization/saga';
 import profileSaga from './profile/saga';
-
+import supportSaga from './support/saga';
 
 
 
@@ -18,6 +18,7 @@ export default function* rootSaga(getState) {
     customerSaga(),
     WorkgroupSaga(),
     organizationSaga(),
-    profileSaga()
+    profileSaga(),
+    supportSaga()
   ]);
 }

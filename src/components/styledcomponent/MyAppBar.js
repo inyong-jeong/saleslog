@@ -1,6 +1,5 @@
 import { AppBar, Badge, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { ArrowBackIos } from '@material-ui/icons';
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -10,7 +9,11 @@ import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
 import { ReactComponent as BackIcon } from '../.././assets/icons/back.svg'
 import { ReactComponent as AddIcon } from '../.././assets/icons/plus.svg'
-
+import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
+import { ReactComponent as Support } from '../.././assets/icons/main/support.svg'
+import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_workgroup.svg'
+import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
+import { Menu, Dropdown, } from 'antd';
 const useStyles = makeStyles({
   appBarIcon: {
     position: 'absolute',
@@ -43,7 +46,7 @@ const MyAppBar = ({
   onEditClick,
   onSaveClick,
   notiClick,
-  profileClick,
+  //profileClick,
   navigateNext,
   tempSaveClick,
   onAddClick,
@@ -53,6 +56,25 @@ const MyAppBar = ({
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
+
+  const profileClick = () => {
+    console.log('프로필 클릭 ')
+
+  }
+  //profile menu 
+  const menu = (
+    <Menu onClick={profileClick}>
+      <Menu.Item key="1">내 프로필 </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="2"> <WorkNotice />워크그룹 공지 </Menu.Item>
+      <Menu.Item key="3"><Notice />시스템 공지</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="5"> <Setting />알림 설정</Menu.Item>
+      <Menu.Item key="4"> <Support />지원센터 </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="5">세일즈로그 정보</Menu.Item>
+    </Menu>
+  );
 
   const classes = useStyles();
 
@@ -75,12 +97,14 @@ const MyAppBar = ({
               <div className={classes.appBarIcon}>
                 <IconButton color="inherit" onClick={notiClick}>
                   <Badge badgeContent={badgeContent} color="secondary">
-                    <Noti />
+                    <Noti stroke='#333333' />
                   </Badge>
                 </IconButton>
-                <IconButton color="inherit">
-                  <Person onClick={profileClick} />
-                </IconButton>
+                <Dropdown overlay={menu}>
+                  <IconButton color="inherit">
+                    <Person stroke='#333333' />
+                  </IconButton>
+                </Dropdown>
               </div>
             }
             {

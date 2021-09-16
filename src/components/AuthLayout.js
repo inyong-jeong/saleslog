@@ -12,7 +12,7 @@ import styles from '../assets/style/Main.module.css'
 import RightMenu from "./common/RightMenu";
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 
-const { Content, Sider } = Layout;
+const { Content, Sider, Footer } = Layout;
 
 
 const AuthLayout = (props) => {
@@ -46,9 +46,9 @@ const AuthLayout = (props) => {
   useEffect(() => {
     setisNaviShow(props.isShowNaviBar);
   }, [props.isShowNaviBar])
-
+  const badgeContent = 100
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       {isMobile ?
         <Layout style={{ backgroundColor: '#fff' }}>
           <div>
@@ -58,8 +58,10 @@ const AuthLayout = (props) => {
           <MyNavigation />
         </Layout>
         :
-        <Layout>
-          <TopMenu />
+        <div>
+          <TopMenu
+            badgeContent={badgeContent}
+          />
           <div style={{
             width: '100%',
             display: 'flex',
@@ -71,7 +73,7 @@ const AuthLayout = (props) => {
                   <Sider width={180} style={{ borderRight: 'solid', borderWidth: 1, borderColor: '#EAEAEA' }}>
                     <LeftMenu />
                   </Sider>
-                  <Content style={{ margin: 10 }}>
+                  <Content style={{ margin: 10, minHeight: '100vh' }}>
                     {props.children}
                   </Content>
                   <Sider width={282}>
@@ -81,8 +83,9 @@ const AuthLayout = (props) => {
               </Content>
             </Layout>
           </div>
-        </Layout>
+        </div>
       }
+      <Footer />
     </Layout>
   );
 }

@@ -132,7 +132,7 @@ function SalesLogList(props) {
 
   return (
     <>
-      <MyAppBar barTitle={'일지'} profileClick notiClick />
+      <MyAppBar barTitle={'일지'} />
       {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
       <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
