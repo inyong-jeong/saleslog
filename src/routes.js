@@ -96,8 +96,8 @@ const routes = [
   { path: '/main/workgroup/update', name: 'WorkgroupUpd', component: WorkgroupUpd, route: MainRoute, exact: true },
   { path: '/main/workgroup/dept', name: 'WorkgroupDeptReg', component: WorkgroupDeptReg, route: MainRoute, exact: true },
   { path: '/main/workgroup/member', name: 'WorkgroupMember', component: WorkgroupMember, route: MainRoute, exact: true },
-  { path: '/main/workgroup/member/invite', name: 'WorkgroupMemberInvite', component: WorkgroupMemberInvite, route: MainRoute, exact: true },
-  { path: '/main/workgroup/member/profile', name: 'WorkgroupMemberProfile', component: WorkgroupMemberProfile, route: MainRoute, exact: true },
+  { path: '/main/workgroup/member/invite/:memberId', name: 'WorkgroupMemberInvite', component: WorkgroupMemberInvite, route: MainRoute, exact: true },
+  { path: '/main/workgroup/member/profile/:memberId', name: 'WorkgroupMemberProfile', component: WorkgroupMemberProfile, route: MainRoute, exact: true },
 
   //프로필 및 설정 등
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },

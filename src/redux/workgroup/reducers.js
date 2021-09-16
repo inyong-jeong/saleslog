@@ -26,6 +26,9 @@ import {
   GET_GROUP_MEMBER_LIST,
   GET_GROUP_MEMBER_LIST_SUCCESS,
   GET_GROUP_MEMBER_LIST_ERROR, 
+  GET_GROUP_MEMBER_DETAIL,
+  GET_GROUP_MEMBER_DETAIL_SUCCESS,
+  GET_GROUP_MEMBER_DETAIL_ERROR, 
   GET_DEPT_INFO,
   GET_DEPT_INFO_SUCCESS,
   GET_DEPT_INFO_ERROR,
@@ -50,6 +53,7 @@ const initialState = {
   postWorkGroupOutRes: null,
   postWorkGroupDelRes: null,
   getGroupMemberListRes: null,
+  getGroupMemberDetailRes: null,
   getDeptInfoRes: null,
   postDeptRegiRes: null,
   postDeptUpdRes: null,
@@ -111,10 +115,15 @@ const Workgroup = (state = initialState, action) => {
     case GET_GROUP_MEMBER_LIST:      
       return { ...state, loading: true, getGroupMemberListRes: false }
     case GET_GROUP_MEMBER_LIST_SUCCESS:
-      console.log('fetch:::::result::::::::::::',action.payload.response.message)
       return { ...state, loading: false, getGroupMemberListRes: action.payload.response.message }
     case GET_GROUP_MEMBER_LIST_ERROR:
       return { ...state, loading: false, getGroupMemberListRes: {state:false,message:action.payload.error}}
+    case GET_GROUP_MEMBER_DETAIL:      
+      return { ...state, loading: true }
+    case GET_GROUP_MEMBER_DETAIL_SUCCESS:
+      return { ...state, loading: false, getGroupMemberDetailRes: action.payload.response.message }
+    case GET_GROUP_MEMBER_DETAIL_ERROR:
+      return { ...state, loading: false, getGroupMemberDetailRes: {state:false,message:action.payload.error}}
     case GET_DEPT_INFO:
       return { ...state, loading: true  }
     case GET_DEPT_INFO_SUCCESS:

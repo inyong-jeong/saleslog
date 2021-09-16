@@ -11,6 +11,7 @@ import {
   POST_WORKGROUP_OUT,
   POST_WORKGROUP_DEL,
   GET_GROUP_MEMBER_LIST,
+  GET_GROUP_MEMBER_DETAIL,
   GET_DEPT_INFO,
   POST_DEPT_REGI,
   POST_DEPT_UPD,
@@ -26,6 +27,7 @@ import {
   postWorkGroupOut,
   postWorkGroupDel,
   getGroupMemberList,
+  getGroupMemberDetail,
   getDeptInfo,
   postDeptRegi,
   postDeptUpd,
@@ -46,6 +48,7 @@ const WGROUP_CHANGE = '/org/change_wgroup'            //workgroup change
 const WGROUP_OUT = '/org/out_wgroup'                  //workgroup out
 const WGROUP_DEL = '/org/del_wgroup'                  //workgroup del
 const MEMBER_LIST = '/org/list_wgroup_users'          //workgroup member list
+const MEMBER_DETAIL = '/org/detail_wgroup_users'      //workgroup member detail
 const DEPT_GET_INFO = '/org/list_dept'                //workgroup Dept List
 const DEPT_REGISTER = '/org/regi_dept'                //workgroup Dept Register
 const DEPT_UPDATE = '/org/upd_dept'                   //workgroup Dept Update
@@ -176,7 +179,6 @@ function* _getGroupMemberList({ payload: { body } }) {
   try {
 
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_LIST , body)
-    yield console.log('result:::::::::::::::::::',response)
     yield put(getGroupMemberList.success(response))
 
   } catch (error) {
@@ -184,6 +186,18 @@ function* _getGroupMemberList({ payload: { body } }) {
   }
 }
 
+//워크그룹 맴버 상세
+function* _getGroupMemberDetail({ payload: { body } }) {
+  try {
+    console.log('fetch:::::::::::::::::::',body)
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_DETAIL , body)
+    yield console.log('result:::::::::::::::::::',response)
+    yield put(getGroupMemberDetail.success(response))
+
+  } catch (error) {
+    yield put(getGroupMemberDetail.error(error))
+  }
+}
 //부서리스트
 function* _getDeptInfo({ payload: { body } }) {
   try {
@@ -271,6 +285,9 @@ function* watchGroupMemberList() {
   yield takeEvery(GET_GROUP_MEMBER_LIST, _getGroupMemberList)
 }
 
+function* watchGroupMemberDetail() {
+  yield takeEvery(GET_GROUP_MEMBER_DETAIL, _getGroupMemberDetail)
+}
 
 function* watchGetDeptInfo() {
   yield takeEvery(GET_DEPT_INFO, _getDeptInfo)
@@ -298,12 +315,12 @@ function* WorkgroupSaga() {
     fork(watchPostDeptUpd),
     fork(watchPostDeptDel),
     fork(watchWorkgroupRegi),
-    fork(watchWorkgroupList),
+    fork(watchWorkgroupList),    
     fork(watchWorkgroupChange),
     fork(watchWorkgroupOut),
     fork(watchWorkgroupDel),
-    fork(watchGroupMemberList)
- 
+    fork(watchGroupMemberList),
+    fork(watchGroupMemberDetail) 
   ])
 }
 

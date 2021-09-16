@@ -26,3 +26,11 @@ export const alertMessage = (msg) => {
     onOk() {},
   })
 }
+
+export const base64Enc = (str) => {
+  return window.btoa( encodeURIComponent(str) ); 
+}
+
+export const base64Dec = (str) => {
+  return decodeURIComponent(window.atob(str));
+}

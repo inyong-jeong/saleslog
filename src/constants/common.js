@@ -26,8 +26,8 @@ cmm.windowSize = () => {
   return {width, height};
 }
 
-//json tree data 
-cmm.permision = (data) => {
+//permission
+cmm.permission = (data) => {
   switch (data) {
     case '0' :
       return 'Master';
@@ -36,10 +36,28 @@ cmm.permision = (data) => {
     case '2' :
       return 'Manager';
     case '9' :
-      return 'Member';
+      return 'Staff';
     default :
-      return 'Member';
+      return 'Staff';
   } 
 }
+
+//permission 한글
+cmm.permissionH = (data) => {
+  switch (data) {
+    case '0' :
+      return '마스터';
+    case '1' :
+      return '치프';
+    case '2' :
+      return '매니저';
+    case '9' :
+      return '구성원';
+    default :
+      return '구성원';
+  } 
+}
+
+
 
 module.exports = cmm;

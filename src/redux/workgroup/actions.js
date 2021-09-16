@@ -8,6 +8,7 @@ import {
   POST_WORKGROUP_OUT,
   POST_WORKGROUP_DEL,
   GET_GROUP_MEMBER_LIST,
+  GET_GROUP_MEMBER_DETAIL,
   GET_DEPT_INFO,
   POST_DEPT_REGI,
   POST_DEPT_UPD,
@@ -27,6 +28,7 @@ export const postWorkGroupChange  = fetchActionGenerator(POST_WORKGROUP_CHANGE, 
 export const postWorkGroupOut  = fetchActionGenerator(POST_WORKGROUP_OUT, 'body'); 
 export const postWorkGroupDel  = fetchActionGenerator(POST_WORKGROUP_DEL, 'body'); 
 export const getGroupMemberList  = fetchActionGenerator(GET_GROUP_MEMBER_LIST, 'body'); 
+export const getGroupMemberDetail  = fetchActionGenerator(GET_GROUP_MEMBER_DETAIL, 'body'); 
 
 export const getDeptInfo  = fetchActionGenerator(GET_DEPT_INFO, 'body'); 
 export const postDeptRegi  = fetchActionGenerator(POST_DEPT_REGI, 'body'); 

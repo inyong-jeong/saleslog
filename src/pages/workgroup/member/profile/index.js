@@ -1,107 +1,49 @@
 import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, {useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
-import  IconLabel from 'components/IconLabel';
-import { useHistory } from 'react-router';
-import { Modal, Divider, Button, Avatar } from 'antd';
-import { getWorkGroupInfo,getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
+import { useHistory, useParams } from 'react-router';
+import { Divider, Button, Avatar , Select,TreeSelect   } from 'antd';
+import { RightOutlined} from "@ant-design/icons";
+import { getGroupMemberDetail,getDeptInfo } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
-
-const useStyles = makeStyles((theme) =>({
-  root: {
-    width: '100%',
-    height: 200,
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 100, //nav bottom tab 
-  },
-  bottomBar: {
-    width: '100%',
-    position: 'fixed',
-    bottom: 60,
-    left:0,
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent:'center'
-  },
-
-}));
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0000FF',
-    }
-  },
-});
+import { base64Dec } from 'constants/commonFunc';
+const { Option } = Select;
+const { SHOW_PARENT } = TreeSelect;
 
 const WgroupMemberPage = (props) => {  
-  const classes = useStyles();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
+  const params = useParams()
   const dispatch = useDispatch()
-  const data = state.data;
-  const [isShowModal, setIsShowModal] = useState(false)
-  const [wgList, setWgList] = useState([])
+  const [memberId, setMemberId] = useState(null)  
+  const [memberData, setMemberData] = useState(null)
+  const [treedata, setTreedata] = useState([])
   const [inputs, setInputs] = useState(
     {
-      data: null,
+      permissions:'',
+      dept_idx:'', 
     }
-  )
-  
+  )  
   
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
 
   //이전페이지
-  const navigateTo = () => history.push('/main/customer')
+  const navigateTo = () => history.push('/main/workgroup/member')
 
-  //워크그룹 리스트 팝업
-  const navigateNext = () => {     
-    //워크그룹 리스트 가져오기
-    dispatch(getWorkGroupList.call())
-    setIsShowModal(true);
+  //권한 select
+  const handleChange = (value) => {    
+    setInputs({...inputs, permissions:value});
   }
-
-  //워크그룹 체인지
-  const handelWGroupChange = (idx) => {     
-    //워크그룹 변경
-    dispatch(postWorkGroupChange.call({chg_idx:idx}))    
+  //소속 select
+  const handeltreeOnChange = (value) => {
+    setInputs({...inputs, dept_idx:value});
   }
-
-  //워크그룹 생성
-  const handelWGroupRegi = () => {     
-    //워크그룹 생성페이지 이동
-    history.push('/main/workgroup/register');
-    setIsShowModal(false)
-  }
-
-  useEffect(() => {
-    if (state.getWorkGroupListRes) {
-      console.log('wglist:::::::::::::::',state.getWorkGroupListRes)
-      setWgList(state.getWorkGroupListRes)    
-    }
-    
-  },[state.getWorkGroupListRes])
-
-  useEffect(() => {
-    if (state.postWorkGroupChangeRes) {
-      console.log('wglist:::::::::::::::',state.postWorkGroupChangeRes)
-     
-      //워크그룹 정보 가져오기
-      dispatch(getWorkGroupInfo.call())   
-      setIsShowModal(false)
-    }
-    
-  },[state.postWorkGroupChangeRes])
 
 
   useEffect(()=> {
@@ -110,124 +52,130 @@ const WgroupMemberPage = (props) => {
       type: SET_NAVIBAR_SHOW,
       payload: true}
     )
-    //워크그룹 정보 가져오기
-    dispatch(getWorkGroupInfo.call())
+    setMemberId(base64Dec(params.memberId))
+
+    //워크그룹 맴버 정보 
+    dispatch(getGroupMemberDetail.call({login_idx:base64Dec(params.memberId)}))
+
+    //부서 정보 가져오기
+    dispatch(getDeptInfo.call({dept_idx:0,typ:'tree'}))
 
   },[])
   
+
+  //부서리스트 fetch 후
   useEffect(()=> {
-    if (!cmm.isEmpty(data)) {
-      setInputs({ ...inputs, data:data[0], prevImg: (cmm.isEmpty(data[0].logo_url)?'':cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) })      
+    if (!cmm.isEmpty(state.getGroupMemberDetailRes)) {
+      setMemberData(state.getGroupMemberDetailRes)
+      setInputs({permissions:state.getGroupMemberDetailRes[0].permissions, dept_idx:state.getGroupMemberDetailRes[0].dept_idx});
     }
-      
-  },[data])
+  },[state.getGroupMemberDetailRes])
+
+
+  //부서리스트 fetch 후
+  useEffect(()=> {
+    
+    if (!cmm.isEmpty(state.getDeptInfoRes)) {
+      console.log('treedata:::::::::::::::::::::',getTreeData(state.getDeptInfoRes))
+      setTreedata(getTreeData(state.getDeptInfoRes))
+    }
+  },[state.getDeptInfoRes])
+
+  const onSaveClick = (e) => {
+    //dispatch(postWorkGroupUpd.call(inputs))
+    return
+  }
+
+  const getTreeData = (array) => {  
+    
+    if (!array || array.length <= 0) {
+      return null;
+    }
+  
+    var map = {};
+    for(var i = 0; i < array.length; i++){
+      var obj = {"value" : array[i]['dept_idx'], "title" : array[i]['dept_name']  };
+      obj.children = [];
+      map[obj.value] = obj;
+      var parent = array[i]['parent_idx'] || '-';
+  
+      if(!map[parent]){
+        map[parent] = {
+          children: []
+        };
+      }
+      map[parent].children.push(obj);
+    }
+  
+    return map['-'].children;
+  
+  }
+
 
   return (
-    <ThemeProvider theme={theme}>
+    (memberData && memberData.length > 0) &&
+    <div >
       {<MyAppBar 
-          barTitle={(cmm.isEmpty(inputs.data))?'워크그룹':inputs.data.organization} 
+          barTitle={'맴버 프로필'}       
+          showBackButton
           navigateTo={navigateTo} 
-          navigateNext={navigateNext} 
+          onSaveClick={onSaveClick}
           />}     
       <div style={{height:20}}></div>
-      <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
-      <Divider style={{margin:10}}/>
-      <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
-      <Divider style={{margin:10}}/>
-      <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
-      <Divider style={{margin:10}}/>
-      <div className={classes.bottomBar} >
-        <IconLabel title="워크그룹 나가기" pathUri="main/customer" isIcon={false}></IconLabel>
-        <div>&nbsp; |&nbsp; </div>
-        <IconLabel title="워크그룹 삭제" pathUri="main/customer" isIcon={false}></IconLabel>
+      <div style={{display:'flex',width:'100%'}}>
+        <Avatar 
+          src={(cmm.isEmpty(memberData[0].thumb_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTO + memberData[0].thumb_url)} 
+          shape='square' size={(isMobile)?90:120} />
+        <div style={{width:10}}></div>
+        <div style={{width:"90%" }}>
+          <label style={{padding:5, color:'#aaa'}}>고객명 </label><br/>
+          <label style={{padding:5, margin:0}}>{memberData[0].user_name}</label>
+          <Divider style={{width:'100%', margin:5}}/>
+        </div>
       </div>
-      <Modal
-        title="워크그룹 선택"
-        style={{ positon:'fixed', left:0, top:100}}
-        visible={isShowModal}
-        width={((isMobile)?'90%':'50%')}        
-        onOk={() => { setIsShowModal(false) }}
-        onCancel={() => { setIsShowModal(false) }}
-        footer={[
-          <div key={1} 
-              style={{
-                position:'absolute', 
-                display:'flex',
-                justifyContent:'center',
-                backgroundColor:'#ffffff',
-                left:0, 
-                width:'100%', 
-                height:70
-              }}><div
-                    style={{ 
-                      margin:5, 
-                      fontSize:16, 
-                      width:'90%', 
-                      backgroundColor:'#333333',
-                      height:48,
-                    }}><Button 
-                          ghost
-                          style={{  
-                            fontSize:16, 
-                            width:'100%', 
-                            height:'100%'
-                          }}
-                          key={1} 
-                          onClick={() => { 
-                            handelWGroupRegi()
-                          }}>워크그룹 생성</Button></div>
-          </div>
-        ]}
-        > 
-        <InfiniteScroll
-          hasMore={true}
-          dataLength={wgList.length} >
-        <List className={classes.root}>
-          {((wgList) ? wgList.map((item, index) =>{
-                      const { organization, org_domain, org_idx, logo_url, member_cnt, accounts_cnt } = item;            
-                      return (
-                        <div >
-                          <ListItem key={index} 
-                              style={{
-                                padding:5,
-                                height:50,
-                                backgrouondColor:'#fefefe'
-                              }}>
-                            <div 
-                              style={{ display:'flex', width:'100%' }}
-                              onClick={() => { 
-                                handelWGroupChange(org_idx)
-                              }}>
-                                <Avatar 
-                                  src={(cmm.isEmpty(item.logo_url)) ? '':cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.logo_url} 
-                                  shape='square'
-                                  size={44} 
-                                  style={{ width:60}} />
-                                <div style={{ width:'80%', paddingLeft:10}}>
-                                  <span style={{fontSize:14}}>{organization}</span><br/>
-                                  <span style={{fontSize:12}}>{org_domain}</span>
-                                </div>
-                                <div style={{ fontSize:12, width:70,paddingLeft:10, color:'#aaaaaa'}}>
-                                  <span>맴버</span><br/>
-                                  <span>고객사</span>
-                                </div>
-                                <div style={{ fontSize:12, width:30,paddingLeft:10, textAlign:'right', right:10, justifyContent:'flex-end' }}>
-                                  <span>{member_cnt}</span><br/>
-                                  <span>{accounts_cnt}</span>
-                                </div>
-                            </div>
-                          </ListItem>
-                          <Divider dashed style={{ margin: 3 }} />
-                        </div>
-                      )
-                    }):'')
+      <div style={{marginTop:20}}>
+        <label style={{padding:5, color:'#aaa'}}>휴대폰 번호 </label><br/>
+        <label style={{padding:5, margin:0}}>{memberData[0].phone_number}</label>
+        <Divider style={{width:'100%', margin:5}}/>
+      </div>
+      <div style={{marginTop:10}}>
+        <label style={{padding:5, color:'#aaa'}}>이메일 </label><br/>
+        <label style={{padding:5, margin:0}}>{memberData[0].email}</label>
+        <Divider style={{width:'100%', margin:5}}/>
+      </div>
+      <div style={{marginTop:10 }}>
+        <div><label style={{padding:5, color:'#aaa'}}>맴버 구분 </label></div>
+        <Select defaultValue={inputs.permissions} 
+          style={{ width: '100%', height:25 }} 
+          onChange={handleChange}>
+          <Option value="0">마스터</Option>
+          <Option value="1">치프</Option>
+          <Option value="2">매니저</Option>
+          <Option value="9">구성원</Option>
+        </Select>
+        <Divider style={{width:'100%', margin:5}}/>
+      </div>
+      <div style={{marginTop:10}}>
+        <label style={{padding:5, color:'#aaa'}}>소속</label><br/>
+        <TreeSelect 
+          style={{ width: '100%' }}
+          value={inputs.dept_idx}
+          treeLine={true}
 
-          }
-          </List>
-        </InfiniteScroll>
-          
-      </Modal>
-    </ThemeProvider>
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+          treeData={treedata}
+          placeholder={memberData[0].dept_name}
+          treeDefaultExpandAll
+          onChange={ handeltreeOnChange } />
+        <label style={{padding:5, margin:0}}>{memberData[0].dept_name}</label>
+        <Divider style={{width:'100%', margin:5}}/>
+      </div>
+      <div style={{marginTop:10}}>
+        <label style={{padding:5, color:'#aaa'}}>최근 접속 일시</label><br/>
+        <label style={{padding:5, margin:0}}>{memberData[0].upd_dt}</label>
+        <Divider style={{width:'100%', margin:5}}/>
+      </div>
+    </div>
   );
 }
 
