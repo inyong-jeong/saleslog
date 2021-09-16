@@ -7,5 +7,5 @@ import {
 import { fetchActionGenerator } from '../utils';
 
 export const getUserAccounts = fetchActionGenerator(GET_USER_ACCOUNT, 'userId');
-export const selectAccounts = fetchActionGenerator(SELECT_ACCOUNTS);
+export const selectAccounts = fetchActionGenerator(SELECT_ACCOUNTS, 'data');
 export const selectAccountperson = fetchActionGenerator(SELECT_ACCOUNT_PERSON, 'data');

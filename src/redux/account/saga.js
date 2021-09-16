@@ -32,9 +32,9 @@ function* _getUserAccounts({ payload: { userId } }) {
   }
 }
 
-function* _selectAccounts() {
+function* _selectAccounts({ payload: { data } }) {
   try {
-    const response = yield call(get_fetch, 'https://backend.saleslog.co/saleslog/sel_accounts');
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/sel_accounts', data);
     yield put(selectAccounts.success(response));
   } catch (error) {
     yield put(selectAccounts.error(error.message));
