@@ -14,7 +14,7 @@ import moment from 'moment';
 import CouserModal from 'components/CouserModal'
 import CouserList from 'components/CouserList';
 import LogListModal from 'components/LogListModal'
-
+import CustomerModal from 'components/CustomerModal'
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
   indicatorSeparator: () => { }
@@ -46,7 +46,7 @@ function UploadSalesLog(props) {
 
   const [channelindex, setChannelIndex] = useState('');
   const [activityindex, setActivitylIndex] = useState('');
-
+  const [accountindex, setAccountIndex] = useState('');
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(0);
@@ -122,6 +122,7 @@ function UploadSalesLog(props) {
     }
   }, [temporaryLogListId])
 
+
   useEffect(() => {
     //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
     if (props.match.params.id) {
@@ -151,8 +152,9 @@ function UploadSalesLog(props) {
   }, [props.match.params.id])
 
   const [fromData, setFromData] = useState({
-    acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
-    accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
+    // acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
+    // accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
+    acc_idx: '',
     sales_gb: radiocheck,
     sales_lead_gb: leadactivity,
     sales_goal: activity,
@@ -184,26 +186,18 @@ function UploadSalesLog(props) {
     setAccountsPersonList(props.accountpersonlist);
   }, [props.accountpersonlist]);
 
-  useEffect(() => {
-    props.selectAccounts()
-  }, [])
+  // useEffect(() => {
+  //   props.selectAccounts()
+  // }, [])
 
   useEffect(() => {
-    if (selectedAccount.value) {
+    if (selectedAccount) {
       const accountperson = {
         acc_idx: selectedAccount.value
       }
       props.selectAccountperson(accountperson);
     }
   }, [selectedAccount])
-
-  // useEffect(() => {
-  //   if (isFilePicked === 'true') {
-  //     const formData = new FormData();
-  //     formData.append('File', selectedFiles)
-  //     setSelectedFiles(formData)
-  //   } else return;
-  // }, [isFilePicked])
 
   const onDatePickerChange = (date) => {
     const convertdate = moment(date).format('YYYY-MM-DD');
@@ -231,21 +225,23 @@ function UploadSalesLog(props) {
     })
   }
 
-  const onAccountSelectChange = (v, action) => {
-    setSelectedAccount(v);
-    setFromData({
-      ...fromData,
-      'acc_idx': v.value
-    })
-  };
+  // const onAccountSelectChange = (v, action) => {
+  //   console.log(v)
+  //   console.log(action)
+  //   setSelectedAccount(v);
+  //   setFromData({
+  //     ...fromData,
+  //     'acc_idx': v.value
+  //   })
+  // };
 
-  const onAccountPersonSelectChange = (v, action) => {
-    setSelectedAccountPerson(v);
-    setFromData({
-      ...fromData,
-      'accm_idx': v.value
-    })
-  }
+  // const onAccountPersonSelectChange = (v, action) => {
+  //   setSelectedAccountPerson(v);
+  //   setFromData({
+  //     ...fromData,
+  //     'accm_idx': v.value
+  //   })
+  // }
 
   const onChange = (e) => {
     setRadioCheck(e.target.value);
@@ -379,6 +375,54 @@ function UploadSalesLog(props) {
   const onCancel = () => {
     props.history.push(`/main/manage/saleslog/${props.match.params.id}`)
   }
+
+  const getSalesAccount = () => {
+    const data = {
+      sales_gb: '0010001'
+    }
+    props.selectAccounts(data)
+  }
+
+  const getLeadAccount = () => {
+    const data = {
+      sales_gb: '0010002'
+    }
+    props.selectAccounts(data)
+  }
+
+  const onAccountSelectChange = (v, actiontype) => {
+    if (actiontype.action === 'clear') {
+      setSelectedAccount(v);
+      setFromData({
+        ...fromData,
+        'acc_idx': ''
+      })
+    } else {
+      setSelectedAccount(v);
+      setFromData({
+        ...fromData,
+        'acc_idx': v.value
+      })
+    }
+
+  };
+
+  const onAccountPersonSelectChange = (v, actiontype) => {
+    if (actiontype.action === 'clear') {
+      setSelectedAccountPerson(v);
+      setFromData({
+        ...fromData,
+        'accm_idx': ''
+      })
+    } else {
+      setSelectedAccountPerson(v);
+      setFromData({
+        ...fromData,
+        'accm_idx': v.value
+      })
+    }
+
+  }
   return (
     <React.Fragment>
       <MyAppBar barTitle={'일지쓰기'} showBackButton onSaveClick={onFormSubmit} navigateTo={handleOnBack} tempSaveClick={onFormTemporarySubmit} />
@@ -419,9 +463,10 @@ function UploadSalesLog(props) {
         <div className='row'>
           <div className='col-12' style={{ display: 'flex' }}>
             <Radio.Group onChange={onChange} value={radiocheck}>
-              <Radio value={'0050001'}>영업일지</Radio>
-              <Radio value={'0050002'}>리드일지</Radio>
+              <Radio onClick={getSalesAccount} value={'0050001'}>영업일지</Radio>
+              <Radio onClick={getLeadAccount} value={'0050002'}>리드일지</Radio>
             </Radio.Group>
+            <div>* 일지구분을 선택하면 고객 리스트가 조회됩니다.</div>
           </div>
         </div>
         <div className='mt-2'></div>
@@ -429,8 +474,9 @@ function UploadSalesLog(props) {
         <div className='mt-3'></div>
         <div className="mt-2"></div>
         <div className="row">
-          <div className="col-12">
-            <h4>고객사</h4>
+          <div className="col-12" style={{ display: 'flex', alignItems: 'center' }}>
+            <h4 className='mr-1' style={{ fontSize: '16px' }}>고객</h4>
+            <CustomerModal buttonLabel='고객 간편 등록' />
           </div>
         </div>
         <div className="mt-2"></div>
@@ -439,7 +485,7 @@ function UploadSalesLog(props) {
             <CreatableSelect
               isClearable
               placeholder="고객사 검색"
-              // formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
+              formatCreateLabel={(v) => `새로운 고객사 "${v}"만들기`}
               options={accountsList && accountsList.map((v) => { return { value: v.acc_idx, label: v.account_name } })}
               value={selectedAccount}
               onChange={onAccountSelectChange}
@@ -460,7 +506,7 @@ function UploadSalesLog(props) {
             <CreatableSelect
               isClearable
               placeholder="고객사 담당자를 선택해주세요"
-              // formatCreateLabel={(v) => `새로운 담당자 "${v}"만들기`}
+              formatCreateLabel={(v) => `새로운 담당자 "${v}"만들기`}
               options={accountspersonList && accountspersonList.map((v) => { return { value: v.accm_idx, label: v.man_name } })}
               value={selectedAccountperson}
               onChange={onAccountPersonSelectChange}
@@ -574,11 +620,9 @@ function UploadSalesLog(props) {
         </div>
         {!props.match.params.id ? <div className="row mt-1" style={{ display: 'flex' }}>
           <div className='col-10'>
-            <label className='input-file-button' htmlfor='input-file' style={{ backgroundColor: 'white', padding: '5px', cursor: 'pointer' }}>
-              <img src={require('assets/icons/clip.png')} alt='clip_logo' />
-            </label>
+            <img src={require('assets/icons/clip.png')} alt='clip_logo' />
             <input type='file' id='input-file' onChange={selectFile} multiple />
-            <img src={require('assets/icons/voice.png')} alt='voice_logo' />
+            {/* <img src={require('assets/icons/voice.png')} alt='voice_logo' /> */}
           </div>
           <div className='col-2'>
             <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />

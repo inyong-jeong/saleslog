@@ -4,7 +4,7 @@ import { TreeSelect, Row, Col, Select } from 'antd';
 
 import { connect } from 'react-redux';
 import {
-  getorganization, getorganizationusers, searchLogList
+  getorganization, getorganizationusers
 } from 'redux/actions';
 
 
@@ -72,6 +72,15 @@ const SalesLogFilter = (props) => {
     }
   }, [selectedOrganization1])
 
+  console.log(props.organizationuserlist);
+  useEffect(() => {
+    if (props.organizationuserlist) {
+      const userlist = props.organizationuserlist.map(v => v.login_idx);
+      console.log(userlist)
+      props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
+
+    }
+  }, [props.organizationuserlist])
   useEffect(() => {
     if (props.organizationlist) {
       if (key === 0) {
@@ -105,8 +114,7 @@ const SalesLogFilter = (props) => {
     if (selectedOrganizationuser) {
 
       console.log(selectedOrganizationuser)
-      props.setData({ ...props.data, 'srch': selectedOrganizationuser })
-      // props.searchLogList(props.data)
+      props.setData({ ...props.data, 'sales_man': selectedOrganizationuser, 'pageno': 1 })
     }
   }, [selectedOrganizationuser])
 
@@ -114,15 +122,8 @@ const SalesLogFilter = (props) => {
     props.getorganizationusers(data)
   }, [data])
 
-  // useEffect(() => {
-  //   if(data) {
-  //     props.getorganizationusers(data)
-  //   }
-  // }, [data])
-
   const selectStyle =
     { width: '100%' }
-
 
   const onOrganizationSelectChange1 = (v) => {
     console.log(v)
@@ -150,7 +151,7 @@ const SalesLogFilter = (props) => {
     for (let i = 0; i < props.organizationuserlist.length; i++) {
       for (let j = 0; j < label.length; j++) {
         if (label[j] === props.organizationuserlist[i].user_name) {
-          list = list.concat(props.organizationuserlist[i].dept_idx);
+          list = list.concat(props.organizationuserlist[i].login_idx);
         } else if (label === []) {
           list = [];
         }
@@ -274,13 +275,12 @@ const SalesLogFilter = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { organizationlist, bigresponse, organizationuserlist } = state.Organization;
-  return { organizationlist, bigresponse, organizationuserlist };
+  const { organizationlist, organizationuserlist } = state.Organization;
+  return { organizationlist, organizationuserlist };
 };
 const mapStateToDispatch = {
   getorganization: getorganization.call,
   getorganizationusers: getorganizationusers.call,
-  searchLogList: searchLogList.call,
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLogFilter);

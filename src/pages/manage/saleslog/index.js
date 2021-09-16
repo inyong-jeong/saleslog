@@ -77,39 +77,39 @@ function SalesLog(props) {
   return (
     <>
       <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />
-      <Row>
+      <Row gutter={[4, 4]}>
         <Col sm={24} xs={24} md={24} lg={24}>
           {Log && <StyledCard>
-            <ul style={{ padding: '4px' }}>
-              <li style={{ display: 'flex', padding: '4px' }}>
-                <img
-                  src={require('assets/icons/calendar.png')}
-                  alt='calendar_icon' />
-                <div>{Log.meeting_date}</div>
-              </li>
+            <ul >
               <li style={{ display: 'flex' }}>
                 <img
                   src={require('assets/icons/calendar.png')}
                   alt='calendar_icon' />
-                <div>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
+                <div className='ml-1'>{Log.meeting_date}</div>
               </li>
               <li style={{ display: 'flex' }}>
                 <img
-                  src={require('assets/icons/calendar.png')}
-                  alt='calendar_icon' />
-                <div>{Log.addr}</div>
+                  src={require('assets/icons/clock.png')}
+                  alt='clock' />
+                <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
               </li>
               <li style={{ display: 'flex' }}>
                 <img
-                  src={require('assets/icons/calendar.png')}
-                  alt='calendar_icon' />
-                <div>{Log.sales_activity}</div>
+                  src={require('assets/icons/location.png')}
+                  alt='location' />
+                <div className='ml-1'>{Log.addr}</div>
               </li>
               <li style={{ display: 'flex' }}>
                 <img
-                  src={require('assets/icons/calendar.png')}
-                  alt='calendar_icon' />
-                <div>{Log.account_name} :</div>
+                  src={require('assets/icons/needs.png')}
+                  alt='needs_icon' />
+                <div className='ml-1'>{Log.sales_activity}</div>
+              </li>
+              <li style={{ display: 'flex' }}>
+                <img
+                  src={require('assets/icons/document.png')}
+                  alt='document_icon' />
+                <div className='ml-1'>{Log.account_name} :</div>
               </li>
             </ul>
             <p>{Log.meeting_stime} ~ {Log.meeting_etime}</p>
