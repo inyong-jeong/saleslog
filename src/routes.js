@@ -44,6 +44,10 @@ const WorkgroupMember = React.lazy(() => import('./pages/workgroup/member'))
 const WorkgroupMemberInvite = React.lazy(() => import('./pages/workgroup/member/invite'))
 const WorkgroupMemberProfile = React.lazy(() => import('./pages/workgroup/member/profile'))
 
+//내 프로필 누르면 보이는 페이지, 설정, 공지 등
+const AppInfo = React.lazy(() => import('./pages/profile/appInfo'))
+const SystemNotice = React.lazy(() => import('./pages/profile/notice_system'))
+const SupportPage = React.lazy(() => import('./pages/profile/support'))
 
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
@@ -91,6 +95,12 @@ const routes = [
   { path: '/main/workgroup/member', name: 'WorkgroupMember', component: WorkgroupMember, route: MainRoute, exact: true },
   { path: '/main/workgroup/member/invite', name: 'WorkgroupMemberInvite', component: WorkgroupMemberInvite, route: MainRoute, exact: true },
   { path: '/main/workgroup/member/profile', name: 'WorkgroupMemberProfile', component: WorkgroupMemberProfile, route: MainRoute, exact: true },
+
+  //프로필 및 설정 등
+  { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
+  { path: '/main/support', name: 'SupportPage', component: SupportPage, route: MainRoute, exact: true },
+  { path: '/main/systemNotice', name: 'SystemNotice', component: SystemNotice, route: MainRoute, exact: true },
+
 
 
   //landing Route
