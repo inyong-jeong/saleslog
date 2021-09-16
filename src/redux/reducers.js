@@ -8,6 +8,9 @@ import Workgroup from './workgroup/reducers';
 import Organization from './organization/reducers';
 import Profile from './profile/reducers';
 import Support from './support/reducers';
+import Dashboard from './profile/reducers';
+
+
 
 
 export default combineReducers({
@@ -19,5 +22,6 @@ export default combineReducers({
   Organization,
   Profile,
   Support,
+  Dashboard,
   routing: routerReducer
 });
