@@ -8,6 +8,8 @@ import { useMediaQuery } from "react-responsive";
 import { Divider } from 'antd';
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
+import { ReactComponent as BackIcon } from '../.././assets/icons/back.svg'
+import { ReactComponent as AddIcon } from '../.././assets/icons/plus.svg'
 
 const useStyles = makeStyles({
   appBarIcon: {
@@ -25,14 +27,28 @@ const useStyles = makeStyles({
 })
 //앱바 제목 - bartitle
 //뒤로가기 버튼 보이기 - showbackbutton
-// 뒤로가기 클릭시 정의해주는 path - navigate to
+//뒤록가기 버튼 클릭 -  navigate to
 // 수정 버튼 보이기 및 클릭이벤트 - edit click 
 // 등록 버튼 보이기 및 클릭이벤트 - save click 
 // 알림 클릭 ->notiClick
 // 프로필 클릭 ->profileClick
 //navigateNext ->  텍스트 옆에 다른 곳으로 이동하는 오른쪽 버튼 넣어주고 싶을 때 정의 
-const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveClick, notiClick, profileClick, navigateNext, tempSaveClick }) => {
-
+//showAddButton -> 오른쪽에 + 버튼 표시 
+//onAddClick ->  showAddButton 의 클릭 이벤트 정의 
+const MyAppBar = ({
+  barTitle,
+  showBackButton,
+  showAddButton,
+  navigateTo,
+  onEditClick,
+  onSaveClick,
+  notiClick,
+  profileClick,
+  navigateNext,
+  tempSaveClick,
+  onAddClick,
+  badgeContent
+}) => {
 
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
@@ -44,28 +60,34 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
     <div>
       <div>
         <div
-          style={{ height: 48, justifyContent: 'center', alignItems: 'center', background: '#ffffff' }}
-
-          position='relative'
+          style={{ height: 48, justifyContent: 'center', alignItems: 'center', background: '#ffffff', position: 'sticky', top: 0, }}
           color='default'>
           <Toolbar>
             {
               showBackButton &&
               <IconButton color="inherit" onClick={navigateTo}>
-                <ArrowBackIos />
+                <BackIcon />
               </IconButton>
 
             }
             {
               isMobile && !showBackButton &&
-              <div div className={classes.appBarIcon}>
+              <div className={classes.appBarIcon}>
                 <IconButton color="inherit" onClick={notiClick}>
-                  <Badge badgeContent={1} color="secondary">
+                  <Badge badgeContent={badgeContent} color="secondary">
                     <Noti />
                   </Badge>
                 </IconButton>
                 <IconButton color="inherit">
                   <Person onClick={profileClick} />
+                </IconButton>
+              </div>
+            }
+            {
+              showAddButton &&
+              <div className={classes.appBarIcon}>
+                <IconButton color="inherit" onClick={onAddClick}>
+                  <AddIcon />
                 </IconButton>
               </div>
             }
@@ -94,10 +116,12 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
                 </Button>
               </div>
             }
+
             <Typography variant="h6"
               style={{ fontSize: 14, fontWeight: 'normal' }}>
               {barTitle}
             </Typography>
+
             {
               navigateNext &&
               <IconButton color="inherit" onClick={navigateNext}>
@@ -106,9 +130,10 @@ const MyAppBar = ({ barTitle, showBackButton, navigateTo, onEditClick, onSaveCli
             }
           </Toolbar>
         </div>
-        <Divider style={{ margin: 0 }} />
       </div>
-    </div >
+      <Divider style={{ marginTop: 10, }} />
+    </div>
+
   );
 }
 
