@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import StyledButton from 'components/styledcomponent/Button'
-import { Row, Col } from 'antd'
+import { Row, Col, DatePicker } from 'antd'
+import moment from 'moment';
 
+const { RangePicker } = DatePicker;
 
-export default function DashButton5({ tab, onSelected, defaultSelected, onChange }) {
+export default function DashButton({ tab, onSelected, defaultSelected, onChange }) {
 
   const [selected, setSelected] = useState(defaultSelected);
 
@@ -18,9 +20,9 @@ export default function DashButton5({ tab, onSelected, defaultSelected, onChange
 
   return (
     <>
-      <Row justify='center' gutter={[6, 6]}>
+      <Row gutter={[6, 6]}>
         {tab && tab.map((v) => {
-          return <Col sm={4} xs={4} md={4} lg={4}>
+          return <Col sm={6} xs={6} md={6} lg={6}>
             <StyledButton key={v.id} id={v.id} onClick={handleOnClick}>{v.label}</StyledButton>
           </Col>
         })
