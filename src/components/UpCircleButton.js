@@ -1,12 +1,12 @@
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import { ExpandLess } from '@material-ui/icons';
 import React from 'react';
 import { useMediaQuery } from "react-responsive";
 
 const MOBILE_POS = {
   margin: 0,
   top: 'auto',
-  right: 20,
+  left: 20,
   bottom: 90,
   left: 'auto',
   position: 'fixed',
@@ -15,7 +15,7 @@ const MOBILE_POS = {
 const WEB_POS = {
   margin: 0,
   top: 'auto',
-  right: 200,
+  left: 200,
   bottom: 90,
   left: 'auto',
   position: 'fixed',
@@ -34,13 +34,13 @@ const CustomFab = ({ navigateTo }) => {
         isMobile ?
           <div style={MOBILE_POS}>
             <Fab style={{ backgroundColor: '#000', color: '#fff' }} onClick={navigateTo}>
-              <AddIcon />
+              <ExpandLess />
             </Fab>
           </div>
           :
           <div style={WEB_POS}>
             <Fab style={{ backgroundColor: '#000', color: '#fff' }} onClick={navigateTo}>
-              <AddIcon />
+              <ExpandLess />
             </Fab>
           </div>
       }

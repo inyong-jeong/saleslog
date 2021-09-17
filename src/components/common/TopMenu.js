@@ -36,13 +36,15 @@ export default function TopMenu({ badgeContent }) {
         <WorkNotice />워크그룹 공지
       </Menu.Item>
       <Menu.Item key="3">
-        <Link to={'/systemNotice'}>
+        <Link to={'/main/systemNotice'}>
           <Notice />시스템 공지
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="4">
-        <Setting />알림 설정
+        <Link to={'/main/notification'}>
+          <Setting />알림 설정
+        </Link>
       </Menu.Item>
       <Menu.Item key="5">
         <Link to={'/main/support'}>

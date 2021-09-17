@@ -11,7 +11,7 @@
         background-color: $gray-100;
         text-align: center;
         width: 100%;
-    
+
         >img {
             max-width: 100%;
         }
@@ -21,14 +21,17 @@
         height: 9rem;
         width: 16rem;
     }
+
     .preview-md {
         height: 4.5rem;
         width: 8rem;
     }
+
     .preview-sm {
         height: 2.25rem;
         width: 4rem;
     }
+
     .preview-xs {
         height: 1.125rem;
         margin-right: 0;
@@ -37,8 +40,9 @@
 }
 
 .img-crop-preview-btns {
-    > .btn, 
-    > .btn-group {
+
+    >.btn,
+    >.btn-group {
         margin-bottom: 8px;
         margin-right: 8px;
     }
@@ -46,6 +50,7 @@
 
 .docs-cropped {
     .modal-body {
+
         >img,
         >canvas {
             max-width: 100%;

@@ -14,6 +14,8 @@ import { ReactComponent as Support } from '../.././assets/icons/main/support.svg
 import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_workgroup.svg'
 import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
 import { Menu, Dropdown, } from 'antd';
+import { Link } from 'react-router-dom';
+
 const useStyles = makeStyles({
   appBarIcon: {
     position: 'absolute',
@@ -53,30 +55,45 @@ const MyAppBar = ({
   badgeContent
 }) => {
 
+  const classes = useStyles();
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
 
-  const profileClick = () => {
+  const onProfileClick = () => {
     console.log('프로필 클릭 ')
 
   }
   //profile menu 
   const menu = (
-    <Menu onClick={profileClick}>
+    <Menu onClick={onProfileClick}>
       <Menu.Item key="1">내 프로필 </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="2"> <WorkNotice />워크그룹 공지 </Menu.Item>
-      <Menu.Item key="3"><Notice />시스템 공지</Menu.Item>
+      <Menu.Item key="2">
+        <WorkNotice />워크그룹 공지
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Link to={'/main/systemNotice'}>
+          <Notice />시스템 공지
+        </Link>
+      </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="5"> <Setting />알림 설정</Menu.Item>
-      <Menu.Item key="4"> <Support />지원센터 </Menu.Item>
+      <Menu.Item key="4">
+        <Link to={'/main/notification'}>
+          <Setting />알림 설정
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="5">
+        <Link to={'/main/support'}>
+          <Support />지원센터
+        </Link>
+      </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="5">세일즈로그 정보</Menu.Item>
+      <Menu.Item key="6">
+        <Link to={'/main/information'}>세일즈로그 정보</Link>
+      </Menu.Item>
     </Menu>
   );
-
-  const classes = useStyles();
 
   return (
     <div>
