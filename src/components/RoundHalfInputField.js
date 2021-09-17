@@ -3,10 +3,13 @@ import React from 'react';
 function RoundHalfInputField(props) {
 
   const Styles = {
-    width: '170px',
+    width: '232px',
     height: '48px',
-    fontSize: '16px',
-    border: '1px solid black'
+    fontSize: '14px',
+    border: '1px solid black',
+    borderColor: '#DDDDDD',
+    padding: 10,
+    outline: 'none'
   }
 
 

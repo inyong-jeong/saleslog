@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Spinner } from "reactstrap";
-import { Helmet } from "react-helmet";
 import RoundInputField from "components/RoundInputField";
-import { getCi } from "helpers/domainUtils";
-import { isUserAuthorized, isUserAuthenticated, getOauthCode } from 'helpers/authUtils';
+import { isUserAuthorized } from 'helpers/authUtils';
 import useInput from 'hooks/useInput';
 import { authorize, getOauthToken, postRegisteration, postInvite, postInviteRegistration } from 'redux/actions';
+import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
+import StyledButton from 'components/styledcomponent/Button'
+import { errorMessage, successMessage } from "../../constants/commonFunc";
 
 function SignIn(props) {
   const [loading, setLoading] = useState(false);
@@ -16,10 +17,6 @@ function SignIn(props) {
   const [username, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('')
   const [platform, setPlatForm] = useState('pc');
-
-
-
-  //renewal 
 
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);
@@ -34,7 +31,10 @@ function SignIn(props) {
   }
 
   const handleOnLogin = (e) => {
-
+    if (!username.length > 0 || !password.length > 0) {
+      //antd errorMessage  안먹음.. 확인필요 
+      return alert('이메일 주소와 비밀번호를 입력하세요.')
+    }
     e.preventDefault();
     const client_id = 'saleslog.co';
     const redirect_uri = 'https://auth.theklab.co/oauth/client_auth';
@@ -84,28 +84,20 @@ function SignIn(props) {
   const CardStyle = {
     flexDirection: 'column',
     alignItems: 'center',
-    display: 'flex'
+    display: 'flex',
+    fontSize: 14
   }
-
-  const ImgStyle = {
-    textAlign: 'center',
-    cursor: 'pointer'
-  }
-
 
   return (
-    <React.Fragment>
-      <Helmet>
-        <title>로그인</title>
-      </Helmet>
+    <>
       <div className="container-md">
         <div className="row" style={ViewStyle}>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
+          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2" />
           <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
             <div className="card">
-              <div className="card-body" style={CardStyle}>
-                <div style={ImgStyle}>
-                  <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
+              <div className="card-body" style={CardStyle} >
+                <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
+                  <WhiteLogo width={150} height={50} fill='black' />
                 </div>
                 <form>
                   <div className="form-group">
@@ -118,71 +110,47 @@ function SignIn(props) {
                       disabled={loading}
                     />
                   </div>
-                  <div className="form-group">
-                    <RoundInputField
-                      id="password"
-                      title="비밀번호"
-                      placeholder="비밀번호 입력(영문,숫자 포함 8자리)"
-                      value={password}
-                      // type="password"
-                      onChange={onChangePassword}
-                      disabled={loading}
-                    />
-                  </div>
+
+                  <RoundInputField
+                    id="password"
+                    title="비밀번호"
+                    placeholder="비밀번호 입력 (영문,숫자 포함 8자리)"
+                    value={password}
+                    // type="password"
+                    onChange={onChangePassword}
+                    disabled={loading}
+                  />
                   <div className="form-group mt-3">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
+                    <StyledButton
                       disabled={loading}
                       onClick={(e) => {
                         handleOnLogin(e)
-                      }}
-                    >
+                      }}>
                       로그인
-                    </button>
-
+                    </StyledButton>
                   </div>
-                  {/* <div className="form-group mt-3">
 
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      disabled={loading}
-                      onClick={handletoken}
-                    >
-                      엑세스토큰테스트
-                    </button>
-                  </div> */}
                   <div className="form-group">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
+                    <StyledButton
                       disabled={loading}
-                      onClick={handleOnClick}
-                    >
+                      onClick={handleOnClick}>
                       회원가입
-                    </button>
-                  </div>
-                  <div>
-                    파일추가
-                    <input type="file" />
+                    </StyledButton>
                   </div>
                   {props.error && (
                     <p className="text text-danger">로그인에 실패했습니다</p>
                   )}
                   {loading && <Spinner color="primary" />}
                 </form>
-                {/* <Divider className="form-group mr-3 ml-1 mt-2" /> */}
-                <div style={{ textAlign: 'center', fontColor: 'black' }}>
+                <div style={{ fontSize: 14, color: 'black' }}>
                   <Link
                     to="/findid"
-                    className="btn btn-sm btn-link text-muted pl-0"
                   >
                     아이디 찾기
                   </Link>
+                  <span > | </span>
                   <Link
                     to="/findpw"
-                    className="btn btn-sm btn-link text-muted pl-0"
                   >
                     비밀번호 찾기
                   </Link>
@@ -193,7 +161,7 @@ function SignIn(props) {
           <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
       </div>
-    </React.Fragment >
+    </>
   );
 }
 

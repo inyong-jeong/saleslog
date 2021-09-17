@@ -5,8 +5,11 @@ function RoundInputField(props) {
   const Styles = {
     width: '343px',
     height: '48px',
-    fontSize: '16px',
-    border: '1px solid black'
+    fontSize: '14px',
+    border: '1px solid',
+    borderColor: '#DDDDDD',
+    padding: 10,
+    outline: 'none'
   }
 
 
@@ -17,7 +20,6 @@ function RoundInputField(props) {
         type={props.type}
         name={props.name}
         id={props.id}
-        className="tk-form-control"
         placeholder={props.placeholder}
         disabled={props.disabled}
         onChange={props.onChange} />

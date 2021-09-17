@@ -88,10 +88,8 @@ export default function TopMenu({ badgeContent }) {
           }}
             onClick={onLogoClick}
           >
-            {/* <BlueLogo width={100} height={64}/>
-            */}
 
-            <WhiteLogo width={100} height={64} />
+            <WhiteLogo width={100} height={64} fill='white' />
           </div>
           <div style={{
             width: 1010,

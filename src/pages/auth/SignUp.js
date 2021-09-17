@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
-import { getCi } from "helpers/domainUtils";
 import { regex } from 'constants/regex';
 import useInput from 'hooks/useInput';
 import { postRegisteration, postAuthNumber } from 'redux/actions';
-
+import { useHistory } from "react-router";
 
 import StyledCheckbox from 'components/styledcomponent/Checkbox'
 import StyledInput from 'components/styledcomponent/Input';
 import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
+import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 
 function SignUp(props) {
+  const history = useHistory()
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
   // 회원가입 인풋 상태 데이터
@@ -23,6 +24,7 @@ function SignUp(props) {
   const [firstname, onChangeFirstName] = useInput('');
   const [lastname, onChangeLastName] = useInput('')
   const [authnumber, onChangeAuthNumber] = useInput('')
+  const [myName, onChangeMyName] = useInput('')
 
   //조건 오류 상태 데이터
   const [term, setTerm] = useState(false)
@@ -50,8 +52,6 @@ function SignUp(props) {
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);
   };
-
-
 
   const handleLandingPage = () => {
     props.history.push('/');
@@ -122,8 +122,9 @@ function SignUp(props) {
   }
 
   const CheckBoxStyle = {
-    fontSize: '16px',
-    color: 'black'
+    fontSize: '14px',
+    color: '#aaaaaa',
+    fontWeight: 'normal'
   }
 
   const ButtonStyle = {
@@ -142,15 +143,15 @@ function SignUp(props) {
           <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
             <div className="card">
               <div className="card-body" style={CardStyle}>
-                <div style={ImgStyle}>
-                  <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
+                <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
+                  <WhiteLogo width={150} height={50} fill='black' />
                 </div>
                 <form>
                   <div className='mb-3'>
-                    <h2><strong>회원가입</strong></h2>
+
                   </div>
                   <div className="form-group">
-                    <RoundHalfInputField
+                    {/* <RoundHalfInputField
                       id="user_name"
                       title="이름"
                       placeholder="이름"
@@ -164,11 +165,18 @@ function SignUp(props) {
                       placeholder="성"
                       value={lastname}
                       onChange={onChangeLastName}
+                    /> */}
+                    <RoundInputField
+                      id="name"
+                      title="이름"
+                      placeholder="이름 입력"
+                      value={myName}
+                      onChange={onChangeMyName}
                     />
                   </div>
                   <div className="form-group">
-                    <StyledInput
-                      style={{ width: '232px', fontSize: '16px' }}
+                    <RoundHalfInputField
+
                       id="user_email"
                       title="이메일"
                       placeholder="customer@example"
@@ -180,8 +188,8 @@ function SignUp(props) {
 
                   </div>
                   <div className="form-group">
-                    <StyledInput
-                      style={{ width: '232px', fontSize: '16px' }}
+                    <RoundHalfInputField
+                      style={{ width: '232px' }}
                       id="authnumber"
                       title="인증번호"
                       placeholder="인증번호 입력"
@@ -195,7 +203,7 @@ function SignUp(props) {
                     <RoundInputField
                       id="password"
                       title="비밀번호"
-                      placeholder="비밀번호 입력(특수문자 포함 8자리 이상)"
+                      placeholder="비밀번호 입력 (특수문자 포함 8자리 이상)"
                       value={password}
                       type="password"
                       onChange={onChangePassword}
@@ -213,21 +221,22 @@ function SignUp(props) {
                     {passworderror && <p className="text-danger mt-2">{passworderror}</p>}
                   </div>
                   <div className="form-group mt-3">
-                    <StyledCheckbox
-                      onChange={onChangeTerm}
-                      style={CheckBoxStyle}>
-                      동의 버튼을 선택하면 세일즈로그 서비스이용 약관,< br /> 위치정보서비스 약관, 개인정보처리 방침에 동의하게< br /> 됩니다.
-                    </StyledCheckbox>
-                    {(!term) && <h5 className='text text-danger'> 약관에 동의하여 주세요.</h5>}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <StyledCheckbox
+                        onChange={onChangeTerm}
+                        style={CheckBoxStyle}>
+                        <span> </span>
+                        동의 버튼을 선택하면 <span style={{ color: '#000000', textDecoration: 'underline' }}>세일즈로그 서비스 이용 약관,< br /> 위치정보 서비스 약관, 개인정보 처리방침</span>에 동의하게< br /> 됩니다.
+                      </StyledCheckbox>
+                    </div>
+                    {(!term) && <p className='text-danger mt-2 text-center'> 약관에 동의하여 주세요.</p>}
+
                   </div>
                   <div className="form-group">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      onClick={handleOnSubmit}
-                    >
+                    <StyledButton
+                      onClick={handleOnSubmit}>
                       다음
-                    </button>
+                    </StyledButton>
                   </div>
                 </form>
                 <div style={{ textAlign: 'center', fontColor: 'black' }}>
@@ -237,7 +246,7 @@ function SignUp(props) {
           </div>
           <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
-      </div>
+      </div >
     </React.Fragment >
   );
 }

@@ -48,7 +48,7 @@ export const grayboxLink = {
 }
 const bluebox = {
   fontSize: 11,
-  backgroundColor: '#000fff',
+  backgroundColor: '#4B7DFF',
   marginLeft: 6,
   color: '#fff',
   padding: 4,

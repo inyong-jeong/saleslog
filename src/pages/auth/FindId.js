@@ -6,6 +6,8 @@ import { regex } from 'constants/regex';
 import StyledInput from 'components/styledcomponent/Input';
 import StyledButton from 'components/styledcomponent/Button';
 import { Form, Modal } from 'antd';
+import RoundInputField from '../../components/RoundInputField';
+import RoundHalfInputField from '../../components/RoundHalfInputField';
 
 
 function FindId(props) {
@@ -93,8 +95,7 @@ function FindId(props) {
           </Modal>
           <Form style={FormStyle}>
             <div className="form-group mr-1 ml-1">
-              <StyledInput
-                style={InputStyle}
+              <RoundHalfInputField
                 id="email"
                 title="이메일"
                 placeholder="휴대전화 번호 입력"
@@ -105,7 +106,7 @@ function FindId(props) {
               {error && <p className="text-danger mt-2">{error}</p>}
             </div>
             <div className="form-group mr-1 ml-1 mb-5">
-              <StyledInput
+              <RoundHalfInputField
                 style={InputStyle}
                 id="email"
                 title="이메일"

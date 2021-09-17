@@ -1,26 +1,4 @@
 @font-face {
-    font-family: 'NanumGothic';
-    src: url(../fonts/NanumGothic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'NanumGothic';
-    src: url(../fonts/NanumGothicBold.ttf) format('truetype');
-    font-weight: 500;
-}
-
-@font-face {
-    font-family: 'NanumSquare';
-    src: url(../fonts/NanumSquareRegular.otf) format('opentype');
-}
-
-@font-face {
-    font-family: 'NanumSquare';
-    src: url(../fonts/NanumSquareBold.otf) format('opentype');
-    font-weight: 500;
-}
-
-@font-face {
     font-family: 'IBMPlexSansKR';
     src: url(../fonts/IBMPlexSansKR.otf) format('opentype');
 }
@@ -38,18 +16,21 @@
     src: local('Cerebri-sans Regular'), url("../fonts/cerebrisans-regular.woff") format("woff");
     font-weight: 400;
 }
+
 @font-face {
     font-family: "Cerebri Sans,sans-serif";
     src: url("../fonts/cerebrisans-medium.eot");
     src: local('Cerebri-sans Medium'), url("../fonts/cerebrisans-medium.woff") format("woff");
     font-weight: 500;
 }
+
 @font-face {
     font-family: "Cerebri Sans,sans-serif";
     src: url("../fonts/cerebrisans-semibold.eot");
     src: local('Cerebri-sans Semibold'), url("../fonts/cerebrisans-semibold.woff") format("woff");
     font-weight: 600;
 }
+
 @font-face {
     font-family: "Cerebri Sans,sans-serif";
     src: url("../fonts/cerebrisans-bold.eot");
