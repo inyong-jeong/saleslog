@@ -13,7 +13,7 @@ import {
   putSalesLog, putFile, deleteFile
 } from 'redux/actions';
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
-import CustomFab from '../../components/customer/button/CustomFab';
+import CustomFab from '../../components/styledcomponent/CustomFab';
 import { useHistory } from 'react-router';
 
 const { TabPane } = Tabs;

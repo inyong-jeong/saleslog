@@ -46,7 +46,8 @@ const WorkgroupMemberProfile = React.lazy(() => import('./pages/workgroup/member
 
 // 설정, 공지 등
 const AppInfo = React.lazy(() => import('./pages/appInfo'))
-const SystemNotice = React.lazy(() => import('./pages/notice_system'))
+const SystemNotice = React.lazy(() => import('./pages/notice/system'))
+const NotificationSetting = React.lazy(() => import('./pages/settings/notification'))
 
 //지원센터 
 const SupportPage = React.lazy(() => import('./pages/support'))
@@ -102,6 +103,7 @@ const routes = [
   //프로필 및 설정 등
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
   { path: '/main/systemNotice', name: 'SystemNotice', component: SystemNotice, route: MainRoute, exact: true },
+  { path: '/main/notification', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
 
   //지원
   { path: '/main/support', name: 'SupportPage', component: SupportPage, route: MainRoute, exact: true },

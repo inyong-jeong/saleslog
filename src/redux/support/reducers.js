@@ -26,7 +26,6 @@ const initialState = {
   inquiryDetailsResponse: null,
   inquiryLists: null,
 
-
 }
 const Support = (state = initialState, action) => {
   switch (String(action.type)) {
@@ -49,7 +48,7 @@ const Support = (state = initialState, action) => {
     case GET_SUPPORT_INQUIRY_DETAIL:
       return { ...state, loading: true }
     case GET_SUPPORT_INQUIRY_DETAIL_SUCCESS:
-      return { ...state, loading: false, inquiryDetailsResponse: true, inquiryDetails: action.payload.response }
+      return { ...state, loading: false, inquiryDetailsResponse: true, inquiryDetails: action.payload.response.message[0] }
     case GET_SUPPORT_INQUIRY_DETAIL_ERROR:
       return { ...state, loading: false, inquiryDetailsResponse: false }
 

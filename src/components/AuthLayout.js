@@ -50,7 +50,7 @@ const AuthLayout = (props) => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {isMobile ?
-        <Layout style={{ backgroundColor: '#fff' }}>
+        <Layout style={{ backgroundColor: '#fff', }}>
           <div>
             {/* content-page 스타일 생략함  */}
             {props.children}

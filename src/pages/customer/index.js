@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CustomFab from "../../components/customer/button/CustomFab";
+import CustomFab from "../../components/styledcomponent/CustomFab";
 import styles from '../../components/customer/styles/Customer.module.css'
 import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { Input } from "antd";

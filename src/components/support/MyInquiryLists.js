@@ -20,7 +20,7 @@ export default function MyInquiryLists() {
 
   useEffect(() => {
     if (state.loading) return
-    console.log(inquiryLists)
+    //paging 
   }, [state.loading])
 
   const ListItem = ({ inquiry }) => (
