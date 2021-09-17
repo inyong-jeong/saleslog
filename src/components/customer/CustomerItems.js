@@ -65,7 +65,6 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   const loading = state.loading
   let responseLists = state.list
   const history = useHistory()
-  const location = useLocation()
   let restCount
 
   // useEffect(() => {

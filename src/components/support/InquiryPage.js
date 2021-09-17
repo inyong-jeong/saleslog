@@ -41,10 +41,7 @@ export default function InquiryPage() {
   const handleClick = () => {
     console.log('clicked')
     dispatch(postSupportInquiry.call(inputs))
-    setInputs({
-      title: '',
-      content: ''
-    })
+    setInputs('')
   }
 
   return (

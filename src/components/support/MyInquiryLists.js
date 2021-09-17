@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import { useHistory, useParams } from 'react-router'
 import { getSupportInquiryLists } from '../../redux/support/actions'
 
 export default function MyInquiryLists() {
   const dispatch = useDispatch()
   const state = useSelector(state => state.Support)
   const [page, setPage] = useState(1)
+  const history = useHistory()
 
   const inquiryLists = state.inquiryLists
 
@@ -21,8 +23,8 @@ export default function MyInquiryLists() {
     console.log(inquiryLists)
   }, [state.loading])
 
-  const listItem = (inquiry) => (
-    <div key={inquiry.b_idx}>
+  const ListItem = ({ inquiry }) => (
+    <div onClick={() => history.push(`/main/support/details/${inquiry.b_idx}`)}>
       <div style={{ float: 'left', width: '70%' }}>
         <p style={{ fontSize: 14, margin: 0, fontWeight: '400' }}>{inquiry.title}</p>
         <p style={{ fontSize: 12, color: '#666666', margin: 0 }}>{inquiry.cre_dt}</p>
@@ -48,9 +50,9 @@ export default function MyInquiryLists() {
           inquiryLists ?
             <>
               {
-                inquiryLists.message.map((inquiry, index) => {
-                  return listItem(inquiry)
-                })
+                inquiryLists.message.map((inquiry, index) =>
+                  <ListItem inquiry={inquiry} key={inquiry.b_idx} />
+                )
               }
             </>
             :

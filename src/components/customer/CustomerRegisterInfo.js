@@ -131,6 +131,7 @@ const CustomerRegisterInfo = () => {
       return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
     dispatch(postCustomer.call(inputs))
+    setInputs('')
     //history.goBack()
   }
 

@@ -23,7 +23,9 @@ const initialState = {
   postEditInquiryResponse: null,
   getInquiryListsResponse: null,
   inquiryDetails: null,
+  inquiryDetailsResponse: null,
   inquiryLists: null,
+
 
 }
 const Support = (state = initialState, action) => {
@@ -44,7 +46,15 @@ const Support = (state = initialState, action) => {
     case GET_SUPPORT_INQUIRY_LISTS_ERROR:
       return { ...state, loading: false, getInquiryListsResponse: false, }
 
+    case GET_SUPPORT_INQUIRY_DETAIL:
+      return { ...state, loading: true }
+    case GET_SUPPORT_INQUIRY_DETAIL_SUCCESS:
+      return { ...state, loading: false, inquiryDetailsResponse: true, inquiryDetails: action.payload.response }
+    case GET_SUPPORT_INQUIRY_DETAIL_ERROR:
+      return { ...state, loading: false, inquiryDetailsResponse: false }
 
   }
+
+
 }
 export default Support

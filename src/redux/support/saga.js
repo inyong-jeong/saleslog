@@ -2,7 +2,8 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { post_fetch } from 'model/FetchManage'
 import {
   POST_SUPPORT_INQUIRY,
-  GET_SUPPORT_INQUIRY_LISTS
+  GET_SUPPORT_INQUIRY_LISTS,
+  GET_SUPPORT_INQUIRY_DETAIL
 } from '../../constants/actionTypes'
 import {
   postSupportInquiry,
@@ -15,6 +16,7 @@ import { errorMessage, successMessage } from '../../constants/commonFunc'
 const ETC = "/etc"
 const REGI_QUESTION_SYS = "/regi_question_sys"
 const LIST_QUESTION_SYS = '/list_question_sys'
+const DETAIL_QUESTION_SYS = '/detail_question_sys'
 
 function* _postSupportInquiry({ payload: { body } }) {
   try {
@@ -40,6 +42,24 @@ function* _getSupportInquiryLists({ payload: { body } }) {
 
   }
 }
+
+function* _getSupportInquiryDetail({ payload: { body } }) {
+  try {
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + ETC + DETAIL_QUESTION_SYS, body)
+    yield put(getSupportInquiryDetail.success(response))
+
+  }
+  catch (error) {
+    yield errorMessage('해당 문의내역을 가져오는데 실패했습니다.')
+    yield put(getSupportInquiryDetail.error(error))
+
+  }
+}
+
+function* watchGetSupportInquiryDetail() {
+  yield takeEvery(GET_SUPPORT_INQUIRY_DETAIL, _getSupportInquiryDetail)
+}
+
 function* watchPostSupportInquiry() {
   yield takeEvery(POST_SUPPORT_INQUIRY, _postSupportInquiry)
 }
@@ -50,7 +70,8 @@ function* watchGetSupportInquiryLists() {
 function* supportSaga() {
   yield all([
     fork(watchPostSupportInquiry),
-    fork(watchGetSupportInquiryLists)
+    fork(watchGetSupportInquiryLists),
+    fork(watchGetSupportInquiryDetail)
   ])
 }
 
