@@ -141,8 +141,6 @@ const WgroupManagePage = (props) => {
     if (!cmm.isEmpty(e.target.files)) {
       reader.readAsDataURL(e.target.files[0]);
     }
-
-
   }
 
   const handleChange = (e) => {

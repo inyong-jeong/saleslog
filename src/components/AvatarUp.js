@@ -43,7 +43,14 @@ const AvatarUp = (props) => {
               handleClick();
             }}
           >
-            <PlusOutlined style={{ position: 'relative', top: props.height / 2 - 30, fontSize: '50px' }} />
+            <PlusOutlined 
+              style={{ 
+                position: 'relative', 
+                marginTop:5,
+                top: (props.iconSize === undefined)? props.height / 2 - 30:0, 
+                fontSize: '50px' ,
+
+              }} />
           </Avatar>
 
         </div>

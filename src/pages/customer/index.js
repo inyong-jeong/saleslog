@@ -86,7 +86,7 @@ const CustomerShow = () => {
           marginBottom: 10,
           marginTop: 10,
         }} />
-      <>
+      
         <FullTabs defaultActiveKey="1" onChange={onTabChange} >
           <TabPane tab="전체" key="1" >
             <SelectFilter
@@ -135,7 +135,7 @@ const CustomerShow = () => {
               inputs={inputs} />
           </TabPane>
         </FullTabs>
-      </>
+      
       <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
       </div>

@@ -30,13 +30,17 @@ export default function TopMenu({ badgeContent }) {
   //profile menu 
   const menu = (
     <Menu onClick={onProfileClick}>
-      <Menu.Item key="1">내 프로필 </Menu.Item>
+        <Link to={'/main/etc/profile'}>
+          <Menu.Item key="1">내 프로필 </Menu.Item>
+        </Link>
       <Menu.Divider />
       <Menu.Item key="2">
-        <WorkNotice />워크그룹 공지
+        <Link to={'/main/etc/notice/group'}>
+          <WorkNotice />워크그룹 공지
+        </Link>
       </Menu.Item>
       <Menu.Item key="3">
-        <Link to={'/main/systemNotice'}>
+        <Link to={'/main/etc/notice/system'}>
           <Notice />시스템 공지
         </Link>
       </Menu.Item>

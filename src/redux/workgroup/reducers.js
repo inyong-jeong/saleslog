@@ -29,6 +29,24 @@ import {
   GET_GROUP_MEMBER_DETAIL,
   GET_GROUP_MEMBER_DETAIL_SUCCESS,
   GET_GROUP_MEMBER_DETAIL_ERROR, 
+  POST_GROUP_MEMBER_UPD,
+  POST_GROUP_MEMBER_UPD_SUCCESS,
+  POST_GROUP_MEMBER_UPD_ERROR, 
+  POST_GROUP_MEMBER_OUT,
+  POST_GROUP_MEMBER_OUT_SUCCESS,
+  POST_GROUP_MEMBER_OUT_ERROR, 
+  GET_PROFILE_INFO,
+  GET_PROFILE_INFO_SUCCESS,
+  GET_PROFILE_INFO_ERROR,
+  POST_GROUP_INVITE,
+  POST_GROUP_INVITE_SUCCESS,
+  POST_GROUP_INVITE_ERROR,
+  GET_INVITE_LIST,
+  GET_INVITE_LIST_SUCCESS,
+  GET_INVITE_LIST_ERROR,
+  POST_INVITE_DEL,
+  POST_INVITE_DEL_SUCCESS,
+  POST_INVITE_DEL_ERROR,
   GET_DEPT_INFO,
   GET_DEPT_INFO_SUCCESS,
   GET_DEPT_INFO_ERROR,
@@ -54,6 +72,12 @@ const initialState = {
   postWorkGroupDelRes: null,
   getGroupMemberListRes: null,
   getGroupMemberDetailRes: null,
+  postGroupMemberUpdRes: null,
+  postGroupMemberOutRes: null,
+  getProfileInfoRes: null,
+  postGroupInviteRes: null,
+  getInviteListRes: null,
+  postInviteDelRes: null,
   getDeptInfoRes: null,
   postDeptRegiRes: null,
   postDeptUpdRes: null,
@@ -124,6 +148,42 @@ const Workgroup = (state = initialState, action) => {
       return { ...state, loading: false, getGroupMemberDetailRes: action.payload.response.message }
     case GET_GROUP_MEMBER_DETAIL_ERROR:
       return { ...state, loading: false, getGroupMemberDetailRes: {state:false,message:action.payload.error}}
+    case POST_GROUP_MEMBER_UPD:      
+      return { ...state, loading: true }
+    case POST_GROUP_MEMBER_UPD_SUCCESS:
+      return { ...state, loading: false, postGroupMemberUpdRes: action.payload.response.message }
+    case POST_GROUP_MEMBER_UPD_ERROR:
+      return { ...state, loading: false, postGroupMemberUpdRes: {state:false,message:action.payload.error}}
+    case POST_GROUP_MEMBER_OUT:      
+      return { ...state, loading: true }
+    case POST_GROUP_MEMBER_OUT_SUCCESS:
+      return { ...state, loading: false, postGroupMemberOutRes: action.payload.response.message }
+    case POST_GROUP_MEMBER_OUT_ERROR:
+      return { ...state, loading: false, postGroupMemberOutRes: {state:false,message:action.payload.error}}
+    case GET_PROFILE_INFO:      
+      return { ...state, loading: true }
+    case GET_PROFILE_INFO_SUCCESS:
+      return { ...state, loading: false, getProfileInfoRes: action.payload.response.message }
+    case GET_PROFILE_INFO_ERROR:
+      return { ...state, loading: false, getProfileInfoRes: {state:false,message:action.payload.error}}
+    case POST_GROUP_INVITE:      
+      return { ...state, loading: true }
+    case POST_GROUP_INVITE_SUCCESS:
+      return { ...state, loading: false, postGroupInviteRes: action.payload.response.message }
+    case POST_GROUP_INVITE_ERROR:
+      return { ...state, loading: false, postGroupInviteRes: {state:false,message:action.payload.error}}
+    case GET_INVITE_LIST:      
+      return { ...state, loading: true }
+    case GET_INVITE_LIST_SUCCESS:
+      return { ...state, loading: false, getInviteListRes: action.payload.response.message }
+    case GET_INVITE_LIST_ERROR:
+      return { ...state, loading: false, getInviteListRes: {state:false,message:action.payload.error}}
+    case POST_INVITE_DEL:      
+      return { ...state, loading: true }
+    case POST_INVITE_DEL_SUCCESS:
+      return { ...state, loading: false, postInviteDelRes: action.payload.response.message }
+    case POST_INVITE_DEL_ERROR:
+      return { ...state, loading: false, postInviteDelRes: {state:false,message:action.payload.error}}
     case GET_DEPT_INFO:
       return { ...state, loading: true  }
     case GET_DEPT_INFO_SUCCESS:

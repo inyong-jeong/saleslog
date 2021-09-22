@@ -96,8 +96,8 @@ const WgroupManagePage = (props) => {
     if (state.postWorkGroupChangeRes) {
       console.log('wglist:::::::::::::::',state.postWorkGroupChangeRes)
      
-      //워크그룹 정보 가져오기
-      dispatch(getWorkGroupInfo.call())   
+      //워크그룹  이동
+      history.push('/main/workgroup');
       setIsShowModal(false)
     }
     
@@ -110,18 +110,13 @@ const WgroupManagePage = (props) => {
       type: SET_NAVIBAR_SHOW,
       payload: true}
     )
-    //워크그룹 정보 가져오기
-    dispatch(getWorkGroupInfo.call())
+
+    //워크그룹 리스트 가져오기
+    dispatch(getWorkGroupList.call())
+    setIsShowModal(true);
 
   },[])
   
-  useEffect(()=> {
-    if (!cmm.isEmpty(data)) {
-      setInputs({ ...inputs, data:data[0], prevImg: (cmm.isEmpty(data[0].logo_url)?'':cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) })      
-    }
-      
-  },[data])
-
   return (
     <ThemeProvider theme={theme}>
       {<MyAppBar 
@@ -142,10 +137,12 @@ const WgroupManagePage = (props) => {
         <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false}></IconLabel>
       </div>
       <Modal
-        title="워크그룹 선택"
+        title="워크그룹을 선택 또는 생성 해주세요."
         style={{ positon:'fixed', left:0, top:100}}
         visible={isShowModal}
-        width={((isMobile)?'90%':'50%')}        
+        width={((isMobile)?'90%':'50%')}     
+        closable={false}   
+        maskClosable={false}
         onOk={() => { setIsShowModal(false) }}
         onCancel={() => { setIsShowModal(false) }}
         footer={[

@@ -4,105 +4,40 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Input from 'components/styledcomponent/Input'
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, {useState, useEffect } from 'react';
+import FullTabs from "components/styledcomponent/FullTabs";
 import MyAppBar from "components/styledcomponent/MyAppBar";
-import  IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
-import { Modal, Divider, Button, Avatar } from 'antd';
-import { getWorkGroupInfo,getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
+import { Modal, Divider, Button, Select, Avatar, Dropdown, Menu } from 'antd';
+import {EllipsisOutlined} from "@ant-design/icons";
+import { getProfileInfo, postGroupInvite, getInviteList, postInviteDel } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
-
-const useStyles = makeStyles((theme) =>({
-  root: {
-    width: '100%',
-    height: 200,
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 100, //nav bottom tab 
-  },
-  bottomBar: {
-    width: '100%',
-    position: 'fixed',
-    bottom: 60,
-    left:0,
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent:'center'
-  },
-
-}));
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0000FF',
-    }
-  },
-});
+const { Option } = Select;
+const { TabPane } = FullTabs;
 
 const WgroupMemberPage = (props) => {  
-  const classes = useStyles();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
-  const data = state.data;
-  const [isShowModal, setIsShowModal] = useState(false)
-  const [wgList, setWgList] = useState([])
+  const [ivList, setIvList] = useState([])
+  const [myinfo, setMyInfo] = useState([])
   const [inputs, setInputs] = useState(
     {
-      data: null,
+      login_id: '',
+      invite_email: '',
+      permission: '9',
     }
   )
-  
   
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
 
   //이전페이지
-  const navigateTo = () => history.push('/main/customer')
-
-  //워크그룹 리스트 팝업
-  const navigateNext = () => {     
-    //워크그룹 리스트 가져오기
-    dispatch(getWorkGroupList.call())
-    setIsShowModal(true);
-  }
-
-  //워크그룹 체인지
-  const handelWGroupChange = (idx) => {     
-    //워크그룹 변경
-    dispatch(postWorkGroupChange.call({chg_idx:idx}))    
-  }
-
-  //워크그룹 생성
-  const handelWGroupRegi = () => {     
-    //워크그룹 생성페이지 이동
-    history.push('/main/workgroup/register');
-    setIsShowModal(false)
-  }
-
-  useEffect(() => {
-    if (state.getWorkGroupListRes) {
-      console.log('wglist:::::::::::::::',state.getWorkGroupListRes)
-      setWgList(state.getWorkGroupListRes)    
-    }
-    
-  },[state.getWorkGroupListRes])
-
-  useEffect(() => {
-    if (state.postWorkGroupChangeRes) {
-      console.log('wglist:::::::::::::::',state.postWorkGroupChangeRes)
-     
-      //워크그룹 정보 가져오기
-      dispatch(getWorkGroupInfo.call())   
-      setIsShowModal(false)
-    }
-    
-  },[state.postWorkGroupChangeRes])
-
+  const navigateTo = () => history.push('/main/workgroup/member')
 
   useEffect(()=> {
     // 하단 네비 설정 
@@ -110,124 +45,216 @@ const WgroupMemberPage = (props) => {
       type: SET_NAVIBAR_SHOW,
       payload: true}
     )
-    //워크그룹 정보 가져오기
-    dispatch(getWorkGroupInfo.call())
+    
+    //내 프로필 가져오기
+    dispatch(getProfileInfo.call())   
 
   },[])
-  
+
+  //내 프로필 fetch 후
   useEffect(()=> {
-    if (!cmm.isEmpty(data)) {
-      setInputs({ ...inputs, data:data[0], prevImg: (cmm.isEmpty(data[0].logo_url)?'':cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) })      
+    if (state.getProfileInfoRes) {
+      console.log(state.getProfileInfoRes)
+      setInputs({...inputs, login_id:state.getProfileInfoRes[0].login_idx})
+      setMyInfo(state.getProfileInfoRes[0]);
+    }      
+  },[state.getProfileInfoRes])
+
+  //초대
+  const inviteMember = () => {
+    dispatch(postGroupInvite.call(inputs))
+  }
+
+  //초대 fetch 후
+  useEffect(()=> {
+    if (state.postGroupInviteRes) {
+      console.log(state.postGroupInviteRes)      
+    }      
+  },[state.postGroupInviteRes])
+
+  //다시초대
+  const reInviteMember = (login_id, email, permission) => {
+    dispatch(postGroupInvite.call({login_id:login_id,invite_email:email,permission:permission}))
+  }
+
+  //초대 취소
+  const cancelInviteMember = (iv_idx) => {
+    console.log('iv_idx:::::::::',iv_idx)
+    dispatch(postInviteDel.call({iv_idx:iv_idx}))
+  }
+
+  //초대 취소 fetch 후
+  useEffect(()=> {
+    if (state.postInviteDelRes) {
+      state.postInviteDelRes = null;
+      //발송리스트 
+      dispatch(getInviteList.call())        
+    }      
+  },[state.postInviteDelRes])
+
+
+  //tab
+  const onTabChange = (key) => {
+    switch (key) {
+      case '2':
+        console.log('tab change:::::::::::::::',key)
+        //발송리스트 
+        dispatch(getInviteList.call())        
+        break
+      default:
+        //
     }
-      
-  },[data])
+  }
+
+  //발송리스트 fetch 후
+  useEffect(()=> {
+    if (state.getInviteListRes) {      
+      console.log(state.getInviteListRes);
+      setIvList(state.getInviteListRes);
+    }      
+  },[state.getInviteListRes])
+
+
+  const handleChange = (e) => {
+    setInputs({...inputs, invite_email:e.target.value})
+  }
+
+  const handlePermChange = (value) => {
+    console.log('select:::::::::',value)
+    setInputs({...inputs, permission:value })
+  }
+  
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       {<MyAppBar 
-          barTitle={(cmm.isEmpty(inputs.data))?'워크그룹':inputs.data.organization} 
+          barTitle={'초대관리'} 
+          showBackButton
           navigateTo={navigateTo} 
-          navigateNext={navigateNext} 
-          />}     
-      <div style={{height:20}}></div>
-      <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
-      <Divider style={{margin:10}}/>
-      <IconLabel title="맴버 관리" pathUri="main/customer"></IconLabel>
-      <Divider style={{margin:10}}/>
-      <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
-      <Divider style={{margin:10}}/>
-      <div className={classes.bottomBar} >
-        <IconLabel title="워크그룹 나가기" pathUri="main/customer" isIcon={false}></IconLabel>
-        <div>&nbsp; |&nbsp; </div>
-        <IconLabel title="워크그룹 삭제" pathUri="main/customer" isIcon={false}></IconLabel>
-      </div>
-      <Modal
-        title="워크그룹 선택"
-        style={{ positon:'fixed', left:0, top:100}}
-        visible={isShowModal}
-        width={((isMobile)?'90%':'50%')}        
-        onOk={() => { setIsShowModal(false) }}
-        onCancel={() => { setIsShowModal(false) }}
-        footer={[
-          <div key={1} 
-              style={{
-                position:'absolute', 
-                display:'flex',
-                justifyContent:'center',
-                backgroundColor:'#ffffff',
-                left:0, 
-                width:'100%', 
-                height:70
-              }}><div
-                    style={{ 
-                      margin:5, 
-                      fontSize:16, 
-                      width:'90%', 
-                      backgroundColor:'#333333',
-                      height:48,
-                    }}><Button 
-                          ghost
-                          style={{  
-                            fontSize:16, 
-                            width:'100%', 
-                            height:'100%'
-                          }}
-                          key={1} 
-                          onClick={() => { 
-                            handelWGroupRegi()
-                          }}>워크그룹 생성</Button></div>
-          </div>
-        ]}
-        > 
-        <InfiniteScroll
-          hasMore={true}
-          dataLength={wgList.length} >
-        <List className={classes.root}>
-          {((wgList) ? wgList.map((item, index) =>{
-                      const { organization, org_domain, org_idx, logo_url, member_cnt, accounts_cnt } = item;            
-                      return (
-                        <div >
-                          <ListItem key={index} 
-                              style={{
-                                padding:5,
-                                height:50,
-                                backgrouondColor:'#fefefe'
-                              }}>
-                            <div 
-                              style={{ display:'flex', width:'100%' }}
-                              onClick={() => { 
-                                handelWGroupChange(org_idx)
-                              }}>
-                                <Avatar 
-                                  src={(cmm.isEmpty(item.logo_url)) ? '':cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.logo_url} 
-                                  shape='square'
-                                  size={44} 
-                                  style={{ width:60}} />
-                                <div style={{ width:'80%', paddingLeft:10}}>
-                                  <span style={{fontSize:14}}>{organization}</span><br/>
-                                  <span style={{fontSize:12}}>{org_domain}</span>
-                                </div>
-                                <div style={{ fontSize:12, width:70,paddingLeft:10, color:'#aaaaaa'}}>
-                                  <span>맴버</span><br/>
-                                  <span>고객사</span>
-                                </div>
-                                <div style={{ fontSize:12, width:30,paddingLeft:10, textAlign:'right', right:10, justifyContent:'flex-end' }}>
-                                  <span>{member_cnt}</span><br/>
-                                  <span>{accounts_cnt}</span>
-                                </div>
-                            </div>
-                          </ListItem>
-                          <Divider dashed style={{ margin: 3 }} />
-                        </div>
-                      )
-                    }):'')
-
-          }
-          </List>
-        </InfiniteScroll>
           
-      </Modal>
-    </ThemeProvider>
+          />}     
+       <FullTabs defaultActiveKey="1" onChange={onTabChange} >
+          <TabPane tab="초대하기" key="1" >
+            <div style={{flex:1, flexDirection:'column', height:'100%',  justifyContent: 'space-between'}}> 
+              <div style={{width:'100%', }}>
+                <label style={{fontSize:12}}>초대하고자 하는 사람의 이메일 주소를 입력하세요</label>
+                <Input name='inv_email'
+                      onChange={handleChange}
+                      value={inputs.invite_email}
+                      required
+                      placeholder="이메일 입력해주세요."
+                      margin="normal"
+                    />
+              </div>
+              <div style={{width:'100%', marginTop:10  }}>
+                <label style={{fontSize:12}}>초대하고자 하는 사람의 맴버구분을 선택하세요</label>
+                <Select value={inputs.permission} 
+                  style={{ width: '100%', height:50, fontSize:16  }} 
+                  size={'large'}
+                  onChange={handlePermChange}>
+                  <Option value={'0'}>마스터</Option>
+                  <Option value={'1'}>치프</Option>
+                  <Option value={'2'}>매니저</Option>
+                  <Option value={'9'}>구성원</Option>
+                </Select>
+              </div>
+              <div 
+                style={{     
+                  position:((isMobile)?'absolute':''),                  
+                  width:'100%', 
+                  height:((isMobile)?60:200),
+                  bottom:60, 
+                  textAlign:'center',
+                  justifyContent:'flex-end'
+                  
+                }}>
+                <Button 
+                    style={{ 
+                      width:((isMobile)?'90%':'50%'), 
+                      top: ((isMobile)?0:100),
+                      height:50, 
+                      bottom:10,
+                      padding:5
+                    }}
+                    onClick={() => {
+                      inviteMember()
+                    }}
+
+                    >초대장 보내기</Button>
+              </div>
+            </div>
+          </TabPane>
+
+          <TabPane tab="발송내역" key="2">
+
+            <InfiniteScroll
+                hasMore={true}
+                dataLength={ivList.length} >
+              
+              <List style={{ width:'98%'}}>
+                {((ivList) ? ivList.map((item, index) =>{
+                            const { 
+                              iv_idx, 
+                              login_idx,
+                              invite_email, 
+                              permissions, 
+                              cre_dt, 
+                              user_name, 
+                              title } = item;            
+                            return (
+                            <div key={index} >
+                              <ListItem key={index} 
+                                style={{
+                                  padding:5,
+                                  height:65,
+                                  backgrouondColor:'#fefefe'
+                                }}>
+                                  <div 
+                                      style={{ display:'flex', width:'100%'}} >
+                                        <div style={{ width:50, maxWidth:50, textAlign:'center'}}>
+                                          <Avatar 
+                                            src={''}  
+                                            size={40} />
+                                        </div>
+                                        <div style={{ width:'90%', paddingLeft:10}}>
+                                          <div style={{fontSize:14, fontWeight:500, height:21,color:'#111111'}}>{invite_email}</div>
+                                          <div style={{fontSize:12, fontWeight:350, lineHeight:'18px', color:'#666666'}}>{user_name}&nbsp;{title}이 초청장 보냄</div>
+                                          <div style={{fontSize:12, fontWeight:350, lineHeight:'18px', color:'#666666'}}>{cre_dt}</div>
+                                        </div>
+                                        <div style={{ flex:1, fontSize:12, width:'10%', maxWidth:50, paddingRight:10, textAlign:'right', right:0, alignItems:'flex-end' }}>
+                                          <Dropdown key={login_idx} overlay={                                      
+                                            <Menu key={login_idx}  style={{ width:200}}>
+                                              <Menu.Item key={1} onClick={() => {
+                                                reInviteMember(login_idx, invite_email, permissions)
+                                              }} >다시 보내기
+                                              </Menu.Item>
+                                              <Menu.Item key={2} onClick={() => {
+                                                cancelInviteMember(iv_idx)
+                                                }} >초대 취소
+                                              </Menu.Item>
+                                              <Divider  dashed style={{ margin: 2 }} />
+                                          </Menu> } 
+                                            placement="bottomRight" 
+                                            trigger={['click','hover']} >
+                                            <Button key={login_idx}
+                                              type="link" ><EllipsisOutlined style={{ fontSize:16, fontWeight:800}} /></Button>
+                                          </Dropdown>                                                                      
+                                        </div>
+                                    </div>
+                              </ListItem>
+                              <Divider dashed style={{ margin: 3 }} />
+                            </div>
+                            )
+                          }):'')
+
+                }
+                </List>
+              </InfiniteScroll>
+              
+
+          </TabPane>
+        </FullTabs>
+      </div>
   );
 }
 

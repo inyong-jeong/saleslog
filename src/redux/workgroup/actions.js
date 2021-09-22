@@ -9,6 +9,12 @@ import {
   POST_WORKGROUP_DEL,
   GET_GROUP_MEMBER_LIST,
   GET_GROUP_MEMBER_DETAIL,
+  POST_GROUP_MEMBER_UPD,
+  POST_GROUP_MEMBER_OUT,
+  GET_PROFILE_INFO,
+  POST_GROUP_INVITE,
+  GET_INVITE_LIST,
+  POST_INVITE_DEL,
   GET_DEPT_INFO,
   POST_DEPT_REGI,
   POST_DEPT_UPD,
@@ -29,6 +35,13 @@ export const postWorkGroupOut  = fetchActionGenerator(POST_WORKGROUP_OUT, 'body'
 export const postWorkGroupDel  = fetchActionGenerator(POST_WORKGROUP_DEL, 'body'); 
 export const getGroupMemberList  = fetchActionGenerator(GET_GROUP_MEMBER_LIST, 'body'); 
 export const getGroupMemberDetail  = fetchActionGenerator(GET_GROUP_MEMBER_DETAIL, 'body'); 
+export const postGroupMemberUpd  = fetchActionGenerator(POST_GROUP_MEMBER_UPD, 'body'); 
+export const postGroupMemberOut  = fetchActionGenerator(POST_GROUP_MEMBER_OUT, 'body'); 
+export const getProfileInfo  = fetchActionGenerator(GET_PROFILE_INFO, 'body'); 
+export const postGroupInvite  = fetchActionGenerator(POST_GROUP_INVITE, 'body'); 
+export const getInviteList  = fetchActionGenerator(GET_INVITE_LIST, 'body'); 
+export const postInviteDel  = fetchActionGenerator(POST_INVITE_DEL, 'body'); 
+
 
 export const getDeptInfo  = fetchActionGenerator(GET_DEPT_INFO, 'body'); 
 export const postDeptRegi  = fetchActionGenerator(POST_DEPT_REGI, 'body'); 

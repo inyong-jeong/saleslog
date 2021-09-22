@@ -2,13 +2,17 @@
 const cmm = {};
 
 //API 서버 PATH
+cmm.AUTH_SERVER_API_URL = 'https://auth.theklab.co';
+
+//API 서버 PATH
 cmm.SERVER_API_URL = 'https://backend.saleslog.co';
+
 
 //업로드 파일경로 (영업일지,고객,고객담당자)
 cmm.FILE_PATH_FILES = '/files/';
 
 //업로드 파일경로 (회원사진)
-cmm.FILE_PATH_PHOTOS = '/photos/';
+cmm.FILE_PATH_PHOTOS = '/photo/';
 
 
 //빈값 체크

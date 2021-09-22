@@ -8,7 +8,7 @@ import MyAppBar from "components/styledcomponent/MyAppBar";
 import { useHistory, useParams } from 'react-router';
 import { Divider, Button, Avatar , Select,TreeSelect   } from 'antd';
 import { RightOutlined} from "@ant-design/icons";
-import { getGroupMemberDetail,getDeptInfo } from 'redux/workgroup/actions';
+import { getGroupMemberDetail, getDeptInfo, postGroupMemberUpd } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { base64Dec } from 'constants/commonFunc';
 const { Option } = Select;
@@ -18,13 +18,13 @@ const WgroupMemberPage = (props) => {
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const params = useParams()
-  const dispatch = useDispatch()
-  const [memberId, setMemberId] = useState(null)  
+  const dispatch = useDispatch()  
   const [memberData, setMemberData] = useState(null)
   const [treedata, setTreedata] = useState([])
   const [inputs, setInputs] = useState(
     {
-      permissions:'',
+      login_idx:'',
+      permissions:9,
       dept_idx:'', 
     }
   )  
@@ -52,7 +52,8 @@ const WgroupMemberPage = (props) => {
       type: SET_NAVIBAR_SHOW,
       payload: true}
     )
-    setMemberId(base64Dec(params.memberId))
+    setInputs({...inputs, login_idx:base64Dec(params.memberId)})
+    //setMemberId(base64Dec(params.memberId))
 
     //워크그룹 맴버 정보 
     dispatch(getGroupMemberDetail.call({login_idx:base64Dec(params.memberId)}))
@@ -63,14 +64,14 @@ const WgroupMemberPage = (props) => {
   },[])
   
 
-  //부서리스트 fetch 후
+  //맴버정보 fetch 후
   useEffect(()=> {
     if (!cmm.isEmpty(state.getGroupMemberDetailRes)) {
       setMemberData(state.getGroupMemberDetailRes)
-      setInputs({permissions:state.getGroupMemberDetailRes[0].permissions, dept_idx:state.getGroupMemberDetailRes[0].dept_idx});
+      console.log('select permission::::::::::::::::::::::::',state.getGroupMemberDetailRes[0].permissions)
+      setInputs({...inputs, permissions:state.getGroupMemberDetailRes[0].permissions, dept_idx:state.getGroupMemberDetailRes[0].dept_idx});
     }
   },[state.getGroupMemberDetailRes])
-
 
   //부서리스트 fetch 후
   useEffect(()=> {
@@ -82,9 +83,20 @@ const WgroupMemberPage = (props) => {
   },[state.getDeptInfoRes])
 
   const onSaveClick = (e) => {
-    //dispatch(postWorkGroupUpd.call(inputs))
+    console.log(inputs)
+    dispatch(postGroupMemberUpd.call(inputs))
     return
   }
+
+
+  //맴버 수정 fetch 후
+  useEffect(()=> {
+    
+    if (!cmm.isEmpty(state.postGroupMemberUpdRes)) {
+      
+    }
+  },[state.postGroupMemberUpdRes])
+
 
   const getTreeData = (array) => {  
     
@@ -128,7 +140,7 @@ const WgroupMemberPage = (props) => {
           shape='square' size={(isMobile)?90:120} />
         <div style={{width:10}}></div>
         <div style={{width:"90%" }}>
-          <label style={{padding:5, color:'#aaa'}}>고객명 </label><br/>
+          <label style={{padding:5, color:'#aaa'}}>이름 </label><br/>
           <label style={{padding:5, margin:0}}>{memberData[0].user_name}</label>
           <Divider style={{width:'100%', margin:5}}/>
         </div>
@@ -145,13 +157,13 @@ const WgroupMemberPage = (props) => {
       </div>
       <div style={{marginTop:10 }}>
         <div><label style={{padding:5, color:'#aaa'}}>맴버 구분 </label></div>
-        <Select defaultValue={inputs.permissions} 
+        <Select value={inputs.permissions} 
           style={{ width: '100%', height:25 }} 
           onChange={handleChange}>
-          <Option value="0">마스터</Option>
-          <Option value="1">치프</Option>
-          <Option value="2">매니저</Option>
-          <Option value="9">구성원</Option>
+          <Option value={'0'}>마스터</Option>
+          <Option value={'1'}>치프</Option>
+          <Option value={'2'}>매니저</Option>
+          <Option value={'9'}>구성원</Option>
         </Select>
         <Divider style={{width:'100%', margin:5}}/>
       </div>

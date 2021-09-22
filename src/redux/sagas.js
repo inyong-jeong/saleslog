@@ -8,6 +8,7 @@ import organizationSaga from './organization/saga';
 import profileSaga from './profile/saga';
 import supportSaga from './support/saga';
 import dashboardSaga from './profile/saga';
+import EtcSaga from './etc/saga';
 
 
 
@@ -23,6 +24,7 @@ export default function* rootSaga(getState) {
     organizationSaga(),
     profileSaga(),
     supportSaga(),
-    dashboardSaga()
+    dashboardSaga(),
+    EtcSaga()
   ]);
 }

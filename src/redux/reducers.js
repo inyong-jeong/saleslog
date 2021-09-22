@@ -9,6 +9,7 @@ import Organization from './organization/reducers';
 import Profile from './profile/reducers';
 import Support from './support/reducers';
 import Dashboard from './profile/reducers';
+import Etc from './etc/reducers';
 
 
 
@@ -23,5 +24,6 @@ export default combineReducers({
   Profile,
   Support,
   Dashboard,
+  Etc,
   routing: routerReducer
 });

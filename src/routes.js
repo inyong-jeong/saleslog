@@ -43,10 +43,26 @@ const WorkgroupDeptReg = React.lazy(() => import('./pages/workgroup/dept'))
 const WorkgroupMember = React.lazy(() => import('./pages/workgroup/member'))
 const WorkgroupMemberInvite = React.lazy(() => import('./pages/workgroup/member/invite'))
 const WorkgroupMemberProfile = React.lazy(() => import('./pages/workgroup/member/profile'))
+const WorkgroupOut = React.lazy(() => import('./pages/workgroup/outwgroup'))
+const WorkgroupDel = React.lazy(() => import('./pages/workgroup/delwgroup'))
+const WorkgroupChg = React.lazy(() => import('./pages/workgroup/chgwgroup'))
 
-// 설정, 공지 등
+//프로필 , 공지사항
+const myProfile = React.lazy(() => import('./pages/etc/profile'))
+const wgroupNotice = React.lazy(() => import('./pages/etc/notice/group'))
+const wgroupNoticeRegi = React.lazy(() => import('./pages/etc/notice/group/register'))
+const wgroupNoticeDetail = React.lazy(() => import('./pages/etc/notice/group/detail'))
+const wgroupNoticeUpd = React.lazy(() => import('./pages/etc/notice/group/update'))
+const systemNotice = React.lazy(() => import('./pages/etc/notice/system'))
+const systemNoticeRegi = React.lazy(() => import('./pages/etc/notice/system/register'))
+const systemNoticeDetail = React.lazy(() => import('./pages/etc/notice/system/detail'))
+const systemNoticeUpd = React.lazy(() => import('./pages/etc/notice/system/update'))
+
+
+//const systemNoticeList = React.lazy(() => import('./pages/etc/notice/system/list'))
+
+// 설정 등
 const AppInfo = React.lazy(() => import('./pages/appInfo'))
-const SystemNotice = React.lazy(() => import('./pages/notice/system'))
 const NotificationSetting = React.lazy(() => import('./pages/settings/notification'))
 
 //지원센터 
@@ -97,12 +113,26 @@ const routes = [
   { path: '/main/workgroup/update', name: 'WorkgroupUpd', component: WorkgroupUpd, route: MainRoute, exact: true },
   { path: '/main/workgroup/dept', name: 'WorkgroupDeptReg', component: WorkgroupDeptReg, route: MainRoute, exact: true },
   { path: '/main/workgroup/member', name: 'WorkgroupMember', component: WorkgroupMember, route: MainRoute, exact: true },
-  { path: '/main/workgroup/member/invite/:memberId', name: 'WorkgroupMemberInvite', component: WorkgroupMemberInvite, route: MainRoute, exact: true },
+  { path: '/main/workgroup/member/invite', name: 'WorkgroupMemberInvite', component: WorkgroupMemberInvite, route: MainRoute, exact: true },
   { path: '/main/workgroup/member/profile/:memberId', name: 'WorkgroupMemberProfile', component: WorkgroupMemberProfile, route: MainRoute, exact: true },
+  { path: '/main/workgroup/outwgroup', name: 'WorkgroupOut', component: WorkgroupOut, route: MainRoute, exact: true },
+  { path: '/main/workgroup/delwgroup', name: 'WorkgroupDel', component: WorkgroupDel, route: MainRoute, exact: true },
+  { path: '/main/workgroup/chgwgroup', name: 'WorkgroupChg', component: WorkgroupChg, route: MainRoute, exact: true },
 
+  //기타 (프로필 수정 및 공지사항)
+  { path: '/main/etc/profile', name: 'myProfile', component: myProfile, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/group', name: 'wgroupNotice', component: wgroupNotice, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/group/register', name: 'wgroupNoticeRegi', component: wgroupNoticeRegi, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/group/detail/:noticeId', name: 'wgroupNoticeDetail', component: wgroupNoticeDetail, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/group/update/:noticeId', name: 'wgroupNoticeUpd', component: wgroupNoticeUpd, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/system', name: 'systemNotice', component: systemNotice, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/system/register', name: 'systemNoticeRegi', component: systemNoticeRegi, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/system/detail/:noticeId', name: 'systemNoticeDetail', component: systemNoticeDetail, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/system/update/:noticeId', name: 'systemNoticeUpd', component: systemNoticeUpd, route: MainRoute, exact: true },
+  
+  
   //프로필 및 설정 등
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
-  { path: '/main/systemNotice', name: 'SystemNotice', component: SystemNotice, route: MainRoute, exact: true },
   { path: '/main/notification', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
 
   //지원
