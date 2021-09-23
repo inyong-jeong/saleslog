@@ -77,7 +77,7 @@ const ManagerProfilePage = () => {
                 <h1 style={lineStyle} />
 
                 <label className={classes.laebelStyle}>직급 및 소속</label>
-                <p className={classes.showDetails}>{managerDetails.dept}</p>
+                <p className={classes.showDetails}>{managerDetails.dept} {managerDetails.posi}</p>
                 <h1 style={lineStyle} />
               </div>
 
