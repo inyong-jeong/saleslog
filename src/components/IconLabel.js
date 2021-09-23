@@ -18,19 +18,20 @@ const IconLabel = (props) => {
         history.push(`/${props.pathUri}`)
       }
     }}
-    style={{ 
-      display: 'flex',
-      verticalAlign: 'middle',
-      alignItems: 'center',
-    }}
+      style={{
+        display: 'flex',
+        verticalAlign: 'middle',
+        alignItems: 'center',
+      }}
     >
-      { ((props.isIcon===undefined)?true:false) && 
-      <Avatar 
-        shape={(props.iconShape===undefined)?"square":props.iconShape} 
-        size={(props.iconSize===undefined)?20:props.iconSize} 
+      {((props.isIcon === undefined) ? true : false) &&
+        <Avatar
+          src={props.src}
+          shape={(props.iconShape === undefined) ? "square" : props.iconShape}
+          size={(props.iconSize === undefined) ? 20 : props.iconSize}
         />
       }
-      <div style={{ padding:5 , marginTop:2}}>{props.title}</div>
+      <div style={{ padding: 5, marginTop: 2 }}>{props.title}</div>
     </div>
   );
 };
