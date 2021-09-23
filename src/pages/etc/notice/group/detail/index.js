@@ -30,7 +30,7 @@ const grpNoticeRegi = (props) => {
   const [noticeId, setNoticeId] = useState(null)
 
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
 
   //이전페이지

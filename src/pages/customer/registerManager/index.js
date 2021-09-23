@@ -60,9 +60,8 @@ export const useStyles = makeStyles({
 
 const RegisterManager = () => {
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
-
   const menuDiv = useRef()
   const history = useHistory()
   const params = useParams()

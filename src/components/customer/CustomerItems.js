@@ -33,7 +33,8 @@ const graybox = {
   backgroundColor: '#666666',
   color: '#fff',
   padding: 3,
-  borderRadius: '2px'
+  borderRadius: '2px',
+  fontWeight: 400
 }
 
 export const grayboxLink = {
@@ -48,7 +49,7 @@ export const grayboxLink = {
 }
 const bluebox = {
   fontSize: 11,
-  backgroundColor: '#4B7DFF',
+  backgroundColor: '#000fff',
   marginLeft: 6,
   color: '#fff',
   padding: 4,
@@ -123,7 +124,10 @@ const CustomerItems = ({ inputs, page, setPage }) => {
             return (
               <div onClick={() => history.push({
                 pathname: `/main/customer/details/${singleList.acc_idx}/${singleList.accm_idxs}`
-              })} key={singleList.num}>
+              })}
+                key={singleList.num}
+                style={{ cursor: 'pointer' }}
+              >
                 <ListItem style={{ height: 120 }}>
                   <div>
                     <Avatar alt={singleList.account_name} className={classes.square} variant="rounded" >
@@ -132,7 +136,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                   </div>
                   <div>
                     {/* <p style={{ fontSize: 30, backgroundColor: '#000', color: '#fff' }}>{singleList.num}</p> */}
-                    <p style={{ display: 'inline', fontSize: 14, fontWeight: '500' }}>{singleList.account_name}
+                    <p style={{ display: 'inline', fontSize: 14, fontWeight: 500 }}>{singleList.account_name}
                       {singleList.score ?
                         <span style={bluebox}>
                           {singleList.score}
@@ -143,11 +147,11 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                     {
                       singleList.tags ?
                         singleList.tags.split(',').map((singleTag) =>
-                          <span key={singleTag} style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0, color: '#666666', }}>
+                          <span key={singleTag} style={{ fontSize: 14, fontWeight: 300, marginBottom: 0, color: '#666666' }}>
                             #{singleTag} </span>
                         )
                         : ''}
-                    <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.ceo_name} {singleList.reg_num}</p>
+                    <p style={{ fontSize: 12, fontWeight: 500, marginBottom: 0 }}>{singleList.ceo_name} {singleList.reg_num}</p>
                     <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.addr1}</p>
                     <div style={{ marginTop: 6 }}>
                       {

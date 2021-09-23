@@ -28,9 +28,8 @@ const WgroupMemberPage = (props) => {
   const [srch, setSrch] = useState('')
   const [groupInfo, setGroupInfo] = useState()
 
-
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
 
   //이전페이지

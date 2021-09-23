@@ -13,18 +13,15 @@ const MOBILE_POS = {
   zIndex: 10,
 }
 const WEB_POS = {
-  margin: 0,
-  top: 'auto',
-  right: 200,
-  bottom: 90,
-  left: 'auto',
-  position: 'fixed',
   zIndex: 10,
+  position: 'relative',
+  marginLeft: 650,
+  marginBottom: 10,
 }
 const CustomFab = ({ navigateTo }) => {
 
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
 
 
@@ -38,10 +35,12 @@ const CustomFab = ({ navigateTo }) => {
             </Fab>
           </div>
           :
-          <div style={WEB_POS}>
-            <Fab style={{ backgroundColor: '#000', color: '#fff' }} onClick={navigateTo}>
-              <AddIcon />
-            </Fab>
+          <div style={{ bottom: 10, width: 700, position: 'fixed', zIndex: 10 }}>
+            <div style={WEB_POS}>
+              <Fab style={{ backgroundColor: '#000', color: '#fff' }} onClick={navigateTo}>
+                <AddIcon />
+              </Fab>
+            </div>
           </div>
       }
 

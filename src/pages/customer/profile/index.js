@@ -35,12 +35,17 @@ const CustomerDetail = () => {
     history.push(`/main/customer/edit/${customerId}/${managerId}`)
   }
 
+  const deleteClick = () => {
+    console.log('삭제 클릭')
+  }
+
   return (
     <div>
       <MyAppBar barTitle={'고객 프로필'}
         showBackButton
         navigateTo={navigateTo}
         onEditClick={onEditClick}
+        deleteClick={deleteClick}
       />
       <div>
         <FullTabs defaultActiveKey="1" >

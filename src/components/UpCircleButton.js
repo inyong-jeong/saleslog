@@ -24,7 +24,7 @@ const WEB_POS = {
 const CustomFab = ({ navigateTo }) => {
 
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
 
 

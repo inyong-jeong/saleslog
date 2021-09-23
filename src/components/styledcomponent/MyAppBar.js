@@ -61,11 +61,11 @@ const MyAppBar = ({
   const history = useHistory()
   const classes = useStyles()
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
 
-  const onProfileClick = () => {
-    console.log('프로필 클릭 ')
+  const onProfileClick = (e) => {
+    console.log('프로필 클릭 ', e)
 
   }
 
@@ -76,7 +76,7 @@ const MyAppBar = ({
   }
   //profile menu 
   const menu = (
-    <Menu onClick={onProfileClick}>
+    <Menu onClick={onProfileClick} >
       <Link to={'/main/etc/profile'}>
         <Menu.Item key="1"> 내 프로필 </Menu.Item>
       </Link>

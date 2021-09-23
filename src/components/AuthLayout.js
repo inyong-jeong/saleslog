@@ -18,7 +18,7 @@ const { Content, Sider, Footer } = Layout;
 const AuthLayout = (props) => {
 
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
 
   // 하단 NaviBar Show

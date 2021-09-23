@@ -23,7 +23,7 @@ const { Panel } = Collapse
 const EditCustomerManager = () => {
   const classes = useStyles()
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
   const params = useParams()
   const history = useHistory()

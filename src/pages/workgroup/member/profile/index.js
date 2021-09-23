@@ -52,9 +52,8 @@ const WgroupMemberPage = (props) => {
   )
 
   const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
+    query: "(max-width:1190px)"
   });
-
   //이전페이지
   const navigateTo = () => history.push('/main/workgroup/member')
 
