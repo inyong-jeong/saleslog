@@ -168,10 +168,12 @@ const WgroupManagePage = (props) => {
           required
           placeholder="URL 입력해주세요."
           margin="normal"
+          style={{ marginLeft: 10, marginRight: 10 }}
         />
         <label style={{
-          fontSize: 18,
-          width: 200
+          fontSize: 14,
+          fontWeight: 400,
+          color: '#111111'
         }}>&nbsp;.saleslog.com</label>
       </div>
       {

@@ -425,7 +425,7 @@ function UploadSalesLog(props) {
   }
   return (
     <React.Fragment>
-      <MyAppBar barTitle={'일지쓰기'} showBackButton onSaveClick={onFormSubmit} navigateTo={handleOnBack} tempSaveClick={onFormTemporarySubmit} />
+      <MyAppBar barTitle={'일지 쓰기'} showBackButton onSaveClick={onFormSubmit} navigateTo={handleOnBack} tempSaveClick={onFormTemporarySubmit} />
       <div className="container">
         <div className='mt-3'></div>
         <div className="row">
