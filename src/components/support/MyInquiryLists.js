@@ -24,7 +24,7 @@ export default function MyInquiryLists() {
   }, [state.loading])
 
   const ListItem = ({ inquiry }) => (
-    <div onClick={() => history.push(`/main/support/details/${inquiry.b_idx}`)}>
+    <div onClick={() => history.push(`/main/support/details/${inquiry.b_idx}`)} style={{ cursor: 'pointer' }}>
       <div style={{ float: 'left', width: '70%' }}>
         <p style={{ fontSize: 14, margin: 0, fontWeight: '400' }}>{inquiry.title}</p>
         <p style={{ fontSize: 12, color: '#666666', margin: 0 }}>{inquiry.cre_dt}</p>
