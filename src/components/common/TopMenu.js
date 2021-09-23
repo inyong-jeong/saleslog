@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Badge, IconButton } from '@material-ui/core';
 import { ReactComponent as BlueLogo } from '../../../src/assets/icons/main/blueLogo.svg'
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 export default function TopMenu({ badgeContent }) {
 
   const history = useHistory()
+  // const [profileEvent, setProfileEvent] = useState('')
   const onLogoutClick = () => {
     removeAll();
     history.push('/signin')
@@ -90,11 +91,11 @@ export default function TopMenu({ badgeContent }) {
             width: 180,
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            cursor: 'pointer'
           }}
             onClick={onLogoClick}
           >
-
             <WhiteLogo width={100} height={64} fill='white' />
           </div>
           <div style={{
