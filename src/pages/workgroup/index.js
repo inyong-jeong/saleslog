@@ -17,7 +17,14 @@ import { ReactComponent as MemberIcon } from '../../assets/icons/workgroup/membe
 import { ReactComponent as OrgIcon } from '../../assets/icons/workgroup/org.svg'
 import { IconButton } from '@material-ui/core';
 
+
 const WgroupManagePage = (props) => {
+  const marginStyle = {
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 0,
+    marginRight: 0
+  }
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -104,15 +111,15 @@ const WgroupManagePage = (props) => {
         navigateTo={navigateTo}
         navigateNext={navigateNext}
       />
-      <div style={{ cursor: 'pointer', marginTop: 20 }}>
+      <div style={{ cursor: 'pointer', marginTop: 20, width: '100%' }}>
         <IconLabel title="정보 수정" pathUri="main/workgroup/update" src={<EditIcon />} />
-        <Divider style={{ margin: 10 }} />
+        <Divider style={marginStyle} />
         <IconLabel title="맴버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
-        <Divider style={{ margin: 10 }} />
+        <Divider style={marginStyle} />
         <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
-        <Divider style={{ margin: 10 }} />
+        <Divider style={marginStyle} />
       </div>
-      <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 340 }}>
+      <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 19 }}>
         <IconLabel title="워크그룹 나가기" pathUri="main/workgroup/outwgroup" isIcon={false} />
         <div>&nbsp; |&nbsp; </div>
         <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false} />

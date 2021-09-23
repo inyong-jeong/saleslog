@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   bodyContent: {
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop:0,
+    paddingTop: 0,
     width: '100%'
   },
 });
@@ -56,7 +56,7 @@ const WgroupManagePage = (props) => {
 
   useEffect(() => {
     // 하단 네비 설정   
-    dispatch({type: SET_NAVIBAR_SHOW,payload: true})
+    dispatch({ type: SET_NAVIBAR_SHOW, payload: true })
   }, [])
 
   const onSaveClick = (e) => {
@@ -72,7 +72,7 @@ const WgroupManagePage = (props) => {
 
   useEffect(() => {
     if (!cmm.isEmpty(regiRes)) {
-      state.postWorkGroupRegiRes  = null;
+      state.postWorkGroupRegiRes = null;
       if (regiRes.state === false && regiRes.message.message.indexOf('사용중인 업체') > 0) {
         setInputs({
           ...inputs,
@@ -119,18 +119,18 @@ const WgroupManagePage = (props) => {
 
 
   return (
-    <ThemeProvider theme={theme}>
-      {isMobile && <MyAppBar
+    <>
+      <MyAppBar
         barTitle={'워크그룹 생성'}
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
 
-      />}
+      />
       <div >
         <div style={{ height: 40 }}></div>
         <div style={{ display: 'flex' }}>
-          
+
           <div style={{
             position: 'relative',
             bottom: 0,
@@ -176,7 +176,7 @@ const WgroupManagePage = (props) => {
           })
         }
       </div>
-    </ThemeProvider>
+    </>
   );
 }
 
