@@ -186,7 +186,7 @@ function SalesLogList(props) {
         </Col>
       </Row>
       <Row>
-        <div className={styles.Wrapper}>
+        <div>
           <CustomFab navigateTo={navigateTo} />
         </div>
       </Row>
