@@ -52,7 +52,8 @@ const MyAppBar = ({
   navigateNext,
   tempSaveClick,
   onAddClick,
-  badgeContent
+  badgeContent,
+  deleteClick,
 }) => {
 
   const classes = useStyles();
@@ -67,9 +68,9 @@ const MyAppBar = ({
   //profile menu 
   const menu = (
     <Menu onClick={onProfileClick}>
-        <Link to={'/main/etc/profile'}>
-          <Menu.Item key="1">내 프로필 </Menu.Item>
-        </Link>
+      <Link to={'/main/etc/profile'}>
+        <Menu.Item key="1">내 프로필 </Menu.Item>
+      </Link>
       <Menu.Divider />
       <Menu.Item key="2">
         <Link to={'/main/etc/notice/group'}>
@@ -172,6 +173,13 @@ const MyAppBar = ({
               <IconButton color="inherit" onClick={navigateNext}>
                 <NavigateNextIcon />
               </IconButton>
+            }
+            {deleteClick &&
+              <div className={classes.tempButtonStyle}>
+                <Button size="small" onClick={deleteClick} >
+                  삭제
+                </Button>
+              </div>
             }
           </Toolbar>
         </div>
