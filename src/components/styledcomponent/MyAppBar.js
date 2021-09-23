@@ -7,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { Divider } from 'antd';
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
+import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
 import { ReactComponent as BackIcon } from '../.././assets/icons/back.svg'
 import { ReactComponent as AddIcon } from '../.././assets/icons/plus.svg'
 import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
@@ -15,6 +16,8 @@ import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_w
 import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
 import { Menu, Dropdown, } from 'antd';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { removeAll } from 'helpers/authUtils';
 
 const useStyles = makeStyles({
   appBarIcon: {
@@ -55,8 +58,8 @@ const MyAppBar = ({
   badgeContent,
   deleteClick,
 }) => {
-
-  const classes = useStyles();
+  const history = useHistory()
+  const classes = useStyles()
   const isMobile = useMediaQuery({
     query: "(max-width:991px)"
   });
@@ -65,36 +68,47 @@ const MyAppBar = ({
     console.log('프로필 클릭 ')
 
   }
+
+  const onLogoutClick = () => {
+    removeAll();
+    history.push('/signin')
+
+  }
   //profile menu 
   const menu = (
     <Menu onClick={onProfileClick}>
       <Link to={'/main/etc/profile'}>
-        <Menu.Item key="1">내 프로필 </Menu.Item>
+        <Menu.Item key="1"> 내 프로필 </Menu.Item>
       </Link>
       <Menu.Divider />
       <Menu.Item key="2">
         <Link to={'/main/etc/notice/group'}>
-          <WorkNotice />워크그룹 공지
+          <WorkNotice /> 워크그룹 공지
         </Link>
       </Menu.Item>
       <Menu.Item key="3">
         <Link to={'/main/etc/notice/system'}>
-          <Notice />시스템 공지
+          <Notice /> 시스템 공지
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="4">
         <Link to={'/main/notification'}>
-          <Setting />알림 설정
+          <Setting /> 알림 설정
         </Link>
       </Menu.Item>
       <Menu.Item key="5">
         <Link to={'/main/support'}>
-          <Support />지원센터
+          <Support /> 지원센터
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="6">
+        <div onClick={onLogoutClick}>
+          <Logout stroke="black" /> 로그아웃
+        </div>
+      </Menu.Item>
+      <Menu.Item key="7">
         <Link to={'/main/information'}>세일즈로그 정보</Link>
       </Menu.Item>
     </Menu>

@@ -4,7 +4,7 @@ import { ReactComponent as BlueLogo } from '../../../src/assets/icons/main/blueL
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
-import { ReactComponent as Logout } from '../.././assets/icons/main/whiteLogout.svg'
+import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
 import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
 import { ReactComponent as Support } from '../.././assets/icons/main/support.svg'
 import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_workgroup.svg'
@@ -30,9 +30,9 @@ export default function TopMenu({ badgeContent }) {
   //profile menu 
   const menu = (
     <Menu onClick={onProfileClick}>
-        <Link to={'/main/etc/profile'}>
-          <Menu.Item key="1">내 프로필 </Menu.Item>
-        </Link>
+      <Link to={'/main/etc/profile'}>
+        <Menu.Item key="1">내 프로필 </Menu.Item>
+      </Link>
       <Menu.Divider />
       <Menu.Item key="2">
         <Link to={'/main/etc/notice/group'}>
@@ -119,7 +119,7 @@ export default function TopMenu({ badgeContent }) {
             </div>
             <div>
               <IconButton color="inherit" onClick={onLogoutClick}>
-                <Logout />
+                <Logout stroke="white" />
               </IconButton>
             </div>
           </div>
