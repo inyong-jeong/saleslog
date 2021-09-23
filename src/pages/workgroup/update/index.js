@@ -1,5 +1,3 @@
-import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
-import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
@@ -13,30 +11,8 @@ import { transform } from 'babel-core';
 import { getWorkGroupInfo, postWorkGroupLogo, postWorkGroupUpd } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 
-
-const useStyles = makeStyles({
-  bottomBar: {
-    width: '100%',
-    position: 'fixed',
-    bottom: 60,
-    left: 0,
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-});
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0000FF',
-    }
-  },
-});
-
 const WgroupManagePage = (props) => {
-  const classes = useStyles();
+
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const navigateTo = () => history.push('/main/workgroup')
@@ -55,10 +31,6 @@ const WgroupManagePage = (props) => {
 
     }
   )
-
-  const isMobile = useMediaQuery({
-    query: "(max-width:991px)"
-  });
 
 
   useEffect(() => {
@@ -152,35 +124,25 @@ const WgroupManagePage = (props) => {
 
 
   return (
-    <ThemeProvider theme={theme}>
-      {isMobile && <MyAppBar
+    <>
+      <MyAppBar
         barTitle={(cmm.isEmpty(inputs.comp_name)) ? '워크그룹' : inputs.comp_name}
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
-
-      />}
-      <div style={{ height: 40 }}></div>
+      />
       <div style={{ display: 'flex' }}>
         <AvatarUp imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
           iconShape='square'
           height={90}
           style={{
             padding: 0,
-            margin: 0,
+            marginLeft: 10,
             width: 90,
             height: 90
           }}
           handleChange={handleChangeFile} />
-        <div style={{
-          position: 'relative',
-          bottom: 0,
-          left: -20,
-          top: 10,
-          width: '100%',
-          justifyContent: 'bottom',
-          alignItems: 'top'
-        }}>
+        <div style={{ flexGrow: 2 }}>
           <label >워크그룹 이름 *</label><br />
           <Input
             name='comp_name'
@@ -193,7 +155,7 @@ const WgroupManagePage = (props) => {
         </div>
       </div>
       <Divider style={{ margin: '30,10' }} />
-      <label className={classes.laebelStyle}>워크그룹 URL *</label>
+      <label>워크그룹 URL *</label>
       <div style={{
         display: 'flex',
         justifyContent: 'center',
@@ -218,7 +180,7 @@ const WgroupManagePage = (props) => {
         })
       }
 
-    </ThemeProvider>
+    </>
   );
 }
 
