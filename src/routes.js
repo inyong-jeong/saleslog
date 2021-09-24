@@ -103,6 +103,7 @@ const routes = [
   { path: '/main/customer/register', name: 'CustomerAdd', component: CustomerAdd, route: MainRoute, exact: true },
   { path: '/main/customer/register_manager/:accId/:managerId', name: 'ManagerRegister', component: CustomerManagerRegister, route: MainRoute, exact: true },
   { path: '/main/customer/details/:accId/:managerId', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
+  { path: '/main/customer/details/:accId', name: 'CustomerDetails', component: CustomerDetails, route: MainRoute, exact: true },
   { path: '/main/customer/edit/:accId/:managerId', name: 'CustomerEdit', component: CustomerEdit, route: MainRoute, exact: true },
   { path: '/main/manager/profile/:accId/:singleId', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
   { path: '/main/manager/editManager/:singleId/:accId', name: 'ManagerEdit', component: ManagerEdit, route: MainRoute, exact: true },
@@ -129,8 +130,8 @@ const routes = [
   { path: '/main/etc/notice/system/register', name: 'systemNoticeRegi', component: systemNoticeRegi, route: MainRoute, exact: true },
   { path: '/main/etc/notice/system/detail/:noticeId', name: 'systemNoticeDetail', component: systemNoticeDetail, route: MainRoute, exact: true },
   { path: '/main/etc/notice/system/update/:noticeId', name: 'systemNoticeUpd', component: systemNoticeUpd, route: MainRoute, exact: true },
-  
-  
+
+
   //프로필 및 설정 등
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
   { path: '/main/notification', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
