@@ -23,21 +23,25 @@ const MyNavigation = () => {
   const [value, setValue] = useState("");
   const history = useHistory();
 
+  useEffect(() => {
+    const pathname = history.location.pathname
+    setValue(pathname)
+  }, [])
+
   return (
     <BottomNavigation
       className={classes.root}
       value={value}
       onChange={(e, newValue) => {
-        history.push(`/${newValue}`)
+        history.push(`${newValue}`)
         setValue(newValue)
-        //console.log('value', value, 'path', location.pathname)
 
       }}
       showLabels>
-      <BottomNavigationAction label="홈" icon={<Home />} value='main' />
-      <BottomNavigationAction label="일지" icon={<Log />} value='main/manage' />
-      <BottomNavigationAction label="고객" icon={<Customer />} value='main/customer' />
-      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='main/workgroup' />
+      <BottomNavigationAction label="홈" icon={<Home />} value='/main' />
+      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' />
+      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' />
+      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' />
 
     </BottomNavigation>
   );
