@@ -18,7 +18,10 @@ import { Menu, Dropdown, } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { removeAll } from 'helpers/authUtils';
+import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
+const { confirm } = Modal;
 const useStyles = makeStyles({
   appBarIcon: {
     position: 'absolute',
@@ -70,8 +73,20 @@ const MyAppBar = ({
   }
 
   const onLogoutClick = () => {
-    removeAll();
-    history.push('/signin')
+    confirm({
+      title: '정말로 로그아웃 하시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      // content: '로그아웃을 하시면 재로그인이 필요합니다.',
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        removeAll();
+        history.push('/signin')
+      },
+      onCancel() {
+        //취소
+      },
+    })
 
   }
   //profile menu 

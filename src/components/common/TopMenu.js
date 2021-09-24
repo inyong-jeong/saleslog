@@ -13,14 +13,28 @@ import { removeAll } from 'helpers/authUtils';
 import { useHistory } from 'react-router';
 import { Menu, Dropdown, message } from 'antd';
 import { Link } from 'react-router-dom';
+import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
+const { confirm } = Modal;
 export default function TopMenu({ badgeContent }) {
 
   const history = useHistory()
   // const [profileEvent, setProfileEvent] = useState('')
   const onLogoutClick = () => {
-    removeAll();
-    history.push('/signin')
+    confirm({
+      title: '정말로 로그아웃 하시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        removeAll();
+        history.push('/signin')
+      },
+      onCancel() {
+        //취소
+      },
+    })
 
   }
 
