@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import { useHistory } from 'react-router';
-import { useMediaQuery } from 'react-responsive';
 import FullTabs from '../../../components/styledcomponent/FullTabs';
 import CustomerProfilePage from '../../../components/customer/CustomerProfilePage';
 import CustomerLogPage from '../../../components/customer/CustomerLogPage';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { base64Dec, base64Enc } from 'constants/commonFunc';
 
 const { TabPane } = FullTabs;
 const CustomerDetail = () => {
@@ -24,15 +24,14 @@ const CustomerDetail = () => {
       type: SET_NAVIBAR_SHOW,
       payload: false
     })
-    setCustomerId(params.accId)
-    setManagerId(params.managerId)
+    setCustomerId(base64Dec(params.accId))
+    params.managerId && setManagerId(base64Dec(params.managerId))
   }, [])
-
 
   const navigateTo = () => history.goBack()
 
   const onEditClick = () => {
-    history.push(`/main/customer/edit/${customerId}/${managerId}`)
+    history.push(`/main/customer/edit/${base64Enc(customerId)}/${base64Enc(managerId)}`)
   }
 
   const deleteClick = () => {

@@ -1,6 +1,5 @@
 import MyAppBar from '../../../../components/styledcomponent/MyAppBar';
 import React, { useState, useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { Typography } from "@material-ui/core"
 import { Collapse } from 'antd';
 import { useDispatch } from "react-redux";
@@ -18,13 +17,11 @@ import moment from 'moment';
 import { errorMessage } from '../../../../constants/commonFunc';
 import AvatarUp from '../../../../components/AvatarUp';
 import cmm from 'constants/common';
+import { base64Dec, base64Enc } from 'constants/commonFunc';
 
 const { Panel } = Collapse
 const EditCustomerManager = () => {
   const classes = useStyles()
-  const isMobile = useMediaQuery({
-    query: "(max-width:1190px)"
-  });
   const params = useParams()
   const history = useHistory()
   const dispatch = useDispatch()
@@ -38,15 +35,14 @@ const EditCustomerManager = () => {
       type: SET_NAVIBAR_SHOW,
       payload: false
     })
-    dispatch(getManagerInfo.call({ acc_idx: params.accId, accm_idx: params.singleId }))
+    dispatch(getManagerInfo.call({ acc_idx: base64Dec(params.accId), accm_idx: base64Dec(params.singleId) }))
   }, [])
-
 
   const [accountMangerInputs, setAccoutManagerInputs] = useState(
     {
-      acc_idx: params.accId,
+      acc_idx: base64Dec(params.accId),
       man_name: '',
-      accm_idx: params.singleId,
+      accm_idx: base64Dec(params.singleId),
       dept: '',
       posi: '',
       birthday: '',
@@ -71,8 +67,8 @@ const EditCustomerManager = () => {
       setAccoutManagerInputs(
         {
           ...accountMangerInputs,
-          acc_idx: params.accId,
-          accm_idx: params.singleId,
+          acc_idx: base64Dec(params.accId),
+          accm_idx: base64Dec(params.singleId),
           man_name: managerDetails.man_name,
           dept: managerDetails.dept,
           posi: managerDetails.posi,
@@ -119,8 +115,8 @@ const EditCustomerManager = () => {
     dispatch(postEditManager.call(accountMangerInputs))
     //명함 사진 수정 
     dispatch(postEditNamecard.call({
-      acc_idx: params.accId,
-      accm_idx: params.singleId,
+      acc_idx: base64Dec(params.accId),
+      accm_idx: base64Dec(params.singleId),
       man_photo: chagnedPhoto ? chagnedPhoto : ''
     }))
     history.goBack()
@@ -256,11 +252,17 @@ const EditCustomerManager = () => {
           <div className={classes.innerBox}>
             <label className={classes.laebelStyle}>생일 </label>
             <br />
-            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday' value={moment(accountMangerInputs.birthday)} />
+            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday' value={
+              accountMangerInputs.birthday !== "" ?
+                moment(accountMangerInputs.birthday) :
+                null} />
             <br />
             <label className={classes.laebelStyle}>결혼기념일 </label>
             <br />
-            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday' value={moment(accountMangerInputs.merryday)} />
+            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday' value={
+              accountMangerInputs.merryday !== "" ?
+                moment(accountMangerInputs.merryday) :
+                null} />
           </div>
         </div>
         <div>

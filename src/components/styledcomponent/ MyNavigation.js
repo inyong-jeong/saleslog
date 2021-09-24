@@ -5,21 +5,10 @@ import { ReactComponent as Customer } from '../../../src/assets/icons/main/custo
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
 import { ReactComponent as WorkGroup } from '../../../src/assets/icons/main/workgroup.svg'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
-import { makeStyles } from '@material-ui/styles';
-import { Link } from 'react-router-dom';
 import { useHistory, useLocation } from 'react-router';
 
-const useStyles = makeStyles({
-  root: {
-    padding: 8, // iphone 11 이후 밑에 바있음 패딩 줘서 조금 올려야함 
-    width: '100%',
-    position: 'fixed',
-    bottom: 0,
-  }
-});
-
 const MyNavigation = () => {
-  const classes = useStyles();
+
   const [value, setValue] = useState("");
   const history = useHistory();
 
@@ -29,8 +18,18 @@ const MyNavigation = () => {
   }, [])
 
   return (
+
     <BottomNavigation
-      className={classes.root}
+      style={{
+        borderTop: 'solid',
+        borderColor: '#f0f0f0',
+        borderWidth: 1,
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        justifyContent: 'space-evenly',
+        zIndex: 50,
+      }}
       value={value}
       onChange={(e, newValue) => {
         history.push(`${newValue}`)
@@ -38,12 +37,13 @@ const MyNavigation = () => {
 
       }}
       showLabels>
-      <BottomNavigationAction label="홈" icon={<Home />} value='/main' />
-      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' />
-      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' />
-      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' />
+      <BottomNavigationAction label="홈" icon={<Home />} value='/main' style={{ color: '#666666' }} />
+      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' style={{ color: '#666666' }} />
+      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' style={{ color: '#666666' }} />
+      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' style={{ color: '#666666' }} />
 
     </BottomNavigation>
+
   );
 }
 

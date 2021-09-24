@@ -11,7 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { getLogLists } from '../../redux/saleslog/actions';
 import { ReactComponent as Dot } from '../../assets/icons/main/dot.svg'
-
+import { base64Dec } from '../../constants/commonFunc';
 
 
 const CustomerLogPage = () => {
@@ -23,7 +23,7 @@ const CustomerLogPage = () => {
   const loglist = state.loglist
 
   const [inputs, setInputs] = useState({
-    'accts': params.accId,
+    'accts': base64Dec(params.accId),
     'log_gb': '',
     'sales_man': '',
     'sales_lead_gb': '',
@@ -48,6 +48,11 @@ const CustomerLogPage = () => {
   }
   useEffect(() => {
     dispatch(getLogLists.call(inputs))
+
+    return () => {
+      // 다른곳에서 이동하면 그전 기록이 GET_SALESLOG 에 남아있어서 잠깐 보임 여기서 cleanup...? 
+      //ref 로 clear 해보기 
+    }
   }, [])
 
   const handleLogClick = () => {
@@ -88,11 +93,10 @@ const CustomerLogPage = () => {
       next={handleNextPage}>
       <div style={{ margin: 10 }}>
         {
-          loglist ?
+          loglist && state.loglistcount != 0 ?
             loglist.map((singleList, index) =>
               <CustomerLogItem singleList={singleList} key={singleList.slog_idx} />
-            ) :
-            <div style={{ fontSize: 14, fontWeight: 500, textAlign: 'center' }}>해당 고객사로 등록된 일지가 없습니다.</div>
+            ) : <div style={{ fontSize: 14, fontWeight: 500, textAlign: 'center' }}>해당 고객사로 등록된 일지가 없습니다.</div>
         }
 
       </div>

@@ -11,12 +11,11 @@ import StyledSelect from '../../../components/styledcomponent/StyledSelect';
 import { useHistory } from "react-router";
 import Tags from "@yaireo/tagify/dist/react.tagify" // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
-import { useMediaQuery } from 'react-responsive';
 import MyAppBar from "../../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useParams } from "react-router";
 import { errorMessage } from "../../../constants/commonFunc";
-
+import { base64Dec, base64Enc } from 'constants/commonFunc';
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -74,7 +73,7 @@ const CustomerEditPage = () => {
       type: SET_NAVIBAR_SHOW,
       payload: false
     })
-    dispatch(getCustomerDetails.call({ acc_idx: params.accId }))
+    dispatch(getCustomerDetails.call({ acc_idx: base64Dec(params.accId) }))
   }, [])
 
   const [gradeType, setGradeType] = useState([])

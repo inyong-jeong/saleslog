@@ -13,7 +13,7 @@ import { DatePicker } from "antd";
 import 'moment/locale/ko';
 import locale from 'antd/es/date-picker/locale/ko_KR';
 import AvatarUp from "../../../components/AvatarUp";
-
+import { base64Dec, base64Enc } from 'constants/commonFunc';
 const { Panel } = Collapse
 export const useStyles = makeStyles({
   FormControl: {
@@ -59,16 +59,13 @@ export const useStyles = makeStyles({
 })
 
 const RegisterManager = () => {
-  const isMobile = useMediaQuery({
-    query: "(max-width:1190px)"
-  });
+
   const menuDiv = useRef()
   const history = useHistory()
   const params = useParams()
 
   useEffect(() => {
-    setAccoutManagerInputs({ ...accountMangerInputs, 'acc_idx': params.accId })
-    console.log(params)
+    setAccoutManagerInputs({ ...accountMangerInputs, 'acc_idx': base64Dec(params.accId) })
   }, [])
 
   const navigateTo = () => history.goBack()
@@ -78,7 +75,7 @@ const RegisterManager = () => {
   const classes = useStyles()
   const [accountMangerInputs, setAccoutManagerInputs] = useState(
     {
-      acc_idx: params.accId,
+      acc_idx: base64Dec(params.accId),
       man_name: '',
       dept: '',
       posi: '',

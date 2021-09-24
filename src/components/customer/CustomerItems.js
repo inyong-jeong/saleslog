@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCustomer } from '../../redux/customer/actions';
 import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
+import { base64Enc } from 'constants/commonFunc';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
 const graybox = {
   display: 'inline',
   marginRight: 5,
-  fontSize: 11,
-  backgroundColor: '#666666',
-  color: '#fff',
+  fontSize: 12,
+  backgroundColor: '#F6F6F6',
+  color: '#F09A32',
   padding: 3,
   borderRadius: '2px',
   fontWeight: 400
@@ -41,19 +42,21 @@ export const grayboxLink = {
   display: 'inline',
   marginRight: 5,
   fontSize: 11,
-  backgroundColor: '#666666',
-  color: '#fff',
+  backgroundColor: '#F6F6F6',
+  color: '#F09A32',
   padding: 3,
   borderRadius: '2px',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  fontWeight: 400,
 }
 const bluebox = {
-  fontSize: 11,
-  backgroundColor: '#000fff',
+  fontSize: 12,
+  backgroundColor: '#F6F6F6',
   marginLeft: 6,
-  color: '#fff',
+  color: '#000fff',
+  fontWeight: 400,
   padding: 4,
-  borderRadius: '2px'
+  borderRadius: '3px'
 }
 
 const CustomerItems = ({ inputs, page, setPage }) => {
@@ -99,12 +102,10 @@ const CustomerItems = ({ inputs, page, setPage }) => {
       setCustomerList(cusotomerList.concat(responseLists))
     }
   }, [loading])
-  //console.log('new response ::::', responseLists)
-  //console.log('concat response ::::', cusotomerList)
 
   const handleNextPage = () => {
     if (listCounts >= cusotomerList.length) {
-      // console.log('page::::::::::::', page)
+
       if (loading == true) return
       setPage(page + 1)
     }
@@ -117,20 +118,24 @@ const CustomerItems = ({ inputs, page, setPage }) => {
       next={handleNextPage}>
       {/* {loading && <CircularProgress />} */}
       <List className={classes.root}>
-        <Text style={{ fontSize: 12 }} >{listCounts ? listCounts : 0} 개의 고객</Text>
+        <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{listCounts ? listCounts : 0}</span> 개의 고객</Text>
         <Divider style={{ margin: 0 }} />
         {cusotomerList ?
           cusotomerList.map((singleList, index) => {
             return (
-              <div onClick={() => history.push({
-                pathname: `/main/customer/details/${singleList.acc_idx}/${singleList.accm_idxs}`
-              })}
+              <div
                 key={singleList.num}
-                style={{ cursor: 'pointer' }}
-              >
+                style={{ cursor: 'pointer', height: 152 }}
+                onClick={() =>
+                  history.push({
+                    pathname: `/main/customer/details/${base64Enc(singleList.acc_idx)}/${base64Enc(singleList.accm_idxs)}`
+                  })}>
                 <ListItem style={{ height: 120 }}>
                   <div>
-                    <Avatar alt={singleList.account_name} className={classes.square} variant="rounded" >
+                    <Avatar
+                      alt={singleList.account_name}
+                      className={classes.square}
+                      variant="rounded" >
                       {singleList.account_name.charAt(0)}
                     </Avatar>
                   </div>
@@ -151,8 +156,8 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                             #{singleTag} </span>
                         )
                         : ''}
-                    <p style={{ fontSize: 12, fontWeight: 500, marginBottom: 0 }}>{singleList.ceo_name} {singleList.reg_num}</p>
-                    <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.addr1}</p>
+                    <p style={{ fontSize: 14, fontWeight: 400, marginBottom: 0, color: '#333333' }}><span style={{ fontWeight: 500, color: '#111111' }}>{singleList.ceo_name}</span> {singleList.reg_num}</p>
+                    {/* <p style={{ fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>{singleList.addr1}</p> */}
                     <div style={{ marginTop: 6 }}>
                       {
                         singleList.man_names ?
@@ -167,8 +172,9 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                             }
                           })
                           : ''}
-                      {restCount > 0 && singleList.man_names ? <span style={{ fontSize: 12, color: '#333333' }}>외 {restCount}명</span> : ''}
+                      {restCount > 0 && singleList.man_names ? <span style={{ fontSize: 14, color: '#333333' }}>외 {restCount}명</span> : ''}
                     </div>
+
                   </div>
                 </ListItem>
                 <Divider dashed style={{ margin: 0 }} />
@@ -177,6 +183,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                   whiteSpace: 'nowrap',
                   fontSize: 12,
                   margin: 10,
+                  fontWeight: 400
                 }}>
                   {
                     singleList.acc_etc ? singleList.acc_etc : <span style={{ color: '#DDDDDD' }}>고객사 메모 없음</span>
@@ -188,7 +195,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
             )
           })
           : <div>
-            <Typography > 고객사를 가져오는데 오류가 발생했습니다.</Typography>
+            <Typography > 고객사가 없습니다.</Typography>
           </div>
         }
       </List>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Collapse } from 'antd';
 import cmm from 'constants/common';
 import AvatarUp from '../../../../components/AvatarUp';
+import { base64Dec, base64Enc } from 'constants/commonFunc';
 
 const { Panel } = Collapse
 const ManagerProfilePage = () => {
@@ -28,7 +29,7 @@ const ManagerProfilePage = () => {
   const managerDetails = state.managerDetails
 
   useEffect(() => {
-    dispatch(getManagerInfo.call({ acc_idx: params.accId, accm_idx: params.singleId }))
+    dispatch(getManagerInfo.call({ acc_idx: base64Dec(params.accId), accm_idx: base64Dec(params.singleId) }))
   }, [])
 
   const navigateTo = () => {
@@ -147,8 +148,7 @@ const ManagerProfilePage = () => {
               </div>
             </div>
           </>
-
-          : console.log('담당자 profile 로딩중 ')}
+          : <div></div>}
     </div>
   );
 }

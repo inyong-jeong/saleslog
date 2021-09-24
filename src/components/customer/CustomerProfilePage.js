@@ -6,6 +6,7 @@ import { getCustomerDetails } from '../../redux/customer/actions';
 import { Button } from 'antd';
 import { grayboxLink } from './CustomerItems';
 import { useHistory } from 'react-router';
+import { base64Enc } from 'constants/commonFunc';
 
 const CustomerProfilePage = ({ customerId, managerId }) => {
 
@@ -31,7 +32,7 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
 
   const registerAccountsMan = () => {
     history.push({
-      pathname: `/main/customer/register_manager/${customerId}/${managerId}`,
+      pathname: `/main/customer/register_manager/${base64Enc(customerId)}/${base64Enc(managerId)}`,
     })
 
   }
@@ -48,7 +49,7 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
 
     singleId &&
       history.push({
-        pathname: `/main/manager/profile/${customerId}/${singleId}`,
+        pathname: `/main/manager/profile/${base64Enc(customerId)}/${base64Enc(singleId)}`,
       })
   }, [singleId])
 
@@ -162,7 +163,9 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
               </p>
             </div>
           </div>
-        </> : console.log('고객 프로필 loading...')
+        </> : <div>
+          {/* loading */}
+        </div>
       }
     </div>
   )

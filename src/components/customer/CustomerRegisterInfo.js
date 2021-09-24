@@ -11,10 +11,9 @@ import StyledSelect from '../styledcomponent/StyledSelect';
 import { useHistory } from "react-router";
 import Tags from "@yaireo/tagify/dist/react.tagify" // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
-import { useMediaQuery } from 'react-responsive';
 import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-
+import { alertMessage, errorMessage } from "../../constants/commonFunc";
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -112,7 +111,6 @@ const CustomerRegisterInfo = () => {
   */
 
 
-
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
@@ -124,11 +122,19 @@ const CustomerRegisterInfo = () => {
   }, [])
 
   const onSaveClick = (e) => {
-    if (!inputs.account_name || !inputs.ceo_name || !inputs.man_name || !inputs.dept) {
-      return alert('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
+    if (!inputs.account_name || !inputs.ceo_name) {
+      return errorMessage('고객명, 대표자명은 필수 항목입니다.')
     }
     if (inputs.account_name.includes('(주)' || '주식회사')) {
-      return alert('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
+      return errorMessage('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
+    }
+    if (!inputs.sales_gb || !inputs.score) {
+      return errorMessage('고객사 구분 및 등급/단계 선택은 필수 항목입니다.')
+    }
+    if (inputs.sales_gb === '0010001') { //거래고객시 담당자명 및 부서는 필수 
+      if (!inputs.man_name || !inputs.dept) {
+        return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
+      }
     }
     dispatch(postCustomer.call(inputs))
     setInputs('')
@@ -152,7 +158,7 @@ const CustomerRegisterInfo = () => {
 
   const onChangeCustomer = (value) => {
     setInputs({ ...inputs, sales_gb: value })
-    if (value == '0010001') {
+    if (value === '0010001') {
       setGradeType(scoreType)
     } else {
       setGradeType(stageType)
@@ -188,7 +194,7 @@ const CustomerRegisterInfo = () => {
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>고객명 *</label>
+            <label className={classes.laebelStyle}>고객명 <span style={{ color: 'red' }}>*</span></label>
             <Input
               name='account_name'
               onChange={handleChange}
@@ -198,7 +204,7 @@ const CustomerRegisterInfo = () => {
               margin="normal"
             />
             <p className={classes.description}>주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.</p>
-            <label className={classes.laebelStyle}>대표자명 *</label>
+            <label className={classes.laebelStyle}>대표자명 <span style={{ color: 'red' }}>*</span></label>
             <Input
               name='ceo_name'
               onChange={handleChange}
@@ -230,7 +236,7 @@ const CustomerRegisterInfo = () => {
           <Typography variant='h6' align='left' className={classes.title}>관리정보</Typography>
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
-            <label className={classes.laebelStyle}>고객사 구분</label>
+            <label className={classes.laebelStyle}>고객사 구분 <span style={{ color: 'red' }}>*</span></label>
             {/* <Tooltip title={desc1}>
             <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
           </Tooltip> */}
@@ -246,7 +252,7 @@ const CustomerRegisterInfo = () => {
 
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
-            <label className={classes.laebelStyle}>구분</label>
+            <label className={classes.laebelStyle}>구분 <span style={{ color: 'red' }}>*</span></label>
             <StyledSelect
               showArrow
               showSearch={false}
@@ -299,7 +305,7 @@ const CustomerRegisterInfo = () => {
         <div>
           <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>담당자 이름 *</label>
+            <label className={classes.laebelStyle}>담당자 이름 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
             <Input
               name='man_name'
               onChange={handleChange}
@@ -307,7 +313,7 @@ const CustomerRegisterInfo = () => {
               placeholder="담당자 이름을 입력해주세요."
               margin="normal"
             />
-            <label className={classes.laebelStyle}>담당자 부서 *</label>
+            <label className={classes.laebelStyle}>담당자 부서 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
             <Input
               name='dept'
               onChange={handleChange}
