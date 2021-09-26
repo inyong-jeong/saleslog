@@ -43,7 +43,7 @@ const WgroupManagePage = (props) => {
   });
 
   //이전페이지
-  const navigateTo = () => history.push('/main/customer')
+  const navigateTo = () => history.goBack()
 
   //워크그룹 리스트 팝업
   const navigateNext = () => {
@@ -126,7 +126,7 @@ const WgroupManagePage = (props) => {
       </div>
       <Modal
         title="워크그룹 선택"
-        style={{ positon: 'fixed', left: 0, top: 100 }}
+        style={{ positon: 'fixed', left: 0, top: 100, cursor: 'pointer', }}
         visible={isShowModal}
         width={((isMobile) ? '90%' : '50%')}
         onOk={() => { setIsShowModal(false) }}
@@ -141,14 +141,16 @@ const WgroupManagePage = (props) => {
               left: 0,
               width: '100%',
               height: 70
-            }}><div
+            }}>
+            <div
               style={{
                 margin: 5,
                 fontSize: 16,
                 width: '90%',
                 backgroundColor: '#333333',
                 height: 48,
-              }}><Button
+              }}>
+              <Button
                 ghost
                 style={{
                   fontSize: 16,
@@ -158,7 +160,8 @@ const WgroupManagePage = (props) => {
                 key={1}
                 onClick={() => {
                   handelWGroupRegi()
-                }}>워크그룹 생성</Button></div>
+                }}>워크그룹 생성</Button>
+            </div>
           </div>
         ]}
       >
