@@ -15,7 +15,7 @@ const StyledMenu = styled(Menu)`
 }
 
 .ant-menu-item a{
-  color: #666666 ; 
+  color: #666666 !important;
 }
 .ant-menu-item::after, .ant-menu-inline {
   border-right: 3px solid #000 !important; 

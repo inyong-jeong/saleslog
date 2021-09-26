@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-//import { Menu, Switch, Divider } from 'antd';
 import StyledMenu from '../styledcomponent/Menu';
 import { ReactComponent as Home } from '../../../src/assets/icons/main/home.svg'
 import { ReactComponent as Customer } from '../../../src/assets/icons/main/customer.svg'
