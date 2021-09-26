@@ -9,7 +9,8 @@ import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
-import { Modal, Divider, Button, Avatar } from 'antd';
+import { Modal, Divider, Avatar } from 'antd';
+import StyledButton from '../../components/styledcomponent/Button';
 import { getWorkGroupInfo, getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { ReactComponent as EditIcon } from '../../assets/icons/workgroup/edit.svg'
@@ -150,17 +151,11 @@ const WgroupManagePage = (props) => {
                 backgroundColor: '#333333',
                 height: 48,
               }}>
-              <Button
-                ghost
-                style={{
-                  fontSize: 16,
-                  width: '100%',
-                  height: '100%'
-                }}
+              <StyledButton
                 key={1}
                 onClick={() => {
                   handelWGroupRegi()
-                }}>워크그룹 생성</Button>
+                }}>워크그룹 생성</StyledButton>
             </div>
           </div>
         ]}
