@@ -29,7 +29,7 @@ const AuthenticatingLayout = (props) => {
   return (
     <div className="container">
       <div className="text-center" style={{ position: "fixed", top: "50%", left: "50%" }}>
-        <Spinner color="primary" />
+        <Spinner color="#000000" />
         <div>
           <span>인증 중입니다...</span>
         </div>
