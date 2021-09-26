@@ -29,6 +29,7 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
   useEffect(() => {
     customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
   }, [customerId])
+  console.log("profile:::::", customerId, managerId)
 
   const registerAccountsMan = () => {
     history.push({

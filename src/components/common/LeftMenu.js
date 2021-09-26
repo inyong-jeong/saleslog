@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { Menu, Switch, Divider } from 'antd';
+//import { Menu, Switch, Divider } from 'antd';
+import StyledMenu from '../styledcomponent/Menu';
 import { ReactComponent as Home } from '../../../src/assets/icons/main/home.svg'
 import { ReactComponent as Customer } from '../../../src/assets/icons/main/customer.svg'
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
@@ -41,7 +42,7 @@ function LeftMenu() {
 
   return (
     <>
-      <Menu
+      <StyledMenu
         mode="inline"
         style={{ height: '100%', borderRight: 0 }}
         defaultSelectedKeys={'/main'}
@@ -49,15 +50,15 @@ function LeftMenu() {
       >
         {
           menuList.map(value =>
-            <Menu.Item key={value.to} icon={value.icon} >
+            <StyledMenu.Item key={value.to} icon={value.icon} >
               <Link to={value.to}>
                 {value.title}
               </Link>
-            </Menu.Item>
+            </StyledMenu.Item>
           )
         }
 
-      </Menu>
+      </StyledMenu>
     </>
   )
 }
