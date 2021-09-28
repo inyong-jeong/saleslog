@@ -17,7 +17,7 @@ const { Search } = Input;
 const GroupNoticePage = () => {
   const history = useHistory()
   const location = useLocation()
-  const navigateTo = () => history.push({pathname: '/main/etc/notice/group/register'})
+  const navigateTo = () => history.push({ pathname: '/main/etc/notice/group/register' })
   const dispatch = useDispatch()
   const state = useSelector(state => state.Etc)
   //const listCounts = state.listCounts
@@ -44,18 +44,18 @@ const GroupNoticePage = () => {
 
   useEffect(() => {
     if (page == 1 && loading == false) {
-      dispatch(getNoticeGrpList.call({srch:inputs.srch, pageno:page}))
+      dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
     }
   }, [inputs])
 
   useEffect(() => {
     if (loading == true) return
-    dispatch(getNoticeGrpList.call({srch:inputs.srch, pageno:page}))
+    dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
   }, [page])
 
   //paging 
   useEffect(() => {
-    console.log('state.getNotice:::::::::::::::::::::::',state.getNoticeGrpListRes)
+    console.log('state.getNotice:::::::::::::::::::::::', state.getNoticeGrpListRes)
     if (state.getNoticeGrpListRes && loading == false) {
       if (page == 1) {
         return setNoticeList(state.getNoticeGrpListRes)
@@ -96,7 +96,7 @@ const GroupNoticePage = () => {
         loading={loading}
         noticeType={'group'}
       />
-      
+
       <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
       </div>

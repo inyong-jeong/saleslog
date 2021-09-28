@@ -18,7 +18,7 @@ const NotificationSetting = () => {
     <>
       <MyAppBar
         barTitle='알림 설정'
-        showBackButton
+        //  showBackButton
         navigateTo={navigateTo}
       />
       <div style={{ margin: 10 }}>

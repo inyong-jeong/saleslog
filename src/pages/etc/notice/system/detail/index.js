@@ -58,12 +58,12 @@ const sysNoticeRegi = (props) => {
   return (
     (noticeData && noticeData.length > 0) &&
     <div >
-      {<MyAppBar
+      <MyAppBar
         barTitle={'시스템 공지'}
         showBackButton
         navigateTo={navigateTo}
         onEditClick={onEditClick}
-      />}
+      />
 
       <div style={{ marginTop: 20 }}>
         <label style={{ padding: 5, color: '#aaa' }}>제목 </label><br />

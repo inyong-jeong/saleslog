@@ -18,7 +18,7 @@ const SupportPage = () => {
     <div>
       <MyAppBar
         barTitle='지원센터'
-        showBackButton
+        // showBackButton
         navigateTo={navigateTo}
       />
       <FullTabs defaultActiveKey="1" onChange={onTabChange} >

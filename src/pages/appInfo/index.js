@@ -18,7 +18,7 @@ const AppInfo = () => {
     <>
       <MyAppBar
         barTitle='앱 정보'
-        showBackButton
+        //showBackButton
         navigateTo={navigateTo}
       />
       <FullTabs defaultActiveKey="1" onChange={onTabChange} >

@@ -17,7 +17,7 @@ const { Search } = Input;
 const SystemNoticePage = () => {
   const history = useHistory()
   const location = useLocation()
-  const navigateTo = () => history.push({pathname: '/main/etc/notice/system/register'})
+  const navigateTo = () => history.push({ pathname: '/main/etc/notice/system/register' })
   const dispatch = useDispatch()
   const state = useSelector(state => state.Etc)
   //const listCounts = state.listCounts
@@ -44,18 +44,18 @@ const SystemNoticePage = () => {
 
   useEffect(() => {
     if (page == 1 && loading == false) {
-      dispatch(getNoticeSysList.call({srch:inputs.srch, pageno:page}))
+      dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
     }
   }, [inputs])
 
   useEffect(() => {
     if (loading == true) return
-    dispatch(getNoticeSysList.call({srch:inputs.srch, pageno:page}))
+    dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
   }, [page])
 
   //paging 
   useEffect(() => {
-    console.log('state.getNotice:::::::::::::::::::::::',state.getNoticeSysListRes)
+    console.log('state.getNotice:::::::::::::::::::::::', state.getNoticeSysListRes)
     if (state.getNoticeSysListRes && loading == false) {
       if (page == 1) {
         return setNoticeList(state.getNoticeSysListRes)
@@ -96,7 +96,7 @@ const SystemNoticePage = () => {
         loading={loading}
         noticeType={'system'}
       />
-      
+
       <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
       </div>
