@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
-import { Spinner } from 'reactstrap';
+import { Spin } from 'antd'
 import { getOauthToken, } from 'redux/actions';
 import { isUserAuthenticated, getOauthCode, isUserAuthorized } from 'helpers/authUtils';
 import { removeAll } from 'helpers/authUtils';
@@ -27,13 +27,8 @@ const AuthenticatingLayout = (props) => {
   }, [isUserAuthenticated()])
 
   return (
-    <div className="container">
-      <div className="text-center" style={{ position: "fixed", top: "50%", left: "50%" }}>
-        <Spinner color="#000000" />
-        <div>
-          <span>인증 중입니다...</span>
-        </div>
-      </div>
+    <div style={{ textAlign: 'center', height: '100vh', lineHeight: '100vh' }}>
+      <Spin size='large' tip='Loading...' />
     </div>
   );
 

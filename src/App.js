@@ -6,7 +6,7 @@ import { createHashHistory } from "history";
 import { syncHistoryWithStore } from "react-router-redux";
 import { connect } from "react-redux";
 import Loadable from "react-loadable";
-import { Spinner } from "reactstrap";
+import { Spin } from 'antd'
 import 'wowjs/css/libs/animate.css';
 import { WOW } from 'wowjs';
 
@@ -21,8 +21,8 @@ import "./assets/scss/DefaultTheme.scss";
 // Lazy loading and code splitting -
 // Derieved idea from https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const loading = () => (
-  <div style={{ position: "fixed", top: "50%", left: "50%" }}>
-    <Spinner color="primary" />
+  <div style={{ textAlign: 'center', height: '100vh', lineHeight: '100vh' }}>
+    <Spin size='large' tip='Loading...' />
   </div>
 );
 
