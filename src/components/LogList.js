@@ -1,20 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Space, List, Divider, Badge, Avatar } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-
-
 function LogList({ loglist, handleNextPage, loglists }, props) {
-
-
   const BadgeStyle = {
     color: '#f5222d',
     cursor: 'pointer'
   }
-
+  // console.log(loglist)
   return (
     <>
       <InfiniteScroll

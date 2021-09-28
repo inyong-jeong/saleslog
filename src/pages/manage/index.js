@@ -18,6 +18,7 @@ import { useHistory } from 'react-router';
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
+
   const history = useHistory()
   const navigateTo = () => history.push({
     pathname: '/main/upload'
@@ -171,7 +172,7 @@ function SalesLogList(props) {
               }
             </TabPane>
             <TabPane tab="리드일지" key="3">
-              <SalesLogFilter />
+              <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
                   loglist={v}

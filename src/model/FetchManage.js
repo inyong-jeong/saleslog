@@ -41,7 +41,7 @@ const get_fetch = async (url) => {
 
 //post 
 const post_fetch = async (url, body) => {
-  const token = getOauthAccessToken();  
+  const token = getOauthAccessToken();
   let formBody = [];
   for (let property in body) {
     let encodedKey = encodeURIComponent(property)
@@ -68,13 +68,13 @@ const post_fetch = async (url, body) => {
 
 //post - file
 const post_fetch_files = async (url, data) => {
-  
+
   const token = getOauthAccessToken();
   let formData = new FormData();
-  console.log('data:::::::::::::',data)
+  // console.log('data:::::::::::::', data)
   for (let key in data) {
     if (key === 'fileup' || key === 'man_photo') {
-console.log('fileup:: key:::::::::::::::',key, data[key])
+      // console.log('fileup:: key:::::::::::::::', key, data[key], data[key].length)
       if (data[key] && data[key].length > 0) {
         for (let i = 0; i < data[key].length; i++) {
           // if (data[key].length === 0) {
@@ -82,10 +82,11 @@ console.log('fileup:: key:::::::::::::::',key, data[key])
           // }
           formData.append(key, data[key][i]);
         }
-        console.log('fileup::::::::::::::::::::::::::::::',formData)
+        // console.log('fileup::::::::::::::::::::::::::::::', formData)
       }
     } else {
       formData.append(key, data[key]);
+      // console.log('fffffffffffffff', formData);
     }
   }
   const response = await fetch(url, {

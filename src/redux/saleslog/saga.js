@@ -45,6 +45,8 @@ import {
   post_fetch_files
 } from 'model/FetchManage'
 
+import { successMessage, errorMessage } from '../../constants/commonFunc'
+
 
 //일지작성 관련
 
@@ -145,15 +147,23 @@ function* _putSalesLog({ payload: { data } }) {
 
 function* _putFile({ payload: { data } }) {
   try {
-    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_saleslog_file', data);
+
+    console.log(1111)
+    const response = yield call(post_fetch_files, 'https://backend.saleslog.co/saleslog/upd_saleslog_file', data);
     yield put(putFile.success(response));
+    yield successMessage(response.message)
+
   } catch (error) {
     yield put(putFile.error(error));
+    // yield errorMessage(error.message)
+    yield window.alert(error.message)
   }
 }
 
+
 function* _deleteFile({ payload: { data } }) {
   try {
+    console.log(22222)
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog_file', data);
     yield put(deleteFile.success(response));
   } catch (error) {
@@ -166,7 +176,6 @@ function* _deleteFile({ payload: { data } }) {
 function* _postComment({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_feedback', data);
-    console.log('post', response)
     yield put(postComment.success(response));
   } catch (error) {
     yield put(postComment.error(error));
@@ -175,8 +184,6 @@ function* _postComment({ payload: { data } }) {
 function* _putComment({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_feedback', data);
-    console.log('put', response)
-
     yield put(putComment.success(response));
   } catch (error) {
     yield put(putComment.error(error));
@@ -185,8 +192,6 @@ function* _putComment({ payload: { data } }) {
 function* _deleteComment({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_feedback', data);
-    console.log('delete', response)
-
     yield put(deleteComment.success(response));
   } catch (error) {
     yield put(deleteComment.error(error));
@@ -195,8 +200,6 @@ function* _deleteComment({ payload: { data } }) {
 function* _getCommentLists({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/list_feedback', data);
-    console.log('get', response)
-
     yield put(getCommentLists.success(response));
   } catch (error) {
     yield put(getCommentLists.error(error));

@@ -37,7 +37,14 @@ import {
   DELETE_COMMENT_ERROR,
   GET_COMMENT_LISTS,
   GET_COMMENT_LISTS_SUCCESS,
-  GET_COMMENT_LISTS_ERROR
+  GET_COMMENT_LISTS_ERROR,
+  PUT_FILE,
+  PUT_FILE_SUCCESS,
+  PUT_FILE_ERROR,
+  DELETE_FILE,
+  DELETE_FILE_SUCCESS,
+  DELETE_FILE_ERROR
+
 
 } from '../../constants/actionTypes';
 
@@ -60,12 +67,16 @@ const INIT_STATE = {
   loadSearchsDone: false,
   // hasMoreLogs: true,
   log: null,
+  logneeds: null,
+  logcouser: null,
   commentlists: null,
   comment: null,
   commentchange: null,
   commentdelete: null,
-
-
+  getloglistloading: false,
+  putfileloading: false,
+  putfileuploading: false,
+  deletefileloading: false,
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
@@ -120,11 +131,11 @@ const SalesLog = (state = INIT_STATE, action) => {
     case SEARCH_SALESLOG_LIST_ERROR:
       return { ...state, loadLogsLoading: false, loadLogsDone: false };
     case GET_SALESLOG:
-      return { ...state };
+      return { ...state, getloglistloading: true };
     case GET_SALESLOG_SUCCESS:
-      return { ...state, log: action.payload.response.message };
+      return { ...state, getloglistloading: false, log: action.payload.response.message[0][0], logcouser: action.payload.response.message[1], logneeds: action.payload.response.message[2] };
     case GET_SALESLOG_ERROR:
-      return { ...state };
+      return { ...state, getloglistloading: false };
     //피드백 관련
     case POST_COMMENT:
       return { ...state };
@@ -150,7 +161,19 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, commentlists: action.payload.response.message };
     case GET_COMMENT_LISTS_ERROR:
       return { ...state };
-
+    //첨부파일
+    case PUT_FILE:
+      return { ...state, putfileloading: false };
+    case PUT_FILE_SUCCESS:
+      return { ...state, putfileloading: true };
+    case PUT_FILE_ERROR:
+      return { ...state, putfileloading: false };
+    case DELETE_FILE:
+      return { ...state, deletefileloading: false };
+    case DELETE_FILE_SUCCESS:
+      return { ...state, deletefileloading: true };
+    case DELETE_FILE_ERROR:
+      return { ...state, deletefileloading: false };
     default:
       return { ...state };
   }

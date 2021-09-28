@@ -103,9 +103,9 @@ export const PUT_FILE = 'UPLOAD_FILE'; // 파일 수정
 export const PUT_FILE_SUCCESS = 'UPLOAD_FILE_SUCCESS';
 export const PUT_FILE_ERROR = 'UPLOAD_FILE_ERROR';
 
-export const DELETE_FILE = 'UPLOAD_FILE'; // 파일 삭제
-export const DELETE_FILE_SUCCESS = 'UPLOAD_FILE_SUCCESS';
-export const DELETE_FILE_ERROR = 'UPLOAD_FILE_ERROR';
+export const DELETE_FILE = 'DELETE_FILE'; // 파일 삭제
+export const DELETE_FILE_SUCCESS = 'DELETE_FILE_SUCCESS';
+export const DELETE_FILE_ERROR = 'DELETE_FILE_ERROR';
 
 export const SELECT_USER_LIST = 'SELECT_USER_LIST'; // 사용자 검색
 export const SELECT_USER_LIST_SUCCESS = 'SELECT_USER_LIST_SUCCESS';
@@ -278,7 +278,7 @@ export const POST_DEPT_UPD_ERROR = 'POST_DEPT_UPD_ERROR'
 //워크그룹 부서 삭제
 export const POST_DEPT_DEL = 'POST_DEPT_DEL'
 export const POST_DEPT_DEL_SUCCESS = 'POST_DEPT_DEL_SUCCESS'
-export const POST_DEPT_DEL_ERROR =   'POST_DEPT_DEL_ERROR'
+export const POST_DEPT_DEL_ERROR = 'POST_DEPT_DEL_ERROR'
 
 
 //etc 프로파일 보기
