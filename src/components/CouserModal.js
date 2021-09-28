@@ -55,7 +55,7 @@ const CouserModal = (props) => {
   return (
     <div>
       <label color="primary" onClick={handleOnClick} style={{ cursor: 'pointer' }}>
-        <img className="ml-2" src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
+        <img className="ml-2" style={{ positon: 'fixed' }} src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
       </label>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>공동작성자 추가</ModalHeader>
@@ -69,8 +69,8 @@ const CouserModal = (props) => {
             classNamePrefix="select" />
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={AddCoUser}>등록</Button>{' '}
-          <Button color="secondary" onClick={toggle}>취소</Button>
+          <Button color="dark" onClick={AddCoUser}>등록</Button>{' '}
+          <Button color="light" onClick={toggle}>취소</Button>
         </ModalFooter>
       </Modal>
     </div>

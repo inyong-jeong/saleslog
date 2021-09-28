@@ -91,11 +91,11 @@ const LogListModal = (props) => {
         </ModalBody>
         <ModalFooter>
           {(editbutton === false) &&
-            <Button color="primary" onClick={EditContent}>편집</Button>}
+            <Button color="dark" onClick={EditContent}>편집</Button>}
           {(editbutton === false) &&
-            <Button color="secondary" onClick={toggle}>취소</Button>}
+            <Button color="light" onClick={toggle}>취소</Button>}
           {(editbutton === true) &&
-            <Button color="primary" onClick={toggle}>완료</Button>}
+            <Button color="dark" onClick={toggle}>완료</Button>}
         </ModalFooter>
       </Modal>
     </div>
