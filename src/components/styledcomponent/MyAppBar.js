@@ -147,10 +147,21 @@ const MyAppBar = ({
   );
 
   return (
-    <div>
+    <div
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        backgroundColor: '#fff'
+      }}>
       <div>
         <div
-          style={{ height: 48, justifyContent: 'center', alignItems: 'center', background: '#ffffff', position: 'sticky', top: 0, }}
+          style={{
+            height: 48,
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           color='default'>
           <Toolbar>
             {
