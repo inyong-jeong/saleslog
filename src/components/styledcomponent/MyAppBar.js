@@ -1,6 +1,10 @@
-import { AppBar, Badge, Toolbar, Typography, IconButton } from '@material-ui/core';
+import {
+  Badge, Toolbar, Typography,
+  IconButton,
+  //Menu, MenuItem
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useMediaQuery } from "react-responsive";
@@ -46,6 +50,7 @@ const useStyles = makeStyles({
 //navigateNext ->  텍스트 옆에 다른 곳으로 이동하는 오른쪽 버튼 넣어주고 싶을 때 정의 
 //showAddButton -> 오른쪽에 + 버튼 표시 
 //onAddClick ->  showAddButton 의 클릭 이벤트 정의 
+
 const MyAppBar = ({
   barTitle,
   showBackButton,
@@ -54,23 +59,33 @@ const MyAppBar = ({
   onEditClick,
   onSaveClick,
   notiClick,
-  //profileClick,
   navigateNext,
   tempSaveClick,
   onAddClick,
   badgeContent,
   deleteClick,
+
 }) => {
+
   const history = useHistory()
   const classes = useStyles()
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
 
+  // const [anchorEl, setAnchorEl] = useState(null)
+  // const open = Boolean(open)
+
   const onProfileClick = (e) => {
     console.log('프로필 클릭 ', e)
-
+    // setAnchorEl(e.currentTarget)
   }
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const onLogoutClick = () => {
     confirm({
@@ -90,6 +105,8 @@ const MyAppBar = ({
 
   }
   //profile menu 
+  //warnKey error & keyEvent error는 link로 감싸서 생기는 문제
+  // 안에 키값으로 이동하는 걸로 바꿔야됨 
   const menu = (
     <Menu onClick={onProfileClick} >
       <Link to={'/main/etc/profile'}>
@@ -151,7 +168,9 @@ const MyAppBar = ({
                     <Noti stroke='#333333' />
                   </Badge>
                 </IconButton>
-                <Dropdown overlay={menu}>
+                <Dropdown
+                  trigger="click"
+                  overlay={menu}>
                   <IconButton color="inherit">
                     <Person stroke='#333333' />
                   </IconButton>
