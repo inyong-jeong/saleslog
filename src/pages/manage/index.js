@@ -149,7 +149,7 @@ function SalesLogList(props) {
       <Row>
         <Col sm={24} xs={24} md={24} lg={24} >
           <FullTabs type='line' defaultActiveKey="1" onChange={onTabChange}>
-            <TabPane tab="전체" key="1">
+            {/* <TabPane tab="전체" key="1">
               <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
@@ -159,7 +159,7 @@ function SalesLogList(props) {
                   loglists={loglists} />
               ))
               }
-            </TabPane>
+            </TabPane> */}
             <TabPane tab="영업일지" key="2">
               <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
@@ -172,7 +172,7 @@ function SalesLogList(props) {
               }
             </TabPane>
             <TabPane tab="리드일지" key="3">
-              <SalesLogFilter data={data} setData={setData} />
+              <LeadLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
                   loglist={v}

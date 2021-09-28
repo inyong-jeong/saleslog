@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import {
   getorganization, getorganizationusers
 } from 'redux/actions';
+import cmm from 'constants/common';
 
 
 const SalesLogFilter = (props) => {
@@ -22,7 +23,7 @@ const SalesLogFilter = (props) => {
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
   const [channel, setChannel] = useState('');
-  const [key, setKey] = useState(0);
+  const [chgCombo, setChgCombo] = useState(0);
 
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
@@ -48,12 +49,13 @@ const SalesLogFilter = (props) => {
     { label: '제안', value: '0050003' },
     { label: '검증', value: '0050004' }];
 
-
+  //하위부서 조회
   const [filterdata, setFilterData] = useState({
     dept_idx: 0,
     typ: 'lvl'
   })
 
+  //부서별 사용자 조회
   const [data, setData] = useState({
     dept_idx: 0,
     typ: 'tree'
@@ -61,53 +63,88 @@ const SalesLogFilter = (props) => {
 
   //마운트 될 때 
   useEffect(() => {
+    //
     props.getorganization(filterdata)
+
   }, [])
 
-  // 대분류 선택
-  useEffect(() => {
-    if (selectedOrganization1) {
-      props.getorganization(filterdata)
-      setKey(1)
-    }
-  }, [selectedOrganization1])
 
-  console.log(props.organizationuserlist);
+  //맴버조회 fetch 후  
   useEffect(() => {
     if (props.organizationuserlist) {
       const userlist = props.organizationuserlist.map(v => v.login_idx);
       console.log(userlist)
       props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
-
+      setSelectedItems([]);
     }
   }, [props.organizationuserlist])
+
+
+  //부서조회 fetch 후
   useEffect(() => {
+    console.log('부서조회:::::::::::::::', chgCombo, props.organizationlist)
     if (props.organizationlist) {
-      if (key === 0) {
+      if (chgCombo === 0) {
         setBigList(props.organizationlist)
-      } else if (key === 1) {
+      } else if (chgCombo === 1) {
         setMiddleList(props.organizationlist)
-      } else if (key === 2) {
+      } else if (chgCombo === 2) {
         setSmallList(props.organizationlist)
       }
+      setChgCombo(0)
     }
   }, [props.organizationlist])
 
+
+  // 대분류 선택
+  useEffect(() => {
+    console.log('selidx:::22222222222:', selectedOrganization1)
+    if (!cmm.isEmpty(selectedOrganization1)) {
+      //props.getorganization(filterdata)
+      setChgCombo(1)
+    }
+  }, [selectedOrganization1])
+
   //중분류 선택
   useEffect(() => {
-    if (selectedOrganization2) {
-      props.getorganization(filterdata)
-      setKey(2)
+    if (!cmm.isEmpty(selectedOrganization2)) {
+      //props.getorganization(filterdata)
+      setChgCombo(2)
     }
   }, [selectedOrganization2])
 
   // 소분류 선택
   useEffect(() => {
-    if (selectedOrganization3) {
-      props.getorganizationusers(data)
-      // setKey(3)
+    if (!cmm.isEmpty(selectedOrganization3)) {
+      //props.getorganizationusers(data)
+      setChgCombo(3)
     }
   }, [selectedOrganization3])
+
+  // 부서 선택 후
+  useEffect(() => {
+    console.log('chgCombo::::::::::::::', chgCombo, selectedOrganization1)
+    if (chgCombo === 1) {
+      //하위부서 조회
+      props.getorganization({ dept_idx: selectedOrganization1, typ: 'lvl' })
+      //부서별 맴버 조회
+      props.getorganizationusers({ dept_idx: selectedOrganization1, typ: 'tree' })
+
+    } else if (chgCombo === 2) {
+
+      //하위부서 조회
+      props.getorganization({ dept_idx: selectedOrganization2, typ: 'lvl' })
+      //부서별 맴버 조회
+      props.getorganizationusers({ dept_idx: selectedOrganization2, typ: 'tree' })
+
+    } else if (chgCombo === 3) {
+      //하위부서 조회
+      props.getorganization({ dept_idx: selectedOrganization3, typ: 'lvl' })
+      //부서별 맴버 조회
+      props.getorganizationusers({ dept_idx: selectedOrganization3, typ: 'tree' })
+
+    }
+  }, [chgCombo])
 
   // 멤버 선택
   useEffect(() => {
@@ -125,25 +162,51 @@ const SalesLogFilter = (props) => {
   const selectStyle =
     { width: '100%' }
 
+
   const onOrganizationSelectChange1 = (v) => {
-    console.log(v)
+    console.log('delidx:::vvvvvvvvvvvvvv::::::::::::::', v)
     setSelectedOrganization1(v);
+    setSelectedOrganization2('');
+    setSelectedOrganization3('');
+    setMiddleList([]);
+    setSmallList([]);
+    if (v !== '') {
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
+    }
+
     // setBigList(props.organizationlist)
-    setFilterData({ ...filterdata, 'dept_idx': v })
-    setData({ ...data, 'dept_idx': v })
+    //setFilterData({ ...filterdata, 'dept_idx': v })
+    //setChgNo(1)
+
+    //setData({ ...data, 'dept_idx': v })
   }
 
   const onOrganizationSelectChange2 = (v) => {
     setSelectedOrganization2(v);
+    setSelectedOrganization3('');
+    setSmallList([]);
+    if (v !== '') {
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      props.getorganizationusers({ dept_idx: selectedOrganization1, typ: 'tree' })
+    }
     // setMiddleList(props.organizationlist)
-    setFilterData({ ...filterdata, 'dept_idx': v })
-    setData({ ...data, 'dept_idx': v })
+    //setFilterData({ ...filterdata, 'dept_idx': v })
+    //setData({ ...data, 'dept_idx': v })
   }
   const onOrganizationSelectChange3 = (v) => {
     setSelectedOrganization3(v);
+    if (v !== '') {
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      props.getorganizationusers({ dept_idx: selectedOrganization2, typ: 'tree' })
+    }
+
     // setSmallList(props.organizationlist)
-    setFilterData({ ...filterdata, 'dept_idx': v })
-    setData({ ...data, 'dept_idx': v })
+    //setFilterData({ ...filterdata, 'dept_idx': v })
+    //setData({ ...data, 'dept_idx': v })
   }
 
   function filterList(label) {
@@ -196,7 +259,6 @@ const SalesLogFilter = (props) => {
   };
 
 
-
   const [selectedItems, setSelectedItems] = useState([])
   const filteredlist = props.organizationuserlist && props.organizationuserlist.map(v => v.user_name);
   const filteredOptions = filteredlist && filteredlist.filter((v) => !selectedItems.includes(v))
@@ -206,7 +268,7 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='대분류'
             style={selectStyle}
-            options={biglist && biglist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            options={biglist && cmm.selComboList(biglist)}
             value={selectedOrganization1}
             onChange={onOrganizationSelectChange1}
           />
@@ -214,14 +276,14 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='중분류'
             style={selectStyle}
-            options={middlelist && middlelist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            options={middlelist && cmm.selComboList(middlelist)}
             onChange={onOrganizationSelectChange2}
             value={selectedOrganization2} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='소분류'
             style={selectStyle}
-            options={smalllist && smalllist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            options={smalllist && cmm.selComboList(smalllist)}
             onChange={onOrganizationSelectChange3}
             value={selectedOrganization3} />
         </Col>
@@ -245,7 +307,7 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='단계'
             style={selectStyle}
-            // isDisabled={true}
+            disabled={true}
             options={leadActivityOption}
             value={leadActivityOption.value}
             onChange={onLeadActivity} />

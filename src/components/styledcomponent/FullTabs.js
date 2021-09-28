@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 const FullTabs = styled(Tabs)`
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #333333 !important; 
+  color: #333333 ; 
   font-weight: 500;
 
 }
@@ -20,15 +20,15 @@ text-align: center;
 
 }
 .ant-tabs-tab:hover{
-  color: #333333;
+  color: #818181;
 }
 
 .ant-tabs-nav > div:nth-of-type(1) {
-display: unset !important;
-width: 100% !important;
+display: unset ;
+width: 100% ;
 }
 .ant-tabs-tab-active{
-  border-bottom: 2px solid #333333 !important;
+  border-bottom: 2px solid #333333 ;
   z-index: 2;
   color: #333333
   font-size: 14px;

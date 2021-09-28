@@ -24,42 +24,54 @@ cmm.isEmpty = (data) => {
   }
 }
 
+//콤보박스 선택없음 추가
+cmm.selComboList = (v) => {
+  let rtn = [];
+
+  rtn[0] = { value: '', label: '선택없음' };
+  for (let i = 0; i < v.length; i++) {
+    rtn[i + 1] = { value: v[i].dept_idx, label: v[i].dept_name };
+  }
+  return rtn;
+}
+
+
 //windows screen size
 cmm.windowSize = () => {
   const { innerWidth: width, innerHeight: height } = window;
-  return {width, height};
+  return { width, height };
 }
 
 //permission
 cmm.permission = (data) => {
   switch (data) {
-    case '0' :
+    case '0':
       return 'Master';
-    case '1' :
+    case '1':
       return 'Chief';
-    case '2' :
+    case '2':
       return 'Manager';
-    case '9' :
+    case '9':
       return 'Staff';
-    default :
+    default:
       return 'Staff';
-  } 
+  }
 }
 
 //permission 한글
 cmm.permissionH = (data) => {
   switch (data) {
-    case '0' :
+    case '0':
       return '마스터';
-    case '1' :
+    case '1':
       return '치프';
-    case '2' :
+    case '2':
       return '매니저';
-    case '9' :
+    case '9':
       return '구성원';
-    default :
+    default:
       return '구성원';
-  } 
+  }
 }
 
 
