@@ -2,6 +2,7 @@ import React from 'react'
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import { useHistory } from 'react-router';
 import FullTabs from '../../components/styledcomponent/FullTabs';
+import Serviceinfo from './info';
 
 const { TabPane } = FullTabs;
 const AppInfo = () => {
@@ -22,10 +23,10 @@ const AppInfo = () => {
       />
       <FullTabs defaultActiveKey="1" onChange={onTabChange} >
         <TabPane tab='서비스 이용약관' key='1'>
-
+          <Serviceinfo />
         </TabPane>
-        <TabPane tab='개인정보 처리방침' key='2'></TabPane>
-        <TabPane tab='위치서비스 약관' key='3'></TabPane>
+        {/* <TabPane tab='개인정보 처리방침' key='2'></TabPane>
+        <TabPane tab='위치서비스 약관' key='3'></TabPane> */}
       </FullTabs>
     </>
   );
