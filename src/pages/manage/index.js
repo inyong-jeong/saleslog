@@ -100,7 +100,8 @@ function SalesLogList(props) {
 
 
   //검색어 추가
-  const handleAddKeyword = (text) => {
+  const handleAddKeyword = (text, focus) => {
+    console.log(focus)
     console.log('text', text)
     const newKeyword = {
       id: Date.now(),
@@ -125,7 +126,9 @@ function SalesLogList(props) {
 
   //최근검색어 display
   const [focus, setFocus] = useState(false)
+  const [click, setClick] = useState()
   const onSearch = (keyword) => {
+    console.log(keyword)
     if (keyword) {
       setFocus(keyword)
     } else {

@@ -65,9 +65,10 @@ const MyAppBar = ({
   onAddClick,
   badgeContent,
   deleteClick,
+  onRevise,
+  paramId
 
 }) => {
-
   const history = useHistory()
   const classes = useStyles()
   const isMobile = useMediaQuery({
@@ -147,7 +148,6 @@ const MyAppBar = ({
       </Menu.Item>
     </Menu>
   );
-
   return (
     <div
       style={{
@@ -206,9 +206,17 @@ const MyAppBar = ({
                 </Button>
               </div>
             }
+            {
+              (paramId && onRevise) &&
+              <div className={classes.textButtonStyle}>
+                <Button size="small" onClick={onRevise} >
+                  수정 완료
+                </Button>
+              </div>
+            }
 
             {
-              tempSaveClick &&
+              (!paramId && tempSaveClick) &&
               <div className={classes.tempButtonStyle}>
                 <Button size="small" onClick={tempSaveClick} >
                   임시저장
@@ -216,7 +224,8 @@ const MyAppBar = ({
               </div>
             }
 
-            {onSaveClick &&
+            {
+              (!paramId && onSaveClick) &&
               <div className={classes.textButtonStyle}>
                 <Button size="small" onClick={onSaveClick} >
                   저장

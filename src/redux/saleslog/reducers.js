@@ -43,7 +43,8 @@ import {
   PUT_FILE_ERROR,
   DELETE_FILE,
   DELETE_FILE_SUCCESS,
-  DELETE_FILE_ERROR
+  DELETE_FILE_ERROR,
+  CLEAR_SALESLOG
 
 
 } from '../../constants/actionTypes';
@@ -81,6 +82,8 @@ const INIT_STATE = {
 
 const SalesLog = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
+    case CLEAR_SALESLOG:
+      return { ...state, log: null };
     case POST_SALESLOG:
       return { ...state, submitLoading: true };
     case POST_SALESLOG_SUCCESS:

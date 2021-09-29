@@ -15,7 +15,8 @@ import {
   POST_COMMENT,
   PUT_COMMENT,
   DELETE_COMMENT,
-  GET_COMMENT_LISTS
+  GET_COMMENT_LISTS,
+  CLEAR_SALESLOG
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -43,3 +44,7 @@ export const postComment = fetchActionGenerator(POST_COMMENT, 'data');
 export const putComment = fetchActionGenerator(PUT_COMMENT, 'data');
 export const deleteComment = fetchActionGenerator(DELETE_COMMENT, 'data');
 export const getCommentLists = fetchActionGenerator(GET_COMMENT_LISTS, 'data');
+
+export const clearLog = () => ({
+  type: CLEAR_SALESLOG,
+});

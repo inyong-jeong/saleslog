@@ -71,8 +71,11 @@ function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
     SearchChange(e.target.value)
   }
 
+  console.log(keyword)
+
   const handleEnter = (e) => {
-    if (keyword && e.keyCode === 13) {
+    console.log(e)
+    if (keyword) {
       onAddKeyword(keyword)
       setKeyword('')
       SearchEnter(false)
@@ -84,6 +87,11 @@ function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
   }
   const hasKeyword = !!keyword
 
+  const ref = useRef();
+  const handleOnClick = (e) => {
+    console.log(e.type)
+
+  }
   return (
     <>
       <div>
@@ -96,10 +104,13 @@ function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
           onKeyDown={handleEnter}
         /> */}
         <Search
-          placeholder="검색어를 입력해주세요"
+          // ref={ref}
+          onClick={handleOnClick}
+          placeholder="검색어(고객사명, 고객사 담당자명, 장소명, 일지내용)"
           allowClear
           value={keyword}
           onChange={handleKeyword}
+          // enterButton={handleEnter}
           onSearch={handleEnter}
           style={{
             width: '100%',

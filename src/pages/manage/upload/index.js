@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import {
   postSalesLog, selectAccounts, selectAccountperson,
-  postTemporarySalesLog, uploadFile, getUserList
+  postTemporarySalesLog, uploadFile, getUserList, getLogList, clearLog, putSalesLog
 } from 'redux/actions';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
@@ -16,6 +16,7 @@ import LogListModal from 'components/LogListModal'
 import CustomerModal from 'components/CustomerModal'
 import moment from 'moment';
 import 'moment/locale/ko';
+// import { getLogLists, getLogList } from '../../../redux/saleslog/actions';
 
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
@@ -47,33 +48,41 @@ console.log(salesChannelOption);
 function UploadSalesLog(props) {
 
 
+
   const [channelindex, setChannelIndex] = useState('');
   const [activityindex, setActivitylIndex] = useState('');
   const [accountindex, setAccountIndex] = useState('');
+
+
+  //일지 등록 스테이트
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(0);
   const [selectedAccountperson, setSelectedAccountPerson] = useState(0);
-  const [error, setError] = useState();
-  const [dateString, setDateString] = useState(moment());
-  const [location, setLocation] = useState('');
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
   const [radiocheck, setRadioCheck] = useState('0010001');
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
   const [channel, setChannel] = useState('');
-  const InputStyle = { border: '1px solid #AAAAAA' }
-  const { TextArea } = Input;
-  const format = 'HH:mm';
-  const Dateformat = 'YYYY-MM-DD';
-  const [selectedFiles, setSelectedFiles] = useState(undefined);
-  const [message, setMessage] = useState("");
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [couser, setCoUser] = useState([])
   const [couserlist, setCoUserList] = useState('');
+
+
+
+  const InputStyle = { border: '1px solid #AAAAAA' }
+  const [selectedFiles, setSelectedFiles] = useState(undefined);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState();
+
+
+  //날짜 스테이트
+
+  const [dateString, setDateString] = useState(moment());
+  const [start, setStart] = useState(moment());
+  const [end, setEnd] = useState(moment());
+
+
+  const { TextArea } = Input;
 
 
   const temporaryLogListId = props.temporaryLoglist ? props.temporaryLoglist[0] : null
@@ -98,44 +107,71 @@ function UploadSalesLog(props) {
     return result
   }
 
-  console.log(dateString)
+  function getCousrList(v) {
+    let result = []
+    for (let i = 0; i < v.length; i++) {
+      result = result.concat(v[i].login_idx)
+    }
+    return result;
+  }
+
 
   useEffect(() => {
-    //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
-    if (temporaryLogListId) {
-      const { meeting_date, meeting_stime, meeting_etime, acc_idx, accm_idx, sales_gb, sales_goal, sales_lead_gb
-        , sales_activity, title, log, addr } = props.temporaryLoglist[0]
-      console.log(props.temporaryLoglist[0])
-      const index = getSeletedChannel(sales_activity);
-      const activityindex = getSeletedActivity(sales_goal)
-      console.log(index)
-      console.log(activityindex)
-      const result = Date(meeting_date);
-      console.log(result)
-      setDateString(result)
-      // setStart(meeting_stime)
-      // setEnd(meeting_etime)
-      // setSelectedAccount(acc_idx)
-      // setSelectedAccountPerson(accm_idx)
-      // setRadioCheck(sales_gb)
-      // setLeadActivity(sales_lead_gb)
+    if (props.match.params.id) {
+      console.log(1111111111);
+      const data = {
+        sidx: props.match.params.id
+      }
+      props.getLogList(data)
+      // console.log(props.log[0]);
+
+    }
+  }, [props.match.params.id])
+
+  useEffect(() => {
+    if (props.log) {
+      const index = getSeletedChannel(props.log.sales_activity);
+      const activityindex = getSeletedActivity(props.log.sales_goal)
+
+      //영업활동 채널 데이터 set
+      setSelectedAccount({ label: '테스트', value: 10000035 })
+      setSelectedAccountPerson({ label: '담당자 테스트', value: 10000006 })
       setActivitylIndex(activityindex)
       setChannelIndex(index)
-      setLocation(addr)
-      setTitle(title)
-      setContent(log)
-      // setFromData({
-      //   ...fromData,
-      //   'title': title
-      // })
+      //날짜 및 시간 데이터 set
+      setDateString(moment(new Date(props.log.meeting_date)));
+      setStart(moment(new Date(`2021-09-18 ${props.log.meeting_stime}`)));
+      setEnd(moment(new Date(`2021-09-18 ${props.log.meeting_etime}`)));
+
+      setFromData({
+        slog_idx: props.match.params.id,
+        title: props.log.title,
+        log: props.log.log,
+        addr: props.log.addr,
+        // acc_idx: props.log.acc_idx,
+        // accm_idx: props.log.accm_idx,
+        sales_gb: props.log.sales_gb,
+        sales_lead_gb: props.log.sales_lead_gb,
+        sales_goal: props.log.sales_goal,
+        sales_activity: props.log.sales_activity,
+        meeting_date: props.log.meeting_date,
+        meeting_stime: props.log.meeting_stime,
+        meeting_etime: props.log.meeting_etime,
+        lati: 0,
+        longi: 0,
+        score: '',
+      })
+      console.log(fromData)
     }
-  }, [temporaryLogListId])
+    return () => { props.clearLog() }
+  }, [props.log])
 
 
-  console.log(props.match.params)
   // useEffect(() => {
   //   //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
   //   if (props.match.params.id) {
+
+  //     console.log(props.match.params.id)
   //     const { meeting_date, meeting_stime, meeting_etime, acc_idx, accm_idx, sales_gb, sales_goal, sales_lead_gb
   //       , sales_activity, title, log, addr } = props.log[0]
   //     const index = getSeletedChannel(sales_activity);
@@ -143,21 +179,21 @@ function UploadSalesLog(props) {
   //     console.log(index)
   //     console.log(activityindex)
   //     setDateString(new Date(meeting_date));
-  //     // setStart(meeting_stime)
-  //     // setEnd(meeting_etime)
-  //     // setSelectedAccount(acc_idx)
-  //     // setSelectedAccountPerson(accm_idx)
-  //     // setRadioCheck(sales_gb)
-  //     // setLeadActivity(sales_lead_gb)
+  //     setStart(meeting_stime)
+  //     setEnd(meeting_etime)
+  //     setSelectedAccount(acc_idx)
+  //     setSelectedAccountPerson(accm_idx)
+  //     setRadioCheck(sales_gb)
+  //     setLeadActivity(sales_lead_gb)
   //     setActivitylIndex(activityindex)
   //     setChannelIndex(index)
   //     setLocation(addr)
   //     setTitle(title)
   //     setContent(log)
-  //     // setFromData({
-  //     //   ...fromData,
-  //     //   'title': title
-  //     // })
+  //     setFromData({
+  //       ...fromData,
+  //       'title': title
+  //     })
   //   }
   // }, [props.match.params.id])
 
@@ -169,12 +205,12 @@ function UploadSalesLog(props) {
     sales_lead_gb: leadactivity,
     sales_goal: activity,
     sales_activity: channel,
-    meeting_date: dateString,
-    meeting_stime: start,
-    meeting_etime: end,
-    title: title,
-    log: content,
-    addr: location,
+    meeting_date: moment().format('YYYY-MM-DD'),
+    meeting_stime: moment().format('HH:mm'),
+    meeting_etime: moment().format('HH:mm'),
+    title: '',
+    log: '',
+    addr: '',
     lati: 0,
     longi: 0,
     score: '',
@@ -182,10 +218,6 @@ function UploadSalesLog(props) {
     fileup: selectedFiles
   })
   console.log(fromData)
-
-  // useEffect(() => {
-  //   setFromData({ ...fromData, meeting_date: moment().format('YYYY-MM-DD') })
-  // }, [])
 
   useEffect(() => {
     if (props.postSalesLogError) {
@@ -210,7 +242,7 @@ function UploadSalesLog(props) {
     }
     props.selectAccounts(data)
   }, [])
-
+  console.log(fromData);
   useEffect(() => {
     if (selectedAccount) {
       const accountperson = {
@@ -225,16 +257,16 @@ function UploadSalesLog(props) {
 
   const onDatePickerChange = (date) => {
     console.log(date)
-    const convertdate = moment(date).format('YYYY-MM-DD');
     setDateString(date)
+    const convertdate = moment(date).format('YYYY-MM-DD');
     setFromData({
       ...fromData,
       'meeting_date': convertdate
     })
   }
   const onChangesSartValue = (stime) => {
-    const convertstime = moment(stime).format('HH:mm');
     setStart(stime)
+    const convertstime = moment(stime).format('HH:mm');
     setFromData({
       ...fromData,
       'meeting_stime': convertstime
@@ -242,8 +274,8 @@ function UploadSalesLog(props) {
   }
 
   const onChangeEndValue = (etime) => {
-    const convertetime = moment(etime).format('HH:mm');
     setEnd(etime)
+    const convertetime = moment(etime).format('HH:mm');
     setFromData({
       ...fromData,
       'meeting_etime': convertetime
@@ -316,7 +348,6 @@ function UploadSalesLog(props) {
 
 
   const onChangeLocation = (e) => {
-    setLocation(e.target.value)
     setFromData({
       ...fromData,
       'addr': e.target.value
@@ -324,17 +355,15 @@ function UploadSalesLog(props) {
   }
 
   const onChangeTitle = (e) => {
-    setTitle(e.target.value)
     setFromData({
       ...fromData,
-      'title': title
+      'title': e.target.value
     })
   }
   const onChangeContent = (e) => {
-    setContent(e.target.value)
     setFromData({
       ...fromData,
-      'log': content
+      'log': e.target.value
     })
   }
 
@@ -369,6 +398,7 @@ function UploadSalesLog(props) {
   }
 
   const onFormSubmit = () => {
+
     const result = getFields(couser, 'id');
     setFromData({
       ...fromData,
@@ -379,6 +409,11 @@ function UploadSalesLog(props) {
     props.postSalesLog(fromData)
     window.alert("일지가 등록되었습니다.")
 
+  }
+
+  const onFormRevise = () => {
+    props.putSalesLog(fromData)
+    window.alert("일지가 수정 되었습니다.")
   }
   const onFormTemporarySubmit = () => {
     const result = getFields(couser, 'id');
@@ -424,6 +459,7 @@ function UploadSalesLog(props) {
   }
 
   const onAccountSelectChange = (v, actiontype) => {
+    console.log(v)
     if (actiontype.action === 'clear') {
       setSelectedAccount(v);
       setFromData({
@@ -456,12 +492,17 @@ function UploadSalesLog(props) {
     }
 
   }
-  const present = moment();
-  console.log(present)
-  console.log(present._d)
+  console.log(props.match.params.id)
   return (
     <React.Fragment>
-      <MyAppBar barTitle={'일지 쓰기'} showBackButton onSaveClick={onFormSubmit} navigateTo={handleOnBack} tempSaveClick={onFormTemporarySubmit} />
+      <MyAppBar
+        barTitle={'일지 쓰기'}
+        showBackButton
+        paramId={props.match.params.id}
+        onRevise={onFormRevise}
+        onSaveClick={onFormSubmit}
+        navigateTo={handleOnBack}
+        tempSaveClick={onFormTemporarySubmit} />
       <div className="container">
         <div className='mt-3'></div>
         <div className="row">
@@ -472,22 +513,24 @@ function UploadSalesLog(props) {
         </div>
         <div className='mt-2'></div>
         <DatePicker className='col-12'
-          // defaultValue={moment}
-          value={dateString}
+          defaultValue={moment}
           format={'YYYY-MM-DD'}
+          value={dateString}
           onChange={onDatePickerChange} />
         <div className='mt-2'></div>
         <TimePicker className='col-6'
-          // defaultValue={moment}
+          format={'HH:mm'}
+
+          defaultValue={moment}
           value={start}
           onChange={onChangesSartValue}
-        // placeholder='00:00' 
         />
         <TimePicker className='col-6'
-          // defaultValue={moment}
+          format={'HH:mm'}
+
+          defaultValue={moment}
           value={end}
           onChange={onChangeEndValue}
-        // placeholder='00:00' 
         />
         <div className='mt-2'></div>
         <div className="row">
@@ -518,8 +561,8 @@ function UploadSalesLog(props) {
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <CreatableSelect
-              isClearable
+            <Select
+              // isClearable
               placeholder="고객 검색"
               // formatCreateLabel={(v) => `새로운 고객 "${v}"만들기`}
               options={accountsList && accountsList.map((v) => { return { value: v.acc_idx, label: v.account_name } })}
@@ -539,8 +582,8 @@ function UploadSalesLog(props) {
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <CreatableSelect
-              isClearable
+            <Select
+              // isClearable
               placeholder="고객 담당자를 선택해주세요"
               // formatCreateLabel={(v) => `새로운 담당자 "${v}"만들기`}
               options={accountspersonList && accountspersonList.map((v) => { return { value: v.accm_idx, label: v.man_name } })}
@@ -618,7 +661,7 @@ function UploadSalesLog(props) {
           <Input type="text"
             className="form-control"
             placeholder="상세주소 입력"
-            value={location}
+            value={fromData.addr}
             onChange={onChangeLocation}
             style={InputStyle} />
         </div>
@@ -636,7 +679,7 @@ function UploadSalesLog(props) {
             className="form-control"
             placeholder="제목을 입력하세요"
             style={InputStyle}
-            value={title}
+            value={fromData.title}
             onChange={onChangeTitle} />
         </div>
         <div className="mt-3"></div>
@@ -650,7 +693,7 @@ function UploadSalesLog(props) {
           <TextArea className="form-control"
             placeholder='내용을 입력해주세요'
             style={{ height: '391px', border: '1px solid #AAAAAA' }}
-            value={content}
+            value={fromData.log}
             onChange={onChangeContent}
           />
         </div>
@@ -675,13 +718,14 @@ function UploadSalesLog(props) {
             </button> */}
           </div>
         </div> :
-          <div className="row">
-            <div className="col-12 d-flex justify-content-center">
-              <button className="btn btn-primary" onClick={onFormSubmit} >
-                수정
-              </button>
-            </div>
-          </div>
+          // <div className="row">
+          //   <div className="col-12 d-flex justify-content-center">
+          //     <button className="btn btn-primary" onClick={onFormSubmit} >
+          //       수정
+          //     </button>
+          //   </div>
+          // </div>
+          null
         }
       </div >
     </React.Fragment >
@@ -690,16 +734,19 @@ function UploadSalesLog(props) {
 
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
-  const { userList, temporaryLoglist, log } = state.SalesLog;
-  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist, log };
+  const { userList, temporaryLoglist, log, logcouser } = state.SalesLog;
+  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist, log, logcouser };
 };
 const mapStateToDispatch = {
   postSalesLog: postSalesLog.call,
   postTemporarySalesLog: postTemporarySalesLog.call,
   selectAccounts: selectAccounts.call,
   selectAccountperson: selectAccountperson.call,
-  uploadFile: uploadFile.all,
-  getUserList: getUserList.call
+  uploadFile: uploadFile.call,
+  getUserList: getUserList.call,
+  getLogList: getLogList.call,
+  putSalesLog: putSalesLog.call,
+  clearLog
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(UploadSalesLog);

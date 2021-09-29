@@ -330,6 +330,7 @@ const SalesLogFilter = (props) => {
       <Row gutter={6}>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='단계'
+            disabled={true}
             style={selectStyle}
             options={leadActivityOption}
             value={leadActivityOption.value}
