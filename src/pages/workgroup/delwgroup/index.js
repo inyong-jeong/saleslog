@@ -95,11 +95,13 @@ const WgroupMemberPage = (props) => {
 
       />}
       <div style={{ flex: 1, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
-        <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', }}>
-          <ExclamationCircleOutlined style={{ color: '#C90000', position: 'relative', top: -4 }} />&nbsp;이 워크그룹을 정말로 삭제 하시겠습니까?<br />
+        <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', padding: 10, }}>
+          <ExclamationCircleOutlined
+            style={{ color: '#C90000', position: 'relative', top: -4 }} />&nbsp;
+          이 워크그룹을 정말로 삭제 하시겠습니까?<br />
           모든 게시물, 첨부파일, 크레딧을 포함하여 이 워크그룹과 관련한 모든 데이터가 영구적으로 삭제되며, 되돌릴 수 없습니다.
         </div>
-        <div style={{ width: '100%', fontSize: 14, padding: 10, verticalAlign: 'middle', }}>
+        <div style={{ width: '100%', fontSize: 12, padding: 10, verticalAlign: 'middle', }}>
           <Input.Password
             name='userpass'
             onChange={handlePassChange}
@@ -110,7 +112,10 @@ const WgroupMemberPage = (props) => {
           />
         </div>
         <div style={{ width: '100%', marginTop: 10 }}>
-          <Checkbox onChange={onChkChange}>워크그룹의 모든 데이터가 삭제됨을 충분히 이해 했습니다.</Checkbox>
+          <Checkbox onChange={onChkChange}
+            style={{ fontSize: 12, padding: 10, }}
+          >워크그룹의 모든 데이터가 삭제됨을 충분히 이해 했습니다.
+          </Checkbox>
         </div>
         <div
           style={{
