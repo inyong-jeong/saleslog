@@ -86,11 +86,13 @@ const WgroupMemberPage = (props) => {
 
       />
       <div style={{ flex: 1, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
-        <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', }}>
+        <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', padding: 10, }}>
           <ExclamationCircleOutlined style={{ color: '#C90000', position: 'relative', top: -4 }} />&nbsp;{((groupInfo) ? groupInfo.organization : '워크그룹')}에서 나가면 더이상 워크그룹 정보에 접근할 수 없게 되며, 이 작업은 취소할 수 없습니다.
         </div>
         <div style={{ width: '100%', marginTop: 10 }}>
-          <Checkbox onChange={onChkChange}>워크그룹에서 나가는 것과 관련된 내용을 충분히 이해 했습니다.</Checkbox>
+          <Checkbox onChange={onChkChange}
+            style={{ fontSize: 12, padding: 10, }}
+          >워크그룹에서 나가는 것과 관련된 내용을 충분히 이해 했습니다.</Checkbox>
         </div>
         <div
           style={{
