@@ -18,7 +18,7 @@ import { errorMessage } from '../../../../constants/commonFunc';
 import AvatarUp from '../../../../components/AvatarUp';
 import cmm from 'constants/common';
 import { base64Dec, base64Enc } from 'constants/commonFunc';
-
+import { alertMessage } from '../../../../constants/commonFunc';
 const { Panel } = Collapse
 const EditCustomerManager = () => {
   const classes = useStyles()
@@ -99,6 +99,9 @@ const EditCustomerManager = () => {
 
   //file
   const handleChange = (e) => {
+    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+      return alertMessage('이미지 파일만 등록 가능합니다.')
+    }
     const value = e.target.value
 
     setAccoutManagerInputs({
@@ -169,7 +172,7 @@ const EditCustomerManager = () => {
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>담당자명 *
+            <label className={classes.laebelStyle}>담당자명 <span style={{ color: 'red' }}>*</span>
             </label>
             <Input
               name='man_name'
@@ -179,7 +182,7 @@ const EditCustomerManager = () => {
               placeholder="담당자명"
               margin="normal"
             />
-            <label className={classes.laebelStyle}>직급 및 소속 *</label>
+            <label className={classes.laebelStyle}>직급 및 소속 <span style={{ color: 'red' }}>*</span></label>
             <Input
               name='posi'
               onChange={handleChange}

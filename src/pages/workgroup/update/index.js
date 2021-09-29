@@ -10,7 +10,7 @@ import { Avatar, Divider, notification } from 'antd';
 import { transform } from 'babel-core';
 import { getWorkGroupInfo, postWorkGroupLogo, postWorkGroupUpd } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
-
+import { alertMessage } from '../../../constants/commonFunc';
 const WgroupManagePage = (props) => {
 
   const state = useSelector(state => state.Workgroup)
@@ -101,6 +101,9 @@ const WgroupManagePage = (props) => {
 
 
   const handleChangeFile = e => {
+    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+      return alertMessage('이미지 파일만 등록 가능합니다.')
+    }
     const fileUploaded = e.target.files;
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -143,7 +146,7 @@ const WgroupManagePage = (props) => {
           }}
           handleChange={handleChangeFile} />
         <div style={{ flexGrow: 2 }}>
-          <label >워크그룹 이름 *</label><br />
+          <label >워크그룹 이름 <span style={{ color: 'red' }}>*</span></label><br />
           <Input
             name='comp_name'
             onChange={handleChange}
@@ -155,7 +158,7 @@ const WgroupManagePage = (props) => {
         </div>
       </div>
       <Divider style={{ margin: '30,10' }} />
-      <label>워크그룹 URL *</label>
+      <label style={{ marginLeft: 10 }}>워크그룹 URL  <span style={{ color: 'red' }}>*</span></label>
       <div style={{
         display: 'flex',
         justifyContent: 'center',

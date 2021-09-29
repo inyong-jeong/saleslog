@@ -94,6 +94,7 @@ const WgroupManagePage = (props) => {
 
 
   const handleChangeFile = e => {
+
     const fileUploaded = e.target.files;
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -125,10 +126,8 @@ const WgroupManagePage = (props) => {
         showBackButton
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
-
       />
-      <div >
-        <div style={{ height: 40 }}></div>
+      <div>
         <div style={{ display: 'flex' }}>
 
           <div style={{
@@ -139,7 +138,7 @@ const WgroupManagePage = (props) => {
             justifyContent: 'bottom',
             alignItems: 'top'
           }}>
-            <label >워크그룹 이름 *</label><br />
+            <label>워크그룹 이름 <span style={{ color: 'red' }}>*</span></label>
             <Input
               name='comp_name'
               onChange={handleChange}
@@ -151,7 +150,7 @@ const WgroupManagePage = (props) => {
           </div>
         </div>
         <Divider style={{ margin: '30,10' }} />
-        <label className={classes.laebelStyle}>워크그룹 URL *</label>
+        <label >워크그룹 URL <span style={{ color: 'red' }}>*</span></label>
         <div style={{
           display: 'flex',
           justifyContent: 'center',
@@ -166,13 +165,14 @@ const WgroupManagePage = (props) => {
             margin="normal"
           />
           <label style={{
-            fontSize: 18,
-            width: 200
+            fontSize: 14,
+            fontWeight: 400,
+            color: '#111111'
           }}>&nbsp;.saleslog.com</label>
         </div>
         {
           inputs.errResult.split('\n').map(item => {
-            return (<span key={item} style={{ fontSize: 11, color: '#EE1818' }}>{item}<br /></span>)
+            return (<span key={item} style={{ fontSize: 12, color: '#EE1818', marginTop: 5 }}>{item}<br /></span>)
           })
         }
       </div>
