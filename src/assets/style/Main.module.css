@@ -9,3 +9,10 @@
   justify-content: center;
   align-items: center;
 }
+
+.wrapper:hover {
+  background-color: #F6F6F6;
+  cursor: pointer;
+  height: 152;
+  transition: 400ms ease-in-out;
+}

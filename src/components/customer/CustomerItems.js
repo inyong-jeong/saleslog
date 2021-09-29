@@ -11,7 +11,7 @@ import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
-
+import styles from '../../assets/style/Main.module.css'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -120,11 +120,11 @@ const CustomerItems = ({ inputs, page, setPage }) => {
         <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{listCounts ? listCounts : 0}</span> 개의 고객</Text>
         <Divider style={{ margin: 0 }} />
         {cusotomerList ?
-          cusotomerList.map((singleList, index) => {
+          cusotomerList.map((singleList) => {
             return (
               <div
                 key={singleList.num}
-                style={{ cursor: 'pointer', height: 152 }}
+                className={styles.wrapper}
                 onClick={() =>
                   history.push({
                     pathname: `/main/customer/details/${base64Enc(singleList.acc_idx)}/${base64Enc(singleList.accm_idxs)}`
