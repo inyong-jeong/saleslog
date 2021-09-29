@@ -1,6 +1,7 @@
 .log_lists {
   cursor: pointer;
   :hover {
-    background-color: #DDDDDD;
+    background-color: #F6F6F6;
+    transition: 400ms ease-in-out;
   }
 }
