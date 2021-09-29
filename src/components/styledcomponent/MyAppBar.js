@@ -10,6 +10,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useMediaQuery } from "react-responsive";
 import { Divider } from 'antd';
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
+import { ReactComponent as Info } from '../.././assets/icons/info.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
 import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
 import { ReactComponent as BackIcon } from '../.././assets/icons/back.svg'
@@ -141,7 +142,8 @@ const MyAppBar = ({
         </div>
       </Menu.Item>
       <Menu.Item key="7">
-        <Link to={'/main/information'}>세일즈로그 정보</Link>
+        <Link to={'/main/information'}>
+          <Info /> 정보</Link>
       </Menu.Item>
     </Menu>
   );

@@ -5,6 +5,7 @@ import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whit
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
 import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
+import { ReactComponent as Info } from '../.././assets/icons/info.svg'
 import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
 import { ReactComponent as Support } from '../.././assets/icons/main/support.svg'
 import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_workgroup.svg'
@@ -72,7 +73,9 @@ export default function TopMenu({ badgeContent }) {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="6">
-        <Link to={'/main/information'}>세일즈로그 정보</Link>
+        <Link to={'/main/information'}>
+          <Info />
+          정보</Link>
       </Menu.Item>
     </Menu>
   );
