@@ -9,7 +9,8 @@ import {
   POST_EDIT_CUSTOMER,
   POST_EDIT_MANAGER_INFO,
   GET_MANAGER_INFO,
-  POST_EDIT_NAMECARD
+  POST_EDIT_NAMECARD,
+  DEL_CUSTOMER
 } from '../../constants/actionTypes'
 
 import {
@@ -21,7 +22,8 @@ import {
   postEditCustomer,
   getManagerInfo,
   postEditManager,
-  postEditNamecard
+  postEditNamecard,
+  deleteCustomer
 } from './actions'
 import { successMessage } from '../../constants/commonFunc'
 
@@ -31,12 +33,24 @@ const ACC_REGISTER = 'regi_accounts'
 const ACC_EDIT = 'upd_accounts'
 const ACC_MAN_REGISTER = 'regi_accounts_man'
 const ACC_LIST = 'list_accounts'
+const ACC_DEL = 'del_accounts'
 const USERS_URL = 'https://backend.saleslog.co/org/search_users'
 const CUSTOMER_DETAILS = 'detail_accounts'
 const DETAIL_MANAGER_EDIT = 'upd_accounts_man'
 const DETAIL_MANAGER = 'detail_accounts_man'
 const NAMECARD_EDIT = 'upd_accounts_man_photo'
 
+function* _deleteCustomer({ payload: { body } }) {
+  try {
+    const response = yield call(post_fetch, BASE_URL + ACC_DEL, body)
+    yield successMessage('해당 고객사가 삭제되었습니다.')
+    yield put(deleteCustomer.success(response))
+  }
+  catch (error) {
+    yield put(deleteCustomer.error(error))
+
+  }
+}
 function* _postEditNamecard({ payload: { body } }) {
   try {
     const response = yield call(post_fetch_files, BASE_URL + NAMECARD_EDIT, body)

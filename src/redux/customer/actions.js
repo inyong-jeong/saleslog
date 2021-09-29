@@ -7,7 +7,8 @@ import {
   POST_EDIT_CUSTOMER,
   GET_MANAGER_INFO,
   POST_EDIT_MANAGER_INFO,
-  POST_EDIT_NAMECARD
+  POST_EDIT_NAMECARD,
+  DEL_CUSTOMER
 } from '../../constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -18,6 +19,7 @@ export const getUsers = fetchActionGenerator(GET_CUSTOMER_OPTION_USERS, 'body')
 export const postCustomerManger = fetchActionGenerator(POST_CUSTOMER_MANAGER, 'body')
 export const getCustomerDetails = fetchActionGenerator(GET_CUSTOMER_DETAILS, 'body')
 export const postEditCustomer = fetchActionGenerator(POST_EDIT_CUSTOMER, 'body')
+export const deleteCustomer = fetchActionGenerator(DEL_CUSTOMER, 'body')
 export const getManagerInfo = fetchActionGenerator(GET_MANAGER_INFO, 'body')
 export const postEditManager = fetchActionGenerator(POST_EDIT_MANAGER_INFO, 'body')
 export const postEditNamecard = fetchActionGenerator(POST_EDIT_NAMECARD, 'body')

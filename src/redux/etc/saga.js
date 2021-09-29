@@ -1,6 +1,6 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { post_fetch, post_fetch_files } from 'model/FetchManage'
-import { successMessage, errorMessage,  } from 'constants/commonFunc';
+import { successMessage, errorMessage } from 'constants/commonFunc';
 import {
   GET_PROFILE_DETAIL,
   POST_PROFILE_UPD,
@@ -15,9 +15,12 @@ import {
   POST_NOTICE_SYS_UPD,
   POST_NOTICE_SYS_DEL,
   POST_NOTICE_SYS_REGI,
+  POST_ANNIVERSARY,
+  POST_SYSTEM_NOTICE,
+  POST_WORKGROUP_NOTICE,
 } from '../../constants/actionTypes'
 import {
-  
+  postAnniversary,
   getProfileDetail,
   postProfileUpd,
   postProfilePhoto,
@@ -31,6 +34,8 @@ import {
   postNoticeSysUpd,
   postNoticeSysDel,
   postNoticeSysRegi,
+  postWorkgroupNotice,
+  postSystemNotice
 
 } from './actions'
 
@@ -52,15 +57,48 @@ const NOTICE_SYS_UPD = '/etc/upd_notic_sys'           //notice system update
 const NOTICE_SYS_DEL = '/etc/del_notic_sys'           //notice system delete
 const NOTICE_SYS_REGI = '/etc/regi_notic_sys'         //notice system register
 
+// right menu
+const ANNIVERSARY = '/saleslog/list_anniversary'
+const SYSTEM_NOTICE = '/etc/list_notic_sys_gmb'
+const WORKGROUP_NOTICE = '/etc/list_notic_gmb'
+
+function* _postSystemNotice() {
+  try {
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + SYSTEM_NOTICE, "")
+    yield put(postSystemNotice.success(response))
+
+  } catch (error) {
+    yield put(postSystemNotice.error(error))
+  }
+
+}
+function* _postWorkgroupNotice() {
+  try {
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + WORKGROUP_NOTICE, "")
+    yield put(postWorkgroupNotice.success(response))
+  } catch (error) {
+    yield put(postWorkgroupNotice.error(error))
+  }
+}
+
+function* _postAnniversary() {
+  try {
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + ANNIVERSARY, "")
+    yield put(postAnniversary.success(response))
+  }
+  catch (error) {
+    yield put(postAnniversary.error(error))
+  }
+}
 
 //프로필 정보
-function* _getProfileDetail({ payload: { body } }) {  
+function* _getProfileDetail({ payload: { body } }) {
   try {
-    console.log('fetch::::delwgroup::::::::::',body)
-    const response = yield call(post_fetch_files, cmm.SERVER_API_URL + PROFILE_INFO , body)
-    yield console.log('result::::::::::::::::',response)
+    console.log('fetch::::delwgroup::::::::::', body)
+    const response = yield call(post_fetch_files, cmm.SERVER_API_URL + PROFILE_INFO, body)
+    yield console.log('result::::::::::::::::', response)
     yield put(getProfileDetail.success(response))
-   
+
   } catch (error) {
     yield put(getProfileDetail.error(error))
   }
@@ -69,23 +107,21 @@ function* _getProfileDetail({ payload: { body } }) {
 //프로필 수정
 function* _postProfileUpd({ payload: { body } }) {
   try {
-
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + PROFILE_UPD , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + PROFILE_UPD, body)
     yield put(postProfileUpd.success(response))
     yield successMessage('저장 되었습니다.')
 
   } catch (error) {
     yield errorMessage(error.message)
-    yield put(postProfileUpd.error(error))    
+    yield put(postProfileUpd.error(error))
   }
 }
 //프로필 사진변경
 function* _postProfilePhoto({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch_files, cmm.SERVER_API_URL + PROFILE_PHOTO , body)
-    
+    const response = yield call(post_fetch_files, cmm.SERVER_API_URL + PROFILE_PHOTO, body)
+
     yield put(postProfilePhoto.success(response))
     yield successMessage('저장 되었습니다.')
 
@@ -98,10 +134,10 @@ function* _postProfilePhoto({ payload: { body } }) {
 function* _getNoticeGrpList({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_LIST , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_LIST, body)
+
     yield put(getNoticeGrpList.success(response))
-    
+
 
   } catch (error) {
     yield put(getNoticeGrpList.error(error))
@@ -112,8 +148,8 @@ function* _getNoticeGrpList({ payload: { body } }) {
 function* _getNoticeGrpDetail({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_DETAIL , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_DETAIL, body)
+
     yield put(getNoticeGrpDetail.success(response))
   } catch (error) {
     yield put(getNoticeGrpDetail.error(error))
@@ -124,8 +160,8 @@ function* _getNoticeGrpDetail({ payload: { body } }) {
 function* _postNoticeGrpUpd({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_UPD , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_UPD, body)
+
     yield put(postNoticeGrpUpd.success(response))
     yield successMessage('수정 되었습니다.')
 
@@ -138,8 +174,8 @@ function* _postNoticeGrpUpd({ payload: { body } }) {
 function* _postNoticeGrpDel({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_DEL , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_DEL, body)
+
     yield put(postNoticeGrpDel.success(response))
     yield successMessage('삭제 되었습니다.')
 
@@ -152,14 +188,14 @@ function* _postNoticeGrpDel({ payload: { body } }) {
 //워크그룹 공지 등록
 function* _postNoticeGrpRegi({ payload: { body } }) {
   try {
-    console.log('fetch::::delwgroup::::::::::',body)
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_REGI , body)
-    yield console.log('result::::::::::::::',response)
+    console.log('fetch::::delwgroup::::::::::', body)
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_GRP_REGI, body)
+    yield console.log('result::::::::::::::', response)
     yield put(postNoticeGrpRegi.success(response))
-    yield successMessage( '등록 되었습니다.')
+    yield successMessage('등록 되었습니다.')
 
-  } catch (error) {    
-    yield console.log('result::::::error::::::::',error)
+  } catch (error) {
+    yield console.log('result::::::error::::::::', error)
     yield errorMessage(error.message)
     yield put(postNoticeGrpRegi.error(error))
   }
@@ -170,10 +206,10 @@ function* _postNoticeGrpRegi({ payload: { body } }) {
 function* _getNoticeSysList({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_LIST , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_LIST, body)
+
     yield put(getNoticeSysList.success(response))
-    
+
 
   } catch (error) {
     yield put(getNoticeSysList.error(error))
@@ -184,8 +220,8 @@ function* _getNoticeSysList({ payload: { body } }) {
 function* _getNoticeSysDetail({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_DETAIL , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_DETAIL, body)
+
     yield put(getNoticeSysDetail.success(response))
   } catch (error) {
     yield put(getNoticeSysDetail.error(error))
@@ -196,8 +232,8 @@ function* _getNoticeSysDetail({ payload: { body } }) {
 function* _postNoticeSysUpd({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_UPD , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_UPD, body)
+
     yield put(postNoticeSysUpd.success(response))
     yield successMessage('수정 되었습니다.')
 
@@ -210,8 +246,8 @@ function* _postNoticeSysUpd({ payload: { body } }) {
 function* _postNoticeSysDel({ payload: { body } }) {
   try {
 
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_DEL , body)
-    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_DEL, body)
+
     yield put(postNoticeSysDel.success(response))
     yield successMessage('삭제 되었습니다.')
 
@@ -224,17 +260,29 @@ function* _postNoticeSysDel({ payload: { body } }) {
 //시스템 공지 등록
 function* _postNoticeSysRegi({ payload: { body } }) {
   try {
-    console.log('fetch::::delwgroup::::::::::',body)
-    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_REGI , body)
-    yield console.log('result::::::::::::::',response)
+    console.log('fetch::::delwgroup::::::::::', body)
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + NOTICE_SYS_REGI, body)
+    yield console.log('result::::::::::::::', response)
     yield put(postNoticeSysRegi.success(response))
-    yield successMessage( '등록 되었습니다.')
+    yield successMessage('등록 되었습니다.')
 
-  } catch (error) {    
-    yield console.log('result::::::error::::::::',error)
+  } catch (error) {
+    yield console.log('result::::::error::::::::', error)
     yield errorMessage(error.message)
     yield put(postNoticeSysRegi.error(error))
   }
+}
+
+function* watchPostSystemNotice() {
+  yield takeEvery(POST_SYSTEM_NOTICE, _postSystemNotice)
+}
+
+function* watchPostWorkgroupNotice() {
+  yield takeEvery(POST_WORKGROUP_NOTICE, _postWorkgroupNotice)
+}
+
+function* watchPostAnniversary() {
+  yield takeEvery(POST_ANNIVERSARY, _postAnniversary)
 }
 
 function* watchProfileDetail() {
@@ -304,7 +352,10 @@ function* EtcSaga() {
     fork(watchNoticeSysDetail),
     fork(watchNoticeSysUpd),
     fork(watchNoticeSysDel),
-    fork(watchNoticeSysRegi),    
+    fork(watchNoticeSysRegi),
+    fork(watchPostAnniversary),
+    fork(watchPostSystemNotice),
+    fork(watchPostWorkgroupNotice)
   ])
 }
 

@@ -62,7 +62,7 @@ const WgroupManagePage = (props) => {
   });
 
   //이전페이지
-  const navigateTo = () => history.push('/main/customer')
+  const navigateTo = () => history.goBack()
 
   //워크그룹 리스트 팝업
   const navigateNext = () => {

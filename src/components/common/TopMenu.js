@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Badge, IconButton } from '@material-ui/core';
 import { ReactComponent as BlueLogo } from '../../../src/assets/icons/main/blueLogo.svg'
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
