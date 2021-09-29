@@ -23,31 +23,44 @@ const SalesLogFilter = (props) => {
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
   const [channel, setChannel] = useState('');
+  const [needs, setNeeds] = useState('');
+
   const [chgCombo, setChgCombo] = useState(0);
 
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
 
   const salesActivityOption =
-    [{ label: '니즈조사', value: '0050001' },
-    { label: '동향/정보수집', value: '0050002' },
-    { label: '제안', value: '0050003' }];
+    [{ label: '선택없음', value: '' },
+    { label: '니즈조사', value: '0030001' },
+    { label: '동향/정보수집', value: '0030002' },
+    { label: '제안', value: '0030003' }];
 
   const salesChannelOption =
-    [{ label: '전화', value: '0050001' },
-    { label: '이메일', value: '0050002' },
-    { label: '대면', value: '0050003' },
-    { label: '행사참여', value: '0050004' },
-    { label: '온라인 리서치', value: '0050005' },
-    { label: '도서-전문정보', value: '0050006' },
-    { label: '소셜 커뮤니티', value: '0050007' },
-    { label: '기타', value: '005000' }];
+    [{ label: '선택없음', value: '' },
+    { label: '전화', value: '0040001' },
+    { label: '이메일', value: '0040002' },
+    { label: '대면', value: '0040003' },
+    { label: '행사참여', value: '0040004' },
+    { label: '온라인 리서치', value: '0040005' },
+    { label: '도서-전문정보', value: '0040006' },
+    { label: '소셜 커뮤니티', value: '0040007' },
+    { label: '기타', value: '0040008' }];
 
   const leadActivityOption =
-    [{ label: '조사', value: '0050001' },
-    { label: '접촉', value: '0050002' },
-    { label: '제안', value: '0050003' },
-    { label: '검증', value: '0050004' }];
+    [{ label: '선택없음', value: '' },
+    { label: '발굴', value: '0020001' },
+    { label: '접촉', value: '0020002' },
+    { label: '제안', value: '0020003' },
+    { label: '검증', value: '0020004' }];
+
+  const NeedsOption =
+    [{ label: '선택없음', value: '' },
+    { label: '전략니즈', value: '전략' },
+    { label: '제품니즈', value: '제품' },
+    { label: '개인니즈', value: '개인' },
+    { label: '상품니즈', value: '상품' }];
+
 
   //하위부서 조회
   const [filterdata, setFilterData] = useState({
@@ -236,7 +249,7 @@ const SalesLogFilter = (props) => {
     setLeadActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_lead_gb': option.value
+      'sales_lead_gb': option
     })
   }
 
@@ -245,7 +258,7 @@ const SalesLogFilter = (props) => {
     setActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_goal': option.value
+      'sales_goal': option
     })
   };
 
@@ -254,7 +267,18 @@ const SalesLogFilter = (props) => {
     setChannel(option.value);
     props.setData({
       ...props.data,
-      'sales_activity': option.value
+      'sales_activity': option
+    })
+  };
+
+  const onNeeds = (option) => {
+    // setChannelIndex(option);
+    setNeeds(option.value)
+    console.log(option)
+    setChannel(option.value);
+    props.setData({
+      ...props.data,
+      'need_cod': option
     })
   };
 
@@ -307,7 +331,6 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='단계'
             style={selectStyle}
-            disabled={true}
             options={leadActivityOption}
             value={leadActivityOption.value}
             onChange={onLeadActivity} />
@@ -328,7 +351,11 @@ const SalesLogFilter = (props) => {
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='니즈'
+            options={NeedsOption}
+            value={NeedsOption.value}
+            onChange={onNeeds}
             style={selectStyle} />
+
         </Col>
       </Row>
     </>

@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { getLogList, getCommentLists, getprofile, deleteFile, putFile } from 'redux/actions';
 import { connect } from 'react-redux';
-import { Row, Col, Upload, Modal, Avatar } from 'antd'
+import { Row, Col, Upload, Avatar } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
-import Chart from 'react-apexcharts';
 import Comments from 'components/Comments/Comments'
 import { useSelector } from "react-redux";
-import LogModal from 'components/Modal';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import cmm from 'constants/common';
 import { PlusOutlined } from '@ant-design/icons';
+import { ResponsivePie } from '@nivo/pie';
+import NeedsCard from 'components/NeedsCard'
+import { isPlainObject } from 'jquery';
 
 function SalesLog(props) {
   const state = useSelector(state => state.SalesLog)
   const [CommentLists, setCommentLists] = useState([])
   const [filelist, setFileList] = useState([])
+  const [logneedslist, setLogNeedsList] = useState([])
+
   const body = {
     slog_idx: props.match.params.id
   }
@@ -25,6 +28,8 @@ function SalesLog(props) {
   const [Log, setLog] = useState(null)
   // const Log = props.log ? props.log[0] : null
 
+
+  //공동작성자 아이콘 추가 함수
   function getFileList(log) {
     let FileList = []
     for (let i = 1; i < 6; i++) {
@@ -42,11 +47,10 @@ function SalesLog(props) {
         continue;
       }
     }
-    console.log(FileList);
     return FileList
   }
 
-
+  // 로그 상세 일지 상태 set
   useEffect(() => {
     if (props.log) {
       setLog(props.log)
@@ -69,6 +73,7 @@ function SalesLog(props) {
   //   }
   // }, [props.putfileloading, props.deletefileloading])
 
+  //마운트 될 떄, 댓글리스트, 로그리스트, 프로필 받아오기.
   useEffect(() => {
     if (props.match.params.id) {
       props.getLogList(data)
@@ -114,7 +119,6 @@ function SalesLog(props) {
   //   slog_idx: props.match.params.id,
   //   fileup: null
   // })
-
 
 
   function download(dataurl, filename) {
@@ -189,44 +193,39 @@ function SalesLog(props) {
     }
   }
 
-  function getSeries(needs) {
-    let arr = []
-    for (let i = 0; i < needs.length; i++) {
-      arr = arr.concat(needs[i].total)
+
+  // 니즈 분류 데이터 set
+
+  useEffect(() => {
+    if (props.logneeds) {
+      console.log(props.logneeds);
+      setLogNeedsList(props.logneeds)
     }
-    return arr;
+  }, [props.logneeds])
+
+  //그래프 테마
+  const theme = {
+    "textColor": "#999999",
+    "fontSize": 16,
   }
 
-  function getLabels(needs) {
-    let arr = []
-    for (let i = 0; i < needs.length; i++) {
-      arr = arr.concat(needs[i].needs_cod)
-    }
-    return arr;
-  }
-  // const [list, setList] = useState([]);
+  console.log(props.logneeds)
 
-  // useEffect(() => {
-  //   if(props.logneeds) {
-  //     setList(getLabels(props.logneeds))
+  const handleOnChart = (e) => {
+    // e.preventDefault();
+    console.log(e)
+  }
+
+  const [needs, setNeeds] = useState([]);
+
+  // function sortpercent(v) {
+  //   let arr = []
+  //   for (let i =0; i < v.length; i++){
+  //     arr = arr.concat({})
   //   }
-  // },[props.logneeds])
+  // }
 
-  console.log(Log)
-  // console.log(file)
-  const series = props.logneeds && getSeries(props.logneeds);
-  console.log(series)
-  const result = props.logneeds && props.logneeds.map(v => v.needs_cod)
 
-  console.log(result)
-  const a = ['전략니즈', '제품니즈']
-  console.log('aaaaaaaaaaaa;;;;;;;;;', a, result)
-  const option = {
-    labels: ['전략', '니즈']
-  };
-  // const option = {
-  //   labels: (result) ? result : a,
-  // };
 
   return (
     <>
@@ -277,7 +276,7 @@ function SalesLog(props) {
                 {props.logcouser && props.logcouser.map(v => {
                   return (
                     <div className='mt-1' style={{ display: 'flex' }} >
-                      <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + v.thumb_url} />
+                      <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + v.thumb_url} />
                       <div className='ml-1'><div className='mt-1'>{v.user_name} {v.title} <span>&#183;</span>  {v.dept_name}</div> </div>
                     </div>
                   )
@@ -314,8 +313,69 @@ function SalesLog(props) {
       <Row gutter={[4, 4]} >
         <Col sm={24} xs={24} md={24} lg={24}>
           <StyledCard title='니즈 분석'>
-            <Chart options={option} series={series} type="donut" width='400' />
+
+            <div style={{ width: '100%', height: 500 }}>
+              <ResponsivePie
+                arcLabel={(v) => `${v.data.percent}%`}
+                theme={theme}
+                data={logneedslist && cmm.setDataList(logneedslist)}
+                margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                innerRadius={0.5}
+                padAngle={0.7}
+                cornerRadius={3}
+                activeOuterRadiusOffset={8}
+                borderWidth={1}
+                borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
+                arcLinkLabelsSkipAngle={10}
+                arcLinkLabelsTextColor="#333333"
+                arcLinkLabelsThickness={2}
+                arcLinkLabelsColor={{ from: 'color' }}
+                arcLabelsSkipAngle={10}
+                arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
+                legends={[
+                  {
+                    anchor: 'bottom',
+                    direction: 'row',
+                    justify: false,
+                    translateX: 0,
+                    translateY: 56,
+                    itemsSpacing: 0,
+                    itemWidth: 100,
+                    itemHeight: 18,
+                    itemTextColor: '#999999',
+                    itemDirection: 'left-to-right',
+                    itemOpacity: 1,
+                    symbolSize: 18,
+                    symbolShape: 'circle',
+                    effects: [
+                      {
+                        on: 'hover',
+                        style: {
+                          itemTextColor: '#000',
+                          cursor: 'pointer'
+                        }
+                      }
+                    ]
+                  }
+                ]}
+              />
+            </div>
+
+
           </StyledCard>
+          <Row gutter={[4, 4]}>
+            <Col sm={24} xs={24} md={24} lg={24}>
+              {props.logneeds ? props.logneeds.map((v) =>
+                <NeedsCard
+                  key={v.needs_cod}
+                  needs={v.needs_cod}
+                  sentences={v.needs}
+                />
+              ) :
+                <div>분석이 없습니다.</div>
+              }
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Row gutter={[4, 4]} >

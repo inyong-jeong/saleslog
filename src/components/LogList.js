@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
-import { Space, List, Divider, Badge, Avatar } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import { List, Divider, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, withRouter } from 'react-router-dom';
+import cmm from 'constants/common';
+import { useSelector } from "react-redux";
 
-function LogList({ loglist, handleNextPage, loglists }, props) {
-  const BadgeStyle = {
-    color: '#f5222d',
-    cursor: 'pointer'
-  }
-  // console.log(loglist)
+
+function LogList({ loglist, handleNextPage, loglists }) {
+
   return (
     <>
       <InfiniteScroll
@@ -18,7 +16,6 @@ function LogList({ loglist, handleNextPage, loglists }, props) {
         next={handleNextPage}>
         <List key={loglist.slog_idx}
           className='log_lists'
-          // onClick={handleOnClick}
           itemLayout="vertical"
           size="large"
           dataSource={[loglist]}
@@ -27,44 +24,38 @@ function LogList({ loglist, handleNextPage, loglists }, props) {
               <List.Item
                 key={item.title}
                 actions={[
-                  <div>피드백 0개 보기</div>
+                  <div>{`피드백 ${item.feedback_cnt}개 보기`}</div>
                 ]}
-                extra={`${item.meeting_date} ${item.meeting_stime} `}
               >
                 <List.Item.Meta
-                  // avatar={<Avatar src={item.avatar} />}h
-                  title={<div style={{ display: 'flex', justifyContent: 'space-between' }}><div>{item.user_name}</div><div>{item.title2}</div></div>}
-                  description={<div>{item.sales_gb_t}</div>}
+                  avatar={<Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + item.thumb_url} />}
+                  title={
+                    <div >
+                      <div>{item.user_name} <span>&#183;</span>{item.dept_fname} </div>
+                      <div>{`${item.meeting_date} ${item.meeting_stime} `}</div>
+                    </div>
+                  }
+                  description={
+                    <div>
+                      <span>{item.sales_goal_t}</span>
+                      <span>&#183;</span>
+                      <span>{item.sales_activity_t}</span>
+                      <span>&#183;</span>
+                      <span>{item.needs_cods}</span>
+                    </div>
+                  }
                 />
                 <Divider dashed />
-                <div>{item.account_name} : {item.man_name}</div>
+                <div>{item.account_name} <span>&#183;</span> {item.man_name} <span>&#183;</span> {item.man_posi}</div>
                 <h4><b>{item.title}</b></h4>
                 <div>{item.log}</div>
-                <h2>{item.num}</h2>
-                {/* <Badge className='mr-2' count={<CloseOutlined style={BadgeStyle} />}>
-                <Avatar shape="square" size="large" />
-              </Badge>
-              <Badge className='mr-2' count={<CloseOutlined style={BadgeStyle} />}>
-                <Avatar shape="square" size="large" />
-              </Badge>
-              <Badge className='mr-2' count={<CloseOutlined style={BadgeStyle} />}>
-                <Avatar shape="square" size="large" />
-              </Badge>
-              <Badge className='mr-2' count={<CloseOutlined style={BadgeStyle} />}>
-                <Avatar shape="square" size="large" />
-              </Badge>
-              <Badge count={<CloseOutlined style={BadgeStyle} />}>
-                <Avatar shape="square" size="large" />
-              </Badge> */}
-
-                {/* <ul style={{ display: 'flex' }}>
-                <li>s{item.file1}</li>
-                <li>s{item.file2}</li>
-                <li>s{item.file3}</li>
-                <li>s{item.file4}</li>
-                <li>s{item.file5}</li>
-              </ul> */}
-
+                <div style={{ display: 'flex' }}>
+                  {(item.file1 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.file1} />}
+                  {(item.file2 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.file2} />}
+                  {(item.file3 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.file3} />}
+                  {(item.file4 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.file4} />}
+                  {(item.file5 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.file5} />}
+                </div>
               </List.Item>
             </Link>
 

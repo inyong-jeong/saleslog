@@ -35,6 +35,15 @@ cmm.selComboList = (v) => {
   return rtn;
 }
 
+// 니즈분류 데이터 추가
+cmm.setDataList = (v) => {
+  let result = [];
+  for (let i = 0; i < v.length; i++) {
+    result[i] = { id: v[i].needs_cod, label: v[i].needs_cod, value: v[i].total, needslog: v[i].needs, percent: v[i].percent }
+  }
+  return result;
+}
+
 
 //windows screen size
 cmm.windowSize = () => {

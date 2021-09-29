@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import {
   getorganization, getorganizationusers
 } from 'redux/actions';
+import cmm from 'constants/common';
 
 
 const SalesLogFilter = (props) => {
@@ -22,38 +23,52 @@ const SalesLogFilter = (props) => {
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
   const [channel, setChannel] = useState('');
-  const [key, setKey] = useState(0);
+  const [needs, setNeeds] = useState('');
+
+  const [chgCombo, setChgCombo] = useState(0);
 
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
 
   const salesActivityOption =
-    [{ label: '니즈조사', value: '0050001' },
-    { label: '동향/정보수집', value: '0050002' },
-    { label: '제안', value: '0050003' }];
+    [{ label: '선택없음', value: '' },
+    { label: '니즈조사', value: '0030001' },
+    { label: '동향/정보수집', value: '0030002' },
+    { label: '제안', value: '0030003' }];
 
   const salesChannelOption =
-    [{ label: '전화', value: '0050001' },
-    { label: '이메일', value: '0050002' },
-    { label: '대면', value: '0050003' },
-    { label: '행사참여', value: '0050004' },
-    { label: '온라인 리서치', value: '0050005' },
-    { label: '도서-전문정보', value: '0050006' },
-    { label: '소셜 커뮤니티', value: '0050007' },
-    { label: '기타', value: '005000' }];
+    [{ label: '선택없음', value: '' },
+    { label: '전화', value: '0040001' },
+    { label: '이메일', value: '0040002' },
+    { label: '대면', value: '0040003' },
+    { label: '행사참여', value: '0040004' },
+    { label: '온라인 리서치', value: '0040005' },
+    { label: '도서-전문정보', value: '0040006' },
+    { label: '소셜 커뮤니티', value: '0040007' },
+    { label: '기타', value: '0040008' }];
 
   const leadActivityOption =
-    [{ label: '조사', value: '0050001' },
-    { label: '접촉', value: '0050002' },
-    { label: '제안', value: '0050003' },
-    { label: '검증', value: '0050004' }];
+    [{ label: '선택없음', value: '' },
+    { label: '발굴', value: '0020001' },
+    { label: '접촉', value: '0020002' },
+    { label: '제안', value: '0020003' },
+    { label: '검증', value: '0020004' }];
+
+  const NeedsOption =
+    [{ label: '선택없음', value: '' },
+    { label: '전략니즈', value: '전략' },
+    { label: '제품니즈', value: '제품' },
+    { label: '개인니즈', value: '개인' },
+    { label: '상품니즈', value: '상품' }];
 
 
+  //하위부서 조회
   const [filterdata, setFilterData] = useState({
     dept_idx: 0,
     typ: 'lvl'
   })
 
+  //부서별 사용자 조회
   const [data, setData] = useState({
     dept_idx: 0,
     typ: 'tree'
@@ -61,53 +76,88 @@ const SalesLogFilter = (props) => {
 
   //마운트 될 때 
   useEffect(() => {
+    //
     props.getorganization(filterdata)
+
   }, [])
 
-  // 대분류 선택
-  useEffect(() => {
-    if (selectedOrganization1) {
-      props.getorganization(filterdata)
-      setKey(1)
-    }
-  }, [selectedOrganization1])
 
-  console.log(props.organizationuserlist);
+  //맴버조회 fetch 후  
   useEffect(() => {
     if (props.organizationuserlist) {
       const userlist = props.organizationuserlist.map(v => v.login_idx);
       console.log(userlist)
       props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
-
+      setSelectedItems([]);
     }
   }, [props.organizationuserlist])
+
+
+  //부서조회 fetch 후
   useEffect(() => {
+    console.log('부서조회:::::::::::::::', chgCombo, props.organizationlist)
     if (props.organizationlist) {
-      if (key === 0) {
+      if (chgCombo === 0) {
         setBigList(props.organizationlist)
-      } else if (key === 1) {
+      } else if (chgCombo === 1) {
         setMiddleList(props.organizationlist)
-      } else if (key === 2) {
+      } else if (chgCombo === 2) {
         setSmallList(props.organizationlist)
       }
+      setChgCombo(0)
     }
   }, [props.organizationlist])
 
+
+  // 대분류 선택
+  useEffect(() => {
+    console.log('selidx:::22222222222:', selectedOrganization1)
+    if (!cmm.isEmpty(selectedOrganization1)) {
+      //props.getorganization(filterdata)
+      setChgCombo(1)
+    }
+  }, [selectedOrganization1])
+
   //중분류 선택
   useEffect(() => {
-    if (selectedOrganization2) {
-      props.getorganization(filterdata)
-      setKey(2)
+    if (!cmm.isEmpty(selectedOrganization2)) {
+      //props.getorganization(filterdata)
+      setChgCombo(2)
     }
   }, [selectedOrganization2])
 
   // 소분류 선택
   useEffect(() => {
-    if (selectedOrganization3) {
-      props.getorganizationusers(data)
-      // setKey(3)
+    if (!cmm.isEmpty(selectedOrganization3)) {
+      //props.getorganizationusers(data)
+      setChgCombo(3)
     }
   }, [selectedOrganization3])
+
+  // 부서 선택 후
+  useEffect(() => {
+    console.log('chgCombo::::::::::::::', chgCombo, selectedOrganization1)
+    if (chgCombo === 1) {
+      //하위부서 조회
+      props.getorganization({ dept_idx: selectedOrganization1, typ: 'lvl' })
+      //부서별 맴버 조회
+      props.getorganizationusers({ dept_idx: selectedOrganization1, typ: 'tree' })
+
+    } else if (chgCombo === 2) {
+
+      //하위부서 조회
+      props.getorganization({ dept_idx: selectedOrganization2, typ: 'lvl' })
+      //부서별 맴버 조회
+      props.getorganizationusers({ dept_idx: selectedOrganization2, typ: 'tree' })
+
+    } else if (chgCombo === 3) {
+      //하위부서 조회
+      props.getorganization({ dept_idx: selectedOrganization3, typ: 'lvl' })
+      //부서별 맴버 조회
+      props.getorganizationusers({ dept_idx: selectedOrganization3, typ: 'tree' })
+
+    }
+  }, [chgCombo])
 
   // 멤버 선택
   useEffect(() => {
@@ -125,25 +175,51 @@ const SalesLogFilter = (props) => {
   const selectStyle =
     { width: '100%' }
 
+
   const onOrganizationSelectChange1 = (v) => {
-    console.log(v)
+    console.log('delidx:::vvvvvvvvvvvvvv::::::::::::::', v)
     setSelectedOrganization1(v);
+    setSelectedOrganization2('');
+    setSelectedOrganization3('');
+    setMiddleList([]);
+    setSmallList([]);
+    if (v !== '') {
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
+    }
+
     // setBigList(props.organizationlist)
-    setFilterData({ ...filterdata, 'dept_idx': v })
-    setData({ ...data, 'dept_idx': v })
+    //setFilterData({ ...filterdata, 'dept_idx': v })
+    //setChgNo(1)
+
+    //setData({ ...data, 'dept_idx': v })
   }
 
   const onOrganizationSelectChange2 = (v) => {
     setSelectedOrganization2(v);
+    setSelectedOrganization3('');
+    setSmallList([]);
+    if (v !== '') {
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      props.getorganizationusers({ dept_idx: selectedOrganization1, typ: 'tree' })
+    }
     // setMiddleList(props.organizationlist)
-    setFilterData({ ...filterdata, 'dept_idx': v })
-    setData({ ...data, 'dept_idx': v })
+    //setFilterData({ ...filterdata, 'dept_idx': v })
+    //setData({ ...data, 'dept_idx': v })
   }
   const onOrganizationSelectChange3 = (v) => {
     setSelectedOrganization3(v);
+    if (v !== '') {
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      props.getorganizationusers({ dept_idx: selectedOrganization2, typ: 'tree' })
+    }
+
     // setSmallList(props.organizationlist)
-    setFilterData({ ...filterdata, 'dept_idx': v })
-    setData({ ...data, 'dept_idx': v })
+    //setFilterData({ ...filterdata, 'dept_idx': v })
+    //setData({ ...data, 'dept_idx': v })
   }
 
   function filterList(label) {
@@ -173,7 +249,7 @@ const SalesLogFilter = (props) => {
     setLeadActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_lead_gb': option.value
+      'sales_lead_gb': option
     })
   }
 
@@ -182,7 +258,7 @@ const SalesLogFilter = (props) => {
     setActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_goal': option.value
+      'sales_goal': option
     })
   };
 
@@ -191,10 +267,20 @@ const SalesLogFilter = (props) => {
     setChannel(option.value);
     props.setData({
       ...props.data,
-      'sales_activity': option.value
+      'sales_activity': option
     })
   };
 
+  const onNeeds = (option) => {
+    // setChannelIndex(option);
+    setNeeds(option.value)
+    console.log(option)
+    // setChannel(option.value);
+    props.setData({
+      ...props.data,
+      'need_cod': option
+    })
+  };
 
 
   const [selectedItems, setSelectedItems] = useState([])
@@ -206,7 +292,7 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='대분류'
             style={selectStyle}
-            options={biglist && biglist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            options={biglist && cmm.selComboList(biglist)}
             value={selectedOrganization1}
             onChange={onOrganizationSelectChange1}
           />
@@ -214,14 +300,14 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='중분류'
             style={selectStyle}
-            options={middlelist && middlelist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            options={middlelist && cmm.selComboList(middlelist)}
             onChange={onOrganizationSelectChange2}
             value={selectedOrganization2} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='소분류'
             style={selectStyle}
-            options={smalllist && smalllist.map((v) => { return { value: v.dept_idx, label: v.dept_name } })}
+            options={smalllist && cmm.selComboList(smalllist)}
             onChange={onOrganizationSelectChange3}
             value={selectedOrganization3} />
         </Col>
@@ -245,7 +331,6 @@ const SalesLogFilter = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='단계'
             style={selectStyle}
-            // disabled={true}
             options={leadActivityOption}
             value={leadActivityOption.value}
             onChange={onLeadActivity} />
@@ -266,7 +351,11 @@ const SalesLogFilter = (props) => {
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='니즈'
+            options={NeedsOption}
+            value={NeedsOption.value}
+            onChange={onNeeds}
             style={selectStyle} />
+
         </Col>
       </Row>
     </>

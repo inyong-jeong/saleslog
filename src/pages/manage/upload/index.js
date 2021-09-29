@@ -10,39 +10,42 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Divider from 'components/Divider'
 import { TimePicker, Radio, DatePicker, Input } from 'antd';
-import moment from 'moment';
 import CouserModal from 'components/CouserModal'
 import CouserList from 'components/CouserList';
 import LogListModal from 'components/LogListModal'
 import CustomerModal from 'components/CustomerModal'
+import moment from 'moment';
+import 'moment/locale/ko';
+
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
   indicatorSeparator: () => { }
 }
 
 const salesActivityOption =
-  [{ label: '니즈조사', value: '0050001' },
-  { label: '동향/정보수집', value: '0050002' },
-  { label: '제안', value: '0050003' }];
+  [{ label: '니즈조사', value: '0030001' },
+  { label: '동향/정보수집', value: '0030002' },
+  { label: '제안', value: '0030003' }];
 
 const salesChannelOption =
-  [{ label: '전화', value: '0050001' },
-  { label: '이메일', value: '0050002' },
-  { label: '대면', value: '0050003' },
-  { label: '행사참여', value: '0050004' },
-  { label: '온라인 리서치', value: '0050005' },
-  { label: '도서-전문정보', value: '0050006' },
-  { label: '소셜 커뮤니티', value: '0050007' },
-  { label: '기타', value: '005000' }];
+  [{ label: '전화', value: '0040001' },
+  { label: '이메일', value: '0040002' },
+  { label: '대면', value: '0040003' },
+  { label: '행사참여', value: '0040004' },
+  { label: '온라인 리서치', value: '0040005' },
+  { label: '도서-전문정보', value: '0040006' },
+  { label: '소셜 커뮤니티', value: '0040007' },
+  { label: '기타', value: '0040008' }];
 
 const leadActivityOption =
-  [{ label: '조사', value: '0050001' },
-  { label: '접촉', value: '0050002' },
-  { label: '제안', value: '0050003' },
-  { label: '검증', value: '0050004' }];
+  [{ label: '조사', value: '0020001' },
+  { label: '접촉', value: '0020002' },
+  { label: '제안', value: '0020003' },
+  { label: '검증', value: '0020004' }];
 console.log(salesChannelOption);
 
 function UploadSalesLog(props) {
+
 
   const [channelindex, setChannelIndex] = useState('');
   const [activityindex, setActivitylIndex] = useState('');
@@ -52,13 +55,13 @@ function UploadSalesLog(props) {
   const [selectedAccount, setSelectedAccount] = useState(0);
   const [selectedAccountperson, setSelectedAccountPerson] = useState(0);
   const [error, setError] = useState();
-  const [dateString, setDateString] = useState('');
+  const [dateString, setDateString] = useState(moment());
   const [location, setLocation] = useState('');
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [start, setStart] = useState('');
-  const [end, setEnd] = useState('');
-  const [radiocheck, setRadioCheck] = useState('');
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
+  const [radiocheck, setRadioCheck] = useState('0010001');
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
   const [channel, setChannel] = useState('');
@@ -94,6 +97,8 @@ function UploadSalesLog(props) {
     }
     return result
   }
+
+  console.log(dateString)
 
   useEffect(() => {
     //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
@@ -156,6 +161,7 @@ function UploadSalesLog(props) {
   //   }
   // }, [props.match.params.id])
 
+
   const [fromData, setFromData] = useState({
     acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
     accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
@@ -177,6 +183,10 @@ function UploadSalesLog(props) {
   })
   console.log(fromData)
 
+  // useEffect(() => {
+  //   setFromData({ ...fromData, meeting_date: moment().format('YYYY-MM-DD') })
+  // }, [])
+
   useEffect(() => {
     if (props.postSalesLogError) {
       setError('전송에 실패했습니다.');
@@ -191,9 +201,15 @@ function UploadSalesLog(props) {
     setAccountsPersonList(props.accountpersonlist);
   }, [props.accountpersonlist]);
 
-  // useEffect(() => {
-  //   props.selectAccounts()
-  // }, [])
+  // 고객 검색
+
+  useEffect(() => {
+
+    const data = {
+      sales_gb: '0010001'
+    }
+    props.selectAccounts(data)
+  }, [])
 
   useEffect(() => {
     if (selectedAccount) {
@@ -204,8 +220,9 @@ function UploadSalesLog(props) {
     }
   }, [selectedAccount])
 
-  const a = new Date('2021-08-08');
-  console.log(a)
+
+
+
   const onDatePickerChange = (date) => {
     console.log(date)
     const convertdate = moment(date).format('YYYY-MM-DD');
@@ -252,6 +269,7 @@ function UploadSalesLog(props) {
   // }
 
   const onChange = (e) => {
+    console.log(e.target.value);
     setRadioCheck(e.target.value);
     setFromData({
       ...fromData,
@@ -331,7 +349,6 @@ function UploadSalesLog(props) {
     setCoUser(couser.concat(couserlists))
     setCoUserList(user_name);
   }
-  console.log(fromData);
   useEffect(() => {
     if (couser) {
       const result = getFields(couser, 'id')
@@ -340,8 +357,6 @@ function UploadSalesLog(props) {
     }
   }, [couser])
 
-  console.log(couser);
-  console.log(couserlist)
   const handleOnBack = () => {
     props.history.push('/main/manage');
   };
@@ -355,7 +370,6 @@ function UploadSalesLog(props) {
 
   const onFormSubmit = () => {
     const result = getFields(couser, 'id');
-    console.log(result)
     setFromData({
       ...fromData,
       // 'cousers': couser.join(',')
@@ -442,6 +456,9 @@ function UploadSalesLog(props) {
     }
 
   }
+  const present = moment();
+  console.log(present)
+  console.log(present._d)
   return (
     <React.Fragment>
       <MyAppBar barTitle={'일지 쓰기'} showBackButton onSaveClick={onFormSubmit} navigateTo={handleOnBack} tempSaveClick={onFormTemporarySubmit} />
@@ -454,24 +471,24 @@ function UploadSalesLog(props) {
           </div>
         </div>
         <div className='mt-2'></div>
-        <DatePicker className='col-12' placeholder='활동일시'
-          defaultValue={moment('0000-00-00', Dateformat)}
-          format={Dateformat}
+        <DatePicker className='col-12'
+          // defaultValue={moment}
           value={dateString}
+          format={'YYYY-MM-DD'}
           onChange={onDatePickerChange} />
         <div className='mt-2'></div>
         <TimePicker className='col-6'
-          defaultValue={moment('00:00', format)}
-          format={format}
+          // defaultValue={moment}
           value={start}
           onChange={onChangesSartValue}
-          placeholder='00:00' />
+        // placeholder='00:00' 
+        />
         <TimePicker className='col-6'
-          defaultValue={moment('00:00', format)}
-          format={format}
+          // defaultValue={moment}
           value={end}
           onChange={onChangeEndValue}
-          placeholder='00:00' />
+        // placeholder='00:00' 
+        />
         <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
@@ -482,8 +499,8 @@ function UploadSalesLog(props) {
         <div className='row'>
           <div className='col-12' style={{ display: 'flex' }}>
             <Radio.Group onChange={onChange} value={radiocheck}>
-              <Radio onClick={getSalesAccount} value={'0050001'}>영업일지</Radio>
-              <Radio onClick={getLeadAccount} value={'0050002'}>리드일지</Radio>
+              <Radio onClick={getSalesAccount} value={'0010001'}>영업일지</Radio>
+              <Radio onClick={getLeadAccount} value={'0010002'}>리드일지</Radio>
             </Radio.Group>
             <div>* 일지구분을 선택하면 고객 리스트가 조회됩니다.</div>
           </div>
@@ -537,7 +554,7 @@ function UploadSalesLog(props) {
         <div className='mt-2'></div>
         < Divider />
         <div className='mt-3'></div>
-        {radiocheck === '0050002' ?
+        {radiocheck === '0010002' ?
           <div className="row">
             <div className="col-12">
               <Select

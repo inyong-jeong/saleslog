@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
 import { postCustomer, postCustomerManger } from 'redux/actions';
 import { withRouter } from 'react-router-dom';
-import { Form, Input } from 'antd';
+import { Form, Input, Radio, Select } from 'antd';
 
 const CustomerModal = (props) => {
   const {
@@ -17,6 +17,13 @@ const CustomerModal = (props) => {
   const handleOnClick = () => {
     setModal(!modal);
   }
+  const [radiocheck, setRadioCheck] = useState('0010001');
+  const [combo, setComBo] = useState(1)
+  const leadActivityOption =
+    [{ label: '발굴', value: '발굴' },
+    { label: '접촉', value: '접촉' },
+    { label: '제안', value: '제안' },
+    { label: '검증', value: '검증' }];
 
   const [accountbody, setAccountBody] = useState({
     account_name: '',
@@ -33,12 +40,12 @@ const CustomerModal = (props) => {
     acc_etc: '',
     tags: '',
     acc_fax: '',
-    sales_gb: '',
+    sales_gb: '0010001',
     acc_url: '',
     man_name: '',
     dept: '',
     posi: '',
-    tel: '',
+    tel: ''
   })
 
   const ChangeAccount = (e) => {
@@ -64,6 +71,27 @@ const CustomerModal = (props) => {
     setModal(!modal)
   }
 
+  const onChange = (e) => {
+    setRadioCheck(e.target.value);
+    setAccountBody({
+      ...accountbody,
+      'sales_gb': e.target.value
+    })
+  };
+
+  const onLeadActivity = (option) => {
+    console.log(option)
+    // setLeadActivity(option.value);
+    setAccountBody({
+      ...accountbody,
+      'score': option
+    })
+  }
+
+
+  useEffect(() => {
+    setComBo(radiocheck)
+  }, [radiocheck])
   return (
     <div>
       <button className='btn btn-dark ml-2' onClick={handleOnClick}>
@@ -86,6 +114,27 @@ const CustomerModal = (props) => {
             }}
             autoComplete="off"
           >
+            <Form.Item
+              label="고객구분"
+            >
+              <Radio.Group onChange={onChange} value={radiocheck}>
+                <Radio value={'0010001'}>거래고객</Radio>
+                <Radio value={'0010002'}>리드타깃</Radio>
+              </Radio.Group>
+            </Form.Item>
+            {radiocheck === '0010002' ?
+              <Form.Item
+                label="리드단계"
+              >
+                <Select
+                  options={leadActivityOption}
+                  value={leadActivityOption.value}
+                  onChange={onLeadActivity}
+
+                />
+              </Form.Item>
+              : null}
+
             <Form.Item
               label="고객"
             >

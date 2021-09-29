@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../components/customer/styles/Customer.module.css'
-import { Tabs, Row, Col } from 'antd';
+import { Tabs, Row, Col, Divider } from 'antd';
+import Text from 'antd/lib/typography/Text';
+
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
 import LeadLogFilter from 'components/LeadLogFilter';
@@ -34,10 +36,13 @@ function SalesLogList(props) {
     accts: '',
     accts_man: '',
     pageno: 1,
-    srch: ''
+    srch: '',
+    need_cod: ''
   })
 
   // 처음 업로드 될 때 dispatch, data 바뀔 때 call
+
+
   useEffect(() => {
     props.getLogLists(data)
   }, [data])
@@ -138,8 +143,6 @@ function SalesLogList(props) {
         <Col md={24} lg={24} xs={24}> */}
       <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
       {focus && <History
-
-
         keywords={keywords}
         onClearKeywords={handleClearKeywords}
         onRemoveKeyword={handleRemoveKeyword}
@@ -162,6 +165,10 @@ function SalesLogList(props) {
             </TabPane> */}
             <TabPane tab="영업일지" key="2">
               <SalesLogFilter data={data} setData={setData} />
+              <div className='mt-3 ml-2'>
+                <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지가 검색되었습니다.</Text>
+              </div>
+              <Divider />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
                   loglist={v}
@@ -173,6 +180,10 @@ function SalesLogList(props) {
             </TabPane>
             <TabPane tab="리드일지" key="3">
               <LeadLogFilter data={data} setData={setData} />
+              <div className='mt-3 ml-2'>
+                <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지가 검색되었습니다.</Text>
+              </div>
+              <Divider />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
                   loglist={v}
@@ -212,67 +223,4 @@ const mapStateToDispatch = {
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLogList);
 
-
-  // useEffect(() => {
-  //   if (loggb === '0010001') {
-  //     if (!keyword) {
-  //       const result = {
-  //         log_gb: loggb,
-  //         sales_man: '',
-  //         sales_lead_gb: '',
-  //         sales_goal: '',
-  //         sales_activity: '',
-  //         accts: '',
-  //         accts_man: '',
-  //         pageno: page
-  //       }
-  //       props.getLogLists(result)
-  //     } else if (keyword) {
-  //       const body = {
-  //         srch: keyword,
-  //         pageno: page
-  //       }
-  //       props.searchLogList(body);
-  //     }
-
-  //   } else if (loggb === '0010002') {
-  //     if (!keyword) {
-  //       const result = {
-  //         log_gb: loggb,
-  //         sales_man: '',
-  //         sales_lead_gb: '',
-  //         sales_goal: '',
-  //         sales_activity: '',
-  //         accts: '',
-  //         accts_man: '',
-  //         pageno: page
-  //       }
-  //       props.getLogLists(result)
-  //     } else if (keyword) {
-  //       const body = {
-  //         srch: keyword,
-  //         pageno: page
-  //       }
-  //       props.searchLogList(body);
-  //     }
-  //   }
-  // }, [page, keyword])
-  // page 바뀔 때 set
-  // useEffect(() => {
-  //   if (props.loglist && props.loadLogsLoading === false) {
-  //     if (page === 1) {
-  //       if (loggb === '0010001') {
-  //         setSalesLogList(props.loglist)
-  //       } else if (loggb === '0010002')
-  //         setLeadLogList(props.loglist)
-  //     } else if (page !== 1) {
-  //       if (loggb === '0010001') {
-  //         setSalesLogList(salesloglist.concat(props.loglist))
-  //       } else if (loggb === '0010002') {
-  //         setLeadLogList(leadloglist.concat(props.loglist))
-  //       }
-  //     }
-  //   }
-
-  // }, [props.loadLogsLoading])
 

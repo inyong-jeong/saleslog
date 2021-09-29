@@ -48,10 +48,9 @@ const LogListModal = (props) => {
   }, [props.deletetemporaryLogresponse])
   return (
     <div>
-      <label color="primary" onClick={handleOnClick} style={{ cursor: 'pointer' }}>
-        {buttonLabel}
-      </label>
-      <label>{props.temporaryLoglists.length}</label>
+      <button className='btn btn-dark' onClick={handleOnClick} style={{ cursor: 'pointer' }}>
+        {`${buttonLabel} ${props.temporaryLoglists.length}`}
+      </button>
 
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>임시저장 함</ModalHeader>

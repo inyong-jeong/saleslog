@@ -165,6 +165,7 @@ const CustomerRegisterInfo = () => {
     }
   }
   const onChangeGradeType = (value) => {
+    console.log(value)
     setInputs({ ...inputs, score: value })
 
   }
