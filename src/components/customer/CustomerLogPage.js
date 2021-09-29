@@ -12,7 +12,7 @@ import { useHistory, useLocation, useParams } from 'react-router';
 import { getLogLists } from '../../redux/saleslog/actions';
 import { ReactComponent as Dot } from '../../assets/icons/main/dot.svg'
 import { base64Dec } from '../../constants/commonFunc';
-
+import cmm from 'constants/common';
 
 const CustomerLogPage = () => {
 
@@ -31,7 +31,8 @@ const CustomerLogPage = () => {
     'sales_activity': '',
     'accts_man': '',
     'srch': '',
-    'pageno': 1
+    'pageno': 1,
+    'need_cod': ''
   })
 
   const grayTextStyles = {
@@ -55,22 +56,22 @@ const CustomerLogPage = () => {
     }
   }, [])
 
-  const handleLogClick = () => {
-    //해당 일지로 이동 
+  const handleLogClick = (singleList) => {
+    history.push(`/main/manage/saleslog/${singleList.slog_idx}`)
   }
 
   const CustomerLogItem = ({ singleList }) => (
-    <div style={{ cursor: 'pointer' }} onClick={handleLogClick}>
+    <div style={{ cursor: 'pointer' }} onClick={() => handleLogClick(singleList)}>
       <div style={{ display: 'flex' }}>
         <div style={{ marginRight: 10 }}>
-          <Avatar icon={<UserOutlined />} />
+          <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + singleList.thumb_url} />
         </div>
         <div style={{ flexGrow: 2 }}>
           <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}>{singleList.user_name}</p>
-          <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>영업관리부 <Dot /> 영업팀 </p>
-          <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>정보수집 <Dot /> 대면 <Dot /> 전략 니즈</p>
+          <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname} { }</p>
+          <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{singleList.sales_goal_t}<Dot /> 대면 <Dot /> 전략 니즈</p>
         </div>
-        <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date}</div>
+        <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_time}</div>
       </div>
       <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
       <div style={grayTextStyles}>{singleList.account_name} <Dot /> {singleList.man_name} </div>
@@ -83,7 +84,7 @@ const CustomerLogPage = () => {
   )
 
   const handleNextPage = () => {
-    console.log('handle page')
+
   }
 
   return (
