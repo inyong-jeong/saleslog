@@ -36,7 +36,7 @@ export const Baroption = {
     align: 'center',
   },
   xaxis: {
-    categories: ['전화', '이메일', '행사 참여', '대면', '온라인 리서치', '도서/전문정보', '소셜 커뮤니티', '기타']
+    categories: ['전화', '이메일', '행사참여', '대면', '온라인리서치', '도서/전문정보', '소셜커뮤니티', '기타']
   },
   yaxis: {
     labels: {
