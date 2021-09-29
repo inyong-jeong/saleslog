@@ -25,7 +25,7 @@ import {
   postEditNamecard,
   deleteCustomer
 } from './actions'
-import { successMessage } from '../../constants/commonFunc'
+import { forwardTo, successMessage } from '../../constants/commonFunc'
 
 //customer api 
 const BASE_URL = 'https://backend.saleslog.co/saleslog/'
@@ -43,8 +43,8 @@ const NAMECARD_EDIT = 'upd_accounts_man_photo'
 function* _deleteCustomer({ payload: { body } }) {
   try {
     const response = yield call(post_fetch, BASE_URL + ACC_DEL, body)
-    yield successMessage('해당 고객사가 삭제되었습니다.')
     yield put(deleteCustomer.success(response))
+    yield put(successMessage('해당 고객사가 삭제되었습니다.'))
   }
   catch (error) {
     yield put(deleteCustomer.error(error))
@@ -158,6 +158,10 @@ function* _getUser({ payload: { body } }) {
   }
 }
 
+function* watchDeleteCustomer() {
+  yield takeEvery(DEL_CUSTOMER, _deleteCustomer)
+}
+
 function* watchPostEditNamecard() {
   yield takeEvery(POST_EDIT_NAMECARD, _postEditNamecard)
 }
@@ -197,7 +201,8 @@ function* customerSaga() {
     fork(watchPostEditCustomer),
     fork(watchPostEditManager),
     fork(watchGetMangerInfo),
-    fork(watchPostEditNamecard)
+    fork(watchPostEditNamecard),
+    fork(watchDeleteCustomer)
   ])
 }
 

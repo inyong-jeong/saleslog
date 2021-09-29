@@ -8,7 +8,7 @@ import { grayboxLink } from './CustomerItems';
 import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
 
-const CustomerProfilePage = ({ customerId, managerId }) => {
+const CustomerProfilePage = ({ customerId, managerId, onPermission }) => {
 
   const classes = useStyles()
   const lineStyle = {
@@ -25,11 +25,9 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
   const manIds = []
   const manNames = []
   const names_ids = []
-
   useEffect(() => {
     customerId && dispatch(getCustomerDetails.call({ acc_idx: customerId }))
   }, [customerId])
-  console.log("profile:::::", customerId, managerId)
 
   const registerAccountsMan = () => {
     history.push({
@@ -53,6 +51,10 @@ const CustomerProfilePage = ({ customerId, managerId }) => {
         pathname: `/main/manager/profile/${base64Enc(customerId)}/${base64Enc(singleId)}`,
       })
   }, [singleId])
+
+  useEffect(() => {
+    state.getCustomerDetailsResponse && onPermission(acc_details.upd_yn)
+  }, [acc_details])
 
   return (
     <div>

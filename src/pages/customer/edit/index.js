@@ -198,7 +198,7 @@ const CustomerEditPage = () => {
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>고객명 *</label>
+            <label className={classes.laebelStyle}>고객명 <span style={{ color: 'red' }}>*</span></label>
             <Input
               name='account_name'
               onChange={handleChange}
@@ -208,7 +208,7 @@ const CustomerEditPage = () => {
               margin="normal"
             />
             <p className={classes.description}>주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.</p>
-            <label className={classes.laebelStyle}>대표자명 *</label>
+            <label className={classes.laebelStyle}>대표자명 <span style={{ color: 'red' }}>*</span></label>
             <Input
               name='ceo_name'
               onChange={handleChange}
@@ -240,7 +240,7 @@ const CustomerEditPage = () => {
           <Typography variant='h6' align='left' className={classes.title}>관리정보</Typography>
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
-            <label className={classes.laebelStyle}>고객사 구분</label>
+            <label className={classes.laebelStyle}>고객사 구분 <span style={{ color: 'red' }}>*</span></label>
             {/* <Tooltip title={desc1}>
             <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
           </Tooltip> */}
@@ -256,7 +256,7 @@ const CustomerEditPage = () => {
 
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
-            <label className={classes.laebelStyle}>구분</label>
+            <label className={classes.laebelStyle}>구분 <span style={{ color: 'red' }}>*</span></label>
             <StyledSelect
               showArrow
               showSearch={false}

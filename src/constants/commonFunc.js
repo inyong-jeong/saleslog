@@ -1,6 +1,6 @@
 import { message, Modal } from 'antd';
-
-export const successMessage = (msg) => {  
+import history from './history';
+export const successMessage = (msg) => {
   message.success({
     content: msg,
     duration: 0.8,
@@ -23,15 +23,14 @@ export const errorMessage = (msg) => {
 export const alertMessage = (msg) => {
   Modal.info({
     content: msg,
-    onOk() {},
+    onOk() { },
   })
 }
 
 export const base64Enc = (str) => {
-  return window.btoa( encodeURIComponent(str) ); 
+  return window.btoa(encodeURIComponent(str));
 }
 
 export const base64Dec = (str) => {
   return decodeURIComponent(window.atob(str));
 }
-

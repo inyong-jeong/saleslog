@@ -116,7 +116,6 @@ const CustomerItems = ({ inputs, page, setPage }) => {
       hasMore={true}
       dataLength={cusotomerList.length}
       next={handleNextPage}>
-      {/* {loading && <CircularProgress />} */}
       <List className={classes.root}>
         <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{listCounts ? listCounts : 0}</span> 개의 고객</Text>
         <Divider style={{ margin: 0 }} />

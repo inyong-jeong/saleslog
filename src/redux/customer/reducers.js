@@ -23,7 +23,10 @@ import {
   POST_EDIT_MANAGER_INFO,
   POST_EDIT_NAMECARD,
   POST_EDIT_NAMECARD_ERROR,
-  POST_EDIT_NAMECARD_SUCCESS
+  POST_EDIT_NAMECARD_SUCCESS,
+  DEL_CUSTOMER,
+  DEL_CUSTOMER_SUCCESS,
+  DEL_CUSTOMER_ERROR
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -42,6 +45,7 @@ const initialState = {
   managerDetails: null,
   postManagerEditResponse: null,
   postNamecardResponse: null,
+  deleteCustomerRepsonse: null
 }
 
 const Customer = (state = initialState, action) => {
@@ -108,6 +112,13 @@ const Customer = (state = initialState, action) => {
       return { ...state, loading: false, postNamecardResponse: true }
     case POST_EDIT_NAMECARD_ERROR:
       return { ...state, loading: false, postNamecardResponse: false }
+
+    case DEL_CUSTOMER:
+      return { ...state, loading: true }
+    case DEL_CUSTOMER_SUCCESS:
+      return { ...state, deleteCustomerRepsonse: true }
+    case DEL_CUSTOMER_ERROR:
+      return { ...state, deleteCustomerRepsonse: false }
 
     default:
       return { ...state };

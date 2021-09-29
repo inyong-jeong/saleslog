@@ -13,7 +13,9 @@ import { DatePicker } from "antd";
 import 'moment/locale/ko';
 import locale from 'antd/es/date-picker/locale/ko_KR';
 import AvatarUp from "../../../components/AvatarUp";
-import { base64Dec, base64Enc } from 'constants/commonFunc';
+import { base64Dec } from 'constants/commonFunc';
+import { alertMessage, errorMessage } from "../../../constants/commonFunc";
+
 const { Panel } = Collapse
 export const useStyles = makeStyles({
   FormControl: {
@@ -109,11 +111,17 @@ const RegisterManager = () => {
   }
 
   const onSaveClick = (e) => {
+    if (!accountMangerInputs.man_name || !accountMangerInputs.posi || !accountMangerInputs.dept) {
+      return errorMessage('담당자명, 직급 및 소속은 필수 항목입니다. ')
+    }
     dispatch(postCustomerManger.call(accountMangerInputs))
     history.goBack()
   }
 
   const handleFileChange = (e) => {
+    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+      return alertMessage('이미지 파일만 등록 가능합니다.')
+    }
     let reader = new FileReader();
     reader.onloadend = () => {
       setAccoutManagerInputs({
@@ -163,7 +171,7 @@ const RegisterManager = () => {
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>담당자명 *
+            <label className={classes.laebelStyle}>담당자명 <span style={{ fontSize: 12, color: 'red' }}>*</span>
             </label>
             <Input
               name='man_name'
@@ -173,7 +181,8 @@ const RegisterManager = () => {
               placeholder="담당자명"
               margin="normal"
             />
-            <label className={classes.laebelStyle}>직급 및 소속 *</label>
+            <label className={classes.laebelStyle}>직급 및 소속<span style={{ fontSize: 12, color: 'red' }}>*</span></label>
+
             <Input
               name='posi'
               onChange={handleChange}
