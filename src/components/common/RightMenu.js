@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { postAnniversary, postSystemNotice, postWorkgroupNotice } from '../../redux/etc/actions';
 import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
+import { ReactComponent as BdayLogo } from '../../../src/assets/icons/main/bday.svg'
+import { ReactComponent as Notice } from '../../../src/assets/icons/main/notice.svg'
 const { Panel } = Collapse
 
 export default function RightMenu() {
@@ -57,7 +59,7 @@ export default function RightMenu() {
     history.push(`/main/manager/profile/${base64Enc(item.acc_idx)}/${base64Enc(item.accm_idx)}`)
   }
 
-  const noticeDesc = <p style={{ fontSize: 12, color: '#666666' }}>최근 5개 글만 보입니다. </p>
+  const noticeDesc = <p style={{ fontSize: 12, color: '#666666' }}> <Notice />최근 5개 글만 보입니다. </p>
   const NoticeItem = ({ item, onClick }) => (
     <>
       <div
@@ -105,7 +107,7 @@ export default function RightMenu() {
         <Collapse bordered={false} style={{ backgroundColor: '#fff' }} expandIconPosition='right'>
           <Panel header="생일" key="1" style={customPanelStyle}>
             <div>
-              <p style={{ fontSize: 12, color: '#666666' }}> 최근 7일에 해당하는 생일만 표시됩니다. </p>
+              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 최근 7일에 해당하는 생일만 표시됩니다.</p>
               {
                 bday.map((item, index) => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
@@ -115,7 +117,7 @@ export default function RightMenu() {
           </Panel>
           <Panel header="결혼 기념일" key="2" style={customPanelStyle}>
             <div>
-              <p style={{ fontSize: 12, color: '#666666' }}>최근 7일에 해당하는 결혼 기념일만 표시됩니다. </p>
+              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 최근 7일에 해당하는 결혼 기념일만 표시됩니다. </p>
               {
                 mday.map((item, index) => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
@@ -128,7 +130,7 @@ export default function RightMenu() {
               {noticeDesc}
               {
                 sysNotice.map((item, index) => (
-                  <NoticeItem key={item.acccm_idx} item={item} onClick={() => handleSysNotice(item)} />
+                  <NoticeItem key={item.accm_idx} item={item} onClick={() => handleSysNotice(item)} />
                 ))
               }
             </div>
