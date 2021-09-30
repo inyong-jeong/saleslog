@@ -19,6 +19,7 @@ import AvatarUp from '../../../../components/AvatarUp';
 import cmm from 'constants/common';
 import { base64Dec, base64Enc } from 'constants/commonFunc';
 import { alertMessage } from '../../../../constants/commonFunc';
+
 const { Panel } = Collapse
 const EditCustomerManager = () => {
   const classes = useStyles()
@@ -97,11 +98,8 @@ const EditCustomerManager = () => {
   }
 
 
-  //file
   const handleChange = (e) => {
-    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
-      return alertMessage('이미지 파일만 등록 가능합니다.')
-    }
+
     const value = e.target.value
 
     setAccoutManagerInputs({
@@ -114,18 +112,20 @@ const EditCustomerManager = () => {
     if (!accountMangerInputs.man_name || !accountMangerInputs.posi) {
       return errorMessage('담당자명과 직급 및 소속은 필수 항목입니다.')
     }
-    //담당자 정보 수정 
+
     dispatch(postEditManager.call(accountMangerInputs))
-    //명함 사진 수정 
     dispatch(postEditNamecard.call({
       acc_idx: base64Dec(params.accId),
       accm_idx: base64Dec(params.singleId),
       man_photo: chagnedPhoto ? chagnedPhoto : ''
     }))
-    history.goBack()
+    console.log('changedphoto:::', chagnedPhoto)
   }
 
   const handleFileChange = (e) => {
+    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+      return alertMessage('이미지 파일만 등록 가능합니다.')
+    }
 
     let reader = new FileReader();
     reader.onloadend = () => {
@@ -140,6 +140,7 @@ const EditCustomerManager = () => {
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
+
   }
 
   const onChangeBirthday = (date, dateString) => {
@@ -154,9 +155,9 @@ const EditCustomerManager = () => {
     <div>
       <MyAppBar barTitle={'담당자 프로필 수정'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />
 
-      <div>
+      <div className='content_body'>
         <div>
-          <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
             <AvatarUp
               iconShape='square'
               imgsrc={preview ? preview : ''}

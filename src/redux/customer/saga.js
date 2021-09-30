@@ -63,13 +63,14 @@ function* _postEditNamecard({ payload: { body } }) {
 
 function* _postEditManager({ payload: { body } }) {
   try {
-    // console.log('SAGA :::::::', body)
+    console.log('담당자 수정 SAGA :::::::', body)
     const response = yield call(post_fetch, BASE_URL + DETAIL_MANAGER_EDIT, body)
     yield successMessage('담당자 수정이 완료되었습니다.')
     yield put(postEditManager.success(response))
 
   } catch (error) {
     yield put(getManagerInfo.error(error))
+    console.log('담당자 수정 오류 saga :::::::', error)
   }
 }
 
