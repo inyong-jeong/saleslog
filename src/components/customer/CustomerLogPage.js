@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import { Divider } from 'antd';
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import Typography from '@material-ui/core/Typography';
+import { Divider, Avatar } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
-import Text from 'antd/lib/typography/Text';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { getLogLists } from '../../redux/saleslog/actions';
 import { ReactComponent as Dot } from '../../assets/icons/main/dot.svg'
 import { base64Dec } from '../../constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
-
 import cmm from 'constants/common';
+import { ReactComponent as Feedback } from '../.././assets/icons/main/feedback.svg'
 
 const CustomerLogPage = () => {
 
@@ -63,24 +57,42 @@ const CustomerLogPage = () => {
   }
 
   const CustomerLogItem = ({ singleList }) => (
-    <div className={styles.logWrapper} onClick={() => handleLogClick(singleList)}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: 10 }}>
-          <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + singleList.thumb_url} />
+
+    <>
+      <div className={styles.logWrapper} onClick={() => handleLogClick(singleList)}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ marginRight: 10 }}>
+            <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + singleList.thumb_url} />
+          </div>
+          <div style={{ flexGrow: 2 }}>
+            <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}>{singleList.user_name}</p>
+            <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname} { }</p>
+            <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{singleList.sales_goal_t}<Dot /> 대면 <Dot /> 전략 니즈</p>
+          </div>
+          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_time}</div>
         </div>
-        <div style={{ flexGrow: 2 }}>
-          <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}>{singleList.user_name}</p>
-          <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname} { }</p>
-          <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{singleList.sales_goal_t}<Dot /> 대면 <Dot /> 전략 니즈</p>
+        <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
+        <div style={grayTextStyles}>{singleList.account_name} <Dot /> {singleList.man_name} </div>
+        <div style={{ fontSize: 14, fontWeight: 500 }}>{singleList.title}</div>
+        <div style={grayTextStyles}>{singleList.log} </div>
+        <div style={{ display: 'flex', height: 85 }}>
+          {(singleList.file1 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file1} />}
+          {(singleList.file2 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file2} />}
+          {(singleList.file3 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file3} />}
+          {(singleList.file4 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file4} />}
+          {(singleList.file5 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file5} />}
         </div>
-        <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_time}</div>
+        <div
+          style={{
+            fontSize: 12,
+            color: '#333333',
+            fontWeight: 400,
+
+          }}>
+          <Feedback /> 피드백 {singleList.feedback_cnt}개</div>
       </div>
-      <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
-      <div style={grayTextStyles}>{singleList.account_name} <Dot /> {singleList.man_name} </div>
-      <div style={{ fontSize: 14, fontWeight: 500 }}>{singleList.title}</div>
-      <div style={grayTextStyles}>{singleList.log} </div>
       <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0 }} />
-    </div>
+    </>
 
 
   )
@@ -94,7 +106,7 @@ const CustomerLogPage = () => {
       hasMore={true}
       dataLength={10}
       next={handleNextPage}>
-      <div style={{ margin: 10 }}>
+      <div>
         {
           loglist && state.loglistcount != 0 ?
             loglist.map((singleList, index) =>

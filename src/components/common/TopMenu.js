@@ -22,7 +22,7 @@ export default function TopMenu({ badgeContent }) {
   const history = useHistory()
   const onLogoutClick = () => {
     confirm({
-      title: '정말로 로그아웃 하시겠습니까?',
+      title: '정말 로그아웃 하시겠습니까?',
       icon: <ExclamationCircleOutlined />,
       cancelText: '취소',
       okText: '확인',

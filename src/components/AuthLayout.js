@@ -46,7 +46,10 @@ const AuthLayout = (props) => {
   useEffect(() => {
     setisNaviShow(props.isShowNaviBar);
   }, [props.isShowNaviBar])
-  const badgeContent = 100
+
+  //알림 badge 카운트 
+  const badgeContent = 1
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {isMobile ?
