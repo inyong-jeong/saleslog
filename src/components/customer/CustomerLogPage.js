@@ -59,7 +59,7 @@ const CustomerLogPage = () => {
   const CustomerLogItem = ({ singleList }) => (
 
     <>
-      <div className={styles.logWrapper} onClick={() => handleLogClick(singleList)}>
+      <div className={styles.logWrapper} onClick={() => handleLogClick(singleList)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
             <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + singleList.thumb_url} />
@@ -87,7 +87,8 @@ const CustomerLogPage = () => {
             fontSize: 12,
             color: '#333333',
             fontWeight: 400,
-
+            position: 'absolute',
+            bottom: 0
           }}>
           <Feedback /> 피드백 {singleList.feedback_cnt}개</div>
       </div>

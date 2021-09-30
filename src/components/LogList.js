@@ -30,7 +30,7 @@ function LogList({ loglist, handleNextPage, loglists }) {
   const SalesLogItem = ({ loglist }) => (
 
     <>
-      <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)}>
+      <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
             <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url} />
@@ -55,6 +55,8 @@ function LogList({ loglist, handleNextPage, loglists }) {
         </div>
         <div
           style={{
+            position: 'absolute',
+            bottom: 0,
             fontSize: 12,
             color: '#333333',
             fontWeight: 400,
