@@ -69,7 +69,7 @@ const CustomerLogPage = () => {
             <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname} { }</p>
             <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{singleList.sales_goal_t}<Dot /> 대면 <Dot /> 전략 니즈</p>
           </div>
-          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_time}</div>
+          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
         <div style={grayTextStyles}>{singleList.account_name} <Dot /> {singleList.man_name} </div>

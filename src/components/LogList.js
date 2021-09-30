@@ -40,7 +40,7 @@ function LogList({ loglist, handleNextPage, loglists }) {
             <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname} { }</p>
             <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{loglist.sales_goal_t}<Dot /> {loglist.sales_activity_t} <Dot /> {loglist.needs_cods}</p>
           </div>
-          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{loglist.meeting_date} {loglist.meeting_time}</div>
+          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{loglist.meeting_date} {loglist.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
         <div style={grayTextStyles}>{loglist.account_name} <Dot /> {loglist.man_name}<Dot /> {loglist.man_posi} </div>
