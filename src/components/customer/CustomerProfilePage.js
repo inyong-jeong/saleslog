@@ -4,10 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCustomerDetails } from '../../redux/customer/actions';
 import { Button } from 'antd';
-import { grayboxLink } from './CustomerItems';
 import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
-
+import styles from '../../assets/style/Main.module.css'
 const CustomerProfilePage = ({ customerId, managerId, onPermission }) => {
 
   const classes = useStyles()
@@ -134,7 +133,7 @@ const CustomerProfilePage = ({ customerId, managerId, onPermission }) => {
                 {
                   manNames.map((obj, index) => {
                     names_ids[manIds[index]] = obj
-                    return <p key={manIds[index]} style={grayboxLink} onClick={managerClick}>{obj}</p>
+                    return <p key={manIds[index]} onClick={managerClick} className={styles.managerWrapper}>{obj}</p>
                   })
                 }
               </div>

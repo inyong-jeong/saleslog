@@ -27,28 +27,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const graybox = {
-  display: 'inline',
-  marginRight: 5,
-  fontSize: 12,
-  backgroundColor: '#F6F6F6',
-  color: '#F09A32',
-  padding: 3,
-  borderRadius: '2px',
-  fontWeight: 400
-}
-
-export const grayboxLink = {
-  display: 'inline',
-  marginRight: 5,
-  fontSize: 11,
-  backgroundColor: '#F6F6F6',
-  color: '#F09A32',
-  padding: 3,
-  borderRadius: '2px',
-  cursor: 'pointer',
-  fontWeight: 400,
-}
 const bluebox = {
   fontSize: 12,
   backgroundColor: '#F6F6F6',
@@ -167,7 +145,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
                               restCount = 0
                             }
                             if (index < 3) {
-                              return <p key={singleName} style={graybox}>{singleName}</p>
+                              return <p key={singleName} className={styles.managerWrapper}>{singleName}</p>
                             }
                           })
                           : ''}
