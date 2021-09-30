@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Serviceinfo() {
   return (
-    <div style={{ margin: 10, padding: 5 }}>
+    <div style={{ padding: 5 }}>
       주식회사 더클랩(“Saleslog”)에서 운영 및 제공하는 Saleslog 서비스, 웹사이트 또는 모바일 애플리케이션(이하 통칭하여 "서비스")에 오신 것을 환영합니다. 세일즈 협업 툴 Saleslog(이하 “서비스”라 함)는 이용자의 권리 및 의무를 인지할 수 있도록 이용약관(이하 “본 이용약관”이라 함)을 제정했습니다. 귀하는 서비스에 접속 또는 이용함으로써 본 이용약관 및 개인정보 처리방침에 따른 법적 효력을 적용 받는 것에 동의합니다.
       <br />
       <br />

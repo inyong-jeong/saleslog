@@ -77,68 +77,70 @@ const CustomerShow = () => {
 
   return (
     <div>
-      <MyAppBar barTitle={'고객'} />      
-      <Search
-        placeholder="고객 검색"
-        allowClear
-        onSearch={onSearch}
-        style={{
-          width: '100%',
-          marginBottom: 10,
-          marginTop: 10,
-        }} />
+      <MyAppBar barTitle={'고객'} />
+      <div className='content_body'>
+        <Search
+          placeholder="고객 검색"
+          allowClear
+          onSearch={onSearch}
+          style={{
+            width: '100%',
+            marginBottom: 10,
+            marginTop: 10,
+          }} />
 
-      <FullTabs defaultActiveKey="1" onChange={onTabChange} >
-        <TabPane tab="전체" key="1" >
-          <SelectFilter
-            users={users}
-            setPage={setPage}
-            disabled={true}
-            setInputs={setInputs}
-            inputs={inputs}
-            gradeType={emptyType}
-          />
-          <CustomerItems
-            page={page}
-            setPage={setPage}
-            setInputs={setInputs}
-            inputs={inputs}
-          />
-        </TabPane>
+        <FullTabs defaultActiveKey="1" onChange={onTabChange} >
+          <TabPane tab="전체" key="1" >
+            <SelectFilter
+              users={users}
+              setPage={setPage}
+              disabled={true}
+              setInputs={setInputs}
+              inputs={inputs}
+              gradeType={emptyType}
+            />
+            <CustomerItems
+              page={page}
+              setPage={setPage}
+              setInputs={setInputs}
+              inputs={inputs}
+            />
+          </TabPane>
 
-        <TabPane tab="거래고객" key="2">
-          <SelectFilter
-            users={users}
-            setPage={setPage}
-            setInputs={setInputs}
-            gradeType={scoreType}
-            inputs={inputs}
-          />
-          <CustomerItems
-            page={page}
-            setPage={setPage}
-            setInputs={setInputs}
-            inputs={inputs} />
-        </TabPane>
+          <TabPane tab="거래고객" key="2">
+            <SelectFilter
+              users={users}
+              setPage={setPage}
+              setInputs={setInputs}
+              gradeType={scoreType}
+              inputs={inputs}
+            />
+            <CustomerItems
+              page={page}
+              setPage={setPage}
+              setInputs={setInputs}
+              inputs={inputs} />
+          </TabPane>
 
-        <TabPane tab="리드고객" key="3">
-          <SelectFilter
-            users={users}
-            setPage={setPage}
-            setInputs={setInputs}
-            gradeType={stageType}
-            inputs={inputs}
-          />
-          <CustomerItems
-            page={page}
-            setPage={setPage}
-            setInputs={setInputs}
-            inputs={inputs} />
-        </TabPane>
-      </FullTabs>
+          <TabPane tab="리드고객" key="3">
+            <SelectFilter
+              users={users}
+              setPage={setPage}
+              setInputs={setInputs}
+              gradeType={stageType}
+              inputs={inputs}
+            />
+            <CustomerItems
+              page={page}
+              setPage={setPage}
+              setInputs={setInputs}
+              inputs={inputs} />
+          </TabPane>
+        </FullTabs>
 
-      <div className={styles.Wrapper}>
-        <CustomFab navigateTo={navigateTo} />
+        <div className={styles.Wrapper}>
+          <CustomFab navigateTo={navigateTo} />
+        </div>
       </div>
     </div>
   );

@@ -63,7 +63,7 @@ const CustomerDetail = () => {
         />
       }
 
-      <div>
+      <div className='content_body'>
         <FullTabs defaultActiveKey="1" >
           <TabPane tab="프로필" key="1" >
             <CustomerProfilePage customerId={customerId} managerId={managerId} onPermission={onPermission} />

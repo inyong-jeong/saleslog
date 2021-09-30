@@ -21,13 +21,15 @@ const AppInfo = () => {
         //showBackButton
         navigateTo={navigateTo}
       />
-      <FullTabs defaultActiveKey="1" onChange={onTabChange} >
-        <TabPane tab='서비스 이용약관' key='1'>
-          <Serviceinfo />
-        </TabPane>
-        {/* <TabPane tab='개인정보 처리방침' key='2'></TabPane>
+      <div className='content_body'>
+        <FullTabs defaultActiveKey="1" onChange={onTabChange} >
+          <TabPane tab='서비스 이용약관' key='1'>
+            <Serviceinfo />
+          </TabPane>
+          {/* <TabPane tab='개인정보 처리방침' key='2'></TabPane>
         <TabPane tab='위치서비스 약관' key='3'></TabPane> */}
-      </FullTabs>
+        </FullTabs>
+      </div>
     </>
   );
 }

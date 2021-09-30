@@ -21,15 +21,16 @@ const SupportPage = () => {
         // showBackButton
         navigateTo={navigateTo}
       />
-      <FullTabs defaultActiveKey="1" onChange={onTabChange} >
-        <TabPane tab='1:1 문의하기' key='1'>
-          <InquiryPage />
-        </TabPane>
-        <TabPane tab='내 문의내역' key='2'>
-          <MyInquiryLists />
-        </TabPane>
-      </FullTabs>
-
+      <div className='content_body'>
+        <FullTabs defaultActiveKey="1" onChange={onTabChange} >
+          <TabPane tab='1:1 문의하기' key='1'>
+            <InquiryPage />
+          </TabPane>
+          <TabPane tab='내 문의내역' key='2'>
+            <MyInquiryLists />
+          </TabPane>
+        </FullTabs>
+      </div>
     </div>
   );
 }

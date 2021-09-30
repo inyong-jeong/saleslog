@@ -154,7 +154,7 @@ const RegisterManager = () => {
     <div>
       <MyAppBar barTitle={'담당자 추가'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />
 
-      <div style={{ marginTop: 20 }}>
+      <div className='content_body'>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <AvatarUp
             iconShape='square'

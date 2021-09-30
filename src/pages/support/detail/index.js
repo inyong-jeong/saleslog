@@ -31,7 +31,7 @@ const MyInquiryDetails = () => {
       />
       {
         state.inquiryDetailsResponse ?
-          <div style={{ margin: 10 }}>
+          <div className='content_body'>
 
             <Typography variant='h6' align='left' className={classes.title}>문의 제목</Typography>
             <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10, height: 20 }}>

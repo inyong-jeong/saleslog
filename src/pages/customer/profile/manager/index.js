@@ -56,8 +56,8 @@ const ManagerProfilePage = () => {
       {
         state.getMangerResponse ?
           <>
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
+            <div className='content_body'>
+              <div style={{ display: 'flex', justifyContent: 'center', }}>
                 {managerDetails.man_photo ?
                   <AvatarUp
                     hideIcon
