@@ -10,7 +10,10 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { base64Dec, base64Enc } from 'constants/commonFunc';
 import { deleteCustomer } from '../../../redux/customer/actions';
 import { useSelector } from 'react-redux';
+import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
+const { confirm } = Modal;
 const { TabPane } = FullTabs;
 const CustomerDetail = () => {
 
@@ -32,6 +35,12 @@ const CustomerDetail = () => {
     params.managerId && setManagerId(base64Dec(params.managerId))
 
   }, [])
+  useEffect(() => {
+    if (state.deleteCustomerRepsonse) {
+      history.goBack()
+    }
+
+  }, [state.deleteCustomerRepsonse])
 
   const navigateTo = () => history.goBack()
 
@@ -40,7 +49,20 @@ const CustomerDetail = () => {
   }
 
   const deleteClick = () => {
-    dispatch(deleteCustomer.call({ acc_idx: customerId }))
+    confirm({
+      title: '해당 고객사를 삭제하시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        dispatch(deleteCustomer.call({ acc_idx: customerId }))
+      },
+      onCancel() {
+        //취소
+      },
+    })
+
+
   }
 
 
