@@ -142,22 +142,22 @@ function SalesLogList(props) {
   return (
     <>
       <MyAppBar barTitle={'일지'} />
-      
-    <div className='content_body'>
-      {/* <Row>
+
+      <div className='content_body'>
+        {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
-      <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
-      {focus && <History
-        keywords={keywords}
-        onClearKeywords={handleClearKeywords}
-        onRemoveKeyword={handleRemoveKeyword}
-      />}
-      {/* </Col>
+        <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
+        {focus && <History
+          keywords={keywords}
+          onClearKeywords={handleClearKeywords}
+          onRemoveKeyword={handleRemoveKeyword}
+        />}
+        {/* </Col>
       </Row> */}
-      <Row>
-        <Col sm={24} xs={24} md={24} lg={24} >
-          <FullTabs type='line' defaultActiveKey="1" onChange={onTabChange}>
-            {/* <TabPane tab="전체" key="1">
+        <Row>
+          <Col sm={24} xs={24} md={24} lg={24} >
+            <FullTabs type='line' defaultActiveKey="1" onChange={onTabChange}>
+              {/* <TabPane tab="전체" key="1">
               <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
                 <LogList key={v.slog_idx}
@@ -168,45 +168,46 @@ function SalesLogList(props) {
               ))
               }
             </TabPane> */}
-            <TabPane tab="영업일지" key="2">
-              <SalesLogFilter data={data} setData={setData} />
-              <div className='mt-3 ml-2'>
-                <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지가 검색되었습니다.</Text>
-              </div>
-              <Divider />
-              {loglists.map((v) => (
-                <LogList key={v.slog_idx}
-                  loglist={v}
-                  handleNextPage={handleNextPage}
-                  // isnotbottom={isnotbottom}
-                  loglists={loglists} />
-              ))
-              }
-            </TabPane>
-            <TabPane tab="리드일지" key="3">
-              <LeadLogFilter data={data} setData={setData} />
-              <div className='mt-3 ml-2'>
-                <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지가 검색되었습니다.</Text>
-              </div>
-              <Divider />
-              {loglists.map((v) => (
-                <LogList key={v.slog_idx}
-                  loglist={v}
-                  handleNextPage={handleNextPage}
-                  // isnotbottom={isnotbottom}
-                  loglists={loglists} />
-              ))
-              }
-            </TabPane>
-          </FullTabs>
+              <TabPane tab="영업일지" key="2">
+                <SalesLogFilter data={data} setData={setData} />
+                <div className='mt-3 ml-2'>
+                  <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
+                </div>
+                <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0 }} />
 
-        </Col>
-      </Row>
-      <Row>
-        <div>
-          <CustomFab navigateTo={navigateTo} />
-        </div>
-      </Row>
+                {loglists.map((v) => (
+                  <LogList key={v.slog_idx}
+                    loglist={v}
+                    handleNextPage={handleNextPage}
+                    // isnotbottom={isnotbottom}
+                    loglists={loglists} />
+                ))
+                }
+              </TabPane>
+              <TabPane tab="리드일지" key="3">
+                <LeadLogFilter data={data} setData={setData} />
+                <div className='mt-3 ml-2'>
+                  <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
+                </div>
+                <Divider />
+                {loglists.map((v) => (
+                  <LogList key={v.slog_idx}
+                    loglist={v}
+                    handleNextPage={handleNextPage}
+                    // isnotbottom={isnotbottom}
+                    loglists={loglists} />
+                ))
+                }
+              </TabPane>
+            </FullTabs>
+
+          </Col>
+        </Row>
+        <Row>
+          <div>
+            <CustomFab navigateTo={navigateTo} />
+          </div>
+        </Row>
       </div>
     </>
   )
