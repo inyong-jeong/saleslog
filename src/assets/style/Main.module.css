@@ -16,3 +16,9 @@
   height: 152;
   transition: 400ms ease-in-out;
 }
+
+.logWrapper:hover {
+  background-color: #F6F6F6;
+  cursor: pointer;
+  transition: 400ms ease-in-out;
+}

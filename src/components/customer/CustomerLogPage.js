@@ -12,6 +12,8 @@ import { useHistory, useLocation, useParams } from 'react-router';
 import { getLogLists } from '../../redux/saleslog/actions';
 import { ReactComponent as Dot } from '../../assets/icons/main/dot.svg'
 import { base64Dec } from '../../constants/commonFunc';
+import styles from '../../assets/style/Main.module.css'
+
 import cmm from 'constants/common';
 
 const CustomerLogPage = () => {
@@ -61,7 +63,7 @@ const CustomerLogPage = () => {
   }
 
   const CustomerLogItem = ({ singleList }) => (
-    <div style={{ cursor: 'pointer' }} onClick={() => handleLogClick(singleList)}>
+    <div className={styles.logWrapper} onClick={() => handleLogClick(singleList)}>
       <div style={{ display: 'flex' }}>
         <div style={{ marginRight: 10 }}>
           <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + singleList.thumb_url} />
