@@ -7,7 +7,7 @@ import WorkgroupSaga from './workgroup/saga';
 import organizationSaga from './organization/saga';
 import profileSaga from './profile/saga';
 import supportSaga from './support/saga';
-import dashboardSaga from './profile/saga';
+import dashboardSaga from './dashboard/saga';
 import EtcSaga from './etc/saga';
 
 

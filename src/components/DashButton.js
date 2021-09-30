@@ -45,12 +45,8 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChange 
         {(selected == 4 ) &&  
           <RangePicker key={1} className='col-sm-12 col-xs-12 col-md-6 col-lg-6'
             placeholder={[dte.sdt, dte.edt]}
-            defaultValue={[moment(), moment()]}
-            format={'YYYY-MM-DD'}
-            // ranges={{
-            //   Today: [moment(), moment()],
-            //   'This Month': [moment().startOf('month'), moment().endOf('month')],
-            // }}
+            defaultValue={[moment(moment().format('YYYY-MM')+'-01'), moment()]}
+            format={'YYYY-MM-DD'}            
             onChange={onChange}
         />
       }

@@ -5,9 +5,5 @@ import {
 
 import { fetchActionGenerator } from '../utils';
 
-const getsaleslogstat = fetchActionGenerator(GET_SALES_STAT, 'body');
-const getleadlogstat = fetchActionGenerator(GET_LEAD_STAT, 'body');
-
-
-
-export { getsaleslogstat, getleadlogstat }
+export const getsaleslogstat = fetchActionGenerator(GET_SALES_STAT, 'body');
+export const getleadlogstat = fetchActionGenerator(GET_LEAD_STAT, 'body');

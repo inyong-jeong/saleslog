@@ -8,7 +8,7 @@ import Workgroup from './workgroup/reducers';
 import Organization from './organization/reducers';
 import Profile from './profile/reducers';
 import Support from './support/reducers';
-import Dashboard from './profile/reducers';
+import Dashboard from './dashboard/reducers';
 import Etc from './etc/reducers';
 
 

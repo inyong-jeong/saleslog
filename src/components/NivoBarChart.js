@@ -17,11 +17,11 @@ const NivoBarChart = (props) => {
     <div style={{width:'100%',height:400}}>
       <ResponsiveBar
           data={props.data}
-          keys={Baroption.xaxis.categories}
+          keys={props.labels}
           indexBy="active_id"
-          margin={{ top: 50, right: 50, bottom: 50, left: 100 }}
+          margin={props.margin}
           padding={0.3}
-          layout="horizontal"
+          layout={(props.barType)?props.barType:"horizontal"}
           valueScale={{ type: 'linear' }}
           indexScale={{ type: 'band', round: true }}
           valueFormat={{ format: '', enabled: false }}

@@ -3,24 +3,31 @@ import { get_fetch, post_fetch, post_fetch_files } from 'model/FetchManage'
 import {
   GET_SALES_STAT,
   GET_LEAD_STAT
-} from '../../constants/actionTypes'
+} from 'constants/actionTypes'
 import {
   getsaleslogstat, getleadlogstat
 } from './actions'
 
-function* _getSalesLogStat() {
+const cmm = require('constants/common');
+
+
+//customer api 
+const SALESLOG_STAT = '/saleslog/summary_saleslog'                    //saleslog
+const LEADLOG_STAT = '/saleslog/summary_saleslog_lead'                //leadlog
+
+function* _getSalesLogStat({ payload: { body } }) {
   try {
-    const response = yield call(post_fetch, 'https://backend.saleslog.co/org/myinfo')
-    console.log(response)
+    
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + SALESLOG_STAT, body)
     yield put(getsaleslogstat.success(response))
-  } catch (error) {
+  } catch (error) {    
     yield put(getsaleslogstat.error(error))
   }
 }
 
 function* _getLeadLogStat({ payload: { body } }) {
   try {
-    const response = yield call(post_fetch, 'https://backend.saleslog.co/org/myinfo_photo', body)
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + LEADLOG_STAT, body)
     yield put(getleadlogstat.success(response))
   } catch (error) {
     yield put(getleadlogstat.error(error))

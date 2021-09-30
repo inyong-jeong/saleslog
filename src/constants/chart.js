@@ -35,6 +35,9 @@ export const Baroption = {
     text: '영업일지 채널에 다른 영업일지 건수',
     align: 'center',
   },
+  needslabel: {
+    categories: ['발굴','접촉','제안','검증']
+  },
   xaxis: {
     categories: ['전화', '이메일', '행사참여', '대면', '온라인리서치', '도서/전문정보', '소셜커뮤니티', '기타']
   },
