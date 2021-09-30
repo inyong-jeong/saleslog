@@ -60,9 +60,9 @@ const Customer = (state = initialState, action) => {
     case GET_CUSTOMER:
       return { ...state, loading: true }
     case GET_CUSTOMER_SUCCESS:
-      return { ...state, loading: false, getCustomerResponse: true, list: action.payload.response.message[0], listCounts: action.payload.response.message[1][0].totalCnt }
+      return { ...state, loading: false, getCustomerResponse: true, postCustomerResponse: false, list: action.payload.response.message[0], listCounts: action.payload.response.message[1][0].totalCnt }
     case GET_CUSTOMER_ERROR:
-      return { ...state, loading: false, getCustomerResponse: false }
+      return { ...state, loading: false, getCustomerResponse: false, postCustomerResponse: false, }
 
     case GET_CUSTOMER_OPTION_USERS:
       return { ...state, userListsResponse: false }

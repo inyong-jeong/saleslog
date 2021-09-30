@@ -67,6 +67,7 @@ const CustomerRegisterInfo = () => {
 
   const dispatch = useDispatch()
   const classes = useStyles()
+  const state = useSelector(state => state.Customer)
 
   const [inputs, setInputs] = useState(
     {
@@ -121,7 +122,7 @@ const CustomerRegisterInfo = () => {
 
   }, [])
 
-  const onSaveClick = (e) => {
+  const onSaveClick = () => {
     if (!inputs.account_name || !inputs.ceo_name) {
       return errorMessage('고객명, 대표자명은 필수 항목입니다.')
     }
@@ -137,9 +138,14 @@ const CustomerRegisterInfo = () => {
       }
     }
     dispatch(postCustomer.call(inputs))
-    setInputs('')
-    //history.goBack()
+
   }
+  useEffect(() => {
+    if (state.postCustomerResponse) {
+      history.goBack()
+    }
+
+  }, [state.postCustomerResponse])
 
   const handleChange = (e) => {
     if ('detail' in e) {
