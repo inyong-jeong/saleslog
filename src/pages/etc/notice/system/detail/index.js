@@ -65,7 +65,8 @@ const sysNoticeRegi = (props) => {
         onEditClick={onEditClick}
       />
 
-      <div style={{ marginTop: 20 }}>
+    <div className='content_body'>
+      <div style={{ marginTop: 10 }}>
         <label style={{ padding: 5, color: '#aaa' }}>제목 </label><br />
         <label style={{ padding: 5, margin: 0 }}>{noticeData[0].title}</label>
         <Divider style={{ width: '100%', margin: 5 }} />
@@ -75,6 +76,7 @@ const sysNoticeRegi = (props) => {
         <label style={{ padding: 5, margin: 0, whiteSpace: "pre-wrap" }}>{noticeData[0].content}</label>
         <Divider style={{ width: '100%', margin: 5 }} />
       </div>
+    </div>
     </div>
   );
 }

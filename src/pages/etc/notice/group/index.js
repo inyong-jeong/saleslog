@@ -78,6 +78,7 @@ const GroupNoticePage = () => {
   return (
     <div>
       <MyAppBar barTitle={'워크그룹 공지'} />
+      <div className='content_body'>
       <Search
         placeholder="검색"
         allowClear
@@ -99,6 +100,7 @@ const GroupNoticePage = () => {
 
       <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
+      </div>
       </div>
     </div>
   );

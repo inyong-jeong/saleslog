@@ -142,6 +142,8 @@ function SalesLogList(props) {
   return (
     <>
       <MyAppBar barTitle={'일지'} />
+      
+    <div className='content_body'>
       {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
       <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
@@ -205,6 +207,7 @@ function SalesLogList(props) {
           <CustomFab navigateTo={navigateTo} />
         </div>
       </Row>
+      </div>
     </>
   )
 }

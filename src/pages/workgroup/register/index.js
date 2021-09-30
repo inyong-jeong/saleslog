@@ -127,7 +127,7 @@ const WgroupManagePage = (props) => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
-      <div>
+      <div className='content_body'>
         <div style={{ display: 'flex' }}>
 
           <div style={{

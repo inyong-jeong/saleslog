@@ -89,8 +89,8 @@ const grpNoticeRegi = (props) => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
-
-      <div style={{ marginTop: 20 }}>
+    <div className='content_body'>
+      <div style={{ marginTop: 10 }}>
         <label style={titleStyle}>제목 </label><br />
         <Input
           name='title'
@@ -112,6 +112,7 @@ const grpNoticeRegi = (props) => {
           value={inputs.content}
         />
       </div>
+    </div>
     </div>
   );
 }

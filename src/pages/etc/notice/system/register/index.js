@@ -84,7 +84,8 @@ const sysNoticeRegi = (props) => {
         onSaveClick={onSaveClick}
       />}
 
-      <div style={{ marginTop: 20 }}>
+      <div className='content_body'>
+      <div style={{ marginTop: 10 }}>
         <label style={{ padding: 5, color: '#aaa' }}>제목 </label><br />
         <Input
           name='title'
@@ -106,6 +107,7 @@ const sysNoticeRegi = (props) => {
           value={inputs.content}
         />
         <Divider style={{ width: '100%', margin: 5 }} />
+      </div>
       </div>
     </div>
   );

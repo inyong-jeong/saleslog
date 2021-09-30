@@ -124,6 +124,7 @@ const WgroupMemberPage = (props) => {
         showAddButton
         onAddClick={addMember}
       />}
+      <div className='content_body'>
       <InfiniteScroll
         hasMore={true}
         dataLength={memberList.length} >
@@ -245,7 +246,7 @@ const WgroupMemberPage = (props) => {
         ]}> <p>맴버 내보내기는 취소할 수 없습니다.<br />맴버를 내보낼까요?</p>
 
       </Modal>
-
+      </div>
     </div>
   );
 }

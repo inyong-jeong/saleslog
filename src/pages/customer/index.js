@@ -77,7 +77,7 @@ const CustomerShow = () => {
 
   return (
     <div>
-      <MyAppBar barTitle={'고객'} />
+      <MyAppBar barTitle={'고객'} />      
       <Search
         placeholder="고객 검색"
         allowClear

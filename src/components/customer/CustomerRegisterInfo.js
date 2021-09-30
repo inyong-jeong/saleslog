@@ -191,7 +191,7 @@ const CustomerRegisterInfo = () => {
         onSaveClick={onSaveClick}
       />
 
-      <div>
+      <div className='content_body'>
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>

@@ -94,6 +94,7 @@ const WgroupMemberPage = (props) => {
         navigateTo={navigateTo}
 
       />}
+      <div className='content_body'>
       <div style={{ flex: 1, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
         <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', padding: 10, }}>
           <ExclamationCircleOutlined
@@ -140,6 +141,7 @@ const WgroupMemberPage = (props) => {
             }}
           >워크그룹 삭제</Button>
         </div>
+      </div>
       </div>
     </div>
   );

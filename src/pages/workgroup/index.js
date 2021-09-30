@@ -112,7 +112,8 @@ const WgroupManagePage = (props) => {
         navigateTo={navigateTo}
         navigateNext={navigateNext}
       />
-      <div style={{ cursor: 'pointer', marginTop: 20, width: '100%' }}>
+      <div className='content_body'>
+      <div style={{ cursor: 'pointer', marginTop: 10, width: '100%' }}>
         <IconLabel title="정보 수정" pathUri="main/workgroup/update" src={<EditIcon />} />
         <Divider style={marginStyle} />
         <IconLabel title="맴버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
@@ -208,6 +209,7 @@ const WgroupManagePage = (props) => {
         </InfiniteScroll>
 
       </Modal>
+      </div>
     </>
   );
 }

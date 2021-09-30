@@ -229,7 +229,8 @@ function SalesLog(props) {
 
   return (
     <>
-      <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />
+      <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />      
+    <div className='content_body'>
       <Row>
         <Col>
           {Log && <h4>{Log.title}</h4>}
@@ -384,6 +385,7 @@ function SalesLog(props) {
           {/* <Divider /> */}
         </Col>
       </Row>
+      </div>
     </>
   )
 }

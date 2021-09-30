@@ -138,6 +138,7 @@ const myProfilePage = (props) => {
         onSaveClick={onSaveClick}
       />
 
+    <div className='content_body'>
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <AvatarUp
           imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
@@ -194,6 +195,7 @@ const myProfilePage = (props) => {
         <label style={grayResultTextStyle}>{myData[0].dept_name}</label>
       </div>
       <Divider />
+      </div>
     </div>
   );
 }

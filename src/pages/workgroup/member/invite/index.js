@@ -134,6 +134,7 @@ const WgroupMemberPage = (props) => {
         navigateTo={navigateTo}
 
       />}
+      <div className='content_body'>
       <FullTabs defaultActiveKey="1" onChange={onTabChange} >
         <TabPane tab="초대하기" key="1" >
           <div style={{ flex: 1, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
@@ -255,6 +256,7 @@ const WgroupMemberPage = (props) => {
 
         </TabPane>
       </FullTabs>
+      </div>
     </div>
   );
 }

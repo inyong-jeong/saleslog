@@ -78,6 +78,7 @@ const SystemNoticePage = () => {
   return (
     <div>
       <MyAppBar barTitle={'시스템 공지'} />
+    <div className='content_body'>
       <Search
         placeholder="검색"
         allowClear
@@ -99,6 +100,7 @@ const SystemNoticePage = () => {
 
       <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
+      </div>
       </div>
     </div>
   );

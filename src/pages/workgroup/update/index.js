@@ -134,6 +134,7 @@ const WgroupManagePage = (props) => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
+      <div className='content_body'>
       <div style={{ display: 'flex' }}>
         <AvatarUp imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
           iconShape='square'
@@ -184,7 +185,7 @@ const WgroupManagePage = (props) => {
           return (<span key={item} style={{ fontSize: 11, color: '#EE1818' }}>{item}<br /></span>)
         })
       }
-
+      </div>
     </>
   );
 }

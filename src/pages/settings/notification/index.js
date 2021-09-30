@@ -21,7 +21,9 @@ const NotificationSetting = () => {
         //  showBackButton
         navigateTo={navigateTo}
       />
-      <div style={{ margin: 10 }}>
+      
+    <div className='content_body'>
+   
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
           <p style={{ margin: 0, paddingLeft: 5, fontSize: 16 }}>알림 모드</p>
           <div style={{ display: 'flex', alignItems: 'center', margin: 0, paddingLeft: 5, }}>
@@ -35,8 +37,9 @@ const NotificationSetting = () => {
             flexBasis: '100%'
           }}>알람을 끄면 모든 알림음이 울리지 않습니다. </p>
         </div>
-      </div>
+        </div>
       <Divider />
+     
     </>
   );
 }

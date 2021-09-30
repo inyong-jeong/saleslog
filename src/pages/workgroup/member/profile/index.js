@@ -154,7 +154,7 @@ const WgroupMemberPage = (props) => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
-
+    <div className='content_body'>
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Avatar
           src={(cmm.isEmpty(memberData[0].thumb_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + memberData[0].thumb_url)}
@@ -207,6 +207,7 @@ const WgroupMemberPage = (props) => {
         <label style={labelTextStyle}>최근 접속 일시</label><br />
         <label style={grayResultTextStyle}>{memberData[0].upd_dt}</label>
         <Divider style={{ width: '100%', margin: 5 }} />
+      </div>
       </div>
     </div>
   );

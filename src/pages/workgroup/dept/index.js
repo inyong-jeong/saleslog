@@ -174,6 +174,7 @@ const WgroupDeptPage = (props) => {
         showBackButton
         navigateTo={navigateTo}
       />
+      <div className='content_body'>
       <div
         style={{
           display: 'flex',
@@ -216,7 +217,7 @@ const WgroupDeptPage = (props) => {
       </div>
 
       <Divider style={{ margin: '30,10' }} />
-
+      </div>
     </>
   );
 }

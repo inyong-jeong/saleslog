@@ -105,8 +105,8 @@ const grpNoticeUpd = (props) => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />}
-
-      <div style={{ marginTop: 20 }}>
+      <div className='content_body'>
+      <div style={{ marginTop: 10 }}>
         <label style={titleStyle}>제목 </label><br />
         <Input
           name='title'
@@ -127,6 +127,7 @@ const grpNoticeUpd = (props) => {
           onChange={handleChange}
           value={inputs.content}
         />
+      </div>
       </div>
     </div>
   );
