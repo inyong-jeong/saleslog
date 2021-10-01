@@ -7,6 +7,7 @@ import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
 import { ReactComponent as BdayLogo } from '../../../src/assets/icons/main/bday.svg'
 import { ReactComponent as Notice } from '../../../src/assets/icons/main/notice.svg'
+import CustomUp from '../styledcomponent/CustomUpButton';
 const { Panel } = Collapse
 
 export default function RightMenu() {
@@ -100,7 +101,7 @@ export default function RightMenu() {
       backgroundColor: '#fff',
       borderLeft: 'solid',
       borderWidth: 1,
-      borderColor: '#EAEAEA'
+      borderColor: '#EAEAEA',
     }}>
       <div>
         {/* defaultActiveKey={['1']} */}
@@ -144,10 +145,10 @@ export default function RightMenu() {
                 ))
               }
             </div>
-
           </Panel>
         </Collapse>
       </div>
-    </div >
+      <CustomUp />
+    </div>
   )
 }
