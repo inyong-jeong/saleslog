@@ -56,10 +56,6 @@ const myProfilePage = (props) => {
     query: "(max-width:1190px)"
   });
 
-  //이전페이지
-  const navigateTo = () => history.push('/main/workgroup')
-
-
   useEffect(() => {
     // 하단 네비 설정 
     dispatch({
@@ -133,68 +129,66 @@ const myProfilePage = (props) => {
     <div >
       <MyAppBar
         barTitle={'내 프로필'}
-        showBackButton
-        navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
 
-    <div className='content_body'>
-      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-        <AvatarUp
-          imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
-          iconShape='square'
-          style={{
-            padding: 0,
-            width: ((isMobile) ? 90 : 120),
-            height: ((isMobile) ? 90 : 120),
-            marginLeft: 10
-          }}
-          height={((isMobile) ? 90 : 120)}
-          handleChange={handleChangeFile}
-        />
+      <div className='content_body'>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <AvatarUp
+            imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
+            iconShape='square'
+            style={{
+              padding: 0,
+              width: ((isMobile) ? 90 : 120),
+              height: ((isMobile) ? 90 : 120),
+              marginLeft: 10
+            }}
+            height={((isMobile) ? 90 : 120)}
+            handleChange={handleChangeFile}
+          />
 
-        <div style={{ flexGrow: 2 }}>
-          <label style={labelTextStyle}>이름 </label><br />
+          <div style={{ flexGrow: 2 }}>
+            <label style={labelTextStyle}>이름 </label><br />
+            <Input
+              style={blackResultTextStyle}
+              name='user_name'
+              onChange={handleChange}
+              value={inputs.user_name}
+              required
+              placeholder="이름을 입력해주세요."
+              margin="normal"
+            />
+          </div>
+        </div>
+        <Divider />
+        <div >
+          <label style={labelTextStyle}> 휴대폰 번호 </label><br />
           <Input
             style={blackResultTextStyle}
-            name='user_name'
+            name='phone_number'
             onChange={handleChange}
-            value={inputs.user_name}
+            value={inputs.phone_number}
             required
-            placeholder="이름을 입력해주세요."
+            placeholder="휴대폰 번호를 입력해주세요."
             margin="normal"
           />
+          <Divider />
         </div>
-      </div>
-      <Divider />
-      <div >
-        <label style={labelTextStyle}> 휴대폰 번호 </label><br />
-        <Input
-          style={blackResultTextStyle}
-          name='phone_number'
-          onChange={handleChange}
-          value={inputs.phone_number}
-          required
-          placeholder="휴대폰 번호를 입력해주세요."
-          margin="normal"
-        />
+        <div>
+          <label style={labelTextStyle}>이메일 </label><br />
+          <label style={grayResultTextStyle}>{myData[0].email}</label>
+        </div>
         <Divider />
-      </div>
-      <div>
-        <label style={labelTextStyle}>이메일 </label><br />
-        <label style={grayResultTextStyle}>{myData[0].email}</label>
-      </div>
-      <Divider />
-      <div>
-        <label style={labelTextStyle}>맴버 구분 </label><br />
-        <label style={grayResultTextStyle}>{cmm.permission(myData[0].permissions)}</label>
-      </div>
-      <Divider />
-      <div>
-        <label style={labelTextStyle}>소속</label><br />
-        <label style={grayResultTextStyle}>{myData[0].dept_name}</label>
-      </div>
-      <Divider />
+        <div>
+          <label style={labelTextStyle}>맴버 구분 </label><br />
+          <label style={grayResultTextStyle}>{cmm.permission(myData[0].permissions)}</label>
+        </div>
+        <Divider />
+        <div>
+          <label style={labelTextStyle}>소속</label><br />
+          <label style={grayResultTextStyle}>{myData[0].dept_name}</label>
+        </div>
+        <Divider />
       </div>
     </div>
   );
