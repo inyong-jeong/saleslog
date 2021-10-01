@@ -10,7 +10,8 @@ import LeftMenu from "./common/LeftMenu";
 import TopMenu from "./common/TopMenu";
 import styles from '../assets/style/Main.module.css'
 import RightMenu from "./common/RightMenu";
-// https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
+import { withRouter } from 'react-router-dom'
+import { LaptopWindowsOutlined } from '@material-ui/icons';
 
 const { Content, Sider, Footer } = Layout;
 
@@ -29,6 +30,8 @@ const AuthLayout = (props) => {
   }, [])
 
   useEffect(() => {
+
+    console.log(props.accesstokenerror)
     if (props.accesstokenerror === '토큰만료') {
       const client_id = 'saleslog.co';
       const client_secret = "8fba114f8291cf28e443c30aba7cce86";
@@ -37,9 +40,12 @@ const AuthLayout = (props) => {
     }
   }, [props.accesstokenerror])
 
+
+  //리프레쉬 토큰이 만료됐을 때 타미오면 확인 요망
   useEffect(() => {
     if (props.refreshtokenresponse) {
       removeAll()
+      props.history.push('/signin')
     }
   }, [props.refreshtokenresponse])
 
@@ -103,4 +109,4 @@ const mapDispatchToProps = {
   checkAccessToken: checkAccessToken.call
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthLayout);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthLayout));

@@ -4,7 +4,7 @@ import { Spin } from 'antd'
 import { getOauthToken, } from 'redux/actions';
 import { isUserAuthenticated, getOauthCode, isUserAuthorized } from 'helpers/authUtils';
 import { removeAll } from 'helpers/authUtils';
-
+import { withRouter } from 'react-router-dom'
 const AuthenticatingLayout = (props) => {
 
   const handletoken = () => {
@@ -17,6 +17,9 @@ const AuthenticatingLayout = (props) => {
   useEffect(() => {
     if (isUserAuthorized() === true) {
       handletoken();
+    } else if (isUserAuthorized() === false) {
+      removeAll();
+      props.history.push('/signin')
     }
   }, [isUserAuthorized()])
 
@@ -28,7 +31,7 @@ const AuthenticatingLayout = (props) => {
 
   return (
     <div style={{ textAlign: 'center', height: '100vh', lineHeight: '100vh' }}>
-      <Spin size='large' tip='Loading...' />
+      <Spin size='large' tip='잠시만 기다려 주세요...' />
     </div>
   );
 
@@ -43,4 +46,4 @@ const dispatchToProps = {
   getOauthToken: getOauthToken.call
 };
 
-export default connect(mapStateToProps, dispatchToProps)(AuthenticatingLayout);
+export default withRouter(connect(mapStateToProps, dispatchToProps)(AuthenticatingLayout));

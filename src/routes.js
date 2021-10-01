@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
 import { Route } from 'react-router-dom';
-import { isUserAuthenticated } from './helpers/authUtils';
+import { isUserAuthenticated, removeAll } from './helpers/authUtils';
 
 
 //로그인 관련 컴포넌트
@@ -83,8 +83,10 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 const MainRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
+    console.log(isTokenValid);
     if (props.match.path.startsWith('/main') && !isTokenValid) {
-      return <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+      removeAll();
+      return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
     }
     return <Component {...props} />
   }} />
@@ -95,7 +97,7 @@ const routes = [
   { path: '/main', name: 'Home', component: Home, route: MainRoute, exact: true },
   { path: '/main/manage/saleslog/:id', name: 'SalesLog', component: SalesLog, route: MainRoute, exact: true },
   { path: '/main/manage', name: 'Manage', component: Manage, route: MainRoute, exact: true },
-  { path: '/main/upload', name: 'Upload', component: Upload, route: LandingRoute, exact: true },
+  { path: '/main/upload', name: 'Upload', component: Upload, route: MainRoute, exact: true },
   { path: '/main/upload/:id', name: 'Upload', component: Upload, route: MainRoute, exact: true },
   // { path: '/main/upload/temporary/:id', name: 'Temporary', component: Temporary, route: MainRoute, exact: true },
   //고객사 

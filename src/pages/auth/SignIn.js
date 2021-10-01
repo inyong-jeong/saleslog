@@ -5,6 +5,7 @@ import { Spinner } from "reactstrap";
 import RoundInputField from "components/RoundInputField";
 import { isUserAuthorized } from 'helpers/authUtils';
 import useInput from 'hooks/useInput';
+import { Input } from 'antd'
 import { authorize, getOauthToken, postRegisteration, postInvite, postInviteRegistration } from 'redux/actions';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import StyledButton from 'components/styledcomponent/Button'
@@ -44,7 +45,11 @@ function SignIn(props) {
     props.authorize(username, password, client_id, redirect_uri, response_type, grant_type, state, platform)
   }
 
-  const authcode = isUserAuthorized();
+  useEffect(() => {
+    if (isUserAuthorized()) {
+      props.history.push('/authing')
+    }
+  }, [isUserAuthorized()])
 
   useEffect(() => {
     if (
@@ -57,14 +62,6 @@ function SignIn(props) {
       setPlatForm("pc");
     }
   }, []);
-
-  useEffect(() => {
-    if (authcode === true) {
-      props.history.push('/authing')
-    }
-  }, [authcode])
-
-
 
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
@@ -88,6 +85,10 @@ function SignIn(props) {
     fontSize: 14
   }
 
+  if (undefined) {
+    console.log(11111111)
+  }
+
   return (
     <>
       <div className="container-md">
@@ -104,10 +105,10 @@ function SignIn(props) {
                     <RoundInputField
                       id="username"
                       title="이메일"
+                      type='text'
                       placeholder="이메일 주소"
                       value={username}
                       onChange={onChangeId}
-                      disabled={loading}
                     />
                   </div>
 
@@ -116,9 +117,8 @@ function SignIn(props) {
                     title="비밀번호"
                     placeholder="비밀번호 입력 (영문,숫자 포함 8자리)"
                     value={password}
-                    // type="password"
+                    type="password"
                     onChange={onChangePassword}
-                    disabled={loading}
                   />
                   <div className="form-group mt-3">
                     <StyledButton
@@ -166,8 +166,8 @@ function SignIn(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { loading, authcodeResponse } = state.Auth;
-  return { loading, authcodeResponse };
+  const { loading, authcodeResponse, authcodeError } = state.Auth;
+  return { loading, authcodeResponse, authcodeError };
 };
 
 const mapStateToDispatch = {
