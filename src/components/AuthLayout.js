@@ -12,7 +12,7 @@ import styles from '../assets/style/Main.module.css'
 import RightMenu from "./common/RightMenu";
 import { withRouter } from 'react-router-dom'
 import { LaptopWindowsOutlined } from '@material-ui/icons';
-
+import CustomUp from "./styledcomponent/CustomUpButton";
 const { Content, Sider, Footer } = Layout;
 
 
@@ -63,6 +63,7 @@ const AuthLayout = (props) => {
           <div>
             {/* content-page 스타일 생략함  */}
             {props.children}
+            <CustomUp />
           </div>
           {isNaviShow && <MyNavigation />}
         </Layout>
