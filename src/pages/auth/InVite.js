@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet";
 import { getCi } from "helpers/domainUtils";
 import useInput from 'hooks/useInput';
 import { postInvite } from 'redux/actions';
+import { ReactComponent as WhiteLogo } from '../../assets/icons/main/whiteLogo.svg'
+import { ReactComponent as BdayLogo } from '../../assets/icons/main/bday.svg'
 
 import Select from 'react-select';
 
@@ -69,12 +71,8 @@ function inVite(props) {
   const CardStyle = {
     flexDirection: 'column',
     alignItems: 'center',
-    display: 'flex'
-  }
+    display: 'flex',
 
-  const ImgStyle = {
-    textAlign: 'center',
-    cursor: 'pointer'
   }
 
   const memberStatusOption = [{ label: '관리자', value: 0 }, { label: '치프매니저', value: 1 }, { label: '매니저', value: 2 }, { label: '세일즈맨', value: 9 }];
@@ -96,14 +94,15 @@ function inVite(props) {
         <div className="row" style={ViewStyle}>
           <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
           <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
-            <div className="card">
+            <div>
               <div className="card-body" style={CardStyle}>
-                <div style={ImgStyle}>
-                  <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
-                </div>
+                <WhiteLogo width={150} height={50} fill='black' />
                 <form>
                   <div className='mb-3'>
-                    <h4><strong>동료들과 함께 성과를 달성하세요!</strong></h4>
+                    <h4 style={{ textAlign: 'center', fontSize: 15, marginTop: 10, color: '#111' }}>
+                      <BdayLogo />
+                      동료들과 함께 성과를 달성하세요!
+                    </h4>
                   </div>
                   <div className="form-group" style={{ display: 'flex' }}>
                     <Select
@@ -115,7 +114,7 @@ function inVite(props) {
                     />
                     <StyledInput
                       id="invite"
-                      title="초대이메일"
+                      title="초대 이메일"
                       placeholder="멤버의 이메일 주소를 써주세요"
                       // value={}
                       onChange={onChangeInViteMail}
@@ -123,22 +122,19 @@ function inVite(props) {
                         width: '220px'
                       }}
                     />
-
                   </div>
                   <div className='mt-3'></div>
                   <div className="form-group">
                     <button
                       className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      onClick={handleOnSubmit}
-                    >
+                      style={{ width: '343px', height: '48px', backgroundColor: '#fff', border: '1px solid #111', color: '#111' }}
+                      onClick={handleOnSubmit}>
                       초대장 보내기
                     </button>
                   </div>
                   <div className="form-group mt-3">
                     <StyledButton onClick={() => { props.history.push('/congratulation') }}>나중에 초대하기</StyledButton>
                   </div>
-
                 </form>
                 <div style={{ textAlign: 'center', fontColor: 'black' }}>
                 </div>
@@ -148,7 +144,7 @@ function inVite(props) {
           <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
       </div>
-    </React.Fragment >
+    </React.Fragment>
   );
 }
 
