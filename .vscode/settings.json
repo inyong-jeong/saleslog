@@ -5,5 +5,8 @@
     "titleBar.activeForeground": "#EEFDF8"
   },
   "workbench.editor.enablePreview": false,
-  "workbench.editor.enablePreviewFromQuickOpen": false
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
 }

@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { HashRouter } from "react-router-dom";
 // import { BrowserRouter } from "react-router-dom";
+import 'antd/dist/antd.css';
 
 import { createHashHistory } from "history";
 import { syncHistoryWithStore } from "react-router-redux";
@@ -22,7 +23,7 @@ import "./assets/scss/DefaultTheme.scss";
 // Derieved idea from https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const loading = () => (
   <div style={{ textAlign: 'center', height: '100vh', lineHeight: '100vh' }}>
-    <Spin size='large' tip='Loading...' />
+    <Spin size='large' tip='잠시만 기다려 주세요...' />
   </div>
 );
 
