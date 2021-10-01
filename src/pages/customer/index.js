@@ -11,6 +11,7 @@ import { getUsers } from "../../redux/customer/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useLocation } from "react-router";
+import CustomUp from "../../components/styledcomponent/CustomUpButton";
 
 const { TabPane } = FullTabs;
 const { Search } = Input;
@@ -71,6 +72,7 @@ const CustomerShow = () => {
   }
 
   const onSearch = (keyword) => {
+    keyword = keyword.trim()
     setInputs({ ...inputs, srch: keyword })
     setPage(1)
   }
