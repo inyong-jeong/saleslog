@@ -175,7 +175,7 @@ const CustomerEditPage = () => {
     history.goBack()
   }
 
-  console.log('고객사 수정:::', inputs)
+  //console.log('고객사 수정:::', inputs)
   const handleChange = (e) => {
     if ('detail' in e) {
       const obj = e.detail.tagify.value

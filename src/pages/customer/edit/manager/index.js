@@ -17,11 +17,12 @@ import moment from 'moment';
 import { errorMessage } from '../../../../constants/commonFunc';
 import AvatarUp from '../../../../components/AvatarUp';
 import cmm from 'constants/common';
-import { base64Dec, base64Enc } from 'constants/commonFunc';
+import { base64Dec } from 'constants/commonFunc';
 import { alertMessage } from '../../../../constants/commonFunc';
 
 const { Panel } = Collapse
 const EditCustomerManager = () => {
+
   const classes = useStyles()
   const params = useParams()
   const history = useHistory()
@@ -89,8 +90,15 @@ const EditCustomerManager = () => {
           etc: managerDetails.etc,
         }
       )
-      setPreview(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + managerDetails.man_photo)
+
+      if (managerDetails.man_photo) {
+        return setPreview(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + managerDetails.man_photo)
+
+      }
+      return setPreview(null)
+
     }
+
   }, [state.loading])
 
   const navigateTo = () => {
@@ -108,18 +116,22 @@ const EditCustomerManager = () => {
     })
   }
 
-  const onSaveClick = (e) => {
+  const onSaveClick = () => {
     if (!accountMangerInputs.man_name || !accountMangerInputs.posi) {
       return errorMessage('담당자명과 직급 및 소속은 필수 항목입니다.')
     }
 
     dispatch(postEditManager.call(accountMangerInputs))
-    dispatch(postEditNamecard.call({
-      acc_idx: base64Dec(params.accId),
-      accm_idx: base64Dec(params.singleId),
-      man_photo: chagnedPhoto ? chagnedPhoto : ''
-    }))
-    console.log('changedphoto:::', chagnedPhoto)
+
+    if (chagnedPhoto) {
+      dispatch(postEditNamecard.call({
+        acc_idx: base64Dec(params.accId),
+        accm_idx: base64Dec(params.singleId),
+        man_photo: chagnedPhoto
+      }))
+    }
+
+
   }
 
   const handleFileChange = (e) => {
@@ -160,7 +172,7 @@ const EditCustomerManager = () => {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
             <AvatarUp
               iconShape='square'
-              imgsrc={preview ? preview : ''}
+              imgsrc={preview ? preview : null}
               height={200}
               style={{
                 padding: 0,

@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -49,13 +50,6 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   const history = useHistory()
   let restCount
 
-  // useEffect(() => {
-
-  //   if (location.state) {
-  //     window.location.reload()
-  //   }
-  // }, [location])
-
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, 1))
   }, [])
@@ -82,11 +76,10 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   }, [loading])
 
   const handleNextPage = () => {
-    if (listCounts >= cusotomerList.length) {
+    if (loading == true) return
+    setPage(page + 1)
 
-      if (loading == true) return
-      setPage(page + 1)
-    }
+    console.log('고객사 리스트 :: handleNextPage()')
   }
 
   return (
