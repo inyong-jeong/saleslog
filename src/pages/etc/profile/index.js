@@ -109,6 +109,9 @@ const myProfilePage = (props) => {
     }
   }
 
+  const navigateTo = () => {
+    history.goBack()
+  }
   //이미지등록 
   useEffect(() => {
     console.log('fileup')
@@ -129,6 +132,8 @@ const myProfilePage = (props) => {
     <div >
       <MyAppBar
         barTitle={'내 프로필'}
+        showBackButton
+        navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
 
