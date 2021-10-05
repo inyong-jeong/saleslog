@@ -46,7 +46,6 @@ export default function RightMenu() {
     marginBottom: 24,
     border: 0,
     overflow: 'hidden',
-
   };
   const handleSysNotice = (item) => {
     history.push(`/main/etc/notice/system/detail/${base64Enc(item.b_idx)}`)

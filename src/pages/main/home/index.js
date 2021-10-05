@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Row, Col, DatePicker, Card, Select, Divider } from 'antd'
+import { Row, Col, DatePicker, Card, Select, Divider, Collapse } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import cmm from 'constants/common';
 import moment from 'moment';
@@ -26,15 +26,23 @@ import { ReactComponent as Analysis } from '../../../assets/icons/main/analysis.
 import { ReactComponent as Paper } from '../../../assets/icons/main/paper.svg'
 import { ReactComponent as Down } from '../../../assets/icons/main/downArrow.svg'
 import { ReactComponent as Up } from '../../../assets/icons/main/upArrow.svg'
+import { ReactComponent as BdayLogo } from '../../../assets/icons/main/bday.svg'
 import Filter from 'components/Filter'
+import { base64Enc } from 'constants/commonFunc';
+import { useHistory } from "react-router";
+import { postAnniversary } from "../../../redux/etc/actions";
+
 const { RangePicker } = DatePicker;
+const { Panel } = Collapse
 
 const DashBoardPage = (props) => {
   const state = useSelector(state => state.Dashboard)
+  const etcState = useSelector(etcState => etcState.Etc)
   const dispatch = useDispatch()
-
+  const history = useHistory()
   const [salesStat, setSalesStat] = useState();
   const [leadStat, setLeadStat] = useState();
+  const [bday, setBday] = useState([])
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -65,6 +73,14 @@ const DashBoardPage = (props) => {
     width: '98%',
 
   }
+
+  const customPanelStyle = {
+    background: '#fff',
+    borderRadius: 4,
+    marginBottom: 24,
+    border: 0,
+    overflow: 'hidden',
+  };
 
 
   const cardContainerStyle = {
@@ -211,7 +227,14 @@ const DashBoardPage = (props) => {
     dispatch(getsaleslogstat.call(bodyLog))
     dispatch(getleadlogstat.call(bodyLogRd))
     //props.getsaleslogstat(bodyLog)
+    dispatch(postAnniversary.call())
   }, [])
+
+  useEffect(() => {
+    if (etcState.postAnniveraryResponse) {
+      setBday(etcState.postAnniveraryResponse[0])
+    }
+  }, [etcState.loading])
 
   // 영업일지 fetch 후
   useEffect(() => {
@@ -377,11 +400,45 @@ const DashBoardPage = (props) => {
     return rtn;
   }
 
+  const handleAnniversary = (item) => {
+    history.push(`/main/manager/profile/${base64Enc(item.acc_idx)}/${base64Enc(item.accm_idx)}`)
+  }
+
+  const DateItem = ({ item, onClick }) => (
+    <div style={{ cursor: 'pointer' }} onClick={onClick}>
+      <div style={{ display: 'flex', marginBottom: 2, alignItems: 'center' }}>
+        <p style={{ margin: 0, fontWeight: 500, fontSize: 14, color: '#111111' }}>{item.man_name}</p>
+        <p style={{ margin: 0, fontWeight: 400, fontSize: 12, color: '#666666', marginLeft: 5, flexGrow: 2 }}>{item.account_name}</p>
+        <p style={{ margin: 0, color: '#666666', fontSize: 12 }}>날짜 : {item.days}</p>
+      </div>
+      <Divider style={{ margin: 0 }} />
+    </div>
+
+  )
+
   return (
     <>
       <MyAppBar
         barTitle={'홈'} />
       <div className='content_body'>
+        {
+          isMobile ?
+            <Collapse bordered={false} style={{ backgroundColor: '#fff' }} expandIconPosition='right'>
+              <Panel header="생일" key="1" style={customPanelStyle}>
+                <div>
+                  <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 최근 7일에 해당하는 생일만 표시됩니다.</p>
+                  {
+                    bday.map((item, index) => (
+                      <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
+                    ))
+                  }
+                </div>
+              </Panel>
+            </Collapse>
+
+            : null
+        }
+
         <p style={textAndIconAlignStyle}> <Calendar /><span style={mainGrayTitleStyle}>영업일지 현황</span></p>
         <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChange={onChange} defaultSelected={bodyLog.dt_typ} />
         {/* <Row gutter={4} >
