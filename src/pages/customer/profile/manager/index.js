@@ -57,19 +57,19 @@ const ManagerProfilePage = () => {
         state.getMangerResponse ?
           <>
             <div className='content_body'>
-              <div style={{ display: 'flex', justifyContent: 'center', }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
                 {managerDetails.man_photo ?
                   <AvatarUp
                     hideIcon
                     iconShape='square'
-                    imgsrc={preview ? preview : ''}
+                    imgsrc={preview ? preview : null}
                     height={200}
                     style={{
                       padding: 0,
                       width: 300,
                       height: 200,
-                    }} /> : <p style={{ color: '#666', fontSize: 12, margin: 0, padding: 0 }}>등록된 명함이 없습니다.</p>}
-
+                    }} /> :
+                  <p style={{ color: '#666', fontSize: 12, margin: 0, padding: 0 }}>등록된 명함이 없습니다.</p>}
               </div>
               <Typography variant='h6' align='left' className={classes.title}>기본 정보</Typography>
               <div className={classes.innerBox}>
