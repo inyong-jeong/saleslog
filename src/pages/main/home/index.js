@@ -19,7 +19,13 @@ import { dountseries, barseries, leadseries, LeadOption, Baroption, dountOption 
 import SalesLogFilterDash from 'components/SalesLogFilterDash';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
+import { useMediaQuery } from "react-responsive";
+import { ReactComponent as Calendar } from '../../../assets/icons/main/calendar.svg'
+import { ReactComponent as Channel } from '../../../assets/icons/main/channel.svg'
+import { ReactComponent as Analysis } from '../../../assets/icons/main/analysis.svg'
+import { ReactComponent as Paper } from '../../../assets/icons/main/paper.svg'
+import { ReactComponent as Down } from '../../../assets/icons/main/downArrow.svg'
+import { ReactComponent as Up } from '../../../assets/icons/main/upArrow.svg'
 import Filter from 'components/Filter'
 const { RangePicker } = DatePicker;
 
@@ -30,6 +36,49 @@ const DashBoardPage = (props) => {
   const [salesStat, setSalesStat] = useState();
   const [leadStat, setLeadStat] = useState();
 
+  const isMobile = useMediaQuery({
+    query: "(max-width:1190px)"
+  });
+
+  const mainGrayTitleStyle = {
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#111111',
+    margin: 0
+  }
+
+  const textAndIconAlignStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 5,
+
+  }
+  const chartCardStyle = {
+    backgroundColor: '#F2F2F2',
+    height: 80,
+    padding: 10,
+    margin: 10,
+    borderRadius: 2,
+    color: '#333333',
+    fontSize: 14,
+    fontWeight: 500,
+    width: '98%',
+
+  }
+
+
+  const cardContainerStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+
+
+  }
+
+  const mobileCardContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+
+  }
   //분류 선택 index (1:영업일지 대분류,2:영업 중분류,3:영업소분류,4:리드대분류,5:리드중분류,6:리드소분류)
   const [selDept, setSelDept] = useState(0);
   const selectStyle = { width: '100%' }
@@ -227,7 +276,7 @@ const DashBoardPage = (props) => {
   const dispPrevCnt = (data) => {
 
     let st = '';
-    let cl = '';
+    let arrowChartcolor = '';
     let ar = "";
     console.log(data)
     console.log(bodyLog)
@@ -254,19 +303,19 @@ const DashBoardPage = (props) => {
 
 
     if (parseInt(data.calc_cnt) > 0) {
-      cl = '#0000ff';
-      ar = "▲";
+      arrowChartcolor = '#0000ff';
+      ar = <Up />
     } else if (parseInt(data.calc_cnt) < 0) {
-      cl = '#ff00ff';
-      ar = "▼";
+      arrowChartcolor = '#EE1818';
+      ar = <Down />
     }
 
     return (
-      <>
-        <span style={{ fontSize: 12, color: '#aaaaaa' }}>{st}</span>
-        <span style={{ fontSize: 12, color: cl }}>{ar} {data.calc_cnt}</span>&nbsp;&nbsp;&nbsp;
-        <span style={{ fontSize: 16 }}>{data.cnt}건</span>
-      </>
+      <div style={{ marginRight: 10, marginBottom: 5 }}>
+        <p style={{ marginBottom: 5, fontSize: 14, fontWeight: 500, color: '#111', }}> {data.cnt}건</p>
+        <span style={{ fontSize: 12, color: '#333' }}>{st} </span>
+        <span style={{ fontSize: 12, color: arrowChartcolor }}> {ar} {data.calc_cnt}</span>
+      </div>
     )
   }
 
@@ -333,10 +382,8 @@ const DashBoardPage = (props) => {
       <MyAppBar
         barTitle={'홈'} />
       <div className='content_body'>
-        <p><span style={{ fontSize: 16, fontWeight: 700 }}>영업일지 현황</span></p>
+        <p style={textAndIconAlignStyle}> <Calendar /><span style={mainGrayTitleStyle}>영업일지 현황</span></p>
         <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChange={onChange} defaultSelected={bodyLog.dt_typ} />
-
-        <div className='mt-2'></div>
         {/* <Row gutter={4} >
           <Col sm={24} xs={24} md={24} lg={24} >
             <RangePicker className='col-12'
@@ -349,42 +396,43 @@ const DashBoardPage = (props) => {
             />
           </Col>
         </Row> */}
-        <div className='mt-2'></div>
+        <div className='mt-2' />
         <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} />
-        <div className='mt-2'></div>
+        <div className='mt-2' />
 
         {(salesStat) &&
           <>
-            <Row>
-              <Col sm={24} xs={24} md={24} lg={24}>
-                <Card title='영업 활동'>
-                  <Row>
-                    <Col style={{ width: '50%' }}><span>니즈 조사</span></Col>
-                    <Col style={{ width: '50%', textAlign: 'right' }}>
-                      {dispPrevCnt(salesStat[0][0])}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col style={{ width: '50%' }}><span>동향/정보</span></Col>
-                    <Col style={{ width: '50%', textAlign: 'right' }}>
-                      {dispPrevCnt(salesStat[0][1])}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col style={{ width: '50%' }}><span>제안</span></Col>
-                    <Col style={{ width: '50%', textAlign: 'right' }}>
-                      {dispPrevCnt(salesStat[0][2])}
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-            </Row>
+
+            <div>
+              <p style={textAndIconAlignStyle}> <p style={mainGrayTitleStyle}><Paper />영업활동 </p></p>
+              <div style={isMobile ? mobileCardContainerStyle : cardContainerStyle}>
+                <div style={chartCardStyle}>
+                  니즈 조사
+                  <div style={{ textAlign: 'right' }}>
+                    {dispPrevCnt(salesStat[0][0])}
+                  </div>
+                </div>
+                <div style={chartCardStyle}>
+                  동향/정보
+                  <div style={{ textAlign: 'right' }}>
+                    {dispPrevCnt(salesStat[0][1])}
+                  </div>
+                </div>
+                <div style={chartCardStyle}>
+                  제안
+                  <div style={{ textAlign: 'right' }}>
+                    {dispPrevCnt(salesStat[0][2])}
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
             <div className='mt-5'></div>
 
             <Row>
               {/* <Col sm={22} xs={22} md={22} lg={22}><strong><h1>영업일지 채널</h1></strong></Col> */}
-              <p><span style={{ fontSize: 16, fontWeight: 700 }}>영업일지 채널</span></p>
+              <p><Paper /><span style={mainGrayTitleStyle}>영업 채널</span></p>
             </Row>
             <div className='mt-2'></div>
 
@@ -395,7 +443,7 @@ const DashBoardPage = (props) => {
               margin={{ top: 50, right: 50, bottom: 50, left: 100 }} />
             <div className='mt-2'></div>
             <Row >
-              <p><span style={{ fontSize: 14, fontWeight: 400, marginLeft: 20 }}>니즈 분석</span></p>
+              <p><Paper /><span style={mainGrayTitleStyle}>영업 니즈 분석</span></p>
               <Col sm={24} xs={24} md={24} lg={24}>
                 <NivoPieChart data={pieChartData(salesStat[2])} />
               </Col>
@@ -407,7 +455,7 @@ const DashBoardPage = (props) => {
         <Divider style={{ borderColor: 'black' }} />
         <Row>
 
-          <p><span style={{ fontSize: 16, fontWeight: 700 }}>리드관리 현황</span></p>
+          <p><Paper /><span style={mainGrayTitleStyle}>리드 관리 현황</span></p>
           {/* <Col sm={2} xs={2} md={2} lg={2}><u>상세조회</u></Col> */}
         </Row>
         <div className='mt-2'></div>
@@ -425,7 +473,7 @@ const DashBoardPage = (props) => {
 
             <Row>
 
-              <p><span style={{ fontSize: 16, fontWeight: 700 }}>리드채널</span></p>
+              <p><Paper /><span style={mainGrayTitleStyle}>리드 채널</span></p>
               {/* <Col sm={22} xs={22} md={22} lg={22}><strong><h3>리드채널</h3></strong></Col> */}
             </Row>
             <Row>
@@ -445,7 +493,7 @@ const DashBoardPage = (props) => {
 
 
             <Row>
-              <p><span style={{ fontSize: 14, fontWeight: 400, marginLeft: 20 }}>리드니즈 분석</span></p>
+              <p><Paper /><span style={mainGrayTitleStyle}>리드 니즈 분석</span></p>
               <Col sm={24} xs={24} md={24} lg={24}>
                 <NivoPieChart data={pieChartData(leadStat[5])} />
               </Col>
