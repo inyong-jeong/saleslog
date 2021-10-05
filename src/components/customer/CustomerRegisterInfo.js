@@ -14,6 +14,9 @@ import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
 import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { alertMessage, errorMessage } from "../../constants/commonFunc";
+import { Tooltip } from "antd";
+import { ReactComponent as Info } from '../../assets/icons/info.svg'
+import { customerType, gradeTypeTooltip, stageTypeTooltip, managerTooltip, tagToolTip } from './toolTipText'
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -160,19 +163,23 @@ const CustomerRegisterInfo = () => {
   }
   const history = useHistory()
 
+  const [tooltipTypeText, setTooltipTypeText] = useState(gradeTypeTooltip)
+
   const onChangeCustomer = (value) => {
     setInputs({ ...inputs, sales_gb: value })
     if (value === '0010001') {
       setGradeType(scoreType)
+      setTooltipTypeText(gradeTypeTooltip)
     } else {
       setGradeType(stageType)
+      setTooltipTypeText(stageTypeTooltip)
     }
   }
   const onChangeGradeType = (value) => {
-    console.log(value)
     setInputs({ ...inputs, score: value })
 
   }
+
   const [gradeType, setGradeType] = useState([])
   const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
   const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
@@ -184,6 +191,14 @@ const CustomerRegisterInfo = () => {
   const settings = {
     'maxTags': 5,
   }
+  const z = (
+    <>
+      <div> hi</div>
+      <div> hi</div>
+      <div> hi</div>
+    </>
+
+  )
 
 
   return (
@@ -241,10 +256,12 @@ const CustomerRegisterInfo = () => {
           <Typography variant='h6' align='left' className={classes.title}>관리정보</Typography>
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
-            <label className={classes.laebelStyle}>고객사 구분 <span style={{ color: 'red' }}>*</span></label>
-            {/* <Tooltip title={desc1}>
-            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-          </Tooltip> */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label className={classes.laebelStyle}>고객 구분 <span style={{ color: 'red' }}>*</span></label>
+              <Tooltip overlayStyle={{ whiteSpace: 'pre-line' }} title={z} >
+                <Info />
+              </Tooltip>
+            </div>
             <StyledSelect
               showArrow
               onChange={onChangeCustomer}
@@ -257,7 +274,12 @@ const CustomerRegisterInfo = () => {
 
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
-            <label className={classes.laebelStyle}>구분 <span style={{ color: 'red' }}>*</span></label>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label className={classes.laebelStyle}>구분 <span style={{ color: 'red' }}>*</span></label>
+              <Tooltip title={tooltipTypeText}>
+                <Info />
+              </Tooltip>
+            </div>
             <StyledSelect
               showArrow
               showSearch={false}
@@ -308,7 +330,14 @@ const CustomerRegisterInfo = () => {
         </div>
 
         <div>
-          <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
+          <Typography variant='h6' align='left' className={classes.title}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              담당자 정보
+              <Tooltip title={managerTooltip}>
+                <Info />
+              </Tooltip>
+            </div>
+          </Typography>
           <div className={classes.innerBox}>
             <label className={classes.laebelStyle}>담당자 이름 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
             <Input
@@ -359,7 +388,14 @@ const CustomerRegisterInfo = () => {
         </div>
 
         <div>
-          <Typography variant='h6' align='left' className={classes.title}>태그 등록</Typography>
+          <Typography variant='h6' align='left' className={classes.title}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              태그 등록
+              <Tooltip title={tagToolTip}>
+                <Info />
+              </Tooltip>
+            </div>
+          </Typography>
           <div className={classes.innerBox}>
             <Tags
               value={inputs.tags}
