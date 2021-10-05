@@ -148,7 +148,7 @@ const CustomerEditPage = () => {
 
   const onSaveClick = () => {
     if (!inputs.account_name || !inputs.ceo_name) {
-      return errorMessage('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
+      return errorMessage('고객명, 대표자명은 필수 항목입니다.')
     }
     if (inputs.account_name.includes('(주)' || '주식회사')) {
       return errorMessage('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
@@ -158,8 +158,11 @@ const CustomerEditPage = () => {
       if (stageTypeArray.includes(inputs.score)) {
         return errorMessage('거래고객 선택시 등급을 선택해야 합니다.')
       }
-      if (!inputs.man_name || !inputs.dept) {
-        return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
+
+      if (!acc_details.man_names) {
+        if (!inputs.man_name || !inputs.dept) {
+          return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
+        }
       }
 
     } else {
@@ -167,7 +170,6 @@ const CustomerEditPage = () => {
         return errorMessage('리드고객 선택시 단계를 선택해야 합니다.')
       }
     }
-
 
     dispatch(postEditCustomer.call(inputs))
     history.goBack()
