@@ -15,7 +15,7 @@ import MyAppBar from "../../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useParams } from "react-router";
 import { errorMessage } from "../../../constants/commonFunc";
-import { base64Dec, base64Enc } from 'constants/commonFunc';
+import { base64Dec } from 'constants/commonFunc';
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
@@ -79,7 +79,8 @@ const CustomerEditPage = () => {
   const [gradeType, setGradeType] = useState([])
   const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
   const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
-
+  const stageTypeArray = ['발굴', '접촉', '제안', '검증']
+  const scoreTypeArray = ['A', 'B', 'C', 'D', 'E', 'F', 'BLACK']
   const options = []
   for (let result of gradeType) {
     options.push(<Option key={Object.values(result)}> {Object.keys(result)}</Option>)
@@ -113,7 +114,7 @@ const CustomerEditPage = () => {
           acc_fax: acc_details.acc_fax,
           sales_gb: acc_details.sales_gb,
           acc_url: acc_details.acc_url,
-          acc_idx: acc_details.acc_idx
+          acc_idx: acc_details.acc_idx,
         }
       )
     }
@@ -138,10 +139,14 @@ const CustomerEditPage = () => {
       sales_gb: '',
       acc_url: '',
       acc_idx: '', //고객사 id 
+      man_name: '',
+      dept: '',
+      posi: '',
+      tel: '',
     }
   )
 
-  const onSaveClick = (e) => {
+  const onSaveClick = () => {
     if (!inputs.account_name || !inputs.ceo_name) {
       return errorMessage('고객명, 대표자명, 담당자명, 담당자 부서는 필수 항목입니다.')
     }
@@ -149,10 +154,26 @@ const CustomerEditPage = () => {
       return errorMessage('주식회사, (주) 등 법인 형태를 구분하는 표기는 기재하지 마세요.')
     }
 
+    if (inputs.sales_gb === '0010001') {
+      if (stageTypeArray.includes(inputs.score)) {
+        return errorMessage('거래고객 선택시 등급을 선택해야 합니다.')
+      }
+      if (!inputs.man_name || !inputs.dept) {
+        return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
+      }
+
+    } else {
+      if (scoreTypeArray.includes(inputs.score)) {
+        return errorMessage('리드고객 선택시 단계를 선택해야 합니다.')
+      }
+    }
+
+
     dispatch(postEditCustomer.call(inputs))
     history.goBack()
   }
 
+  console.log('고객사 수정:::', inputs)
   const handleChange = (e) => {
     if ('detail' in e) {
       const obj = e.detail.tagify.value
@@ -172,8 +193,10 @@ const CustomerEditPage = () => {
     setInputs({ ...inputs, sales_gb: value })
     if (value === '0010001') {
       setGradeType(scoreType)
+
     } else {
       setGradeType(stageType)
+
     }
   }
   const onChangeGradeType = (value) => {
@@ -193,7 +216,7 @@ const CustomerEditPage = () => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
-      <div className='content_body'>
+      {acc_details && <div className='content_body'>
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
@@ -240,10 +263,12 @@ const CustomerEditPage = () => {
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
             <label className={classes.laebelStyle}>고객사 구분 <span style={{ color: 'red' }}>*</span></label>
-            {/* <Tooltip title={desc1}>
-            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-          </Tooltip> */}
+            {/* <Tooltip title={descb1}>
+              <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+            </Tooltip> */}
+
             <StyledSelect
+              defaultValue={acc_details.sales_gb ? acc_details.sales_gb : null}
               showArrow
               onChange={onChangeCustomer}
               showSearch={false}
@@ -251,12 +276,13 @@ const CustomerEditPage = () => {
               <Option value="0010001">거래고객</Option>
               <Option value="0010002">리드고객</Option>
             </StyledSelect>
-          </FormControl>
 
+          </FormControl>
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
             <label className={classes.laebelStyle}>구분 <span style={{ color: 'red' }}>*</span></label>
             <StyledSelect
+              defaultValue={acc_details.score}
               showArrow
               showSearch={false}
               onChange={onChangeGradeType}
@@ -304,6 +330,49 @@ const CustomerEditPage = () => {
             />
           </div>
         </div>
+        {acc_details.man_names ?
+          null
+          :
+          <div>
+            <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
+            {/* <p className={classes.descriptionTag}>고객사 수정시 담당자는 1명만 보입니다. 자세한 담당자는 고객 프로필에서 확인하세요.</p> */}
+            <div className={classes.innerBox}>
+              <label className={classes.laebelStyle}>담당자 이름 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
+              <Input
+                name='man_name'
+                onChange={handleChange}
+                value={inputs.man_name}
+                placeholder="담당자 이름을 입력해주세요."
+                margin="normal"
+              />
+              <label className={classes.laebelStyle}>담당자 부서 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
+              <Input
+                name='dept'
+                onChange={handleChange}
+                value={inputs.dept}
+                placeholder="담당자 부서를 입력해주세요"
+                margin="normal"
+              />
+              <label className={classes.laebelStyle}>담당자 직책</label>
+              <Input
+                name='posi'
+                onChange={handleChange}
+                value={inputs.posi}
+                placeholder="담당자 직책을 입력해주세요"
+                margin="normal"
+              />
+              <label className={classes.laebelStyle}>담당자 연락처</label>
+              <Input
+                name='tel'
+                onChange={handleChange}
+                value={inputs.tel}
+                placeholder="담당자 연락처를 입력해주세요"
+                margin="normal"
+              />
+            </div>
+          </div>
+
+        }
 
         <div>
           <Typography variant='h6' align='left' className={classes.title}>메모</Typography>
@@ -326,13 +395,12 @@ const CustomerEditPage = () => {
               settings={settings}
               placeholder='태그를 입력해주세요'
               onChange={handleChange} />
-            {/* <p className={classes.descriptionTag}>태그당 입력가능 한 글자 수는 10자입니다.</p> */}
             <p className={classes.descriptionTag}>태그는 최대 5개까지 입력할 수 있습니다.</p>
           </div>
         </div>
-        {/* <BlueButton name='등록하기' type="submit" /> */}
         <div style={{ height: '60px' }}></div>
       </div>
+      }
     </>
   );
 }

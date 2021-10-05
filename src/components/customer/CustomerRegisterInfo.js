@@ -3,7 +3,7 @@ import {
 } from "@material-ui/core"
 import { useState, useEffect } from "react"
 import React from 'react';
-import { getCustomerDetails, postCustomer, postEditCustomer } from "../../redux/customer/actions";
+import { postCustomer } from "../../redux/customer/actions";
 import Input from '../styledcomponent/Input'
 import { useDispatch, useSelector } from "react-redux";
 import TextArea from "antd/lib/input/TextArea";
@@ -96,8 +96,6 @@ const CustomerRegisterInfo = () => {
 
   //조건
   /*
-  1. 고객명 띄어쓰기 없음, 주식회사, (주) 예외처리
-  2. 대표자 총 3명까지
   3. 사업자 번호 숫자만 허용 10자리 (- 로 출력되게 나중에 처리)
   4. 고객구분  라벨 메시지 
   거래고객 : 현재 거래 중인 고객- 리드고객  : 신규 고객으로 유치하고자 하는 타깃 고객
