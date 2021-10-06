@@ -44,7 +44,8 @@ import {
   DELETE_FILE,
   DELETE_FILE_SUCCESS,
   DELETE_FILE_ERROR,
-  CLEAR_SALESLOG
+  CLEAR_SALESLOG,
+  CLEAR_TEMP_LOG
 
 
 } from '../../constants/actionTypes';
@@ -84,6 +85,8 @@ const SalesLog = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
     case CLEAR_SALESLOG:
       return { ...state, log: null };
+    case CLEAR_TEMP_LOG:
+      return { ...state, temporaryLoglist: null };
     case POST_SALESLOG:
       return { ...state, submitLoading: true };
     case POST_SALESLOG_SUCCESS:
@@ -109,11 +112,11 @@ const SalesLog = (state = INIT_STATE, action) => {
     case GET_TEMPORARY_LISTS_ERROR:
       return { ...state, temporaryLoglisterror: action.payload.error };
     case GET_TEMPORARY_LIST:
-      return { ...state, submitLoading: true };
+      return { ...state, submitLoading: true, temporaryloglistresponse: true };
     case GET_TEMPORARY_LIST_SUCCESS:
-      return { ...state, temporaryLoglist: action.payload.response.message, temporaryloglistresponse: true };
+      return { ...state, temporaryLoglist: action.payload.response.message, temporaryloglistresponse: false };
     case GET_TEMPORARY_LIST_ERROR:
-      return { ...state, temporaryLoglisterror: action.payload.error, submitLoading: false };
+      return { ...state, temporaryLoglisterror: action.payload.error, submitLoading: false, temporaryloglistresponse: false };
     case DELETE_TEMPORARY_LOG:
       return { ...state, submitLoading: true };
     case DELETE_TEMPORARY_LOG_SUCCESS:

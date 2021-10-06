@@ -112,7 +112,7 @@ export const SELECT_USER_LIST_SUCCESS = 'SELECT_USER_LIST_SUCCESS';
 export const SELECT_USER_LIST_ERROR = 'SELECT_USER_LIST_ERROR';
 
 export const CLEAR_SALESLOG = 'CLEAR_SALESLOG';
-
+export const CLEAR_TEMP_LOG = 'CLEAR_TEMP_LOG';
 
 // 피드백
 export const POST_COMMENT = 'POST_COMMENT'; // 피드백 등록

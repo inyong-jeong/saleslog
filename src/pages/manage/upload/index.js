@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import {
   postSalesLog, selectAccounts, selectAccountperson,
-  postTemporarySalesLog, uploadFile, getUserList, getLogList, clearLog, putSalesLog
+  postTemporarySalesLog, uploadFile, getUserList, getLogList, clearLog, putSalesLog, clearTempLog
 } from 'redux/actions';
+import { errorMessage } from "constants/commonFunc";
 import { useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { PlusOutlined } from '@ant-design/icons';
+import StyledSelect from 'components/styledcomponent/StyledSelect';
 
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import Divider from 'components/Divider'
-import { TimePicker, Radio, DatePicker, Input, Tooltip, Upload } from 'antd';
+import { TimePicker, Radio, DatePicker, Input, Tooltip } from 'antd';
 import CouserModal from 'components/CouserModal'
 import CouserList from 'components/CouserList';
 import LogListModal from 'components/LogListModal'
@@ -21,8 +19,6 @@ import CustomerModal from 'components/CustomerModal'
 import moment from 'moment';
 import { ReactComponent as Info } from 'assets/icons/info.svg'
 import 'moment/locale/ko';
-// import { getLogLists, getLogList } from '../../../redux/saleslog/actions';
-
 
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
@@ -45,38 +41,31 @@ const salesChannelOption =
   { label: '기타', value: '0040008' }];
 
 const leadActivityOption =
-  [{ label: '조사', value: '0020001' },
+  [{ label: '발굴', value: '0020001' },
   { label: '접촉', value: '0020002' },
   { label: '제안', value: '0020003' },
   { label: '검증', value: '0020004' }];
-console.log(salesChannelOption);
 
 
 
 function UploadSalesLog(props) {
 
+
   const dispatch = useDispatch()
 
+  //고객 밸류
+
   //일지 수정 disable state
-  const [disabled, setDisabled] = useState(false)
-
-  // 리드단계  선택
-  const [leadselect, setLeadSelect] = useState(0);
-
-  const [channelindex, setChannelIndex] = useState('');
-  const [activityindex, setActivitylIndex] = useState('');
-  const [accountindex, setAccountIndex] = useState('');
-
 
   //일지 등록 스테이트
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState(0);
-  const [selectedAccountperson, setSelectedAccountPerson] = useState(0);
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [selectedAccountperson, setSelectedAccountPerson] = useState(null);
   const [radiocheck, setRadioCheck] = useState('0010001');
-  const [activity, setActivity] = useState('');
-  const [leadactivity, setLeadActivity] = useState('');
-  const [channel, setChannel] = useState('');
+  const [activity, setActivity] = useState(null);
+  const [leadactivity, setLeadActivity] = useState(null);
+  const [channel, setChannel] = useState(null);
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [couser, setCoUser] = useState([])
   const [couserlist, setCoUserList] = useState('');
@@ -97,29 +86,7 @@ function UploadSalesLog(props) {
 
 
   const { TextArea } = Input;
-
-
   const temporaryLogListId = props.temporaryLoglist ? props.temporaryLoglist[0] : null
-
-  function getSeletedChannel(key) {
-    let result = undefined;
-    for (let i = 0; i < salesChannelOption.length; i++) {
-      if (salesChannelOption[i].value === key) {
-        result = i;
-      }
-    }
-    return result
-  }
-
-  function getSeletedActivity(key) {
-    let result = undefined;
-    for (let i = 0; i < salesActivityOption.length; i++) {
-      if (salesActivityOption[i].value === key) {
-        result = i;
-      }
-    }
-    return result
-  }
 
   function getCousrList(v) {
     let result = []
@@ -129,42 +96,48 @@ function UploadSalesLog(props) {
     return result;
   }
 
-
   useEffect(() => {
-    if (props.match.params.id) {
-      console.log(1111111111);
+    //고객사 fetch
+    props.selectAccounts({ sales_gb: radiocheck });
+    // log load
+    if (props.match.params.id && props.temporaryloglistresponse === false) {
       const data = {
         sidx: props.match.params.id
       }
       props.getLogList(data)
-      // console.log(props.log[0]);
-
     }
-  }, [props.match.params.id])
+  }, [])
+
+  // useEffect(() => {
+  //   if (props.accountslist) {
+  //     if (props.match.params.id) {
+  //       const data = {
+  //         sidx: props.match.params.id
+  //       }
+  //       props.getLogList(data)
+  //       setSelectedAccount(null)
+  //     }
+  //   }
+  // }, [props.accountslist])
+
 
   useEffect(() => {
     if (props.log) {
-      setDisabled(true)
-      const index = getSeletedChannel(props.log.sales_activity);
-      const activityindex = getSeletedActivity(props.log.sales_goal)
-
-      //영업활동 채널 데이터 set
-      setSelectedAccount({ label: props.log.account_name, value: props.log.account_name })
-      setSelectedAccountPerson({ label: props.log.man_name, value: props.log.account_name })
-      setActivitylIndex(activityindex)
-      setChannelIndex(index)
-      //날짜 및 시간 데이터 set
+      setSelectedAccount(props.log.acc_idx)
+      setSelectedAccountPerson(props.log.accm_idx)
+      setLeadActivity(props.log.sales_lead_gb)
+      setActivity(props.log.sales_goal)
+      setChannel(props.log.sales_activity)
       setDateString(moment(new Date(props.log.meeting_date)));
       setStart(moment(new Date(`2021-09-18 ${props.log.meeting_stime}`)));
       setEnd(moment(new Date(`2021-09-18 ${props.log.meeting_etime}`)));
-
       setFromData({
+        acc_idx: props.log.acc_idx,
+        accm_idx: props.log.accm_idx,
         slog_idx: props.match.params.id,
         title: props.log.title,
         log: props.log.log,
         addr: props.log.addr,
-        // acc_idx: props.log.acc_idx,
-        // accm_idx: props.log.accm_idx,
         sales_gb: props.log.sales_gb,
         sales_lead_gb: props.log.sales_lead_gb,
         sales_goal: props.log.sales_goal,
@@ -172,50 +145,52 @@ function UploadSalesLog(props) {
         meeting_date: props.log.meeting_date,
         meeting_stime: props.log.meeting_stime,
         meeting_etime: props.log.meeting_etime,
-        lati: 0,
-        longi: 0,
-        score: '',
+        lati: props.log.lati,
+        longi: props.log.longi,
       })
       console.log(fromData)
     }
     return () => { props.clearLog() }
   }, [props.log])
 
-
-  // useEffect(() => {
-  //   //일지작성 부분 수정 할때 다시수정해야 되서 작업 중지.
-  //   if (props.match.params.id) {
-
-  //     console.log(props.match.params.id)
-  //     const { meeting_date, meeting_stime, meeting_etime, acc_idx, accm_idx, sales_gb, sales_goal, sales_lead_gb
-  //       , sales_activity, title, log, addr } = props.log[0]
-  //     const index = getSeletedChannel(sales_activity);
-  //     const activityindex = getSeletedActivity(sales_goal)
-  //     console.log(index)
-  //     console.log(activityindex)
-  //     setDateString(new Date(meeting_date));
-  //     setStart(meeting_stime)
-  //     setEnd(meeting_etime)
-  //     setSelectedAccount(acc_idx)
-  //     setSelectedAccountPerson(accm_idx)
-  //     setRadioCheck(sales_gb)
-  //     setLeadActivity(sales_lead_gb)
-  //     setActivitylIndex(activityindex)
-  //     setChannelIndex(index)
-  //     setLocation(addr)
-  //     setTitle(title)
-  //     setContent(log)
-  //     setFromData({
-  //       ...fromData,
-  //       'title': title
-  //     })
-  //   }
-  // }, [props.match.params.id])
-
+  //임시저장
+  useEffect(() => {
+    if (props.temporaryLoglist) {
+      setSelectedAccount(props.temporaryLoglist[0].acc_idx)
+      setSelectedAccountPerson(props.temporaryLoglist[0].accm_idx)
+      setLeadActivity(props.temporaryLoglist[0].sales_lead_gb)
+      setActivity(props.temporaryLoglist[0].sales_goal)
+      setChannel(props.temporaryLoglist[0].sales_activity)
+      setDateString(moment(new Date(props.temporaryLoglist[0].meeting_date)));
+      setStart(moment(new Date(`2021-09-18 ${props.temporaryLoglist[0].meeting_stime}`)));
+      setEnd(moment(new Date(`2021-09-18 ${props.temporaryLoglist[0].meeting_etime}`)));
+      setFromData({
+        acc_idx: props.temporaryLoglist[0].acc_idx,
+        accm_idx: props.temporaryLoglist[0].accm_idx,
+        slog_idx: props.match.params.id,
+        title: props.temporaryLoglist[0].title,
+        log: props.temporaryLoglist[0].log,
+        addr: props.temporaryLoglist[0].addr,
+        sales_gb: props.temporaryLoglist[0].sales_gb,
+        sales_lead_gb: props.temporaryLoglist[0].sales_lead_gb,
+        sales_goal: props.temporaryLoglist[0].sales_goal,
+        sales_activity: props.temporaryLoglist[0].sales_activity,
+        meeting_date: props.temporaryLoglist[0].meeting_date,
+        meeting_stime: props.temporaryLoglist[0].meeting_stime,
+        meeting_etime: props.temporaryLoglist[0].meeting_etime,
+        lati: props.temporaryLoglist[0].lati,
+        longi: props.temporaryLoglist[0].longi,
+      })
+      console.log(fromData)
+    }
+    return () => { props.clearTempLog() }
+  }, [props.temporaryloglistresponse])
 
   const [fromData, setFromData] = useState({
-    acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
-    accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
+    // acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
+    // accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
+    acc_idx: '',
+    accm_idx: '',
     sales_gb: radiocheck,
     sales_lead_gb: leadactivity,
     sales_goal: activity,
@@ -232,7 +207,6 @@ function UploadSalesLog(props) {
     cousers: couser,
     fileup: selectedFiles
   })
-  console.log(fromData)
 
   useEffect(() => {
     if (props.postSalesLogError) {
@@ -248,15 +222,6 @@ function UploadSalesLog(props) {
     setAccountsPersonList(props.accountpersonlist);
   }, [props.accountpersonlist]);
 
-  // 고객 검색
-
-  useEffect(() => {
-
-    const data = {
-      sales_gb: '0010001'
-    }
-    props.selectAccounts(data)
-  }, [])
 
   //고객사 등록했을 때 고객사 재검색
   useEffect(() => {
@@ -266,7 +231,6 @@ function UploadSalesLog(props) {
       }
       console.log(data);
       props.selectAccounts(data)
-      // props.postCustomerResponse = false;
     }
 
   }, [props.postCustomerResponse])
@@ -275,14 +239,11 @@ function UploadSalesLog(props) {
   useEffect(() => {
     if (selectedAccount) {
       const accountperson = {
-        acc_idx: selectedAccount.value
+        acc_idx: selectedAccount
       }
       props.selectAccountperson(accountperson);
     }
   }, [selectedAccount])
-
-
-
 
   const onDatePickerChange = (date) => {
     console.log(date)
@@ -311,59 +272,42 @@ function UploadSalesLog(props) {
     })
   }
 
-  // const onAccountSelectChange = (v, action) => {
-  //   console.log(v)
-  //   console.log(action)
-  //   setSelectedAccount(v);
-  //   setFromData({
-  //     ...fromData,
-  //     'acc_idx': v.value
-  //   })
-  // };
-
-  // const onAccountPersonSelectChange = (v, action) => {
-  //   setSelectedAccountPerson(v);
-  //   setFromData({
-  //     ...fromData,
-  //     'accm_idx': v.value
-  //   })
-  // }
-
   const onChange = (e) => {
     console.log(e.target.value);
-    setSelectedAccount(0)
-    setSelectedAccountPerson(0)
-    setLeadSelect(0)
+    setSelectedAccount(null);
+    setSelectedAccountPerson(null);
+    setLeadActivity(null);
     setRadioCheck(e.target.value);
     setFromData({
       ...fromData,
-      'sales_gb': e.target.value
+      acc_idx: '',
+      accm_idx: '',
+      sales_gb: radiocheck,
+      sales_lead_gb: null,
     })
   };
 
   const onLeadActivity = (option) => {
-    setLeadActivity(option.value);
+    setLeadActivity(option);
     setFromData({
       ...fromData,
-      'sales_lead_gb': option.value
+      'sales_lead_gb': option
     })
   }
 
   const onSalesActivity = (option) => {
-    // setActivitylIndex(option)
-    setActivity(option.value);
+    setActivity(option);
     setFromData({
       ...fromData,
-      'sales_goal': option.value
+      'sales_goal': option
     })
   };
 
   const onSalesChannel = (option) => {
-    // setChannelIndex(option);
-    setChannel(option.value);
+    setChannel(option);
     setFromData({
       ...fromData,
-      'sales_activity': option.value
+      'sales_activity': option
     })
   };
 
@@ -376,8 +320,6 @@ function UploadSalesLog(props) {
     })
     setIsFilePicked(true);
   }
-
-
 
   const onChangeLocation = (e) => {
     setFromData({
@@ -398,8 +340,6 @@ function UploadSalesLog(props) {
       'log': e.target.value
     })
   }
-
-
 
   const handleOnChange = (login_idx, user_name) => {
     const couserlists = {
@@ -429,34 +369,56 @@ function UploadSalesLog(props) {
     return output;
   }
 
+  // 일지 작성
   const onFormSubmit = () => {
-
+    if (fromData.acc_idx === '' || fromData.accm_idx === '') {
+      return errorMessage('고객, 고객 담당자는 필수항목입니다.')
+    }
+    if (fromData.sales_goal === null || fromData.sales_activity === null) {
+      return errorMessage('영업 목적, 영업채널은 필수항목입니다.')
+    }
+    if (fromData.title === '' || fromData.log === '') {
+      return errorMessage('제목, 내용은 필수항목입니다.')
+    }
     const result = getFields(couser, 'id');
     setFromData({
       ...fromData,
-      // 'cousers': couser.join(',')
       'cousers': result
-
     })
     props.postSalesLog(fromData)
-    window.alert("일지가 등록되었습니다.")
-
   }
+  //일지 수정
 
   const onFormRevise = () => {
+    if (fromData.acc_idx === '' || fromData.accm_idx === '') {
+      return errorMessage('고객, 고객 담당자는 필수항목입니다.')
+    }
+    if (fromData.sales_goal === null || fromData.sales_activity === null) {
+      return errorMessage('영업 목적, 영업채널은 필수항목입니다.')
+    }
+    if (fromData.title === '' || fromData.log === '') {
+      return errorMessage('제목, 내용은 필수항목입니다.')
+    }
     props.putSalesLog(fromData)
-    window.alert("일지가 수정 되었습니다.")
   }
+
+  //일지 임시저장
   const onFormTemporarySubmit = () => {
+    if (fromData.acc_idx === '' || fromData.accm_idx === '') {
+      return errorMessage('고객, 고객 담당자는 필수항목입니다.')
+    }
+    if (fromData.sales_goal === null || fromData.sales_activity === null) {
+      return errorMessage('영업 목적, 영업채널은 필수항목입니다.')
+    }
+    if (fromData.title === '' || fromData.log === '') {
+      return errorMessage('제목, 내용은 필수항목입니다.')
+    }
     const result = getFields(couser, 'id');
     setFromData({
       ...fromData,
-      // 'cousers': couser.join(',')
       'cousers': result
-
     })
     props.postTemporarySalesLog(fromData)
-    window.alert("일지가 임시저장 되었습니다.")
 
   }
   const [lists, setLists] = useState([
@@ -490,49 +452,22 @@ function UploadSalesLog(props) {
     props.selectAccounts(data)
   }
 
-  // useEffect(() => {
-  //   if (props.log === null) {
-  //     setSelectedAccountPerson(0)
-
-  //   }
-  // }, [selectedAccount])
-
   const onAccountSelectChange = (v, actiontype) => {
     console.log(v)
-    console.log(v.number)
-    setSelectedAccountPerson(0)
-    setLeadSelect({ label: props.accountslist[v.number].score, value: v.number })
-    if (actiontype.action === 'clear') {
-      setSelectedAccount(v);
-      setFromData({
-        ...fromData,
-        'acc_idx': ''
-      })
-    } else {
-      setSelectedAccount(v);
-      setFromData({
-        ...fromData,
-        'acc_idx': v.value
-      })
-    }
-
+    setSelectedAccountPerson(null)
+    setSelectedAccount(v);
+    setFromData({
+      ...fromData,
+      'acc_idx': v
+    })
   };
 
   const onAccountPersonSelectChange = (v, actiontype) => {
-    if (actiontype.action === 'clear') {
-      setSelectedAccountPerson(v);
-      setFromData({
-        ...fromData,
-        'accm_idx': ''
-      })
-    } else {
-      setSelectedAccountPerson(v);
-      setFromData({
-        ...fromData,
-        'accm_idx': v.value
-      })
-    }
-
+    setSelectedAccountPerson(v);
+    setFromData({
+      ...fromData,
+      'accm_idx': v
+    })
   }
 
   const labelStyle = {
@@ -542,7 +477,6 @@ function UploadSalesLog(props) {
     fontSize: 14,
     display: 'block',
   }
-  console.log(props.match.params.id)
 
   useEffect(() => {
     dispatch({
@@ -550,14 +484,6 @@ function UploadSalesLog(props) {
       payload: false
     })
   }, [])
-
-  const uploadButton = (
-    <div>
-      <PlusOutlined type='upload' />
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  );
-
 
   return (
     <React.Fragment>
@@ -630,16 +556,12 @@ function UploadSalesLog(props) {
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <Select
-              // isClearable
-              isDisabled={disabled}
+            <StyledSelect
               placeholder="고객 검색"
-              // formatCreateLabel={(v) => `새로운 고객 "${v}"만들기`}
-              options={accountsList && accountsList.map((v, index) => { return { value: v.acc_idx, label: v.account_name, number: index } })}
               value={selectedAccount}
+              options={accountsList && accountsList.map((v, index) => { return { value: v.acc_idx, label: v.account_name, number: index } })}
               onChange={onAccountSelectChange}
               styles={selectStyle} />
-            {/* {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 고객사를 생성합니다.</small>} */}
           </div>
         </div>
         <div className="mt-3"></div>
@@ -647,24 +569,18 @@ function UploadSalesLog(props) {
         <div className="row">
           <div className="col-12">
             <label style={labelStyle}> 담당자 정보 </label>
-
           </div>
         </div>
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <Select
-              isDisabled={disabled}
-
-              // isClearable
+            <StyledSelect
               isSearchable={false}
               placeholder="고객 담당자를 선택해주세요"
-              // formatCreateLabel={(v) => `새로운 담당자 "${v}"만들기`}
               options={accountspersonList && accountspersonList.map((v) => { return { value: v.accm_idx, label: v.man_name } })}
               value={selectedAccountperson}
               onChange={onAccountPersonSelectChange}
               styles={selectStyle} />
-            {/* {(logForm.account_id === 'new' || logForm.account_id === 'new ') && <small>입력된 새로운 담당자를 생성합니다.</small>} */}
           </div>
         </div>
         <div className="mt-3"></div>
@@ -674,12 +590,12 @@ function UploadSalesLog(props) {
         {radiocheck === '0010002' ?
           <div className="row">
             <div className="col-12">
-              <Select
+              <StyledSelect
                 isSearchable={false}
                 isDisabled={true}
                 placeholder="리드단계"
                 options={leadActivityOption}
-                value={leadselect}
+                value={leadactivity}
                 onChange={onLeadActivity}
                 styles={selectStyle}
               />
@@ -703,11 +619,11 @@ function UploadSalesLog(props) {
         <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
-            <Select
+            <StyledSelect
               isSearchable={false}
               placeholder="영업 목적을 선택해주세요."
               options={salesActivityOption}
-              value={salesActivityOption[activityindex]}
+              value={activity}
               // defaultValue={salesActivityOption}
               onChange={onSalesActivity}
               styles={selectStyle}
@@ -729,12 +645,11 @@ function UploadSalesLog(props) {
         <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
-            <Select
+            <StyledSelect
               isSearchable={false}
               placeholder="영업 채널을 선택해주세요."
               options={salesChannelOption}
-              value={salesChannelOption[channelindex]}
-              // defaultValue={salesChannelOption[0]}
+              value={channel}
               onChange={onSalesChannel}
               styles={selectStyle}
             />
@@ -793,15 +708,7 @@ function UploadSalesLog(props) {
           <div >
             <img src={require('assets/icons/clip.png')} alt='clip_logo' />
             <input type='file' id='input-file' onChange={selectFile} multiple />
-            {/* <Upload
-              listType="picture-card"
-              fileList={fileList}
-              // onPreview={handlePreview}
-              onChange={handleOnFileChange}
-              maxCount={5}
-            >
-              {fileList.length >= 5 ? null : uploadButton}
-            </Upload> */}
+
           </div>
           <div >
             <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
@@ -834,9 +741,12 @@ function UploadSalesLog(props) {
 
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
-  const { userList, temporaryLoglist, log, logcouser } = state.SalesLog;
+  const { userList, temporaryLoglist, log, logcouser, temporaryloglistresponse } = state.SalesLog;
   const { postCustomerResponse } = state.Customer
-  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist, log, logcouser, postCustomerResponse };
+  return {
+    accounts, userList, accountslist,
+    accountpersonlist, temporaryLoglist, log, logcouser, postCustomerResponse, temporaryloglistresponse
+  };
 };
 const mapStateToDispatch = {
   postSalesLog: postSalesLog.call,
@@ -847,7 +757,8 @@ const mapStateToDispatch = {
   getUserList: getUserList.call,
   getLogList: getLogList.call,
   putSalesLog: putSalesLog.call,
-  clearLog
+  clearLog,
+  clearTempLog
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(UploadSalesLog);

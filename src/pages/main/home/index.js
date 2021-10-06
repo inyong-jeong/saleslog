@@ -86,12 +86,14 @@ const DashBoardPage = (props) => {
 
   const cardContainerStyle = {
     display: 'flex',
+    gridGap: '10px',
     flexDirection: 'row',
     gridGap: 10,
   }
 
   const mobileCardContainerStyle = {
     display: 'flex',
+    gridGap: '10px',
     flexDirection: 'column',
     gridGap: 10,
 

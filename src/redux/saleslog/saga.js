@@ -52,10 +52,10 @@ import { successMessage, errorMessage } from '../../constants/commonFunc'
 
 function* _postSalesLog({ payload: { data } }) {
   try {
-    console.log(data)
     const response = yield call(post_fetch_files, 'https://backend.saleslog.co/saleslog/regi_saleslog', data);
-    console.log(response)
     yield put(postSalesLog.success(response));
+    yield successMessage('일지가 등록되었습니다.')
+
   } catch (error) {
     yield put(postSalesLog.error(error));
   }
@@ -65,6 +65,8 @@ function* _postTemporarySalesLog({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_saleslog_temp', data);
     yield put(postTemporarySalesLog.success(response));
+    yield successMessage('일지가 임시저장 되었습니다.')
+
   } catch (error) {
     yield put(postTemporarySalesLog.error(error));
   }
@@ -73,7 +75,6 @@ function* _postTemporarySalesLog({ payload: { data } }) {
 function* _getUserList({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/org/search_users', data);
-
     yield put(getUserList.success(response));
   } catch (error) {
     yield put(getUserList.error(error));
@@ -140,6 +141,8 @@ function* _putSalesLog({ payload: { data } }) {
   try {
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_saleslog', data);
     yield put(putSalesLog.success(response));
+    yield successMessage('일지가 수정되었습니다.')
+
   } catch (error) {
     yield put(putSalesLog.error(error));
   }

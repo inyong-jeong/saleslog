@@ -11,8 +11,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ResponsivePie } from '@nivo/pie';
 import NeedsCard from 'components/NeedsCard'
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-
-import { isPlainObject } from 'jquery';
+import { base64Dec } from "constants/commonFunc";
 import { useDispatch } from 'react-redux'
 
 function SalesLog(props) {
@@ -60,6 +59,13 @@ function SalesLog(props) {
     return FileList
   }
 
+  // useEffect(() => {
+  //   console.log(props.match.params.id)
+  //   base64Dec(props.match.params.id)
+  // }, [])
+
+  // console.log(props.match.params.id)
+
   // 로그 상세 일지 상태 set
   useEffect(() => {
     if (props.log) {
@@ -67,8 +73,6 @@ function SalesLog(props) {
       setFileList(getFileList(props.log))
     }
     return () => { props.clearLog() }
-
-
 
   }, [props.log])
 

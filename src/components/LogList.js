@@ -9,6 +9,8 @@ import styles from '../assets/style/Main.module.css'
 import { ReactComponent as Dot } from '../assets/icons/main/dot.svg'
 import { ReactComponent as Feedback } from '../assets/icons/main/feedback.svg'
 import { useHistory } from 'react-router';
+import { base64Enc } from "constants/commonFunc";
+
 // import useResizeObserver from 'components/useResizeObserver';
 function LogList({ loglist, handleNextPage, loglists }) {
 
