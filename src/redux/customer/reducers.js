@@ -51,7 +51,7 @@ const initialState = {
 const Customer = (state = initialState, action) => {
   switch (String(action.type)) {
     case POST_CUSTOMER:
-      return { ...state, loading: true }
+      return { ...state, loading: true, postCustomerResponse: false }
     case POST_CUSTOMER_SUCCESS:
       return { ...state, loading: false, postCustomerResponse: true }
     case POST_CUSTOMER_ERROR:

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../components/customer/styles/Customer.module.css'
 import { Tabs, Row, Col, Divider } from 'antd';
 import Text from 'antd/lib/typography/Text';
+import { useDispatch } from 'react-redux'
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
@@ -20,6 +22,15 @@ import { useHistory } from 'react-router';
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: true
+    })
+
+  }, [])
 
   const history = useHistory()
   const navigateTo = () => history.push({
@@ -94,6 +105,9 @@ function SalesLogList(props) {
     JSON.parse(localStorage.getItem('keywords') || '[]'),
   )
 
+  //검색어
+  const [searchStr, setSearchStr] = useState('')
+
   useEffect(() => {
     localStorage.setItem('keywords', JSON.stringify(keywords))
   }, [keywords])
@@ -139,6 +153,23 @@ function SalesLogList(props) {
     setFocus(v);
   }
 
+  const onBlankEnter = (v) => {
+    if (v === '') {
+      setData({ ...data, srch: '', pageno: 1 })
+    }
+  }
+
+  const clearKeyword = () => {
+    console.log('clear Keyword:::::::::::::')
+    setSearchStr('')
+  }
+
+  const setKeyword = (v) => {
+    console.log('click:::::::::::::', v)
+    setSearchStr(v)
+  }
+
+
   return (
     <>
       <MyAppBar barTitle={'일지'} />
@@ -146,8 +177,14 @@ function SalesLogList(props) {
       <div className='content_body'>
         {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
-        <SearchBar onAddKeyword={handleAddKeyword} SearchChange={onSearch} SearchEnter={onEnter} />
+        <SearchBar searchStr={searchStr}
+          onAddKeyword={handleAddKeyword}
+          SearchChange={onSearch}
+          SearchEnter={onEnter}
+          BlankEnter={onBlankEnter}
+          clearKeyword={clearKeyword} />
         {focus && <History
+          historyKeyword={setKeyword}
           keywords={keywords}
           onClearKeywords={handleClearKeywords}
           onRemoveKeyword={handleRemoveKeyword}

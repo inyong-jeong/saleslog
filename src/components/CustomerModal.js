@@ -115,7 +115,7 @@ const CustomerModal = (props) => {
             autoComplete="off"
           >
             <Form.Item
-              label="고객구분"
+              label={<span >고객구분<span style={{ color: 'red' }}>*</span></span>}
             >
               <Radio.Group onChange={onChange} value={radiocheck}>
                 <Radio value={'0010001'}>거래고객</Radio>
@@ -124,7 +124,7 @@ const CustomerModal = (props) => {
             </Form.Item>
             {radiocheck === '0010002' ?
               <Form.Item
-                label="리드단계"
+                label={<span >리드단계<span style={{ color: 'red' }}>*</span></span>}
               >
                 <Select
                   options={leadActivityOption}
@@ -136,7 +136,7 @@ const CustomerModal = (props) => {
               : null}
 
             <Form.Item
-              label="고객"
+              label={<span >고객<span style={{ color: 'red' }}>*</span></span>}
             >
               <Input
                 name='account_name'
@@ -145,7 +145,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label="대표자명"
+              label={<span >대표자명<span style={{ color: 'red' }}>*</span></span>}
             >
               <Input
                 name='ceo_name'
@@ -154,7 +154,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label="고객담당자"
+              label={<span >고객담당자<span style={{ color: 'red' }}>*</span></span>}
             >
               <Input
                 name='man_name'
@@ -163,7 +163,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label="담당자부서"
+              label={<span >담당자부서<span style={{ color: 'red' }}>*</span></span>}
             >
               <Input
                 name='dept'

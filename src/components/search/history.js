@@ -3,7 +3,11 @@ import styled from 'styled-components'
 import { convertTimeToFormat } from 'helpers/timeUtils'
 
 const HistoryContainer = styled.div`
+
   padding: 18px;
+  height: 200px;
+  overflow: auto;
+
 `
 const HeaderContainer = styled.div`
   overflow: hidden;
@@ -23,36 +27,40 @@ const ListContainer = styled.ul`
 `
 
 const KeywordContainer = styled.li`
-  overflow: hidden;
 
   &:not(:last-child) {
     margin-bottom: 10px;
   }
 `
 
-const RemoveButton = styled.button`
+const RemoveButton = styled.span`
   float: right;
-  color: black;
-  border: 1px solid black;
+  color: #818181;
+  font-size: 10px;
+  margin-top : 1px;
   padding: 3px 5px;
-  border-radius: 15px;
 `
 
 const Date = styled.span`
   float: right;
-  color: black;
+  color: #818181;
   padding: 3px 5px;
 `
 
 const Keyword = styled.span`
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 12px;
 `
 
-function History({ keywords, onRemoveKeyword, onClearKeywords }) {
+
+function History({ keywords, onRemoveKeyword, onClearKeywords, historyKeyword }) {
   if (keywords.length === 0) {
     return <HistoryContainer>최근 검색된 기록이 없습니다.</HistoryContainer>
   }
+
+  const setHistorySearch = (v) => {
+    historyKeyword(v)
+  }
+
   return (
     <HistoryContainer>
       <HeaderContainer>
@@ -62,8 +70,10 @@ function History({ keywords, onRemoveKeyword, onClearKeywords }) {
       <ListContainer>
         {keywords.map(({ id, text }) => {
           return (
-            <KeywordContainer key={id}>
-              <Keyword>{text}</Keyword>
+            <KeywordContainer key={id} className='search_history'>
+              {/* <span className='search_history'> */}
+              <Keyword onClick={() => setHistorySearch(text)}>{text}</Keyword>
+              {/* </span> */}
               <RemoveButton
                 onClick={() => {
                   onRemoveKeyword(id)

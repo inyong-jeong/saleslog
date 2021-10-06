@@ -6,17 +6,23 @@ import {
   postSalesLog, selectAccounts, selectAccountperson,
   postTemporarySalesLog, uploadFile, getUserList, getLogList, clearLog, putSalesLog
 } from 'redux/actions';
+import { useDispatch } from "react-redux";
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { PlusOutlined } from '@ant-design/icons';
+
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Divider from 'components/Divider'
-import { TimePicker, Radio, DatePicker, Input } from 'antd';
+import { TimePicker, Radio, DatePicker, Input, Tooltip, Upload } from 'antd';
 import CouserModal from 'components/CouserModal'
 import CouserList from 'components/CouserList';
 import LogListModal from 'components/LogListModal'
 import CustomerModal from 'components/CustomerModal'
 import moment from 'moment';
+import { ReactComponent as Info } from 'assets/icons/info.svg'
 import 'moment/locale/ko';
 // import { getLogLists, getLogList } from '../../../redux/saleslog/actions';
+
 
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
@@ -45,9 +51,17 @@ const leadActivityOption =
   { label: '검증', value: '0020004' }];
 console.log(salesChannelOption);
 
+
+
 function UploadSalesLog(props) {
 
+  const dispatch = useDispatch()
 
+  //일지 수정 disable state
+  const [disabled, setDisabled] = useState(false)
+
+  // 리드단계  선택
+  const [leadselect, setLeadSelect] = useState(0);
 
   const [channelindex, setChannelIndex] = useState('');
   const [activityindex, setActivitylIndex] = useState('');
@@ -130,12 +144,13 @@ function UploadSalesLog(props) {
 
   useEffect(() => {
     if (props.log) {
+      setDisabled(true)
       const index = getSeletedChannel(props.log.sales_activity);
       const activityindex = getSeletedActivity(props.log.sales_goal)
 
       //영업활동 채널 데이터 set
-      setSelectedAccount({ label: '테스트', value: 10000035 })
-      setSelectedAccountPerson({ label: '담당자 테스트', value: 10000006 })
+      setSelectedAccount({ label: props.log.account_name, value: props.log.account_name })
+      setSelectedAccountPerson({ label: props.log.man_name, value: props.log.account_name })
       setActivitylIndex(activityindex)
       setChannelIndex(index)
       //날짜 및 시간 데이터 set
@@ -242,6 +257,20 @@ function UploadSalesLog(props) {
     }
     props.selectAccounts(data)
   }, [])
+
+  //고객사 등록했을 때 고객사 재검색
+  useEffect(() => {
+    if (props.postCustomerResponse) {
+      const data = {
+        sales_gb: radiocheck
+      }
+      console.log(data);
+      props.selectAccounts(data)
+      // props.postCustomerResponse = false;
+    }
+
+  }, [props.postCustomerResponse])
+
   console.log(fromData);
   useEffect(() => {
     if (selectedAccount) {
@@ -302,6 +331,9 @@ function UploadSalesLog(props) {
 
   const onChange = (e) => {
     console.log(e.target.value);
+    setSelectedAccount(0)
+    setSelectedAccountPerson(0)
+    setLeadSelect(0)
     setRadioCheck(e.target.value);
     setFromData({
       ...fromData,
@@ -458,8 +490,18 @@ function UploadSalesLog(props) {
     props.selectAccounts(data)
   }
 
+  // useEffect(() => {
+  //   if (props.log === null) {
+  //     setSelectedAccountPerson(0)
+
+  //   }
+  // }, [selectedAccount])
+
   const onAccountSelectChange = (v, actiontype) => {
     console.log(v)
+    console.log(v.number)
+    setSelectedAccountPerson(0)
+    setLeadSelect({ label: props.accountslist[v.number].score, value: v.number })
     if (actiontype.action === 'clear') {
       setSelectedAccount(v);
       setFromData({
@@ -492,7 +534,31 @@ function UploadSalesLog(props) {
     }
 
   }
+
+  const labelStyle = {
+    marginTop: 10,
+    color: '#111111',
+    fontWeight: 'normal',
+    fontSize: 14,
+    display: 'block',
+  }
   console.log(props.match.params.id)
+
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: false
+    })
+  }, [])
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined type='upload' />
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
+
+
   return (
     <React.Fragment>
       <MyAppBar
@@ -507,27 +573,28 @@ function UploadSalesLog(props) {
         <div className='mt-3'></div>
         <div className="row">
           <div className="col-12">
-            <h4>* 활동 일시</h4>
+            <label style={labelStyle}> 활동 일시 <span style={{ color: 'red' }}>*</span></label>
             {/* <ButtonTab tab={tabs} onSelected={onSelected} defaultSelected="SALESLOG" /> */}
           </div>
         </div>
         <div className='mt-2'></div>
         <DatePicker className='col-12'
+          inputReadOnly={true}
           defaultValue={moment}
           format={'YYYY-MM-DD'}
           value={dateString}
           onChange={onDatePickerChange} />
         <div className='mt-2'></div>
         <TimePicker className='col-6'
+          inputReadOnly={true}
           format={'HH:mm'}
-
           defaultValue={moment}
           value={start}
           onChange={onChangesSartValue}
         />
         <TimePicker className='col-6'
+          inputReadOnly={true}
           format={'HH:mm'}
-
           defaultValue={moment}
           value={end}
           onChange={onChangeEndValue}
@@ -535,7 +602,8 @@ function UploadSalesLog(props) {
         <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
-            <h4>* 일지 구분</h4>
+            <label style={labelStyle}> 일지 구분 <span style={{ color: 'red' }}>*</span></label>
+
           </div>
         </div>
         <div className='mt-2'></div>
@@ -554,7 +622,8 @@ function UploadSalesLog(props) {
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12" style={{ display: 'flex', alignItems: 'center' }}>
-            <h4 className='mr-1' style={{ fontSize: '16px' }}>* 고객</h4>
+            <label style={labelStyle}> 고객 <span style={{ color: 'red' }}>*</span></label>
+
             <CustomerModal buttonLabel='고객 간편 등록' />
           </div>
         </div>
@@ -563,9 +632,10 @@ function UploadSalesLog(props) {
           <div className="col-12">
             <Select
               // isClearable
+              isDisabled={disabled}
               placeholder="고객 검색"
               // formatCreateLabel={(v) => `새로운 고객 "${v}"만들기`}
-              options={accountsList && accountsList.map((v) => { return { value: v.acc_idx, label: v.account_name } })}
+              options={accountsList && accountsList.map((v, index) => { return { value: v.acc_idx, label: v.account_name, number: index } })}
               value={selectedAccount}
               onChange={onAccountSelectChange}
               styles={selectStyle} />
@@ -576,14 +646,18 @@ function UploadSalesLog(props) {
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <h4>* 담당자 정보</h4>
+            <label style={labelStyle}> 담당자 정보 </label>
+
           </div>
         </div>
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
             <Select
+              isDisabled={disabled}
+
               // isClearable
+              isSearchable={false}
               placeholder="고객 담당자를 선택해주세요"
               // formatCreateLabel={(v) => `새로운 담당자 "${v}"만들기`}
               options={accountspersonList && accountspersonList.map((v) => { return { value: v.accm_idx, label: v.man_name } })}
@@ -601,9 +675,11 @@ function UploadSalesLog(props) {
           <div className="row">
             <div className="col-12">
               <Select
-                placeholder="리드단계를 선택해주세요."
+                isSearchable={false}
+                isDisabled={true}
+                placeholder="리드단계"
                 options={leadActivityOption}
-                value={leadActivityOption.activity}
+                value={leadselect}
                 onChange={onLeadActivity}
                 styles={selectStyle}
               />
@@ -615,14 +691,21 @@ function UploadSalesLog(props) {
           : null}
         <div className="row">
           <div className="col-12" style={{ display: 'flex' }}>
-            <h4>* 영업활동 구분</h4><img src={require('assets/icons/caution.png')} alt='caution_logo' />
+            <label style={labelStyle}> 영업 목적 <span style={{ color: 'red' }}>*</span>
+              <Tooltip title="고객에 대한 전반적 '정보/동향수집', '특정내용,수요,기술에 대한 니즈조사
+              , '실질적인 제안, 검증, 협의 등' 영업활동의 목적(의도)을 선택해주세요.">
+                <Info />
+              </Tooltip>
+            </label>
+
           </div>
         </div>
         <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
             <Select
-              placeholder="영업활동 구분을 선택해주세요."
+              isSearchable={false}
+              placeholder="영업 목적을 선택해주세요."
               options={salesActivityOption}
               value={salesActivityOption[activityindex]}
               // defaultValue={salesActivityOption}
@@ -634,13 +717,20 @@ function UploadSalesLog(props) {
         <div className='mt-3'></div>
         <div className="row">
           <div className="col-12" style={{ display: 'flex' }}>
-            <h4>* 채널 구분</h4><img src={require('assets/icons/caution.png')} alt='caition_logo' />
+            <label style={labelStyle}> 영업 채널 <span style={{ color: 'red' }}>*</span>
+              <Tooltip title="영업 목적을 위해 사용한 채널을 선택해주세요.
+               2개 이상 채널을 병행한 경우 활용 가중치가 높거나 핵심적인 채널을 선택해주세요.">
+                <Info />
+              </Tooltip>
+            </label>
+
           </div>
         </div>
         <div className='mt-2'></div>
         <div className="row">
           <div className="col-12">
             <Select
+              isSearchable={false}
               placeholder="영업 채널을 선택해주세요."
               options={salesChannelOption}
               value={salesChannelOption[channelindex]}
@@ -653,7 +743,7 @@ function UploadSalesLog(props) {
         <div className="mt-3"></div>
         <div className="row">
           <div className="col-12">
-            <h4>영업 장소</h4>
+            <label style={labelStyle}> 영업 장소 </label>
           </div>
         </div>
         <div className="mt-2"></div>
@@ -670,7 +760,8 @@ function UploadSalesLog(props) {
         <div className="mt-3"></div>
         <div className="row">
           <div className="col-12">
-            <h4>* 제목</h4>
+            <label style={labelStyle}> 제목 <span style={{ color: 'red' }}>*</span></label>
+
           </div>
         </div>
         <div className="mt-2"></div>
@@ -684,7 +775,8 @@ function UploadSalesLog(props) {
         </div>
         <div className="mt-3"></div>
         <div className="row" style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 2px 0px 2px' }}>
-          <h4>* 내용</h4>
+          <label style={labelStyle}> 내용 <span style={{ color: 'red' }}>*</span></label>
+
           {!props.match.params.id ? <LogListModal buttonLabel='임시저장함' /> : <></>}
 
         </div>
@@ -701,7 +793,15 @@ function UploadSalesLog(props) {
           <div >
             <img src={require('assets/icons/clip.png')} alt='clip_logo' />
             <input type='file' id='input-file' onChange={selectFile} multiple />
-            {/* <img src={require('assets/icons/voice.png')} alt='voice_logo' /> */}
+            {/* <Upload
+              listType="picture-card"
+              fileList={fileList}
+              // onPreview={handlePreview}
+              onChange={handleOnFileChange}
+              maxCount={5}
+            >
+              {fileList.length >= 5 ? null : uploadButton}
+            </Upload> */}
           </div>
           <div >
             <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
@@ -735,7 +835,8 @@ function UploadSalesLog(props) {
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
   const { userList, temporaryLoglist, log, logcouser } = state.SalesLog;
-  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist, log, logcouser };
+  const { postCustomerResponse } = state.Customer
+  return { accounts, userList, accountslist, accountpersonlist, temporaryLoglist, log, logcouser, postCustomerResponse };
 };
 const mapStateToDispatch = {
   postSalesLog: postSalesLog.call,

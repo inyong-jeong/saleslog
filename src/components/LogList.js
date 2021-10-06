@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { List, Divider, Avatar } from 'antd';
+import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, withRouter } from 'react-router-dom';
 import cmm from 'constants/common';
@@ -8,6 +9,7 @@ import styles from '../assets/style/Main.module.css'
 import { ReactComponent as Dot } from '../assets/icons/main/dot.svg'
 import { ReactComponent as Feedback } from '../assets/icons/main/feedback.svg'
 import { useHistory } from 'react-router';
+// import useResizeObserver from 'components/useResizeObserver';
 function LogList({ loglist, handleNextPage, loglists }) {
 
   const history = useHistory()
@@ -22,12 +24,44 @@ function LogList({ loglist, handleNextPage, loglists }) {
     lineHeight: '1.8em',
     fontWeight: 300
   }
+  //글자수 제한 더보기 
+  const contentRef = useRef(null);
+  // const [isShowReadMore, setIsShowReadMore] = useState(false);
+  // const observeCallback = (entries) => {
+  //   for (let entry of entries) {
+  //     console.log(entry)
+  //     if (entry.target.scrollHeight > entry.contentRect.height) {
+  //       setIsShowReadMore(true);
+  //     } else {
+  //       setIsShowReadMore(false);
+  //     }
+  //   }
+  // };
+  // useResizeObserver({ callback: observeCallback, element: contentRef });
+  // const onClick = (e) => {
+  //   contentRef.current.classList.add("show");
+  //   setIsShowReadMore(false);
+  // };
 
+  const Wrap = styled.div``;
+  const Ellipsis = styled.div`
+  position: relative;
+  display: -webkit-box;
+  line-height: 2rem;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  
+`;
 
+  const Button = styled.button`
+  line-height: 2rem;
+`;
   const handleLogClick = (loglist) => {
     history.push(`/main/manage/saleslog/${loglist.slog_idx}`)
   }
   const SalesLogItem = ({ loglist }) => (
+
 
     <>
       <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)} style={{ position: 'relative' }}>
@@ -36,7 +70,7 @@ function LogList({ loglist, handleNextPage, loglists }) {
             <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url} />
           </div>
           <div style={{ flexGrow: 2 }}>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}>{loglist.user_name}</p>
+            <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></p>
             <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname} { }</p>
             <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{loglist.sales_goal_t}<Dot /> {loglist.sales_activity_t} <Dot /> {loglist.needs_cods}</p>
           </div>
@@ -44,18 +78,26 @@ function LogList({ loglist, handleNextPage, loglists }) {
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
         <div style={grayTextStyles}>{loglist.account_name} <Dot /> {loglist.man_name}<Dot /> {loglist.man_posi} </div>
-        <div style={{ fontSize: 14, fontWeight: 500 }}>{loglist.title}</div>
-        <div style={grayTextStyles}>{loglist.log} </div>
-        <div style={{ display: 'flex', height: 85 }}>
-          {(loglist.file1 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file1} />}
-          {(loglist.file2 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file2} />}
-          {(loglist.file3 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file3} />}
-          {(loglist.file4 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file4} />}
-          {(loglist.file5 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file5} />}
+        <div style={{ fontSize: 14, fontWeight: 500 }}><strong>{loglist.title}</strong></div>
+        <div className='mt-1'></div>
+        {/* <div style={grayTextStyles}>{loglist.log} </div>
+         */}
+        <Wrap>
+          <Ellipsis ref={contentRef}>{loglist.log}</Ellipsis>
+          {/* {isShowReadMore && <Button onClick={onClick}>...더보기</Button>} */}
+        </Wrap>
+
+        <div className='mt-1'></div>
+        <div style={{ display: 'flex' }}>
+          {(loglist.file1 !== '') && <Avatar size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file1} />}
+          {(loglist.file2 !== '') && <Avatar size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file2} />}
+          {(loglist.file3 !== '') && <Avatar size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file3} />}
+          {(loglist.file4 !== '') && <Avatar size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file4} />}
+          {(loglist.file5 !== '') && <Avatar size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file5} />}
         </div>
         <div
           style={{
-            position: 'absolute',
+            position: 'relative',
             bottom: 0,
             fontSize: 12,
             color: '#333333',

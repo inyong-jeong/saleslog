@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { Input } from "antd";
 const { Search } = Input;
@@ -62,25 +62,49 @@ const InputContainer = styled.div`
 
 // `
 
-function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
+function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEnter, clearKeyword }) {
 
   const [keyword, setKeyword] = useState('')
 
   const handleKeyword = (e) => {
+
     setKeyword(e.target.value)
     SearchChange(e.target.value)
   }
 
-  console.log(keyword)
-
   const handleEnter = (e) => {
-    console.log(e)
-    if (keyword) {
+    console.log('handelEnter:::::::::::::::::::', e)
+    if (keyword || keyword === '') {
+      console.log(keyword)
       onAddKeyword(keyword)
-      setKeyword('')
+      // setKeyword('')
       SearchEnter(false)
+      BlankEnter(keyword)
     }
   }
+
+  //최신검색어 선택시 
+  const searchEnter = (v) => {
+    console.log('searchEnter:::::::::::::::::::', v)
+    if (v || v === '') {
+      onAddKeyword(v)
+      // setKeyword('')
+      SearchEnter(false)
+      BlankEnter(v)
+    }
+  }
+
+
+  // 검색어가 바뀔때
+  useEffect(() => {
+    console.log('searchStr:::', searchStr)
+    if (searchStr && searchStr != '') {
+      setKeyword(searchStr);
+      searchEnter(searchStr);
+      clearKeyword();
+    }
+  }, [searchStr])
+
 
   const handleClearKeyword = () => {
     setKeyword('')
@@ -106,8 +130,7 @@ function SearchBar({ onAddKeyword, SearchChange, SearchEnter }) {
         <Search
           // ref={ref}
           onClick={handleOnClick}
-          placeholder="검색어(고객사명, 고객사 담당자명, 장소명, 일지내용)"
-          allowClear
+          placeholder="검색어(고객명, 고객 담당자명, 장소명, 일지내용)"
           value={keyword}
           onChange={handleKeyword}
           // enterButton={handleEnter}

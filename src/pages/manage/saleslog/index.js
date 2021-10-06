@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getLogList, getCommentLists, getprofile, deleteFile, putFile } from 'redux/actions';
+import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog } from 'redux/actions';
 import { connect } from 'react-redux';
 import { Row, Col, Upload, Avatar } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
@@ -10,9 +10,19 @@ import cmm from 'constants/common';
 import { PlusOutlined } from '@ant-design/icons';
 import { ResponsivePie } from '@nivo/pie';
 import NeedsCard from 'components/NeedsCard'
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+
 import { isPlainObject } from 'jquery';
+import { useDispatch } from 'react-redux'
 
 function SalesLog(props) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: false
+    })
+  }, [])
   const state = useSelector(state => state.SalesLog)
   const [CommentLists, setCommentLists] = useState([])
   const [filelist, setFileList] = useState([])
@@ -56,6 +66,10 @@ function SalesLog(props) {
       setLog(props.log)
       setFileList(getFileList(props.log))
     }
+    return () => { props.clearLog() }
+
+
+
   }, [props.log])
 
 
@@ -229,162 +243,162 @@ function SalesLog(props) {
 
   return (
     <>
-      <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />      
-    <div className='content_body'>
-      <Row>
-        <Col>
-          {Log && <h4>{Log.title}</h4>}
-        </Col>
-      </Row>
-      <Row gutter={[4, 4]}>
-        <Col sm={24} xs={24} md={24} lg={24}>
-          {Log && <StyledCard>
-            <ul >
-              <li style={{ display: 'flex' }}>
-                <img
-                  src={require('assets/icons/calendar.png')}
-                  alt='calendar_icon' />
-                <div className='ml-1'>{Log.meeting_date}</div>
-              </li>
-              <li style={{ display: 'flex' }}>
-                <img
-                  src={require('assets/icons/clock.png')}
-                  alt='clock' />
-                <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
-              </li>
-              <li style={{ display: 'flex' }}>
-                <img
-                  src={require('assets/icons/location.png')}
-                  alt='location' />
-                <div className='ml-1'>{Log.addr}</div>
-              </li>
-              <li style={{ display: 'flex' }}>
-                <img
-                  src={require('assets/icons/needs.png')}
-                  alt='needs_icon' />
-                <div className='ml-1'>{Log.sales_goal_t} <span>&#183;</span> {Log.sales_activity_t}</div>
-              </li>
-              <li style={{ display: 'flex' }}>
-                <img
-                  src={require('assets/icons/document.png')}
-                  alt='document_icon' />
-                <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
-              </li>
-              <li >
-                <img
-                  src={require('assets/icons/profile.png')}
-                  alt='document_icon' /><p>공동 작성자 현황</p>
-                {props.logcouser && props.logcouser.map(v => {
-                  return (
-                    <div className='mt-1' style={{ display: 'flex' }} >
-                      <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + v.thumb_url} />
-                      <div className='ml-1'><div className='mt-1'>{v.user_name} {v.title} <span>&#183;</span>  {v.dept_name}</div> </div>
-                    </div>
-                  )
-                }
-                )
-                }
-              </li>
-            </ul>
-          </StyledCard>}
-        </Col>
-      </Row>
-      <Row gutter={[4, 4]} className='mt-1'>
-      </Row>
-      <Row gutter={[4, 4]}>
-        <Col sm={24} xs={24} md={24} lg={24}>
-          {Log && <StyledCard title='일지 내용'>
-            <p>{Log.log}</p>
-            <div className="clearfix">
-              {Log.file1}<br />{Log.file2}<br />{Log.file3}<br />{Log.file4}<br />{Log.file5}<br />
-              <Upload
-                listType="picture-card"
-                fileList={filelist}
-                onPreview={handlePreview}
-                onChange={handleChange}
-                maxCount={5}
-              >
-                {filelist.length >= 5 ? null : uploadButton}
-              </Upload>
-            </div>
-          </StyledCard>}
-        </Col>
-      </Row>
-      <div className='mt-1'></div>
-      <Row gutter={[4, 4]} >
-        <Col sm={24} xs={24} md={24} lg={24}>
-          <StyledCard title='니즈 분석'>
-
-            <div style={{ width: '100%', height: 500 }}>
-              <ResponsivePie
-                arcLabel={(v) => `${v.data.percent}%`}
-                theme={theme}
-                data={logneedslist && cmm.setDataList(logneedslist)}
-                margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-                innerRadius={0.5}
-                padAngle={0.7}
-                cornerRadius={3}
-                activeOuterRadiusOffset={8}
-                borderWidth={1}
-                borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
-                arcLinkLabelsSkipAngle={10}
-                arcLinkLabelsTextColor="#333333"
-                arcLinkLabelsThickness={2}
-                arcLinkLabelsColor={{ from: 'color' }}
-                arcLabelsSkipAngle={10}
-                arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
-                legends={[
-                  {
-                    anchor: 'bottom',
-                    direction: 'row',
-                    justify: false,
-                    translateX: 0,
-                    translateY: 56,
-                    itemsSpacing: 0,
-                    itemWidth: 100,
-                    itemHeight: 18,
-                    itemTextColor: '#999999',
-                    itemDirection: 'left-to-right',
-                    itemOpacity: 1,
-                    symbolSize: 18,
-                    symbolShape: 'circle',
-                    effects: [
-                      {
-                        on: 'hover',
-                        style: {
-                          itemTextColor: '#000',
-                          cursor: 'pointer'
-                        }
-                      }
-                    ]
+      <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />
+      <div className='content_body'>
+        <Row>
+          <Col>
+            {Log && <h4>{Log.title}</h4>}
+          </Col>
+        </Row>
+        <Row gutter={[4, 4]}>
+          <Col sm={24} xs={24} md={24} lg={24}>
+            {Log && <StyledCard>
+              <ul >
+                <li style={{ display: 'flex' }}>
+                  <img
+                    src={require('assets/icons/calendar.png')}
+                    alt='calendar_icon' />
+                  <div className='ml-1'>{Log.meeting_date}</div>
+                </li>
+                <li style={{ display: 'flex' }}>
+                  <img
+                    src={require('assets/icons/clock.png')}
+                    alt='clock' />
+                  <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
+                </li>
+                <li style={{ display: 'flex' }}>
+                  <img
+                    src={require('assets/icons/location.png')}
+                    alt='location' />
+                  <div className='ml-1'>{Log.addr}</div>
+                </li>
+                <li style={{ display: 'flex' }}>
+                  <img
+                    src={require('assets/icons/needs.png')}
+                    alt='needs_icon' />
+                  <div className='ml-1'>{Log.sales_goal_t} <span>&#183;</span> {Log.sales_activity_t}</div>
+                </li>
+                <li style={{ display: 'flex' }}>
+                  <img
+                    src={require('assets/icons/document.png')}
+                    alt='document_icon' />
+                  <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
+                </li>
+                <li >
+                  <img
+                    src={require('assets/icons/profile.png')}
+                    alt='document_icon' /><p>공동 작성자 현황</p>
+                  {props.logcouser && props.logcouser.map(v => {
+                    return (
+                      <div className='mt-1' style={{ display: 'flex' }} >
+                        <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + v.thumb_url} />
+                        <div className='ml-1'><div className='mt-1'>{v.user_name} {v.title} <span>&#183;</span>  {v.dept_name}</div> </div>
+                      </div>
+                    )
                   }
-                ]}
-              />
-            </div>
+                  )
+                  }
+                </li>
+              </ul>
+            </StyledCard>}
+          </Col>
+        </Row>
+        <Row gutter={[4, 4]} className='mt-1'>
+        </Row>
+        <Row gutter={[4, 4]}>
+          <Col sm={24} xs={24} md={24} lg={24}>
+            {Log && <StyledCard title='일지 내용'>
+              <p>{Log.log}</p>
+              <div className="clearfix">
+                {Log.file1}<br />{Log.file2}<br />{Log.file3}<br />{Log.file4}<br />{Log.file5}<br />
+                <Upload
+                  listType="picture-card"
+                  fileList={filelist}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                  maxCount={5}
+                >
+                  {filelist.length >= 5 ? null : uploadButton}
+                </Upload>
+              </div>
+            </StyledCard>}
+          </Col>
+        </Row>
+        <div className='mt-1'></div>
+        <Row gutter={[4, 4]} >
+          <Col sm={24} xs={24} md={24} lg={24}>
+            <StyledCard title='니즈 분석'>
 
-
-          </StyledCard>
-          <Row gutter={[4, 4]}>
-            <Col sm={24} xs={24} md={24} lg={24}>
-              {props.logneeds ? props.logneeds.map((v) =>
-                <NeedsCard
-                  key={v.needs_cod}
-                  needs={v.needs_cod}
-                  sentences={v.needs}
+              <div style={{ width: '100%', height: 500 }}>
+                <ResponsivePie
+                  arcLabel={(v) => `${v.data.percent}%`}
+                  theme={theme}
+                  data={logneedslist && cmm.setDataList(logneedslist)}
+                  margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                  innerRadius={0.5}
+                  padAngle={0.7}
+                  cornerRadius={3}
+                  activeOuterRadiusOffset={8}
+                  borderWidth={1}
+                  borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
+                  arcLinkLabelsSkipAngle={10}
+                  arcLinkLabelsTextColor="#333333"
+                  arcLinkLabelsThickness={2}
+                  arcLinkLabelsColor={{ from: 'color' }}
+                  arcLabelsSkipAngle={10}
+                  arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
+                  legends={[
+                    {
+                      anchor: 'bottom',
+                      direction: 'row',
+                      justify: false,
+                      translateX: 0,
+                      translateY: 56,
+                      itemsSpacing: 0,
+                      itemWidth: 100,
+                      itemHeight: 18,
+                      itemTextColor: '#999999',
+                      itemDirection: 'left-to-right',
+                      itemOpacity: 1,
+                      symbolSize: 18,
+                      symbolShape: 'circle',
+                      effects: [
+                        {
+                          on: 'hover',
+                          style: {
+                            itemTextColor: '#000',
+                            cursor: 'pointer'
+                          }
+                        }
+                      ]
+                    }
+                  ]}
                 />
-              ) :
-                <div>분석이 없습니다.</div>
-              }
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row gutter={[4, 4]} >
-        <Col sm={24} xs={24} md={24} lg={24}>
-          <Comments key={props.match.params.id} CommentLists={CommentLists} postId={props.match.params.id} refreshFunction={updateComment} />
-          {/* <Divider /> */}
-        </Col>
-      </Row>
+              </div>
+
+
+            </StyledCard>
+            <Row gutter={[4, 4]}>
+              <Col sm={24} xs={24} md={24} lg={24}>
+                {props.logneeds ? props.logneeds.map((v) =>
+                  <NeedsCard
+                    key={v.needs_cod}
+                    needs={v.needs_cod}
+                    sentences={v.needs}
+                  />
+                ) :
+                  <div>분석이 없습니다.</div>
+                }
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row gutter={[4, 4]} >
+          <Col sm={24} xs={24} md={24} lg={24}>
+            <Comments key={props.match.params.id} CommentLists={CommentLists} postId={props.match.params.id} refreshFunction={updateComment} />
+            {/* <Divider /> */}
+          </Col>
+        </Row>
       </div>
     </>
   )
@@ -399,7 +413,8 @@ const mapStateToDispatch = {
   getCommentLists: getCommentLists.call,
   getprofile: getprofile.call,
   putFile: putFile.call,
-  deleteFile: deleteFile.call
+  deleteFile: deleteFile.call,
+  clearLog
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLog);
