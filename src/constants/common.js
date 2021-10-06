@@ -53,7 +53,7 @@ cmm.setDataList = (v) => {
 //mobile/pc 체크 
 cmm.getPlatform = () => {
   console.log(navigator.userAgent)
-  if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent)) {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent)) {
     return 'mobile';
   } else {
     return 'pc';
@@ -98,6 +98,6 @@ cmm.permissionH = (data) => {
   }
 }
 
-
+cmm.dashboardChartColors = ['#0000ff', '#3e36ff', '#5c54ff', '#756fff', '#8d88ff', '#a3a1ff', '#bab9ff', '#d1d1ff']
 
 module.exports = cmm;
