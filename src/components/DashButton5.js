@@ -12,35 +12,35 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChange 
 
   const [selected, setSelected] = useState(defaultSelected);
   const [dte, setDte] = useState({
-    sdt:'',
-    edt:''
+    sdt: '',
+    edt: ''
   });
-  
+
   const handleOnClick = (id) => {
     //e.preventDefault();
-    if (onSelected) {      
+    if (onSelected) {
       onSelected(id)
       setSelected(id)
     }
   }
 
-  
+
   //마운트 될 때 
   useEffect(() => {
-    setDte({...dte, sdt:moment().format('YYYY-MM')+'-01', edt:moment().add().format('YYYY-MM-DD')})
+    setDte({ ...dte, sdt: moment().format('YYYY-MM') + '-01', edt: moment().add().format('YYYY-MM-DD') })
   }, [])
-  
-  
-  
+
+
+
   return (
     <>
       <Row gutter={[6, 6]}>
-        {tab && tab.map((v) => {          
-          return <Col sm={8} xs={8} md={4} lg={4}>
-            <Button style={{ width:'100%',height:40,color:(selected == v.id)?'#ffffff':'#111111', fontSize: 14, backgroundColor:(selected == v.id)?'#333333':'#ffffff', border: (selected == v.id)?'1px solid #333333':'1px solid #e1e1e1', padding: 1, margin: 0}}
-            key={v.id} id={v.id} onClick={() => {handleOnClick(v.id)}}>{v.label}</Button>
+        {tab && tab.map((v) => {
+          return <Col sm={4} xs={4} md={4} lg={4}>
+            <Button style={{ width: '100%', height: 40, color: (selected == v.id) ? '#ffffff' : '#111111', fontSize: 14, backgroundColor: (selected == v.id) ? '#333333' : '#ffffff', border: (selected == v.id) ? '1px solid #333333' : '1px solid #e1e1e1', padding: 1, margin: 0 }}
+              key={v.id} id={v.id} onClick={() => { handleOnClick(v.id) }}>{v.label}</Button>
           </Col>
-          })
+        })
         }
       </Row>
     </>

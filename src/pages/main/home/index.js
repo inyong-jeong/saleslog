@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
-import { Row, Col, DatePicker, Card, Select, Divider, Collapse } from 'antd'
+import { Row, Col, DatePicker, Divider, Collapse } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import cmm from 'constants/common';
 import moment from 'moment';
-import StyledButton from 'components/styledcomponent/Button'
-import StyledCard from 'components/styledcomponent/Card'
 import { getsaleslogstat, getleadlogstat, getorganization, getorganizationusers } from 'redux/dashboard/actions';
 import DashButton from 'components/DashButton'
 import DashButton5 from 'components/DashButton5'
 import DashButton3 from 'components/DashButton3'
 import NivoBarChart from "components/NivoBarChart";
 import NivoPieChart from "components/NivoPieChart";
-import { ResponsiveBar } from '@nivo/bar'
-import { connect } from 'react-redux'
-import Chart from 'react-apexcharts';
 import { dountseries, barseries, leadseries, LeadOption, Baroption, dountOption } from 'constants/chart'
 import SalesLogFilterDash from 'components/SalesLogFilterDash';
 import { useSelector } from "react-redux";
@@ -23,16 +17,17 @@ import { useMediaQuery } from "react-responsive";
 import { ReactComponent as Calendar } from '../../../assets/icons/main/calendar.svg'
 import { ReactComponent as Channel } from '../../../assets/icons/main/channel.svg'
 import { ReactComponent as Analysis } from '../../../assets/icons/main/analysis.svg'
+import { ReactComponent as ChartIcon } from '../../../assets/icons/main/chart.svg'
 import { ReactComponent as Paper } from '../../../assets/icons/main/paper.svg'
 import { ReactComponent as Down } from '../../../assets/icons/main/downArrow.svg'
 import { ReactComponent as Up } from '../../../assets/icons/main/upArrow.svg'
 import { ReactComponent as BdayLogo } from '../../../assets/icons/main/bday.svg'
-import Filter from 'components/Filter'
 import { base64Enc } from 'constants/commonFunc';
 import { useHistory } from "react-router";
 import { postAnniversary } from "../../../redux/etc/actions";
 
-const { RangePicker } = DatePicker;
+const SALESLOG_TYPE = 'SALESLOG_TYPE'
+const LEADLOG_TYPE = 'LEADLOG_TYPE'
 const { Panel } = Collapse
 
 const DashBoardPage = (props) => {
@@ -65,13 +60,19 @@ const DashBoardPage = (props) => {
     backgroundColor: '#F2F2F2',
     height: 80,
     padding: 10,
-    margin: 10,
     borderRadius: 2,
     color: '#333333',
     fontSize: 14,
     fontWeight: 500,
-    width: '98%',
+    width: '100%',
 
+  }
+
+  const leadChartCardWrapperStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: 15,
+    gridGap: 10,
   }
 
   const customPanelStyle = {
@@ -86,13 +87,13 @@ const DashBoardPage = (props) => {
   const cardContainerStyle = {
     display: 'flex',
     flexDirection: 'row',
-
-
+    gridGap: 10,
   }
 
   const mobileCardContainerStyle = {
     display: 'flex',
     flexDirection: 'column',
+    gridGap: 10,
 
   }
   //분류 선택 index (1:영업일지 대분류,2:영업 중분류,3:영업소분류,4:리드대분류,5:리드중분류,6:리드소분류)
@@ -100,7 +101,7 @@ const DashBoardPage = (props) => {
   const selectStyle = { width: '100%' }
   const tabs = [{
     id: "1",
-    label: "이번달"
+    label: "월"
   }, {
     id: "2",
     label: "분기"
@@ -110,7 +111,7 @@ const DashBoardPage = (props) => {
   },
   {
     id: "4",
-    label: "기간선택",
+    label: "기간 선택",
   }]
 
   const tabs2 = [{
@@ -121,7 +122,7 @@ const DashBoardPage = (props) => {
     label: "니즈 조사"
   }, {
     id: "0030002",
-    label: "동항 정보",
+    label: "동향/정보",
   }, {
     id: "0030003",
     label: "제안",
@@ -200,7 +201,7 @@ const DashBoardPage = (props) => {
 
   //리드일지 검색용 body
   const [bodyLogRd, setBodyLogRd] = useState({
-    dt_typ: 1,
+    dt_typ: '1',
     from_dt: moment().format('YYYY-MM') + '-01',
     to_dt: moment().format('YYYY-MM-DD'),
     sales_man: '',
@@ -210,7 +211,7 @@ const DashBoardPage = (props) => {
 
   // bodyLog 값 바뀔 때 dispatch
   useEffect(() => {
-    console.log('bodyLog::::::::::::change:::::::::::::', bodyLog)
+    // console.log('bodyLog::::::::::::change:::::::::::::', bodyLog)
     dispatch(getsaleslogstat.call(bodyLog))
 
   }, [bodyLog])
@@ -239,10 +240,9 @@ const DashBoardPage = (props) => {
   // 영업일지 fetch 후
   useEffect(() => {
     if (state.getsaleslogstatRes) {
-      console.log('영업일지::::::::::::::::::', state.getsaleslogstatRes)
+      console.log('영업일지 STATE::', state.getsaleslogstatRes)
       setSalesStat(state.getsaleslogstatRes)
-      console.log('salesstat:::', salesStat)
-
+      // console.log('salesstat:::', salesStat)
     }
   }, [state.getsaleslogstatRes])
 
@@ -250,15 +250,14 @@ const DashBoardPage = (props) => {
   // 리드일지 fetch 후
   useEffect(() => {
     if (state.getleadlogstatRes) {
-      console.log('리드일지:::::::::::::::', state.getleadlogstatRes)
+      console.log('리드일지 STATE :: ', state.getleadlogstatRes)
       setLeadStat(state.getleadlogstatRes)
-      console.log('leadstat:::', salesStat)
     }
   }, [state.getleadlogstatRes])
 
   //영업일지 날짜 구분 클릭
   const onSelected = (id) => {
-    console.log('date click:::::::::::::::', id)
+    // console.log('date click:::::::::::::::', id)
     setBodyLog({ ...bodyLog, dt_typ: id });
   }
 
@@ -271,7 +270,7 @@ const DashBoardPage = (props) => {
 
   //영업일지 목표 구분 클릭
   const onSelected_goal = (id) => {
-    console.log('date click:::::::::::::::', id)
+    // console.log('date click:::::::::::::::', id)
     setBodyLog({ ...bodyLog, sales_goal: id });
   }
 
@@ -294,50 +293,52 @@ const DashBoardPage = (props) => {
     setBodyLogRd({ ...bodyLogRd, sales_lead_gb: id });
   }
 
-
   //전월문자열
-  const dispPrevCnt = (data) => {
+  const dispPrevCnt = (data, TYPE) => {
 
-    let st = '';
+    let bodyType = ''
+
+    if (TYPE === SALESLOG_TYPE) {
+      bodyType = bodyLog.dt_typ
+    } else {
+      bodyType = bodyLogRd.dt_typ
+    }
+
+    let arrowDescText = '';
     let arrowChartcolor = '';
-    let ar = "";
-    console.log(data)
-    console.log(bodyLog)
-    if (data.calc_cod !== 0) {
-      switch (bodyLog.dt_typ) {
-        case '1':
-          st = "전월 대비";
-          break;
-        case '2':
-          st = "이전 분기 대비";
-          break;
-        case '3':
-          st = "이전 반기 대비";
-          break;
-        case '4':
-          st = "";
-          break;
-        default:
-          st = '';
-          break;
-
-      }
+    let ArrowIcon = "";
+    switch (bodyType) {
+      case '1':
+        arrowDescText = "전월 대비";
+        break;
+      case '2':
+        arrowDescText = "이전 분기 대비";
+        break;
+      case '3':
+        arrowDescText = "이전 반기 대비";
+        break;
+      case '4':
+        arrowDescText = "";
+        break;
+      default:
+        arrowDescText = '';
+        break;
     }
 
 
     if (parseInt(data.calc_cnt) > 0) {
       arrowChartcolor = '#0000ff';
-      ar = <Up />
+      ArrowIcon = <Up />
     } else if (parseInt(data.calc_cnt) < 0) {
       arrowChartcolor = '#EE1818';
-      ar = <Down />
+      ArrowIcon = <Down />
     }
 
     return (
       <div style={{ marginRight: 10, marginBottom: 5 }}>
         <p style={{ marginBottom: 5, fontSize: 14, fontWeight: 500, color: '#111', }}> {data.cnt}건</p>
-        <span style={{ fontSize: 12, color: '#333' }}>{st} </span>
-        <span style={{ fontSize: 12, color: arrowChartcolor }}> {ar} {data.calc_cnt}</span>
+        <span style={{ fontSize: 11, color: '#4B4B4B' }}>{arrowDescText} </span>
+        <span style={{ fontSize: 12, color: arrowChartcolor }}> {ArrowIcon} {data.calc_cnt}</span>
       </div>
     )
   }
@@ -371,12 +372,10 @@ const DashBoardPage = (props) => {
     let rtn = [];
     let j = 0;
 
-    rtn[0] = { active_id: data[3].name, '검증': data[3].cnt };
-    rtn[1] = { active_id: data[2].name, '제안': data[2].cnt };
-    rtn[2] = { active_id: data[1].name, '접촉': data[1].cnt };
-    rtn[3] = { active_id: data[0].name, '발굴': data[0].cnt };
-
-
+    rtn[0] = { active_id: data[0].name, '발굴': data[0].cnt };
+    rtn[1] = { active_id: data[1].name, '접촉': data[1].cnt };
+    rtn[2] = { active_id: data[2].name, '제안': data[2].cnt };
+    rtn[3] = { active_id: data[3].name, '검증': data[3].cnt };
 
     // for (let i = data.length -1 ; i >= 0; i--) {
     //   let st = data[i].name;
@@ -392,9 +391,13 @@ const DashBoardPage = (props) => {
   const pieChartData = (data) => {
     let rtn = [];
 
+    if (data.length <= 0) {
+      rtn[0] = { id: 'no data', label: '데이터 없음', value: 100 }
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        rtn[i] = { id: data[i].needs_cod + ' (' + data[i].percent + '%)', label: data[i].needs_cod, value: data[i].total };
+      }
 
-    for (let i = 0; i < data.length; i++) {
-      rtn[i] = { id: data[i].needs_cod + ' (' + data[i].percent + '%)', label: data[i].needs_cod, value: data[i].total };
     }
 
     return rtn;
@@ -413,7 +416,13 @@ const DashBoardPage = (props) => {
       </div>
       <Divider style={{ margin: 0 }} />
     </div>
+  )
 
+  const sectionTitle = (title, icon) => (
+    <p style={textAndIconAlignStyle}>
+      <p style={{ margin: 0 }}> {icon} &nbsp; </p>
+      <p style={mainGrayTitleStyle}> {title} </p>
+    </p>
   )
 
   return (
@@ -438,8 +447,8 @@ const DashBoardPage = (props) => {
 
             : null
         }
-
-        <p style={textAndIconAlignStyle}> <Calendar /><span style={mainGrayTitleStyle}>영업일지 현황</span></p>
+        {sectionTitle("영업일지 현황", <Calendar />)}
+        <div className='mt-1' />
         <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChange={onChange} defaultSelected={bodyLog.dt_typ} />
         {/* <Row gutter={4} >
           <Col sm={24} xs={24} md={24} lg={24} >
@@ -455,84 +464,153 @@ const DashBoardPage = (props) => {
         </Row> */}
         <div className='mt-2' />
         <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} />
-        <div className='mt-2' />
+        <div className='mt-5' />
 
-        {(salesStat) &&
+        {salesStat &&
           <>
-
             <div>
-              <p style={textAndIconAlignStyle}> <p style={mainGrayTitleStyle}><Paper />영업활동 </p></p>
+              {sectionTitle("영업 목적", <ChartIcon />)}
+              <div className='mt-1' />
               <div style={isMobile ? mobileCardContainerStyle : cardContainerStyle}>
                 <div style={chartCardStyle}>
                   니즈 조사
                   <div style={{ textAlign: 'right' }}>
-                    {dispPrevCnt(salesStat[0][0])}
+                    {dispPrevCnt(salesStat[0][0], SALESLOG_TYPE)}
                   </div>
                 </div>
                 <div style={chartCardStyle}>
                   동향/정보
                   <div style={{ textAlign: 'right' }}>
-                    {dispPrevCnt(salesStat[0][1])}
+                    {dispPrevCnt(salesStat[0][1], SALESLOG_TYPE)}
                   </div>
                 </div>
                 <div style={chartCardStyle}>
                   제안
                   <div style={{ textAlign: 'right' }}>
-                    {dispPrevCnt(salesStat[0][2])}
+                    {dispPrevCnt(salesStat[0][2], SALESLOG_TYPE)}
                   </div>
                 </div>
               </div>
             </div>
 
-
-            <div className='mt-5'></div>
+            <div className='mt-5' />
 
             <Row>
-              {/* <Col sm={22} xs={22} md={22} lg={22}><strong><h1>영업일지 채널</h1></strong></Col> */}
-              <p><Paper /><span style={mainGrayTitleStyle}>영업 채널</span></p>
+              {sectionTitle("영업 채널", <Channel />)}
             </Row>
-            <div className='mt-2'></div>
-
+            <div className='mt-1' />
             <DashButton3 key='channel_button' tab={tabs2} onSelected={onSelected_goal} defaultSelected={bodyLog.sales_goal} />
-            {/* <Row justify='center' > */}
-            {/* <Col sm={24} xs={24} md={24} lg={24}> */}
             <NivoBarChart key={'bar_1'} data={barChartData(salesStat[1])} labels={Baroption.xaxis.categories}
-              margin={{ top: 50, right: 50, bottom: 50, left: 100 }} />
-            <div className='mt-2'></div>
+              margin={{ top: 50, right: 50, bottom: 50, left: 80 }} />
+
+            <div className='mt-5' />
             <Row >
-              <p><Paper /><span style={mainGrayTitleStyle}>영업 니즈 분석</span></p>
+              {sectionTitle("영업 니즈 현황", <Analysis />)}
               <Col sm={24} xs={24} md={24} lg={24}>
-                <NivoPieChart data={pieChartData(salesStat[2])} />
+                <NivoPieChart data={pieChartData(salesStat[2])} hasData={salesStat[2].length <= 0 ? false : true} />
               </Col>
             </Row>
-            <div className='mt-5'></div>
+            <div className='mt-5' />
           </>
         }
+        <Divider style={{ borderColor: '#dfdfdf' }} />
 
-        <Divider style={{ borderColor: 'black' }} />
         <Row>
-
-          <p><Paper /><span style={mainGrayTitleStyle}>리드 관리 현황</span></p>
-          {/* <Col sm={2} xs={2} md={2} lg={2}><u>상세조회</u></Col> */}
+          {sectionTitle("리드관리 현황", <Paper />)}
         </Row>
-        <div className='mt-2'></div>
-        <DashButton key='sales_buttonRd' tab={tabs} onSelected={onSelectedRd} onChange={onChangeRd} defaultSelected={bodyLogRd.dt_typ} />
+        <div className='mt-1' />
 
-        <div className='mt-2'></div>
+        <DashButton key='sales_buttonRd' tab={tabs} onSelected={onSelectedRd} onChange={onChangeRd} defaultSelected={bodyLogRd.dt_typ} />
+        <div className='mt-2' />
         <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
-        {(leadStat) &&
+
+        <div className='mt-5' />
+        {leadStat ?
+          <div>
+            {sectionTitle("리드 고객", <ChartIcon />)}
+            <div className='mt-1' />
+            <div style={isMobile ? mobileCardContainerStyle : cardContainerStyle}>
+              <div style={chartCardStyle}>
+                리드 고객 수
+                <div style={{ textAlign: 'right' }}>
+                  {dispPrevCnt(leadStat[0][0], LEADLOG_TYPE)}
+                </div>
+              </div>
+              <div style={chartCardStyle}>
+                고객 전환
+                <div style={{ textAlign: 'right' }}>
+                  {dispPrevCnt(leadStat[1][0], LEADLOG_TYPE)}
+                </div>
+              </div>
+            </div>
+          </div> : null
+        }
+        <div className='mt-5' />
+        {sectionTitle("리드 단계 현황", <Paper />)}
+        <div className='mt-1' />
+        {leadStat &&
           <>
             <Row >
-              <NivoBarChart key={'bar_2'} data={barChartDataRd(leadStat[2])} labels={Baroption.needslabel.categories} barType='vertical'
-                margin={{ top: 80, right: 50, bottom: 50, left: 30 }} />
+              <NivoBarChart
+                key={'bar_2'}
+                data={barChartDataRd(leadStat[2])}
+                labels={Baroption.needslabel.categories}
+                barType='vertical'
+                margin={{ top: 10, right: 30, bottom: 50, left: 30 }} />
             </Row>
-            <div className='mt-5'></div>
+            <div className='mt-1' />
 
-            <Row>
+            <div style={leadChartCardWrapperStyle}>
+              <div style={chartCardStyle}>
+                유입
+                <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                  {dispPrevCnt(leadStat[2][0], LEADLOG_TYPE)}
+                  {dispPrevCnt(leadStat[2][1], LEADLOG_TYPE)}
+                  {dispPrevCnt(leadStat[2][2], LEADLOG_TYPE)}
+                  {dispPrevCnt(leadStat[2][3], LEADLOG_TYPE)}
+                </div>
+              </div>
+              <div style={chartCardStyle}>
+                드롭
+                <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                  {dispPrevCnt(leadStat[3][0], LEADLOG_TYPE)}
+                  {dispPrevCnt(leadStat[3][1], LEADLOG_TYPE)}
+                  {dispPrevCnt(leadStat[3][2], LEADLOG_TYPE)}
+                  {dispPrevCnt(leadStat[3][3], LEADLOG_TYPE)}
+                </div>
+              </div>
+            </div>
 
-              <p><Paper /><span style={mainGrayTitleStyle}>리드 채널</span></p>
-              {/* <Col sm={22} xs={22} md={22} lg={22}><strong><h3>리드채널</h3></strong></Col> */}
-            </Row>
+            <div className='mt-5' />
+            {sectionTitle("리드 활동 목적", <ChartIcon />)}
+            <div className='mt-1' />
+
+            <div style={isMobile ? mobileCardContainerStyle : cardContainerStyle}>
+              <div style={chartCardStyle}>
+                니즈 조사
+                <div style={{ textAlign: 'right' }}>
+                  {dispPrevCnt(leadStat[6][0], LEADLOG_TYPE)}
+                </div>
+              </div>
+              <div style={chartCardStyle}>
+                동향/정보
+                <div style={{ textAlign: 'right' }}>
+                  {dispPrevCnt(leadStat[6][1], LEADLOG_TYPE)}
+                </div>
+              </div>
+              <div style={chartCardStyle}>
+                제안
+                <div style={{ textAlign: 'right' }}>
+                  {dispPrevCnt(leadStat[6][2], LEADLOG_TYPE)}
+                </div>
+              </div>
+            </div>
+
+
+            <div className='mt-5'>
+              {sectionTitle("리드 채널", <Channel />)}
+            </div>
+            <div className='mt-1' />
             <Row>
               <Col sm={24} xs={24} md={24} lg={24}>
                 <DashButton5 key='lead_channel_button' tab={tabs3} onSelected={onSelected_lead_gb} defaultSelected={bodyLogRd.sales_lead_gb} />
@@ -540,19 +618,17 @@ const DashBoardPage = (props) => {
             </Row>
             <Row >
               <NivoBarChart key={'bar_3'} data={barChartData(leadStat[4])} labels={Baroption.xaxis.categories}
-                margin={{ top: 50, right: 50, bottom: 50, left: 100 }} />
+                margin={{ top: 50, right: 50, bottom: 50, left: 80 }} />
               {/* <Col sm={24} xs={24} md={24} lg={24}>
             <Chart options={Baroption} series={barseries} type="bar" />
           </Col> */}
             </Row>
             <div className='mt-5'></div>
 
-
-
             <Row>
-              <p><Paper /><span style={mainGrayTitleStyle}>리드 니즈 분석</span></p>
+              {sectionTitle("리드 니즈 현황", <Analysis />)}
               <Col sm={24} xs={24} md={24} lg={24}>
-                <NivoPieChart data={pieChartData(leadStat[5])} />
+                <NivoPieChart data={pieChartData(leadStat[5])} hasData={leadStat[5].length <= 0 ? false : true} />
               </Col>
 
             </Row>
@@ -564,28 +640,11 @@ const DashBoardPage = (props) => {
           <Col sm={12} xs={12} md={6} lg={6}>
             <StyledButton>실적 다운로드</StyledButton>
           </Col>
-
         </Row> */}
-        <div className='mt-2'></div>
       </div>
     </>
   );
 }
 
-
 export default DashBoardPage;
-// const mapStateToProps = (state) => {
-//   const { getsaleslogstatRes, getleadlogstatRes } = state.Dashboard;
-
-//   return { getsaleslogstatRes, getleadlogstatRes };
-// };
-// const mapStateToDispatch = {
-//   getsaleslogstat: getsaleslogstat.call,
-//   getleadlogstat: getleadlogstat.call
-// }
-// export default connect(mapStateToProps, mapStateToDispatch)(DashBoardPage);
-
-
-
-
 

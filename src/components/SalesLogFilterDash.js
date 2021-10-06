@@ -74,10 +74,10 @@ const SalesLogFilterDash = (props) => {
     //    
     //setSelId(props.id)  
     // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa::::::::::::::::aaaaaaaaaaaaaaa',firstLoading, chgCombo, selId)
-    props.getorganizationDash(filterdata)    
-    
+    props.getorganizationDash(filterdata)
+
     //setFirstLoading(true)
-    
+
   }, [])
 
 
@@ -97,8 +97,8 @@ const SalesLogFilterDash = (props) => {
   //부서조회 fetch 후
   useEffect(() => {
     //console.log('부서조회:::::::::::::::', selId,' == ', props.id, selId == props.id)
-    if (props.organizationDashRes && (selId == props.id )) {
-      
+    if (props.organizationDashRes && (selId == props.id)) {
+
       if (chgCombo === 0) {
         setBigList(props.organizationDashRes)
       } else if (chgCombo === 1) {
@@ -107,7 +107,7 @@ const SalesLogFilterDash = (props) => {
         setSmallList(props.organizationDashRes)
       }
       setChgCombo(0)
-      setSelId()    
+      setSelId()
     }
   }, [props.organizationDashRes])
 
@@ -254,19 +254,19 @@ const SalesLogFilterDash = (props) => {
     // setData({ ...data, 'dept_idx': v })
   }
 
-  
+
   //콤보박스 선택없음 추가
   const selComboList = (v, id) => {
     let rtn = [];
 
     rtn[0] = { value: '', label: '선택없음' };
     for (let i = 0; i < v.length; i++) {
-      rtn[i + 1] = { value: v[i].dept_idx, label: v[i].dept_name, id:id };
+      rtn[i + 1] = { value: v[i].dept_idx, label: v[i].dept_name, id: id };
     }
     return rtn;
   }
 
-  
+
   const [selectedItems, setSelectedItems] = useState([])
   const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
   const filteredOptions = filteredlist && filteredlist.filter((v) => !selectedItems.includes(v))
@@ -276,7 +276,7 @@ const SalesLogFilterDash = (props) => {
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='대분류'
             style={selectStyle}
-            options={biglist && selComboList(biglist,props.id)}
+            options={biglist && selComboList(biglist, props.id)}
             value={selectedOrganization1}
             onChange={onOrganizationSelectChange1}
           />
