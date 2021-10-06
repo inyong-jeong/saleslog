@@ -59,19 +59,20 @@ const Auth = (state = INIT_STATE, action) => {
       return { ...state, accesstokenerror: null };
     case GET_REFRESH_OAUTH_TOKEN_ERROR:
       return { ...state, refreshtokenresponse: action.payload.error };
-    //RENEWAL
+    //RENEWAL auth code 받아오기
     case OAUTH_AUTHORIZE:
       return { ...state };
     case OAUTH_AUTHORIZE_SUCCESS:
-      return { ...state, authcodeResponse: action.payload.response.message.code };
+      return { ...state, authcodeResponse: action.payload.response.message };
     case OAUTH_AUTHORIZE_ERROR:
-      return { ...state, authcodeError: action.payload };
+      return { ...state, authcodeResponse: action.payload.response.message };
+    // access token 받아오기
     case GET_OAUTH_TOKEN:
       return { ...state };
     case GET_OAUTH_TOKEN_SUCCESS:
-      return { ...state, accesstokenResponse: action.payload.response.access_token };
+      return { ...state, accesstokenResponse: action.payload.response };
     case GET_OAUTH_TOKEN_ERROR:
-      return { ...state, accesstokenerror: action.payload.response.message };
+      return { ...state, accesstokenResponse: action.payload.response };
     case POST_AUTHNUMBER:
       return { ...state };
     case POST_AUTHNUMBER_SUCCESS:

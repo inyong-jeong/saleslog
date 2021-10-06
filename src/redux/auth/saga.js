@@ -55,9 +55,9 @@ function* _OauthAuthorize({ payload: { username, password, client_id, redirect_u
 function* _getOauthToken({ payload: { code, client_secret, client_id, grant_type } }) {
   try {
     const response = yield call(oauthgetaccesstoken, code, client_secret, client_id, grant_type);
-    setOauthAccessToken(response.access_token);
-    setOauthRefreshToken(response.refresh_token);
-    setUserAuthenticating(false);
+    yield setOauthAccessToken(response.access_token);
+    yield setOauthRefreshToken(response.refresh_token);
+    yield setUserAuthenticating(false);
     yield put(getOauthToken.success(response));
   } catch (error) {
     yield put(getOauthToken.error(error.message));
@@ -68,9 +68,9 @@ function* _getRefreshOauthToken({ payload: { refresh_token, client_id, client_se
   try {
     console.log(client_secret);
     const response = yield call(oauthgetrefreshaccesstoken, refresh_token, client_id, client_secret, grant_type);
-    setOauthAccessToken(response.access_token);
-    setOauthRefreshToken(response.refresh_token);
-    setUserAuthenticating(false);
+    yield setOauthAccessToken(response.access_token);
+    yield setOauthRefreshToken(response.refresh_token);
+    yield setUserAuthenticating(false);
     yield put(getRefreshOauthToken.success(response));
   } catch (error) {
     yield put(getRefreshOauthToken.error(error.message));

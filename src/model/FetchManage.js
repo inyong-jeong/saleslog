@@ -1,10 +1,18 @@
-import { getOauthAccessToken } from 'helpers/authUtils'
-
+import { getOauthAccessToken, getOauthRefreshToken,removeAll } from 'helpers/authUtils'
+import { useHistory } from 'react-router';
+import cmm from 'constants/common';
 
 //토큰 만료 확인
-
 const check_fetch = async (url) => {
-  const token = getOauthAccessToken();
+  const token = await getOauthAccessToken();
+  const reToken = await getOauthRefreshToken();
+  console.log('check_fetch:::: TOKEN :::::::::: ',token, reToken, )
+
+  //access / refresh 토큰중 하나라도 없으면 로그인으로 이동
+  if (token.toString() == 'undefined' || reToken.toString() == 'undefined') {
+    throw new Error('noToken')
+  } 
+
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -13,6 +21,7 @@ const check_fetch = async (url) => {
   })
   const result = await response.json()
   const data = await result
+  
   if (data.success !== true) {
     throw new Error(data.message)
   }
@@ -42,6 +51,7 @@ const get_fetch = async (url) => {
 //post 
 const post_fetch = async (url, body) => {
   const token = getOauthAccessToken();
+  console.log('token::::::::::::::::::::',token)
   let formBody = [];
   for (let property in body) {
     let encodedKey = encodeURIComponent(property)
@@ -61,7 +71,16 @@ const post_fetch = async (url, body) => {
   const result = await response.json()
   const data = await result
   if (data.status !== 200) {
-    throw new Error(data.message)
+    console.log('fetch:::result::::data::::::::',data, data.message)
+    //Access Token 토큰만료의 경우 다시 토큰 요청함 
+    if (data.message == '토큰만료') {
+      const refreshToken = getOauthRefreshToken()
+      console.log('refreshToken:::::::::::::::::::',token, refreshToken)
+      
+
+    } else {
+      throw new Error(data.message)
+    }
   }
   return data
 }

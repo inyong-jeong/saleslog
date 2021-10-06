@@ -518,3 +518,8 @@ select.selectpicker {
     float: none;
   }
 }
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: rgb(8, 18, 61);
+  border-color: rgb(5, 13, 92);
+}

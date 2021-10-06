@@ -1,71 +1,175 @@
 import React, { useState, useEffect } from "react";
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
 import { Spinner } from "reactstrap";
 import RoundInputField from "components/RoundInputField";
+import { isUserAuthenticated, getOauthAccessToken } from 'helpers/authUtils';
 import { isUserAuthorized } from 'helpers/authUtils';
-import useInput from 'hooks/useInput';
-import { Input } from 'antd'
+import { Checkbox } from 'antd';
 import { authorize, getOauthToken, postRegisteration, postInvite, postInviteRegistration } from 'redux/actions';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import StyledButton from 'components/styledcomponent/Button'
-import { errorMessage, successMessage } from "../../constants/commonFunc";
+import { useCookies } from 'react-cookie';
+import { errorMessage, successMessage } from "constants/commonFunc";
+import cmm from 'constants/common';
 
-function SignIn(props) {
+  
+const SignIn = (props) => {
+  const state = useSelector(state => state.Auth)  
+  const history = useHistory()
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
-  const [username, onChangeId] = useInput('');
-  const [password, onChangePassword] = useInput('')
+  // const [username, onChangeId] = useInput('');
+  // const [password, onChangePassword] = useInput('')
+  //const [username, setUsername] = useState('');
+  //const [password, setPassword] = useState('');
   const [platform, setPlatForm] = useState('pc');
+  const [isSaveId, setIsSaveId] = useState(true);
+  const [cookies, setCookie, removeCookie] = useCookies(['userEmail']);
+  const [inputs, setInputs] = useState({
+    username:(cookies.userEmail)?cookies.userEmail:'',
+    password:'',
+    platform:cmm.getPlatform()
+  })
+
+  //페이지 첫 로딩
+  useEffect(() => {
+    
+    if(cookies.userEmail !== undefined) {
+      setInputs({...inputs, username:cookies.userEmail})
+    }
+
+  }, []);
+
+
+  //아이디저장 클릭
+  const handleChecked = (e) => {
+    setIsSaveId(e.target.checked);
+    if(!e.target.checked){
+      removeCookie('userEmail');
+    }
+  }
+
+  //Input change
+  const handelChange = (e) => {    
+    setInputs({...inputs, [e.target.id]:e.target.value})    
+  }
+
+  // 로그인 버튼 클릭
+  const handleOnLogin = (e) => {
+    if (!inputs.username.length > 0 || !inputs.password.length > 0) {
+      //antd errorMessage  안먹음.. 확인필요 
+      errorMessage('이메일 주소와 비밀번호를 입력하세요.');
+      return; // alert('이메일 주소와 비밀번호를 입력하세요.')
+    }
+
+    //아이디저장
+    if (isSaveId) {
+      setCookie('userEmail', inputs.username, {maxAge: 60*60*24*30});
+    }
+
+    e.preventDefault();
+    const client_id = 'saleslog.co';
+    const redirect_uri = cmm.AUTH_SERVER_API_URL + '/oauth/client_auth';
+    const response_type = 'code';
+    const grant_type = 'authorization_code';
+    const state = 'myState';
+    
+    dispatch(authorize.call(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform))
+
+    //props.authorize(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform)
+  }
+
+  // access token 
+  const getAccessToken = (code) => {
+    console.log('getAccessToken::::::::::',code, cmm.CLIENT_SECRET, cmm.CLIENT_ID, grant_type)
+    const grant_type = 'authorization_code';
+    dispatch(getOauthToken.call(code, cmm.CLIENT_SECRET,  cmm.CLIENT_ID, grant_type))
+  }
+
+
+  // 회원가입 클릭
+  const handleOnClick = () => {
+    history.push('/signup')
+  }
+
+  // 로고클릭
+  const handleLandingPage = () => {
+    history.push('/');
+  }
+
+
+  // 로그인 fetch 후 
+  useEffect(() => {
+    console.log('로그인 응답 :::::::::::::::::',state.authcodeResponse)
+
+    if (!state.authcodeResponse){
+      return;
+    }
+
+    if (state.authcodeResponse.toString() == 'No User !!') {
+      errorMessage('아이디 또는 비밀번호를 확인해 주세요');
+      setInputs({...inputs, password:''})      
+      state.authcodeResponse=null;
+      return; 
+    } else {
+      console.log('로그인 시작::::::::::::',state.authcodeResponse)
+      props.history.push('/authing');
+      //getAccessToken(state.authcodeResponse.code);
+      state.authcodeResponse=null;
+      return;
+    }
+    
+  }, [state.authcodeResponse])
+
+  // // getAccesToek fetch 후
+  // useEffect(() => {
+  //   console.log('로그인 응답 :::::22222::::::::::::',state.accesstokenResponse)
+
+  //   if (!state.accesstokenResponse) {
+  //     return;
+  //   }
+
+  //   if (state.authcodeResponse.message == 'No User !!') {
+  //     errorMessage('로그인 인증코드가 잘못되었습니다.');
+  //     setInputs({...inputs, password:''})      
+  //     state.accesstokenResponse=null;
+  //     return; 
+  //   } else {
+  //     console.log('로그인 ::::::::::::',state.accesstokenResponse)
+      
+  //     if (isUserAuthenticated()) {
+  //       console.log('access Token :::::::::::::::::',getOauthAccessToken());
+  //       history.push('/main');
+  //     }
+
+
+
+  //     state.accesstokenResponse=null;
+  //     return;
+  //   }
+    
+  // }, [state.accesstokenResponse])
+
+
+
+
+  // useEffect(() => {
+  //   if (isUserAuthorized()) {
+  //     props.history.push('/authing')
+  //   }
+  // }, [isUserAuthorized()])
+
 
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);
   };
 
-  const handleOnClick = () => {
-    props.history.push('/signup')
-  }
-
-  const handleLandingPage = () => {
-    props.history.push('/');
-  }
-
-  const handleOnLogin = (e) => {
-    if (!username.length > 0 || !password.length > 0) {
-      //antd errorMessage  안먹음.. 확인필요 
-      return alert('이메일 주소와 비밀번호를 입력하세요.')
-    }
-    e.preventDefault();
-    const client_id = 'saleslog.co';
-    const redirect_uri = 'https://auth.theklab.co/oauth/client_auth';
-    const response_type = 'code';
-    const grant_type = 'authorization_code';
-    const state = 'myState';
-    props.authorize(username, password, client_id, redirect_uri, response_type, grant_type, state, platform)
-  }
-
-  useEffect(() => {
-    if (isUserAuthorized()) {
-      props.history.push('/authing')
-    }
-  }, [isUserAuthorized()])
-
-  useEffect(() => {
-    if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(
-        navigator.userAgent
-      )
-    ) {
-      setPlatForm("mobile");
-    } else {
-      setPlatForm("pc");
-    }
-  }, []);
-
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
-
     return () => {
       window.removeEventListener("resize", updateWindowDimensions);
     };
@@ -107,19 +211,22 @@ function SignIn(props) {
                       title="이메일"
                       type='text'
                       placeholder="이메일 주소"
-                      value={username}
-                      onChange={onChangeId}
+                      value={inputs.username}
+                      onChange={handelChange}
                     />
                   </div>
-
                   <RoundInputField
                     id="password"
                     title="비밀번호"
                     placeholder="비밀번호 입력 (영문,숫자 포함 8자리)"
-                    value={password}
+                    value={inputs.password}
                     type="password"
-                    onChange={onChangePassword}
+                    onChange={handelChange}
                   />
+                  <div>
+                    <Checkbox onChange={handleChecked} checked={isSaveId}><span style={{fontSize:12, color:'#a0a0a0'}}>아이지 저장</span></Checkbox>
+                  </div>
+
                   <div className="form-group mt-3">
                     <StyledButton
                       disabled={loading}
@@ -165,17 +272,19 @@ function SignIn(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  const { loading, authcodeResponse, authcodeError } = state.Auth;
-  return { loading, authcodeResponse, authcodeError };
-};
+export default SignIn;
 
-const mapStateToDispatch = {
-  authorize: authorize.call,
-  getOauthToken: getOauthToken.call,
-  postRegisteration: postRegisteration.call,
-  postInvite: postInvite.call,
-  postInviteRegistration: postInviteRegistration.call
+// const mapStateToProps = (state) => {
+//   const { loading, authcodeResponse, authcodeError } = state.Auth;
+//   return { loading, authcodeResponse, authcodeError };
+// };
 
-}
-export default connect(mapStateToProps, mapStateToDispatch)(SignIn);
+// const mapStateToDispatch = {
+//   authorize: authorize.call,
+//   getOauthToken: getOauthToken.call,
+//   postRegisteration: postRegisteration.call,
+//   postInvite: postInvite.call,
+//   postInviteRegistration: postInviteRegistration.call
+
+// }
+// export default connect(mapStateToProps, mapStateToDispatch)(SignIn);

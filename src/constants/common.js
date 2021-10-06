@@ -14,6 +14,12 @@ cmm.FILE_PATH_FILES = '/files/';
 //업로드 파일경로 (회원사진)
 cmm.FILE_PATH_PHOTOS = '/photo/';
 
+// client_id
+cmm.CLIENT_ID = 'saleslog.co';
+
+// client secret
+cmm.CLIENT_SECRET = '8fba114f8291cf28e443c30aba7cce86';
+
 
 //빈값 체크
 cmm.isEmpty = (data) => {
@@ -44,6 +50,15 @@ cmm.setDataList = (v) => {
   return result;
 }
 
+//mobile/pc 체크 
+cmm.getPlatform = () => {
+  console.log(navigator.userAgent)
+  if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent)) {
+    return 'mobile';
+  } else {
+    return 'pc';
+  }
+}
 
 //windows screen size
 cmm.windowSize = () => {

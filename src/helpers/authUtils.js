@@ -124,6 +124,7 @@ export const getOauthAccessToken = () => {
 }
 
 export const setOauthAccessToken = (token) => {
+  console.log('토큰저장  setOauthAccessToken:',token)
   localStorage.setItem('oauth-token', token);
 }
 
@@ -138,18 +139,22 @@ export const setOauthRefreshToken = (token) => {
 
 export const isUserAuthorized = () => {
   let userInfo = localStorage.getItem('auth-code');
-  return userInfo ? true : false;
+  console.log('인즈코드 여부 isUserAuthenticated:',userInfo);
+  return (userInfo && userInfo !== 'undefined') ? true : false;
 }
 
 export const isUserAuthenticated = () => {
   let userInfo = localStorage.getItem('oauth-token');
-  return userInfo ? true : false;
+  console.log('토큰 여부 isUserAuthenticated:',userInfo);
+  return (userInfo && userInfo !== 'undefined') ? true : false;
 }
 
 export const removeAll = () => {
+  console.log('토큰삭제 removeAll:')
   const items = ['oauth-refresh-token', 'auth-code', 'is_authenticateing', 'oauth-token'];
-  items.map((item) => {
+  items.map((item) => {    
     localStorage.removeItem(item);
-    return 0;
+    //return 0;
   })
+  return 0;
 }

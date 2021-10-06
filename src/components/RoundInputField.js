@@ -19,6 +19,7 @@ function RoundInputField(props) {
       <input style={Styles}
         type={props.type}
         name={props.name}
+        value={props.value}
         id={props.id}
         placeholder={props.placeholder}
         disabled={props.disabled}

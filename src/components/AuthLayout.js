@@ -13,6 +13,8 @@ import RightMenu from "./common/RightMenu";
 import { withRouter } from 'react-router-dom'
 import { LaptopWindowsOutlined } from '@material-ui/icons';
 import CustomUp from "./styledcomponent/CustomUpButton";
+import cmm from 'constants/common';
+
 const { Content, Sider, Footer } = Layout;
 
 
@@ -30,13 +32,16 @@ const AuthLayout = (props) => {
   }, [])
 
   useEffect(() => {
-
-    console.log(props.accesstokenerror)
     if (props.accesstokenerror === '토큰만료') {
+      console.log('트큰만료:::::::::::::::::::::')
       const client_id = 'saleslog.co';
       const client_secret = "8fba114f8291cf28e443c30aba7cce86";
       const grant_type = "refresh_token";
       props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
+    } else if (props.accesstokenerror === 'noToken') {
+      console.log('notoken::::::::::::::::::')
+      removeAll()
+      props.history.push('/signin')
     }
   }, [props.accesstokenerror])
 
