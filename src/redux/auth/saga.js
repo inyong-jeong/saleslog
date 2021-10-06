@@ -86,9 +86,9 @@ function* _postAuthNumber({ payload: { email } }) {
   }
 }
 
-function* _postRegistration({ payload: { useremail, password, firstname, lastname } }) {
+function* _postRegistration({ payload: { useremail, password, user_name } }) {
   try {
-    const response = yield call(postClientRegisteration, useremail, password, firstname, lastname);
+    const response = yield call(postClientRegisteration, useremail, password, user_name);
     console.log(response);
     yield put(postRegisteration.success(response));
   } catch (error) {

@@ -13,6 +13,7 @@ import StyledInput from 'components/styledcomponent/Input';
 import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
+import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 
 function WorkGroup(props) {
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
@@ -68,24 +69,33 @@ function WorkGroup(props) {
   //   }
   // }
 
-  // const handleOnSubmit = () => {
-
-  //   if (comp_name.length >= 20) {
-  //     setCompNameError('이름은 최대 20자 이내여야 합니다.')
-  //   } else if (comp_domain.lengh >= 20) {
-  //     setCompDomainError('영문자, 숫자, 대시(-)를 포함해 4~20자 이내여야 합니다.')
-  //   }
-  //   else {
-  //     props.postWorkGroup(props.email, comp_name, comp_domain)
-  //   }
-  // }
-
   const handleOnSubmit = () => {
-    // props.history.push('/invite');
-    console.log(props.email)
-    props.postWorkGroup('jy.park@theklab.co', '생성', 'tesseasdsee')
 
+    if (comp_name.length >= 20) {
+      setCompNameError('이름은 최대 20자 이내여야 합니다.')
+      return;
+    } else {
+      setCompNameError('')
+    } 
+    
+    if (comp_domain.lengh >= 20) {
+      setCompDomainError('영문자, 숫자, 대시(-)를 포함해 4~20자 이내여야 합니다.')
+      return;
+    } else {
+      setCompDomainError('');
+    }
+    
+    props.postWorkGroup(props.email, comp_name, comp_domain)
+    
   }
+
+  // const handleOnSubmit = () => {
+  //   // props.history.push('/invite');
+  //   console.log(props.email)
+  //   props.postWorkGroup(props.email, '생성', 'tesseasdsee')
+
+
+  // }
 
 
   // 컴포넌트 스타일링
@@ -129,8 +139,8 @@ function WorkGroup(props) {
           <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
             <div className="card">
               <div className="card-body" style={CardStyle}>
-                <div style={ImgStyle}>
-                  <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
+                <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
+                  <WhiteLogo width={150} height={50} fill='black' />
                 </div>
                 <form>
                   <div className='mb-3'>

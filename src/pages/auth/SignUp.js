@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { regex } from 'constants/regex';
 import useInput from 'hooks/useInput';
 import { postRegisteration, postAuthNumber } from 'redux/actions';
 import { useHistory } from "react-router";
-
 import StyledCheckbox from 'components/styledcomponent/Checkbox'
 import StyledInput from 'components/styledcomponent/Input';
 import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
+import { successMessage, errorMessage } from 'constants/commonFunc';
 
-function SignUp(props) {
+
+const SignUp = (props) => {
+  const state = useSelector(state => state.Auth)  
   const history = useHistory()
+  const dispatch = useDispatch()
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
   // 회원가입 인풋 상태 데이터
@@ -31,8 +34,10 @@ function SignUp(props) {
   const [emailerror, setEmailError] = useState();
   const [authnumbererror, setAuthNumberError] = useState();
   const [passworderror, setPassWordError] = useState();
-  const [compnameerror, setCompNameError] = useState();
+  const [usernameerror, setUsernameerror] = useState();
   const [compdomainerror, setCompDomainError] = useState();
+  const [authnumberRes, setAuthnumberRes] = useState();
+  
 
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
@@ -42,7 +47,23 @@ function SignUp(props) {
     };
   }, []);
 
+  useEffect(() => {
+    
+    if (state.authNumberResponse) {
+      console.log('인증메일 :::::::::::::::::',state.authNumberResponse)
+      if (state.authNumberResponse == 'No Data !!') {
+        setEmailError("이미 사용중인 메일입니다.");            
+      } else {
+        setEmailError("");            
+        setAuthnumberRes(state.authNumberResponse);
+        successMessage('인증메일이 발송되었습니다');
+      }
+      state.authNumberResponse = null;
+    }
+  }, [state.authNumberResponse]);
 
+
+  
   // 함수 정의
   const onChangeTerm = useCallback((e) => {
     console.log('checked : ', e.target.checked);
@@ -54,52 +75,82 @@ function SignUp(props) {
   };
 
   const handleLandingPage = () => {
-    props.history.push('/');
+    history.push('/');
   }
 
   const handleOnPostAuthNumber = () => {
     if (new RegExp(regex.email).exec(useremail)) {
-      props.postAuthNumber(useremail)
+      dispatch(postAuthNumber.call(useremail));
+      //successMessage('인증메일이 발송되었습니다');
     } else {
       setEmailError("이메일 형식이 잘못되었습니다");
     }
   }
 
   const handleOnCheckNumber = () => {
-    if (Number(authnumber) === props.authNumberResponse) {
+    if (Number(authnumber) === authnumberRes) {
       setAuthNumberError('인증이 완료되었습니다.')
     } else {
       setAuthNumberError('인증번호가 틀렸습니다.')
     }
   }
 
-  // const handleOnSubmit = () => {
-  //   if (password !== passwordcheck) {
-  //     setPassWordError('비밀번호가 일치하지 않습니다.')
-  //   } else if (!(new RegExp(regex.password).exec(password))) {
-  //     setPassWordError('비밀번호 형식이 잘못되었습니다.')
-  //   } else if (term === false) {
-  //     setTermError('약관에 동의하여 주세요.')
-  //   } else if (Number(authnumber) !== props.authNumberResponse) {
-  //     setAuthNumberError('인증번호가 틀렸습니다.')
-  //   } else if (!(new RegExp(regex.email).exec(useremail))) {
-  //     setEmailError("이메일 형식이 잘못되었습니다");
-  //   } else if (comp_name.length >= 20) {
-  //     setCompNameError('이름은 최대 20자 이내여야 합니다.')
-  //   } else if (comp_domain.lengh >= 20) {
-  //     setCompDomainError('영문자, 숫자, 대시(-)를 포함해 4~20자 이내여야 합니다.')
-  //   }
-  //   else {
-  //     props.postRegisteration(useremail, password, firstname, lastname, comp_name, comp_domain)
-  //     props.history.push('/workgroup');
-  //   }
-  // }
-
   const handleOnSubmit = () => {
-    props.postRegisteration('tss0822@naver.co', '1111', '인용', '정')
-    // props.history.push('/workgroup');
+    if (myName === '') {
+      setUsernameerror('이름을 입력해 주세요.')
+      return;
+    } else {
+      setUsernameerror('')
+    }
+
+    
+    if (!(new RegExp(regex.email).exec(useremail))) {
+      setEmailError("이메일 형식이 잘못되었습니다");    
+      return;
+    } else {
+      setEmailError("");    
+    }
+
+    if (Number(authnumber) !== authnumberRes) {
+      setAuthNumberError('인증번호가 틀렸습니다.')
+      return;
+    } else {
+      setAuthNumberError('')
+    } 
+
+
+    if (password !== passwordcheck) {      
+      console.log(password, passwordcheck)
+      setPassWordError('비밀번호가 일치하지 않습니다.')
+      return;
+    } else {
+      setPassWordError('')
+    }
+    
+    if (!(new RegExp(regex.password).exec(password))) {
+      setPassWordError('비밀번호 형식이 잘못되었습니다 (특수문자 포함 8자리 이상)')
+      return;
+    } else {
+      setPassWordError('')
+    } 
+    
+    if (term === false) {
+      setTerm('약관에 동의하여 주세요.')
+      return;
+    } else {
+      setTerm('')
+    } 
+    
+    dispatch(postRegisteration.call(useremail, password, myName))
+    history.push('/workgroup');
 
   }
+
+  // const handleOnSubmit = () => {
+  //   props.postRegisteration('tss0822@naver.co', '1111', '인용', '정')
+  //   // props.history.push('/workgroup');
+
+  // }
 
   // 컴포넌트 스타일링
 
@@ -173,6 +224,7 @@ function SignUp(props) {
                       value={myName}
                       onChange={onChangeMyName}
                     />
+                    {usernameerror && <p className="text-danger mt-2">{usernameerror}</p>}
                   </div>
                   <div className="form-group">
                     <RoundHalfInputField
@@ -185,7 +237,6 @@ function SignUp(props) {
                     />
                     <StyledButton style={ButtonStyle} onClick={handleOnPostAuthNumber}>인증번호 전송</StyledButton>
                     {emailerror && <p className="text-danger mt-2">{emailerror}</p>}
-
                   </div>
                   <div className="form-group">
                     <RoundHalfInputField
@@ -251,13 +302,15 @@ function SignUp(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  const { authNumberResponse, authNumberError } = state.Auth;
-  return { authNumberResponse, authNumberError };
-};
+export default SignUp;
 
-const mapStateToDispatch = {
-  postRegisteration: postRegisteration.call,
-  postAuthNumber: postAuthNumber.call
-}
-export default connect(mapStateToProps, mapStateToDispatch)(SignUp);
+// const mapStateToProps = (state) => {
+//   const { authNumberResponse, authNumberError } = state.Auth;
+//   return { authNumberResponse, authNumberError };
+// };
+
+// const mapStateToDispatch = {
+//   postRegisteration: postRegisteration.call,
+//   postAuthNumber: postAuthNumber.call
+// }
+// export default connect(mapStateToProps, mapStateToDispatch)(SignUp);

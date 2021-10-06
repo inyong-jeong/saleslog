@@ -56,7 +56,7 @@ const Auth = (state = INIT_STATE, action) => {
     case GET_REFRESH_OAUTH_TOKEN:
       return { ...state };
     case GET_REFRESH_OAUTH_TOKEN_SUCCESS:
-      return { ...state, accesstokenerror: null };
+      return { ...state, refreshtokenresponse: 'ok' };
     case GET_REFRESH_OAUTH_TOKEN_ERROR:
       return { ...state, refreshtokenresponse: action.payload.error };
     //RENEWAL auth code 받아오기
@@ -78,7 +78,7 @@ const Auth = (state = INIT_STATE, action) => {
     case POST_AUTHNUMBER_SUCCESS:
       return { ...state, authNumberResponse: action.payload.response.message };
     case POST_AUTHNUMBER_ERROR:
-      return { ...state, authNumberError: action.payload.error };
+      return { ...state, authNumberResponse: action.payload.response.message };
     case POST_REGISTRATION:
       return { ...state, email: action.payload.useremail };
     case POST_REGISTRATION_SUCCESS:
