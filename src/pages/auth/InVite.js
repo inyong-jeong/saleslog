@@ -100,7 +100,7 @@ function inVite(props) {
                 <form>
                   <div className='mb-3'>
                     <h4 style={{ textAlign: 'center', fontSize: 15, marginTop: 10, color: '#111' }}>
-                      <BdayLogo />
+                      <BdayLogo /> &nbsp;
                       동료들과 함께 성과를 달성하세요!
                     </h4>
                   </div>

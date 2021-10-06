@@ -14,6 +14,7 @@ import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
+import { ReactComponent as BdayLogo } from '../../../src/assets/icons/main/bday.svg'
 
 function WorkGroup(props) {
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
@@ -76,17 +77,17 @@ function WorkGroup(props) {
       return;
     } else {
       setCompNameError('')
-    } 
-    
+    }
+
     if (comp_domain.lengh >= 20) {
       setCompDomainError('영문자, 숫자, 대시(-)를 포함해 4~20자 이내여야 합니다.')
       return;
     } else {
       setCompDomainError('');
     }
-    
+
     props.postWorkGroup(props.email, comp_name, comp_domain)
-    
+
   }
 
   // const handleOnSubmit = () => {
@@ -113,23 +114,8 @@ function WorkGroup(props) {
     display: 'flex'
   }
 
-  const ImgStyle = {
-    textAlign: 'center',
-    cursor: 'pointer'
-  }
-
-  const CheckBoxStyle = {
-    fontSize: '16px',
-    color: 'black'
-  }
-
-  const ButtonStyle = {
-    width: '104px',
-    marginLeft: '7px'
-  }
-
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <title>로그인</title>
       </Helmet>
@@ -144,11 +130,16 @@ function WorkGroup(props) {
                 </div>
                 <form>
                   <div className='mb-3'>
-                    <h3><strong>동료들과 함께 일하고 소통할 <br />워크스페이스를 만들어보세요</strong></h3>
+                    <h4 style={{ textAlign: 'center', fontSize: 15, marginTop: 10, color: '#111' }}>
+                      <BdayLogo /> &nbsp; 동료들과  함께 일하고 소통할  워크스페이스를 만들어보세요!
+                    </h4>
                   </div>
                   <div className="form-group">
-                    <h4 style={{ paddingBottom: '7px' }}> <strong>워크스페이스의 이름을 지어볼까요?</strong></h4>
-                    <RoundInputField
+                    <div className='mb-3' />
+                    <h4 style={{ fontSize: 15, marginTop: 10, color: '#111', marginBottom: 5, }}>
+                      워크스페이스의 이름을 지어볼까요?
+                    </h4>
+                    <StyledInput
                       id="workgroup"
                       title="워크그룹"
                       placeholder="워크그룹 이름"
@@ -159,29 +150,29 @@ function WorkGroup(props) {
                   </div>
                   <div className='mt-3'></div>
                   <div className="form-group">
-                    <h4 style={{ paddingBottom: '7px' }}> <strong>워크스페이스의 URL 주소를 정해주세요</strong></h4>
+                    <h4 style={{ fontSize: 15, marginTop: 10, color: '#111', marginBottom: 5, }}>
+                      워크스페이스의 URL 주소를 정해주세요.
+                    </h4>
                     <StyledInput
-                      style={{ width: '230px', fontSize: '16px' }}
+                      style={{ width: '300px', fontSize: '16px' }}
                       id="domain"
                       title="도메인"
                       placeholder="your-workspace-url"
                       value={comp_domain}
                       onChange={onChangeCompDomain}
                     />
-                    <span style={{ fontSize: '16px', color: 'black' }}>.saleslog.co</span>
+                    <span style={{ fontSize: '16px', color: 'black' }}> .saleslog.co</span>
                     {compdomainerror && <p className="text-danger mt-2">{compdomainerror}</p>}
                   </div>
                   <div className="form-group mt-3">
-                    <h4 style={{ paddingBottom: '7px' }}> <strong>워크스페이스 이름과 URL 주소는 언제든지 <br /> 워크스페이스 설정페이지에서 변경할 수 <br />  있습니다.</strong></h4>
+                    <h4 style={{ fontSize: 14, marginTop: 10, color: '#333', marginBottom: 5, textAlign: 'center' }}>
+                      워크스페이스 이름과 URL 주소는 언제든지 워크스페이스 설정페이지에서 변경할 수 있습니다.
+                    </h4>
                   </div>
                   <div className="form-group">
-                    <button
-                      className="btn btn-outline-primary"
-                      style={{ width: '343px', height: '48px' }}
-                      onClick={handleOnSubmit}
-                    >
+                    <StyledButton onClick={handleOnSubmit} >
                       다음
-                    </button>
+                    </StyledButton>
                   </div>
                 </form>
                 <div style={{ textAlign: 'center', fontColor: 'black' }}>
@@ -192,7 +183,7 @@ function WorkGroup(props) {
           <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
       </div>
-    </React.Fragment >
+    </>
   );
 }
 
