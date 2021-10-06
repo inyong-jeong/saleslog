@@ -147,7 +147,7 @@ export default function RightMenu() {
           </Panel>
         </Collapse>
       </div>
-      <CustomUp />
+      {/* <CustomUp /> */}
     </div>
   )
 }

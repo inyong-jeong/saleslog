@@ -68,7 +68,7 @@ const AuthLayout = (props) => {
           <div>
             {/* content-page 스타일 생략함  */}
             {props.children}
-            <CustomUp />
+            {/* <CustomUp /> */}
           </div>
           {isNaviShow && <MyNavigation />}
         </Layout>
