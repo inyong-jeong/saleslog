@@ -116,7 +116,7 @@ export default function TopMenu({ badgeContent }) {
           <div style={{
             width: 1010,
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'flex-end',
             alignItems: 'center'
           }}>
             <div>
