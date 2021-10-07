@@ -57,7 +57,7 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType }) => {
             )
           })
           : <div>
-            <Typography > 공지사항이 업습니다.</Typography>
+            <Typography > 공지사항이 없습니다.</Typography>
           </div>
         }
       </List>
