@@ -117,25 +117,25 @@ function WorkGroup(props) {
   return (
     <>
       <Helmet>
-        <title>로그인</title>
+        <title>워크그룹 생성</title>
       </Helmet>
       <div className="container-md">
         <div className="row" style={ViewStyle}>
           <div style={{ margin: 'auto' }}>
-            <div className="card">
+            <div style={{ width: 390, backgroundColor: '#fff' }}>
               <div className="card-body" style={CardStyle}>
                 <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
                   <WhiteLogo width={150} height={50} fill='black' />
                 </div>
                 <form>
                   <div className='mb-3'>
-                    <h4 style={{ textAlign: 'center', fontSize: 15, color: '#111' }}>
-                      <BdayLogo /> &nbsp; 동료들과  함께 일하고 소통할  워크스페이스를 만들어보세요!
+                    <h4 style={{ textAlign: 'center', fontSize: 14, color: '#111' }}>
+                      <BdayLogo /> &nbsp; 동료들과 함께 일하고 소통할 워크스페이스를 만들어보세요!
                     </h4>
                   </div>
                   <div style={{ margin: 10 }}>
                     <div className='mb-3' />
-                    <h4 style={{ fontSize: 15, marginTop: 10, color: '#111', marginBottom: 5, }}>
+                    <h4 style={{ fontSize: 14, marginTop: 10, color: '#111', marginBottom: 5, }}>
                       워크스페이스의 이름을 지어볼까요?
                     </h4>
                     <StyledInput
@@ -144,27 +144,26 @@ function WorkGroup(props) {
                       placeholder="워크그룹 이름"
                       value={comp_name}
                       onChange={onChangeCompName}
-
                     />
                     {compnameerror && <p className="text-danger mt-2">{compnameerror}</p>}
                     <div className='mt-3' />
-                    <h4 style={{ fontSize: 15, marginTop: 10, color: '#111', marginBottom: 5, }}>
+                    <h4 style={{ fontSize: 14, marginTop: 10, color: '#111', marginBottom: 5, }}>
                       워크스페이스의 URL 주소를 정해주세요.
                     </h4>
                     <StyledInput
-                      style={{ width: '300px', fontSize: '16px' }}
+                      style={{ width: '260px', fontSize: '14px' }}
                       id="domain"
                       title="도메인"
                       placeholder="your-workspace-url"
                       value={comp_domain}
                       onChange={onChangeCompDomain}
                     />
-                    <span style={{ fontSize: '16px', color: 'black' }}> .saleslog.co</span>
+                    <span style={{ fontSize: '14px', color: 'black' }}> .saleslog.co</span>
                     {compdomainerror && <p className="text-danger mt-2">{compdomainerror}</p>}
                   </div>
                   <div className="form-group mt-3">
-                    <h4 style={{ fontSize: 13, color: '#333', extAlign: 'center', margin: 20 }}>
-                      워크스페이스 이름과 URL 주소는 언제든지 워크스페이스 설정페이지에서 변경할 수 있습니다.
+                    <h4 style={{ fontSize: 13, color: '#333', textAlign: 'center', margin: 20 }}>
+                      워크스페이스 이름과 URL 주소는 워크스페이스 설정페이지에서 언제든지변경할 수 있습니다.
                     </h4>
                   </div>
                   <div className="form-group">

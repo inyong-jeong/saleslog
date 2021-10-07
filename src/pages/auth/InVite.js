@@ -93,7 +93,7 @@ function inVite(props) {
       <div className="container-md">
         <div className="row" style={ViewStyle}>
           <div style={{ margin: 'auto' }}>
-            <div className="card">
+            <div style={{ width: 390, backgroundColor: '#fff' }}>
               <div className="card-body" style={CardStyle}>
                 <WhiteLogo width={150} height={50} fill='black' />
                 <form>
