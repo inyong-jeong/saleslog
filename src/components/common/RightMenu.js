@@ -107,7 +107,8 @@ export default function RightMenu() {
         <Collapse bordered={false} style={{ backgroundColor: '#fff' }} expandIconPosition='right'>
           <Panel header="생일" key="1" style={customPanelStyle}>
             <div>
-              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 최근 7일에 해당하는 생일만 표시됩니다.</p>
+              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 생일만 표시됩니다.</p>
+              <div className='mt-1' />
               {
                 bday.map((item, index) => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
@@ -117,7 +118,8 @@ export default function RightMenu() {
           </Panel>
           <Panel header="결혼 기념일" key="2" style={customPanelStyle}>
             <div>
-              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 최근 7일에 해당하는 결혼 기념일만 표시됩니다. </p>
+              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 결혼 기념일만 표시됩니다.</p>
+              <div className='mt-1' />
               {
                 mday.map((item, index) => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
