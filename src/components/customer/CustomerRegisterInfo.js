@@ -124,8 +124,11 @@ const CustomerRegisterInfo = () => {
     }
 
     //사업자 번호 10자리
-    if (inputs.reg_num.includes("-") || typeof inputs.reg_num != 'number' || inputs.reg_num.length != 10) {
-      return errorMessage('사업자 번호는 10자리로 숫자만을 입력해야합니다. *(-)제외')
+    if (inputs.reg_num.length > 0) {
+      if (inputs.reg_num.includes("-") || typeof inputs.reg_num != 'number' || inputs.reg_num.length != 10) {
+        return errorMessage('사업자 번호는 10자리로 숫자만을 입력해야합니다. *(-)제외')
+      }
+
     }
 
 
