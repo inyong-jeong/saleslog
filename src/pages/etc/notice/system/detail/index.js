@@ -39,7 +39,7 @@ const sysNoticeRegi = (props) => {
     setNoticeId(base64Dec(params.noticeId))
     dispatch(getNoticeSysDetail.call({ b_idx: base64Dec(params.noticeId) }))
 
-  }, [])
+  }, [params.noticeId])
 
   const onEditClick = (e) => {
     //공지사항 수정
@@ -65,18 +65,18 @@ const sysNoticeRegi = (props) => {
         onEditClick={onEditClick}
       />
 
-    <div className='content_body'>
-      <div style={{ marginTop: 10 }}>
-        <label style={{ padding: 5, color: '#aaa' }}>제목 </label><br />
-        <label style={{ padding: 5, margin: 0 }}>{noticeData[0].title}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
+      <div className='content_body'>
+        <div style={{ marginTop: 10 }}>
+          <label style={{ padding: 5, color: '#aaa' }}>제목 </label><br />
+          <label style={{ padding: 5, margin: 0 }}>{noticeData[0].title}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label style={{ padding: 5, color: '#aaa' }}>공지내용 </label><br />
+          <label style={{ padding: 5, margin: 0, whiteSpace: "pre-wrap" }}>{noticeData[0].content}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
       </div>
-      <div style={{ marginTop: 10 }}>
-        <label style={{ padding: 5, color: '#aaa' }}>공지내용 </label><br />
-        <label style={{ padding: 5, margin: 0, whiteSpace: "pre-wrap" }}>{noticeData[0].content}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
-    </div>
     </div>
   );
 }

@@ -47,7 +47,7 @@ const grpNoticeRegi = (props) => {
     setNoticeId(base64Dec(params.noticeId))
     dispatch(getNoticeGrpDetail.call({ b_idx: base64Dec(params.noticeId) }))
 
-  }, [])
+  }, [params.noticeId])
 
   const onEditClick = (e) => {
     //공지사항 수정
@@ -72,17 +72,17 @@ const grpNoticeRegi = (props) => {
         navigateTo={navigateTo}
         onEditClick={onEditClick}
       />
-    <div className='content_body'>
-      <div style={{ marginTop: 10 }}>
-        <label style={titleStyle}>제목 </label><br />
-        <label style={{ fontSize: 14, margin: 0, fontWeight: '400', padding: 5 }}>{noticeData[0].title}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <label style={titleStyle}>공지 내용 </label><br />
-        <label style={{ padding: 5, margin: 0, whiteSpace: "pre-wrap", fontSize: 14, fontWeight: '400' }}>{noticeData[0].content}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
+      <div className='content_body'>
+        <div style={{ marginTop: 10 }}>
+          <label style={titleStyle}>제목 </label><br />
+          <label style={{ fontSize: 14, margin: 0, fontWeight: '400', padding: 5 }}>{noticeData[0].title}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label style={titleStyle}>공지 내용 </label><br />
+          <label style={{ padding: 5, margin: 0, whiteSpace: "pre-wrap", fontSize: 14, fontWeight: '400' }}>{noticeData[0].content}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
       </div>
     </div>
   );

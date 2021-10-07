@@ -30,7 +30,7 @@ const ManagerProfilePage = () => {
 
   useEffect(() => {
     dispatch(getManagerInfo.call({ acc_idx: base64Dec(params.accId), accm_idx: base64Dec(params.singleId) }))
-  }, [])
+  }, [params.singleId])
 
   const navigateTo = () => {
     history.goBack()
