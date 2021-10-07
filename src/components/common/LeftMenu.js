@@ -36,11 +36,11 @@ function LeftMenu() {
     icon: <WorkGroup />,
     to: "/main/workgroup"
   },
-  {
-    title: '초대 테스트용',
-    icon: <WorkGroup />,
-    to: '/invite'
-  }
+    // {
+    //   title: '초대 테스트용',
+    //   icon: <WorkGroup />,
+    //   to: '/invite'
+    // }
   ];
 
 
