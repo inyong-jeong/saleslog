@@ -78,7 +78,7 @@ function SalesLog(props) {
 
 
   const handleOnBack = () => {
-    props.history.push('/main/manage');
+    props.history.goBack()
   }
 
   const updateComment = (newComment) => {
