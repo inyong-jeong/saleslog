@@ -30,7 +30,8 @@ const SALESLOG_TYPE = 'SALESLOG_TYPE'
 const LEADLOG_TYPE = 'LEADLOG_TYPE'
 const { Panel } = Collapse
 
-const DashBoardPage = (props) => {
+const DashBoardPage = () => {
+
   const state = useSelector(state => state.Dashboard)
   const etcState = useSelector(etcState => etcState.Etc)
   const dispatch = useDispatch()
@@ -180,6 +181,17 @@ const DashBoardPage = (props) => {
     }
   ]
 
+  // birthday 
+  useEffect(() => {
+    dispatch(postAnniversary.call())
+  }, [])
+
+  useEffect(() => {
+    if (etcState.postAnniveraryResponse) {
+      setBday(etcState.postAnniveraryResponse[0])
+    }
+
+  }, [etcState.loading])
 
   //부서 조회 용
   const [inputDept, setinputDept] = useState({
@@ -210,44 +222,30 @@ const DashBoardPage = (props) => {
     sales_lead_gb: '',
   })
 
-
   // bodyLog 값 바뀔 때 dispatch
   useEffect(() => {
-    // console.log('bodyLog::::::::::::change:::::::::::::', bodyLog)
-    dispatch(getsaleslogstat.call(bodyLog))
+    if (state.loading) {
+      dispatch(getsaleslogstat.call(bodyLog))
+      console.log('SALES bodylog ---use effect RAN---')
+    }
 
   }, [bodyLog])
 
   // bodyLogRd 값 바뀔 때 dispatch
   useEffect(() => {
-    dispatch(getleadlogstat.call(bodyLogRd))
-    //props.getleadlogstat(bodyLogRd)
-  }, [bodyLogRd])
-
-  //마운트 될 때 
-  useEffect(() => {
-    //console.log('start!!!!!!!!!!!!!!!', bodyLog)
-    dispatch(getsaleslogstat.call(bodyLog))
-    dispatch(getleadlogstat.call(bodyLogRd))
-    //props.getsaleslogstat(bodyLog)
-    dispatch(postAnniversary.call())
-  }, [])
-
-  useEffect(() => {
-    if (etcState.postAnniveraryResponse) {
-      setBday(etcState.postAnniveraryResponse[0])
+    if (state.loading) {
+      dispatch(getleadlogstat.call(bodyLogRd))
+      console.log('LEAD bodylog ---use effect RAN---')
     }
-  }, [etcState.loading])
+  }, [bodyLogRd])
 
   // 영업일지 fetch 후
   useEffect(() => {
     if (state.getsaleslogstatRes) {
       console.log('영업일지 STATE::', state.getsaleslogstatRes)
       setSalesStat(state.getsaleslogstatRes)
-      // console.log('salesstat:::', salesStat)
     }
   }, [state.getsaleslogstatRes])
-
 
   // 리드일지 fetch 후
   useEffect(() => {
@@ -259,8 +257,9 @@ const DashBoardPage = (props) => {
 
   //영업일지 날짜 구분 클릭
   const onSelected = (id) => {
-    // console.log('date click:::::::::::::::', id)
+    //console.log('date click:::::::::::::::', id)
     setBodyLog({ ...bodyLog, dt_typ: id });
+
   }
 
   //영업일지 날짜 변경시
