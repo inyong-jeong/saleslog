@@ -121,8 +121,7 @@ function WorkGroup(props) {
       </Helmet>
       <div className="container-md">
         <div className="row" style={ViewStyle}>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
-          <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
+          <div style={{ margin: 'auto' }}>
             <div className="card">
               <div className="card-body" style={CardStyle}>
                 <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
@@ -130,11 +129,11 @@ function WorkGroup(props) {
                 </div>
                 <form>
                   <div className='mb-3'>
-                    <h4 style={{ textAlign: 'center', fontSize: 15, marginTop: 10, color: '#111' }}>
+                    <h4 style={{ textAlign: 'center', fontSize: 15, color: '#111' }}>
                       <BdayLogo /> &nbsp; 동료들과  함께 일하고 소통할  워크스페이스를 만들어보세요!
                     </h4>
                   </div>
-                  <div className="form-group">
+                  <div style={{ margin: 10 }}>
                     <div className='mb-3' />
                     <h4 style={{ fontSize: 15, marginTop: 10, color: '#111', marginBottom: 5, }}>
                       워크스페이스의 이름을 지어볼까요?
@@ -145,11 +144,10 @@ function WorkGroup(props) {
                       placeholder="워크그룹 이름"
                       value={comp_name}
                       onChange={onChangeCompName}
+
                     />
                     {compnameerror && <p className="text-danger mt-2">{compnameerror}</p>}
-                  </div>
-                  <div className='mt-3'></div>
-                  <div className="form-group">
+                    <div className='mt-3' />
                     <h4 style={{ fontSize: 15, marginTop: 10, color: '#111', marginBottom: 5, }}>
                       워크스페이스의 URL 주소를 정해주세요.
                     </h4>
@@ -165,7 +163,7 @@ function WorkGroup(props) {
                     {compdomainerror && <p className="text-danger mt-2">{compdomainerror}</p>}
                   </div>
                   <div className="form-group mt-3">
-                    <h4 style={{ fontSize: 14, marginTop: 10, color: '#333', marginBottom: 5, textAlign: 'center' }}>
+                    <h4 style={{ fontSize: 13, color: '#333', extAlign: 'center', margin: 20 }}>
                       워크스페이스 이름과 URL 주소는 언제든지 워크스페이스 설정페이지에서 변경할 수 있습니다.
                     </h4>
                   </div>
@@ -180,7 +178,7 @@ function WorkGroup(props) {
               </div>
             </div>
           </div>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
+
         </div>
       </div>
     </>

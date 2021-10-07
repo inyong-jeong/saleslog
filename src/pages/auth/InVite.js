@@ -92,9 +92,8 @@ function inVite(props) {
       </Helmet>
       <div className="container-md">
         <div className="row" style={ViewStyle}>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
-          <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
-            <div>
+          <div style={{ margin: 'auto' }}>
+            <div className="card">
               <div className="card-body" style={CardStyle}>
                 <WhiteLogo width={150} height={50} fill='black' />
                 <form>
@@ -141,7 +140,6 @@ function inVite(props) {
               </div>
             </div>
           </div>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
       </div>
     </React.Fragment>
