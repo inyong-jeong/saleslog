@@ -10,11 +10,13 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { base64Dec, base64Enc } from 'constants/commonFunc';
 import { deleteCustomer } from '../../../redux/customer/actions';
 import { useSelector } from 'react-redux';
-import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 
-const { confirm } = Modal;
+
+const { confirm } = Modal
 const { TabPane } = FullTabs;
+
 const CustomerDetail = () => {
 
   const params = useParams()
