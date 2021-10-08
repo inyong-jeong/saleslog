@@ -148,39 +148,6 @@ const DashBoardPage = () => {
     label: "검증",
   }]
 
-  const sampleData = [
-    {
-      "id": "haskell",
-      "label": "haskell",
-      "value": 449,
-      "color": "hsl(178, 70%, 50%)"
-    },
-    {
-      "id": "python",
-      "label": "python",
-      "value": 399,
-      "color": "hsl(215, 70%, 50%)"
-    },
-    {
-      "id": "ruby",
-      "label": "ruby",
-      "value": 503,
-      "color": "hsl(156, 70%, 50%)"
-    },
-    {
-      "id": "erlang",
-      "label": "erlang",
-      "value": 275,
-      "color": "hsl(118, 70%, 50%)"
-    },
-    {
-      "id": "php",
-      "label": "php",
-      "value": 102,
-      "color": "hsl(179, 70%, 50%)"
-    }
-  ]
-
   // birthday 
   useEffect(() => {
     dispatch(postAnniversary.call())
@@ -224,19 +191,12 @@ const DashBoardPage = () => {
 
   // bodyLog 값 바뀔 때 dispatch
   useEffect(() => {
-    if (state.loading) {
-      dispatch(getsaleslogstat.call(bodyLog))
-      console.log('SALES bodylog ---use effect RAN---')
-    }
-
+    dispatch(getsaleslogstat.call(bodyLog))
   }, [bodyLog])
 
   // bodyLogRd 값 바뀔 때 dispatch
   useEffect(() => {
-    if (state.loading) {
-      dispatch(getleadlogstat.call(bodyLogRd))
-      console.log('LEAD bodylog ---use effect RAN---')
-    }
+    dispatch(getleadlogstat.call(bodyLogRd))
   }, [bodyLogRd])
 
   // 영업일지 fetch 후
