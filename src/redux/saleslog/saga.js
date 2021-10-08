@@ -18,7 +18,8 @@ import {
   PUT_COMMENT,
   DELETE_COMMENT,
   GET_COMMENT_LISTS,
-  POST_AUTO_SALESLOG
+  POST_AUTO_SALESLOG,
+  DELETE_SALESLOG
 } from '../../constants/actionTypes';
 
 import {
@@ -38,7 +39,8 @@ import {
   putComment,
   deleteComment,
   getCommentLists,
-  postAutoSalesLog
+  postAutoSalesLog,
+  deleteSalesLog
 } from './actions';
 
 import {
@@ -63,6 +65,19 @@ function* _postSalesLog({ payload: { data } }) {
 
   }
 }
+
+function* _deleteSalesLog({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog', data);
+    yield put(deleteSalesLog.success(response));
+    yield successMessage('일지가 삭제되었습니다.')
+  } catch (error) {
+    yield put(deleteSalesLog.error(error));
+    yield errorMessage('일지가 삭제에 실패했습니다.')
+
+  }
+}
+
 
 function* _postTemporarySalesLog({ payload: { data } }) {
   try {
@@ -235,6 +250,11 @@ export function* watchPostSalesLog() {
   yield takeEvery(POST_SALESLOG, _postSalesLog);
 }
 
+export function* watchDeleteSalesLog() {
+  yield takeEvery(DELETE_SALESLOG, _deleteSalesLog);
+}
+
+
 export function* watchPostTemporarySalesLog() {
   yield takeEvery(POST_TEMPORARY_SALESLOG, _postTemporarySalesLog);
 }
@@ -304,6 +324,7 @@ function* salesLogSaga() {
   yield all([
     //일지작성 관련
     fork(watchPostSalesLog),
+    fork(watchDeleteSalesLog),
     fork(watchPostTemporarySalesLog),
     fork(watchPostAutoSalesLog),
     fork(watchGetUserList),

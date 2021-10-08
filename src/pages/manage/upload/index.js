@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import {
   postSalesLog, selectAccounts, selectAccountperson,
@@ -54,6 +54,10 @@ const leadActivityOption =
 function UploadSalesLog(props) {
 
   const dispatch = useDispatch()
+  const state = useSelector(state => state.SalesLog)
+  let putresponse = state.putlog;
+  let postresponse = state.postlog;
+
   //일지 등록 스테이트
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
@@ -87,6 +91,17 @@ function UploadSalesLog(props) {
     return result;
   }
 
+  //리드 4단계 자동으로 고정시키는 함수
+  function getScoreIndex(key) {
+    let result = undefined;
+    for (let i = 0; i < accountsList.length; i++) {
+      if (accountsList[i].acc_idx === key) {
+        result = i
+      }
+    }
+    return result
+  }
+
   //자동 저장
   const handleOnIdle = event => {
     if (getLastActiveTime()) {
@@ -113,6 +128,7 @@ function UploadSalesLog(props) {
   useEffect(() => {
     if (props.log) {
       //데이터 set
+      // setRadioCheck(props.log.sales_gb)
       setSelectedAccount(props.log.acc_idx)
       setSelectedAccountPerson(props.log.accm_idx)
       setLeadActivity(props.log.sales_lead_gb)
@@ -145,6 +161,7 @@ function UploadSalesLog(props) {
   //임시저장
   useEffect(() => {
     if (props.temporaryLoglist) {
+      // setRadioCheck(props.log.sales_gb)
       setSelectedAccount(props.temporaryLoglist.acc_idx === 0 ? null : props.temporaryLoglist.acc_idx)
       setSelectedAccountPerson(props.temporaryLoglist.accm_idx === 0 ? null : props.temporaryLoglist.accm_idx)
       setLeadActivity(props.temporaryLoglist.sales_lead_gb === 'null' ? null : props.temporaryLoglist.sales_lead_gb)
@@ -270,9 +287,9 @@ function UploadSalesLog(props) {
     setRadioCheck(e.target.value);
     setFromData({
       ...fromData,
-      acc_idx: '',
-      accm_idx: '',
-      sales_gb: radiocheck,
+      acc_idx: 0,
+      accm_idx: 0,
+      sales_gb: e.target.value,
       sales_lead_gb: null,
     })
   };
@@ -377,6 +394,14 @@ function UploadSalesLog(props) {
     }
     props.postSalesLog(fromData)
   }
+
+  useEffect(() => {
+    if (postresponse) {
+      props.history.push('/main/manage');
+      state.postlog = false;
+    }
+  }, [postresponse])
+
   //일지 수정
 
   const onFormRevise = () => {
@@ -391,6 +416,13 @@ function UploadSalesLog(props) {
     }
     props.putSalesLog(fromData)
   }
+  useEffect(() => {
+    if (putresponse) {
+      props.history.push('/main/manage');
+      state.putlog = false;
+    }
+
+  }, [putresponse])
 
   //일지 임시저장
   const onFormTemporarySubmit = () => {
@@ -430,11 +462,14 @@ function UploadSalesLog(props) {
   }
 
   const onAccountSelectChange = (v, actiontype) => {
-    setSelectedAccountPerson(null)
+    console.log(v);
+    setLeadActivity(accountsList[getScoreIndex(v)].score)
+    setSelectedAccountPerson(null);
     setSelectedAccount(v);
     setFromData({
       ...fromData,
-      'acc_idx': v
+      'acc_idx': v,
+      'score': accountsList[getScoreIndex(v)].score
     })
   };
 
@@ -552,7 +587,6 @@ function UploadSalesLog(props) {
         <div className="row">
           <div className="col-12">
             <StyledSelect
-              isSearchable={false}
               placeholder="고객 담당자를 선택해주세요"
               options={accountspersonList && accountspersonList.map((v) => { return { value: v.accm_idx, label: v.man_name } })}
               value={selectedAccountperson}
@@ -569,8 +603,7 @@ function UploadSalesLog(props) {
             <div className="col-12">
               <label style={labelStyle}> 리드 단계 <span style={{ color: 'red' }}>*</span></label>
               <StyledSelect
-                isSearchable={false}
-                isDisabled={true}
+                disabled={true}
                 placeholder="리드단계"
                 options={leadActivityOption}
                 value={leadactivity}

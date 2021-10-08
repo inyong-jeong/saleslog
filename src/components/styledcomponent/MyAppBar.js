@@ -68,6 +68,9 @@ const MyAppBar = ({
   deleteClick,
   onRevise,
   paramId,
+  onDeleteClick,
+  Dbutton,
+  Ubutton
 }) => {
 
 
@@ -201,13 +204,22 @@ const MyAppBar = ({
               </div>
             }
             {
-              onEditClick &&
-              <div className={classes.textButtonStyle}>
+              (Ubutton === 'Y' && onEditClick) &&
+              <div className={classes.tempButtonStyle}>
                 <Button size="small" onClick={onEditClick} >
                   수정
                 </Button>
               </div>
             }
+            {
+              (Dbutton === 'Y' && onDeleteClick) &&
+              <div className={classes.textButtonStyle}>
+                <Button size="small" onClick={onDeleteClick} >
+                  삭제
+                </Button>
+              </div>
+            }
+
             {
               ((paramId ? paramId.length > 4 : false) && onRevise) &&
               <div className={classes.textButtonStyle}>

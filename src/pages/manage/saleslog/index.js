@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog } from 'redux/actions';
+import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog, deleteSalesLog } from 'redux/actions';
 import { connect } from 'react-redux';
-import { Row, Col, Upload, Avatar } from 'antd'
+import { Row, Col, Upload, Avatar, Modal } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
 import Comments from 'components/Comments/Comments'
 import { useSelector } from "react-redux";
@@ -13,6 +13,11 @@ import NeedsCard from 'components/NeedsCard'
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { base64Dec, base64Enc } from "constants/commonFunc";
 import { useDispatch } from 'react-redux'
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+
+const { confirm } = Modal;
+
 
 function SalesLog(props) {
   const dispatch = useDispatch();
@@ -23,6 +28,8 @@ function SalesLog(props) {
     })
   }, [])
   const state = useSelector(state => state.SalesLog)
+  let deletelog = state.deletelog;
+
   const [CommentLists, setCommentLists] = useState([])
   const [filelist, setFileList] = useState([])
   const [logneedslist, setLogNeedsList] = useState([])
@@ -114,23 +121,48 @@ function SalesLog(props) {
   }
     , [props.comment])
 
+
   useEffect(() => {
     if (props.commentlists) {
       setCommentLists(props.commentlists)
     }
   }, [props.commentlists])
 
+  //피드백 변경하면 dispatch
   useEffect(() => {
-    if (props.commentchange) {
+    if (props.comcgresponse) {
       props.getCommentLists(body)
     }
   }
-    , [props.commentchange])
+    , [props.comcgresponse])
 
+  // 삭제하면 일지 리스트 화면으로 이동
+  useEffect(() => {
+    if (deletelog) {
+      props.history.push('/main/manage');
+      state.deletelog = false;
+    }
+  }, [deletelog])
 
 
   const handleOnRevise = () => {
     props.history.push(`/main/upload/${props.match.params.id}`)
+  }
+
+  const handleOndelete = () => {
+    confirm({
+      title: '삭제하신 일지는 복구할 수 없습니다. 일지를 삭제할까요?',
+      icon: <ExclamationCircleOutlined />,
+      // content: '로그아웃을 하시면 재로그인이 필요합니다.',
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        props.deleteSalesLog({ slog_idx: base64Dec(props.match.params.id) })
+      },
+      onCancel() {
+        //취소
+      },
+    })
   }
 
   // const [file, setFile] = useState({
@@ -196,14 +228,14 @@ function SalesLog(props) {
       }
       console.log(arrFiles)
       const data = {
-        slog_idx: props.match.params.id,
+        slog_idx: base64Dec(props.match.params.id),
         fileup: arrFiles
       }
       // setFile({ ...file, fileup: arrFiles })
       props.putFile(data)
     } else if (info.file.status === 'removed') {
       const data = {
-        slog_idx: props.match.params.id,
+        slog_idx: base64Dec(props.match.params.id),
         f_idx: info.file.uid
       }
       props.deleteFile(data)
@@ -227,29 +259,14 @@ function SalesLog(props) {
     "fontSize": 16,
   }
 
-  console.log(props.logneeds)
-
-  const handleOnChart = (e) => {
-    // e.preventDefault();
-    console.log(e)
-  }
-
-  const [needs, setNeeds] = useState([]);
-
-  // function sortpercent(v) {
-  //   let arr = []
-  //   for (let i =0; i < v.length; i++){
-  //     arr = arr.concat({})
-  //   }
-  // }
-
-
-
   return (
     <>
       <MyAppBar barTitle={'영업일지 상세'} showBackButton
         navigateTo={handleOnBack}
         onEditClick={handleOnRevise}
+        onDeleteClick={handleOndelete}
+        Dbutton={Log && Log.del_yn}
+        Ubutton={Log && Log.upd_yn}
       />
       <div className='content_body'>
         <Row>
@@ -339,8 +356,7 @@ function SalesLog(props) {
         <div className='mt-1'></div>
         <Row gutter={[4, 4]} >
           <Col sm={24} xs={24} md={24} lg={24}>
-            <StyledCard title='니즈 분석'>
-
+            {logneedslist.length > 0 ? <StyledCard title='니즈 분석'>
               <div style={{ width: '100%', height: 500 }}>
                 <ResponsivePie
                   arcLabel={(v) => `${v.data.percent}%`}
@@ -386,10 +402,12 @@ function SalesLog(props) {
                     }
                   ]}
                 />
-              </div>
-
-
-            </StyledCard>
+              </div >
+            </StyledCard> :
+              <StyledCard title='니즈 분석'>
+                <div style={{ textAlign: 'center' }}>일지 로그에서 분류된 니즈가 없습니다. 코칭이 필요합니다.</div>
+              </StyledCard>
+            }
             <Row gutter={[4, 4]}>
               <Col sm={24} xs={24} md={24} lg={24}>
                 {props.logneeds ? props.logneeds.map((v) =>
@@ -407,7 +425,7 @@ function SalesLog(props) {
         </Row>
         <Row gutter={[4, 4]} >
           <Col sm={24} xs={24} md={24} lg={24}>
-            <Comments key={props.match.params.id} CommentLists={CommentLists} postId={props.match.params.id} refreshFunction={updateComment} />
+            <Comments key={props.match.params.id} CommentLists={CommentLists} postId={base64Dec(props.match.params.id)} refreshFunction={updateComment} />
             {/* <Divider /> */}
           </Col>
         </Row>
@@ -417,8 +435,14 @@ function SalesLog(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { log, logcouser, logneeds, commentlists, commentdelete, comment, commentchange, putfileloading, deletefileloading } = state.SalesLog;
-  return { log, logcouser, logneeds, commentlists, commentdelete, comment, commentchange, putfileloading, deletefileloading };
+  const { log, logcouser, logneeds, commentlists,
+    commentdelete, comment, commentchange,
+    putfileloading, deletefileloading, deletelog, comcgresponse } = state.SalesLog;
+  return {
+    log, logcouser, logneeds, commentlists,
+    commentdelete, comment, commentchange,
+    putfileloading, deletefileloading, deletelog, comcgresponse
+  };
 };
 const mapStateToDispatch = {
   getLogList: getLogList.call,
@@ -427,6 +451,7 @@ const mapStateToDispatch = {
   putFile: putFile.call,
   deleteFile: deleteFile.call,
   clearLog,
+  deleteSalesLog: deleteSalesLog.call
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLog);

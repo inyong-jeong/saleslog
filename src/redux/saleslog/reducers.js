@@ -48,10 +48,14 @@ import {
   CLEAR_TEMP_LOG,
   POST_AUTO_SALESLOG,
   POST_AUTO_SALESLOG_SUCCESS,
-  POST_AUTO_SALESLOG_ERROR
+  POST_AUTO_SALESLOG_ERROR,
+  DELETE_SALESLOG,
+  DELETE_SALESLOG_SUCCESS,
+  DELETE_SALESLOG_ERROR,
+  PUT_SALESLOG,
+  PUT_SALESLOG_SUCCESS,
+  PUT_SALESLOG_ERROR
 } from '../../constants/actionTypes';
-
-
 
 const INIT_STATE = {
   posttempres: false,
@@ -76,14 +80,24 @@ const INIT_STATE = {
   logcouser: null,
   commentlists: null,
   comment: null,
+  //피드백 변경
   commentchange: null,
+  comcgresponse: false,
   commentdelete: null,
   getloglistloading: false,
   putfileloading: false,
   putfileuploading: false,
   deletefileloading: false,
   autoresponse: null,
-  postautoresponse: null
+  postautoresponse: null,
+  //피드백 반응
+  commentres: false,
+  //일지 삭제 response
+  deletelog: false,
+  //일지수정 response
+  putlog: false,
+  //일지 작성 response
+  postlog: false
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
@@ -93,11 +107,23 @@ const SalesLog = (state = INIT_STATE, action) => {
     case CLEAR_TEMP_LOG:
       return { ...state, temporaryLoglist: null };
     case POST_SALESLOG:
-      return { ...state, submitLoading: true };
+      return { ...state, submitLoading: true, postlog: false };
     case POST_SALESLOG_SUCCESS:
-      return { ...state, postSalesLogResponse: action.payload.response, submitLoading: false };
+      return { ...state, postSalesLogResponse: action.payload.response, submitLoading: false, postlog: true };
     case POST_SALESLOG_ERROR:
-      return { ...state, postSalesLogError: action.payload.error, submitLoading: false };
+      return { ...state, postlog: false };
+    case PUT_SALESLOG:
+      return { ...state, submitLoading: true, putlog: false };
+    case PUT_SALESLOG_SUCCESS:
+      return { ...state, putlog: true, submitLoading: false };
+    case PUT_SALESLOG_ERROR:
+      return { ...state, putlog: false };
+    case DELETE_SALESLOG:
+      return { ...state, submitLoading: true, deletelog: false };
+    case DELETE_SALESLOG_SUCCESS:
+      return { ...state, submitLoading: false, deletelog: true };
+    case DELETE_SALESLOG_ERROR:
+      return { ...state, submitLoading: false, deletelog: false };
     case POST_AUTO_SALESLOG:
       return { ...state, submitLoading: true, postautoresponse: true };
     case POST_AUTO_SALESLOG_SUCCESS:
@@ -155,17 +181,17 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, getloglistloading: false };
     //피드백 관련
     case POST_COMMENT:
-      return { ...state };
+      return { ...state, commentres: false };
     case POST_COMMENT_SUCCESS:
-      return { ...state, comment: action.payload.response.message.insertId };
+      return { ...state, comment: action.payload.response.message.insertId, commentres: true };
     case POST_COMMENT_ERROR:
-      return { ...state };
+      return { ...state, commentres: false };
     case PUT_COMMENT:
-      return { ...state };
+      return { ...state, comcgresponse: false };
     case PUT_COMMENT_SUCCESS:
-      return { ...state, commentchange: action.payload.response.message };
+      return { ...state, commentchange: action.payload.response.message, comcgresponse: true };
     case PUT_COMMENT_ERROR:
-      return { ...state };
+      return { ...state, comcgresponse: false };
     case DELETE_COMMENT:
       return { ...state };
     case DELETE_COMMENT_SUCCESS:

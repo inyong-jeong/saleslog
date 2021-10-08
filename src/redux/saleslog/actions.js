@@ -18,13 +18,16 @@ import {
   GET_COMMENT_LISTS,
   CLEAR_SALESLOG,
   CLEAR_TEMP_LOG,
-  POST_AUTO_SALESLOG
+  POST_AUTO_SALESLOG,
+  DELETE_SALESLOG
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
 //일지 작성관련
 
 export const postSalesLog = fetchActionGenerator(POST_SALESLOG, 'data');
+export const deleteSalesLog = fetchActionGenerator(DELETE_SALESLOG, 'data');
+
 export const postTemporarySalesLog = fetchActionGenerator(POST_TEMPORARY_SALESLOG, 'data');
 export const postAutoSalesLog = fetchActionGenerator(POST_AUTO_SALESLOG, 'data'); //자동 임시저장
 export const uploadFile = fetchActionGenerator(UPLOAD_FILE, 'data');
