@@ -8,17 +8,18 @@ const FullTabs = styled(Tabs)`
   font-weight: 500;
 
 }
-
-${'' /* .ant-tabs-nav {
-width: 100% !important;
-} */}
-
+.ant-tabs-nav-operations{
+  display:none !important;
+}
 .ant-tabs-tab{
-display: block; // centers text inside tabs
+display: block; 
 flex: 1;
 text-align: center;
-
 }
+.ant-tabs-tab-btn,
+.ant-tabs-tab-btn:focus{
+  color: #333333;
+} 
 .ant-tabs-tab:hover{
   color: #818181;
 }
