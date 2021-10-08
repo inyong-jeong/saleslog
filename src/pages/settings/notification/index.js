@@ -24,7 +24,7 @@ const NotificationSetting = () => {
 
       <div className='content_body'>
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-          <p style={{ margin: 0, paddingLeft: 5, fontSize: 16 }}>알림 모드</p>
+          <p style={{ margin: 0, paddingLeft: 5, fontSize: 14, color: '#111' }}>알림 모드</p>
           <div style={{ display: 'flex', alignItems: 'center', margin: 0, paddingLeft: 5, }}>
             <Switch size="small" onChange={onChange} />
           </div>

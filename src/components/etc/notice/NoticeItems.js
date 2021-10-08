@@ -45,7 +45,7 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType }) => {
                   history.push({ pathname: `/main/etc/notice/group/detail/${base64Enc(singleList.b_idx)}/` }) :
                   history.push({ pathname: `/main/etc/notice/system/detail/${base64Enc(singleList.b_idx)}/` })
               }} key={singleList.num}>
-                <ListItem style={{ height: 50, cursor: 'pointer' }}>
+                <ListItem style={{ height: 50, cursor: 'pointer', color: '#333' }}>
                   <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'stretch' }}>
                     <p style={{ width: '80%', fontSize: 14, fontWeight: 500, marginBottom: 0 }}>{singleList.title}</p>
                     {/*<p style={{ width:'20%',fontSize: 12, fontWeight: 'normal', marginBottom: 0 }}>조회수:{singleList.show_count}</p>*/}

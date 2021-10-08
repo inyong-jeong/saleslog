@@ -11,9 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useLocation } from "react-router";
 
-const { TabPane } = FullTabs;
 const { Search } = Input;
-
 const GroupNoticePage = () => {
   const history = useHistory()
   const location = useLocation()
@@ -79,28 +77,28 @@ const GroupNoticePage = () => {
     <div>
       <MyAppBar barTitle={'워크그룹 공지'} />
       <div className='content_body'>
-      <Search
-        placeholder="검색"
-        allowClear
-        onSearch={onSearch}
-        style={{
-          width: '100%',
-          marginBottom: 10,
-          marginTop: 10,
-        }} />
-      <NoticeItems
-        page={page}
-        setPage={setPage}
-        setInputs={setInputs}
-        setData={setData}
-        data={noticeList}
-        loading={loading}
-        noticeType={'group'}
-      />
+        <Search
+          placeholder="검색"
+          allowClear
+          onSearch={onSearch}
+          style={{
+            width: '100%',
+            marginBottom: 10,
+            marginTop: 10,
+          }} />
+        <NoticeItems
+          page={page}
+          setPage={setPage}
+          setInputs={setInputs}
+          setData={setData}
+          data={noticeList}
+          loading={loading}
+          noticeType={'group'}
+        />
 
-      <div className={styles.Wrapper}>
-        <CustomFab navigateTo={navigateTo} />
-      </div>
+        <div className={styles.Wrapper}>
+          <CustomFab navigateTo={navigateTo} />
+        </div>
       </div>
     </div>
   );
