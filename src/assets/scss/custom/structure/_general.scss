@@ -138,16 +138,12 @@ hr {
   border-color: #111111;
 }
 
-.ant-btn-primary:hover {
-  background-color: #333;
-  border-color: #333;
-
-}
-
 .ant-btn:hover,
-.ant-btn:focus {
+.ant-btn:focus,
+ant-btn {
   color: #fff;
-  // border-color: #111111;
+  background-color: #666666;
+  border-color: #666666;
 }
 
 //customer item 에도 적용되기 때문에 .wrapper:hover 또한 만져줘야함
