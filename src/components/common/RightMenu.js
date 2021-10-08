@@ -7,7 +7,8 @@ import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
 import { ReactComponent as BdayLogo } from '../../../src/assets/icons/main/bday.svg'
 import { ReactComponent as Notice } from '../../../src/assets/icons/main/notice.svg'
-import CustomUp from '../styledcomponent/CustomUpButton';
+import styles from '../../../src/assets/style/Main.module.css'
+
 const { Panel } = Collapse
 
 export default function RightMenu() {
@@ -63,7 +64,7 @@ export default function RightMenu() {
   const NoticeItem = ({ item, onClick }) => (
     <>
       <div
-        style={{ display: 'flex', margin: 2, padding: 3, alignItems: 'center', cursor: 'pointer' }}
+        className={styles.noticeItem}
         onClick={(e, item) => onClick(e, item)} >
         <p style={{
           margin: 0,
@@ -83,7 +84,9 @@ export default function RightMenu() {
   )
 
   const DateItem = ({ item, onClick }) => (
-    <div style={{ cursor: 'pointer' }} onClick={onClick}>
+    <div
+      className={styles.dateItem}
+      onClick={onClick}>
       <div style={{ display: 'flex', marginBottom: 2, alignItems: 'center' }}>
         <p style={{ margin: 0, fontWeight: 500, fontSize: 14, color: '#111111' }}>{item.man_name}</p>
         <p style={{ margin: 0, fontWeight: 400, fontSize: 12, color: '#666666', marginLeft: 5, flexGrow: 2 }}>{item.account_name}</p>

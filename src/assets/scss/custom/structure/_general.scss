@@ -148,9 +148,12 @@ ant-btn {
 
 //customer item 에도 적용되기 때문에 .wrapper:hover 또한 만져줘야함
 //modal item
-
 .MuiListItem-root:hover {
   background-color: #F6F6F6;
   cursor: pointer;
   transition: ease-in-out 300ms;
+}
+
+.ant-switch-checked {
+  background-color: #000;
 }

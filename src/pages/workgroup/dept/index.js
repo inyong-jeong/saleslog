@@ -3,17 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import { useHistory } from 'react-router';
-import { Divider, Button } from 'antd';
+import { Divider, Button, Tooltip } from 'antd';
 import { getDeptInfo, postDeptRegi, postDeptUpd, postDeptDel } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { useMediaQuery } from 'react-responsive';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import SortableTree, {toggleExpandedForAll, changeNodeAtPath} from "react-sortable-tree-patch-react-17";
+import SortableTree, { toggleExpandedForAll, changeNodeAtPath } from "react-sortable-tree-patch-react-17";
 import FileExplorerTheme from "react-sortable-tree-theme-full-node-drag";
 import TreeInput from 'components/TreeInput';
 import { PlusSquareOutlined, CheckOutlined, MinusSquareOutlined, MinusOutlined } from '@ant-design/icons';
-
-
+import { ReactComponent as Info } from '../../../assets/icons/info.svg'
 const WgroupDeptPage = (props) => {
 
   const state = useSelector(state => state.Workgroup)
@@ -44,12 +42,12 @@ const WgroupDeptPage = (props) => {
       dept_name: '',
       parent_idx: 0,
       level: 1,
-      
-    
+
+
     }
   )
   const [treeExpanded, setTreeExpanded] = useState([])
-  
+
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
@@ -118,7 +116,7 @@ const WgroupDeptPage = (props) => {
   useEffect(() => {
 
     if (!cmm.isEmpty(data)) {
-      
+
       setInputs({
         ...inputs,
         treedata: getTreeData(data),
@@ -164,12 +162,12 @@ const WgroupDeptPage = (props) => {
     let expanded = true;
     for (let i = 0; i < array.length; i++) {
       if (treeExpanded && treeExpanded.length > 0) {
-        for(let j = 0; j < treeExpanded.length; j++) {
+        for (let j = 0; j < treeExpanded.length; j++) {
           if (array[i]['dept_idx'] == treeExpanded[j].dept_idx) {
             expanded = treeExpanded[j].expanded;
             break;
           }
-        } 
+        }
       }
 
       let obj = { "dept_idx": array[i]['dept_idx'], "title": array[i]['dept_name'], "lvl": array[i]['lvl'], "expanded": expanded };
@@ -194,7 +192,7 @@ const WgroupDeptPage = (props) => {
   //   if (!array || array.length <= 0) {
   //     return null;
   //   }
-    
+
   //   let map = {};
   //   let expanded = true;
   //   for (let i = 0; i < array.length; i++) {
@@ -206,7 +204,7 @@ const WgroupDeptPage = (props) => {
   //           break;
   //         }
   //       } 
-        
+
   //     }
   //     let obj = { "dept_idx": array[i]['dept_idx'], "title": array[i]['dept_name'], "lvl": array[i]['lvl'], "expanded": expanded };
   //     obj.children = [];
@@ -220,14 +218,14 @@ const WgroupDeptPage = (props) => {
   //     }
   //     map[parent].children.push(obj);
   //   }
-    
+
   //   return map['-'].children;
 
   // }
 
   // tree 수정시 treeData 적용
   const setTreeData = (data) => {
-    
+
     let arr = inputs.treedata;
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].dept_idx == data.idx) {
@@ -235,13 +233,13 @@ const WgroupDeptPage = (props) => {
         break;
       } else if (arr[i].children) {
         let child = arr[i].children;
-        for(let j=0; j < child.length; j++) {
+        for (let j = 0; j < child.length; j++) {
           if (child[j].dept_idx == data.idx) {
             child[j].title = data.title;
             break;
           } else if (child[j].children) {
             let child2 = child[j].children;
-            for(let k=0; k < child2.length; k++) {
+            for (let k = 0; k < child2.length; k++) {
               if (child2[k].dept_idx == data.idx) {
                 child2[k].title = data.title;
                 break;
@@ -259,23 +257,23 @@ const WgroupDeptPage = (props) => {
 
   // tree onChange
   const updateTreeData = (treedata) => {
-    setInputs({...inputs, treedata:treedata})
+    setInputs({ ...inputs, treedata: treedata })
   }
 
   // tree 확대/축소를 기록함
   const updateTreeExpanded = (data) => {
-    
+
     let arr = treeExpanded;
     let isSet = false;
-    for(let i=0; i < arr.length; i++) {
-      if (arr[i].dept_idx == data.node.dept_idx)  {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].dept_idx == data.node.dept_idx) {
         arr[i].expanded = data.expanded;
         isSet = true;
         break;
       }
     }
-    if(!isSet) {
-      arr[arr.length] = {dept_idx:data.node.dept_idx, expanded:data.expanded};
+    if (!isSet) {
+      arr[arr.length] = { dept_idx: data.node.dept_idx, expanded: data.expanded };
     }
     setTreeExpanded(arr);
   }
@@ -284,7 +282,7 @@ const WgroupDeptPage = (props) => {
   const inputChange = (data) => {
     setInputs({
       ...inputs,
-      treedata:setTreeData(data)
+      treedata: setTreeData(data)
     })
   }
 
@@ -304,104 +302,100 @@ const WgroupDeptPage = (props) => {
         navigateTo={navigateTo}
       />
       <div className='content_body'>
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: 40,
-          alignItems: 'center',
-        }}>
-        <div style={{ width: '50%' }}><span>조직도 분류</span>&nbsp;<ExclamationCircleOutlined /> </div>
-        <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              regiDept({ dept_name: '부서', parent_idx: 0, level: 1 });
-            }}
 
-
-          >대분류등록</Button>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <p style={{ color: '#333', fontSize: 14 }}> 조직도 분류 &nbsp;
+            <Tooltip title={'tooltip'}>
+              <Info />
+            </Tooltip>
+          </p>
+          <p style={{ marginLeft: 'auto' }}>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                regiDept({ dept_name: '부서', parent_idx: 0, level: 1 });
+              }}> 대분류 등록</Button>
+          </p>
         </div>
-      </div>
-      <Divider style={{ margin: 5 }} />
-      {(inputs.treedata.length > 0) &&      
-      <div style={{height:window.innerHeight}}>        
-       <SortableTree
-            theme={FileExplorerTheme}
-            rowHeight={50}
-            scaffoldBlockPxWidth={(isMobile)?25:44}
-            treeData={inputs.treedata}
-            onChange={updateTreeData}
-            onVisibilityToggle={updateTreeExpanded}
-            maxDepth={3}
-            canDrag={false}
-            canDrop={false}
-            isVirtualized={true}
-            generateNodeProps={({ node, path }) => ({
-              title: (
-                <TreeInput
-                  key={node.dept_idx}
-                  text={node.title}
-                  style={{ fontSize: 12, color:'#666666', border:'none', width:150}}
-                  inputChange={inputChange}
-                  inputFocusChange={handleInputFocus}
-                  dept_idx={node.dept_idx}
+        <Divider style={{ margin: 5 }} />
+        {(inputs.treedata.length > 0) &&
+          <div style={{ height: window.innerHeight }}>
+            <SortableTree
+              theme={FileExplorerTheme}
+              rowHeight={50}
+              scaffoldBlockPxWidth={(isMobile) ? 25 : 44}
+              treeData={inputs.treedata}
+              onChange={updateTreeData}
+              onVisibilityToggle={updateTreeExpanded}
+              maxDepth={3}
+              canDrag={false}
+              canDrop={false}
+              isVirtualized={true}
+              generateNodeProps={({ node, path }) => ({
+                title: (
+                  <TreeInput
+                    key={node.dept_idx}
+                    text={node.title}
+                    style={{ fontSize: 12, color: '#666666', border: 'none', width: 150 }}
+                    inputChange={inputChange}
+                    inputFocusChange={handleInputFocus}
+                    dept_idx={node.dept_idx}
 
-                />
-              ),
-              buttons:[
-                <CheckOutlined
-                  style={{
-                    position: 'relative',
-                    fontSize: 16,
-                    color:'#777777',
-                    top: -2,
-                    marginLeft: 10,
-                  }}
+                  />
+                ),
+                buttons: [
+                  <CheckOutlined
+                    style={{
+                      position: 'relative',
+                      fontSize: 16,
+                      color: '#777777',
+                      top: -2,
+                      marginLeft: 10,
+                    }}
 
-                  onClick={(e) => {
-                    updDept({ dept_idx: node.dept_idx, dept_name: node.title })
-                  }}
-                />, 
-                (node.lvl != 3) &&
-                <PlusSquareOutlined
-                  style={{
-                    position: 'relative',
-                    fontSize: 16,
-                    color:'#777777',
-                    top: -2,
-                    marginLeft: 10,
-                  }}
+                    onClick={(e) => {
+                      updDept({ dept_idx: node.dept_idx, dept_name: node.title })
+                    }}
+                  />,
+                  (node.lvl != 3) &&
+                  <PlusSquareOutlined
+                    style={{
+                      position: 'relative',
+                      fontSize: 16,
+                      color: '#777777',
+                      top: -2,
+                      marginLeft: 10,
+                    }}
 
-                  onClick={(e) => {
-                    
-                    regiDept({ dept_name: '부서', parent_idx: node.dept_idx, level: (node.lvl + 1) })
+                    onClick={(e) => {
 
-                  }}
-                />,
-                <MinusSquareOutlined
-                  style={{
-                    position: 'relative',
-                    fontSize: 16,
-                    color:'#777777',
-                    top: -2,
-                    marginLeft: 10,
-                  }}
+                      regiDept({ dept_name: '부서', parent_idx: node.dept_idx, level: (node.lvl + 1) })
 
-                  onClick={(e) => {
-                    
-                    delDept({ dept_idx: node.dept_idx })
-                    
-                  }}
-                />,
-              ]
-            })}
-          />
+                    }}
+                  />,
+                  <MinusSquareOutlined
+                    style={{
+                      position: 'relative',
+                      fontSize: 16,
+                      color: '#777777',
+                      top: -2,
+                      marginLeft: 10,
+                    }}
+
+                    onClick={(e) => {
+
+                      delDept({ dept_idx: node.dept_idx })
+
+                    }}
+                  />,
+                ]
+              })}
+            />
 
 
-      </div>
-      }
-      <Divider style={{ margin:10 }} />
+          </div>
+        }
+        <Divider style={{ margin: 10 }} />
       </div>
     </>
   );
