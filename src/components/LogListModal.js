@@ -3,7 +3,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getTemporaryLogLists, getTemporaryLogList, deleteTemporaryLogList } from 'redux/actions';
 import { withRouter } from 'react-router-dom';
-// import { Checkbox, Divider } from 'antd'
+import { Divider } from 'antd';
+import { base64Dec, base64Enc } from "constants/commonFunc";
 
 const LogListModal = (props) => {
   const {
@@ -27,7 +28,7 @@ const LogListModal = (props) => {
     const data = {
       stemp_idx: stemp_idx
     }
-    props.history.push(`/main/upload/${stemp_idx}`)
+    props.history.push(`/main/upload/${base64Enc(stemp_idx)}`)
     setModal(!modal);
     props.getTemporaryLogList(data)
   }
@@ -38,14 +39,23 @@ const LogListModal = (props) => {
     }
     props.deleteTemporaryLogList(data)
   }
-
+  // 임시저장 리스트(여러개) 불러오기
   useEffect(() => {
     props.getTemporaryLogLists();
-  }, [])
+  }, [props.posttempres])
 
+  // 임시저장함에서 가져온 후 리스트(여러개) 불어오기
   useEffect(() => {
     props.getTemporaryLogLists();
-  }, [props.deletetemporaryLogresponse])
+  }, [props.temporaryloglistresponse])
+
+  // 자동 저장 후 리스트(어려개) 불러오기
+  useEffect(() => {
+    if (!props.postautoresponse) {
+      props.getTemporaryLogLists();
+    }
+  }, [props.postautoresponse])
+
   return (
     <div>
       <button className='btn btn-dark' onClick={handleOnClick} style={{ cursor: 'pointer' }}>
@@ -60,10 +70,11 @@ const LogListModal = (props) => {
             props.temporaryLoglists.map((v, index) => {
               return (
                 <ul style={{ cursor: 'pointer', display: 'block' }} onClick={() => getLogList(v.stemp_idx)} >
-                  <li key={v.stemp_idx + '_log'} id={v.stemp_idx} >{v.title}</li>
+                  <li style={{ fontSize: '16px' }} key={v.stemp_idx + '_log'} id={v.stemp_idx} ><strong>{v.title}</strong></li>
                   <span >{v.meeting_date}&nbsp;</span>
                   <span >{v.meeting_etime}</span>
-                  <div style={{ backgroundColor: 'black', height: '1px' }}></div>
+                  {/* <div style={{ backgroundColor: 'black', height: '1px' }}></div> */}
+                  <Divider />
                 </ul>
               )
             })}
@@ -72,8 +83,8 @@ const LogListModal = (props) => {
             props.temporaryLoglists.map((v, index) => {
               return (
                 <ul style={{ display: 'block' }}  >
-                  <div style={{ display: 'flex' }}>
-                    <li key={v.stemp_idx + '_log'} id={v.stemp_idx} >{v.title}</li>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <li style={{ fontSize: '16px' }} key={v.stemp_idx + '_log'} id={v.stemp_idx} ><strong>{v.title}</strong></li>
                     <img onClick={() => deleteLogList(v.stemp_idx)}
                       style={{ cursor: 'pointer' }}
                       src={require('assets/icons/delete.png')}
@@ -83,7 +94,8 @@ const LogListModal = (props) => {
 
                   <span >{v.meeting_date}&nbsp;</span>
                   <span >{v.meeting_etime}</span>
-                  <div style={{ backgroundColor: 'black', height: '1px' }}></div>
+                  {/* <div style={{ backgroundColor: 'black', height: '1px' }}></div> */}
+                  <Divider />
                 </ul>
               )
             })}
@@ -102,8 +114,8 @@ const LogListModal = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { temporaryLoglists, temporaryLoglist, temporaryloglistresponse, deletetemporaryLogresponse } = state.SalesLog;
-  return { temporaryLoglists, temporaryLoglist, temporaryloglistresponse, deletetemporaryLogresponse };
+  const { temporaryLoglists, temporaryLoglist, temporaryloglistresponse, deletetemporaryLogresponse, posttempres, postautoresponse } = state.SalesLog;
+  return { temporaryLoglists, temporaryLoglist, temporaryloglistresponse, deletetemporaryLogresponse, posttempres, postautoresponse };
 };
 
 const mapStateToDispatch = {

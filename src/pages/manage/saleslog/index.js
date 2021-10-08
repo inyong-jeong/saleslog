@@ -11,7 +11,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ResponsivePie } from '@nivo/pie';
 import NeedsCard from 'components/NeedsCard'
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { base64Dec } from "constants/commonFunc";
+import { base64Dec, base64Enc } from "constants/commonFunc";
 import { useDispatch } from 'react-redux'
 
 function SalesLog(props) {
@@ -28,11 +28,11 @@ function SalesLog(props) {
   const [logneedslist, setLogNeedsList] = useState([])
 
   const body = {
-    slog_idx: props.match.params.id
+    slog_idx: base64Dec(props.match.params.id)
   }
 
   const data = {
-    sidx: props.match.params.id
+    sidx: base64Dec(props.match.params.id)
   }
   const [Log, setLog] = useState(null)
   // const Log = props.log ? props.log[0] : null
@@ -93,7 +93,7 @@ function SalesLog(props) {
 
   //마운트 될 떄, 댓글리스트, 로그리스트, 프로필 받아오기.
   useEffect(() => {
-    if (props.match.params.id) {
+    if (base64Dec(props.match.params.id)) {
       props.getLogList(data)
       props.getCommentLists(body)
       props.getprofile()
@@ -247,7 +247,10 @@ function SalesLog(props) {
 
   return (
     <>
-      <MyAppBar barTitle={'영업일지 상세'} showBackButton navigateTo={handleOnBack} onEditClick={handleOnRevise} />
+      <MyAppBar barTitle={'영업일지 상세'} showBackButton
+        navigateTo={handleOnBack}
+        onEditClick={handleOnRevise}
+      />
       <div className='content_body'>
         <Row>
           <Col>
@@ -289,9 +292,14 @@ function SalesLog(props) {
                   <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
                 </li>
                 <li >
-                  <img
-                    src={require('assets/icons/profile.png')}
-                    alt='document_icon' /><p>공동 작성자 현황</p>
+                  <div style={{ display: 'flex' }}>
+                    <img
+                      src={require('assets/icons/profile.png')}
+                      alt='document_icon' />
+                    <span>&nbsp;</span>
+                    <p style={{ marginTop: '2px' }}>공동 작성자 현황</p>
+                  </div>
+
                   {props.logcouser && props.logcouser.map(v => {
                     return (
                       <div className='mt-1' style={{ display: 'flex' }} >
@@ -418,7 +426,7 @@ const mapStateToDispatch = {
   getprofile: getprofile.call,
   putFile: putFile.call,
   deleteFile: deleteFile.call,
-  clearLog
+  clearLog,
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLog);

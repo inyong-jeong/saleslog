@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import {
   postSalesLog, selectAccounts, selectAccountperson,
-  postTemporarySalesLog, uploadFile, getUserList, getLogList, clearLog, putSalesLog, clearTempLog
+  postTemporarySalesLog, uploadFile, getUserList, getLogList,
+  clearLog, putSalesLog, clearTempLog, postAutoSalesLog
 } from 'redux/actions';
 import { errorMessage } from "constants/commonFunc";
 import { useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import StyledSelect from 'components/styledcomponent/StyledSelect';
+import { base64Dec, base64Enc } from "constants/commonFunc";
 
 import Divider from 'components/Divider'
 import { TimePicker, Radio, DatePicker, Input, Tooltip } from 'antd';
@@ -19,6 +21,7 @@ import CustomerModal from 'components/CustomerModal'
 import moment from 'moment';
 import { ReactComponent as Info } from 'assets/icons/info.svg'
 import 'moment/locale/ko';
+import { useIdleTimer } from 'react-idle-timer'
 
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
@@ -50,13 +53,7 @@ const leadActivityOption =
 
 function UploadSalesLog(props) {
 
-
   const dispatch = useDispatch()
-
-  //고객 밸류
-
-  //일지 수정 disable state
-
   //일지 등록 스테이트
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
@@ -70,23 +67,17 @@ function UploadSalesLog(props) {
   const [couser, setCoUser] = useState([])
   const [couserlist, setCoUserList] = useState('');
 
-
-
   const InputStyle = { border: '1px solid #AAAAAA' }
   const [selectedFiles, setSelectedFiles] = useState(undefined);
   const [message, setMessage] = useState("");
   const [error, setError] = useState();
-
-
   //날짜 스테이트
-
   const [dateString, setDateString] = useState(moment());
   const [start, setStart] = useState(moment());
   const [end, setEnd] = useState(moment());
-
-
   const { TextArea } = Input;
-  const temporaryLogListId = props.temporaryLoglist ? props.temporaryLoglist[0] : null
+
+  const id = props.match.params.id && base64Dec(props.match.params.id);
 
   function getCousrList(v) {
     let result = []
@@ -96,33 +87,32 @@ function UploadSalesLog(props) {
     return result;
   }
 
+  //자동 저장
+  const handleOnIdle = event => {
+    if (getLastActiveTime()) {
+      props.postAutoSalesLog(fromData)
+    }
+  }
+  const { getLastActiveTime } = useIdleTimer({
+    timeout: 20000,
+    onIdle: handleOnIdle,
+  })
+
   useEffect(() => {
     //고객사 fetch
     props.selectAccounts({ sales_gb: radiocheck });
     // log load
-    if (props.match.params.id && props.temporaryloglistresponse === false) {
+    if (id && props.temporaryloglistresponse === false) {
       const data = {
-        sidx: props.match.params.id
+        sidx: id
       }
       props.getLogList(data)
     }
   }, [])
 
-  // useEffect(() => {
-  //   if (props.accountslist) {
-  //     if (props.match.params.id) {
-  //       const data = {
-  //         sidx: props.match.params.id
-  //       }
-  //       props.getLogList(data)
-  //       setSelectedAccount(null)
-  //     }
-  //   }
-  // }, [props.accountslist])
-
-
   useEffect(() => {
     if (props.log) {
+      //데이터 set
       setSelectedAccount(props.log.acc_idx)
       setSelectedAccountPerson(props.log.accm_idx)
       setLeadActivity(props.log.sales_lead_gb)
@@ -134,7 +124,7 @@ function UploadSalesLog(props) {
       setFromData({
         acc_idx: props.log.acc_idx,
         accm_idx: props.log.accm_idx,
-        slog_idx: props.match.params.id,
+        slog_idx: id,
         title: props.log.title,
         log: props.log.log,
         addr: props.log.addr,
@@ -148,7 +138,6 @@ function UploadSalesLog(props) {
         lati: props.log.lati,
         longi: props.log.longi,
       })
-      console.log(fromData)
     }
     return () => { props.clearLog() }
   }, [props.log])
@@ -156,30 +145,31 @@ function UploadSalesLog(props) {
   //임시저장
   useEffect(() => {
     if (props.temporaryLoglist) {
-      setSelectedAccount(props.temporaryLoglist[0].acc_idx)
-      setSelectedAccountPerson(props.temporaryLoglist[0].accm_idx)
-      setLeadActivity(props.temporaryLoglist[0].sales_lead_gb)
-      setActivity(props.temporaryLoglist[0].sales_goal)
-      setChannel(props.temporaryLoglist[0].sales_activity)
-      setDateString(moment(new Date(props.temporaryLoglist[0].meeting_date)));
-      setStart(moment(new Date(`2021-09-18 ${props.temporaryLoglist[0].meeting_stime}`)));
-      setEnd(moment(new Date(`2021-09-18 ${props.temporaryLoglist[0].meeting_etime}`)));
+      setSelectedAccount(props.temporaryLoglist.acc_idx === 0 ? null : props.temporaryLoglist.acc_idx)
+      setSelectedAccountPerson(props.temporaryLoglist.accm_idx === 0 ? null : props.temporaryLoglist.accm_idx)
+      setLeadActivity(props.temporaryLoglist.sales_lead_gb === 'null' ? null : props.temporaryLoglist.sales_lead_gb)
+      setActivity(props.temporaryLoglist.sales_goal === 'null' ? null : props.temporaryLoglist.sales_goal)
+      setChannel(props.temporaryLoglist.sales_activity === 'null' ? null : props.temporaryLoglist.sales_activity)
+      setDateString(moment(new Date(props.temporaryLoglist.meeting_date)));
+      setStart(moment(new Date(`2021-09-18 ${props.temporaryLoglist.meeting_stime}`)));
+      setEnd(moment(new Date(`2021-09-18 ${props.temporaryLoglist.meeting_etime}`)));
       setFromData({
-        acc_idx: props.temporaryLoglist[0].acc_idx,
-        accm_idx: props.temporaryLoglist[0].accm_idx,
-        slog_idx: props.match.params.id,
-        title: props.temporaryLoglist[0].title,
-        log: props.temporaryLoglist[0].log,
-        addr: props.temporaryLoglist[0].addr,
-        sales_gb: props.temporaryLoglist[0].sales_gb,
-        sales_lead_gb: props.temporaryLoglist[0].sales_lead_gb,
-        sales_goal: props.temporaryLoglist[0].sales_goal,
-        sales_activity: props.temporaryLoglist[0].sales_activity,
-        meeting_date: props.temporaryLoglist[0].meeting_date,
-        meeting_stime: props.temporaryLoglist[0].meeting_stime,
-        meeting_etime: props.temporaryLoglist[0].meeting_etime,
-        lati: props.temporaryLoglist[0].lati,
-        longi: props.temporaryLoglist[0].longi,
+        acc_idx: props.temporaryLoglist.acc_idx,
+        accm_idx: props.temporaryLoglist.accm_idx,
+        title: props.temporaryLoglist.title,
+        log: props.temporaryLoglist.log,
+        addr: props.temporaryLoglist.addr,
+        sales_gb: props.temporaryLoglist.sales_gb,
+        sales_lead_gb: props.temporaryLoglist.sales_lead_gb === 'null' ? null : props.temporaryLoglist.sales_lead_gb,
+        sales_goal: props.temporaryLoglist.sales_goal === 'null' ? null : props.temporaryLoglist.sales_goal,
+        sales_activity: props.temporaryLoglist.sales_activity === 'null' ? null : props.temporaryLoglist.sales_activity,
+        meeting_date: props.temporaryLoglist.meeting_date,
+        meeting_stime: props.temporaryLoglist.meeting_stime,
+        meeting_etime: props.temporaryLoglist.meeting_etime,
+        lati: props.temporaryLoglist.lati,
+        longi: props.temporaryLoglist.longi,
+        score: props.temporaryLoglist.score,
+        cousers: props.temporaryLoglist.cousers
       })
       console.log(fromData)
     }
@@ -187,10 +177,8 @@ function UploadSalesLog(props) {
   }, [props.temporaryloglistresponse])
 
   const [fromData, setFromData] = useState({
-    // acc_idx: (!selectedAccount.value) ? 0 : selectedAccount.value,
-    // accm_idx: (!accountspersonList.value) ? 0 : accountspersonList.value,
-    acc_idx: '',
-    accm_idx: '',
+    acc_idx: 0,
+    accm_idx: 0,
     sales_gb: radiocheck,
     sales_lead_gb: leadactivity,
     sales_goal: activity,
@@ -236,6 +224,8 @@ function UploadSalesLog(props) {
   }, [props.postCustomerResponse])
 
   console.log(fromData);
+
+  // 고객 담당자 불러오기
   useEffect(() => {
     if (selectedAccount) {
       const accountperson = {
@@ -350,6 +340,16 @@ function UploadSalesLog(props) {
     setCoUser(couser.concat(couserlists))
     setCoUserList(user_name);
   }
+
+  //공동작성자 
+
+  function getFields(input, field) {
+    let output = [];
+    for (let i = 0; i < input.length; ++i)
+      output.push(input[i][field]);
+    return output;
+  }
+
   useEffect(() => {
     if (couser) {
       const result = getFields(couser, 'id')
@@ -362,16 +362,11 @@ function UploadSalesLog(props) {
     props.history.push('/main/manage');
   };
 
-  function getFields(input, field) {
-    let output = [];
-    for (let i = 0; i < input.length; ++i)
-      output.push(input[i][field]);
-    return output;
-  }
+
 
   // 일지 작성
   const onFormSubmit = () => {
-    if (fromData.acc_idx === '' || fromData.accm_idx === '') {
+    if (fromData.acc_idx === 0 || fromData.accm_idx === 0) {
       return errorMessage('고객, 고객 담당자는 필수항목입니다.')
     }
     if (fromData.sales_goal === null || fromData.sales_activity === null) {
@@ -380,17 +375,12 @@ function UploadSalesLog(props) {
     if (fromData.title === '' || fromData.log === '') {
       return errorMessage('제목, 내용은 필수항목입니다.')
     }
-    const result = getFields(couser, 'id');
-    setFromData({
-      ...fromData,
-      'cousers': result
-    })
     props.postSalesLog(fromData)
   }
   //일지 수정
 
   const onFormRevise = () => {
-    if (fromData.acc_idx === '' || fromData.accm_idx === '') {
+    if (fromData.acc_idx === 0 || fromData.accm_idx === 0) {
       return errorMessage('고객, 고객 담당자는 필수항목입니다.')
     }
     if (fromData.sales_goal === null || fromData.sales_activity === null) {
@@ -404,30 +394,17 @@ function UploadSalesLog(props) {
 
   //일지 임시저장
   const onFormTemporarySubmit = () => {
-    if (fromData.acc_idx === '' || fromData.accm_idx === '') {
-      return errorMessage('고객, 고객 담당자는 필수항목입니다.')
-    }
-    if (fromData.sales_goal === null || fromData.sales_activity === null) {
-      return errorMessage('영업 목적, 영업채널은 필수항목입니다.')
-    }
-    if (fromData.title === '' || fromData.log === '') {
-      return errorMessage('제목, 내용은 필수항목입니다.')
-    }
-    const result = getFields(couser, 'id');
-    setFromData({
-      ...fromData,
-      'cousers': result
-    })
+    delete fromData.fileup;
     props.postTemporarySalesLog(fromData)
-
   }
   const [lists, setLists] = useState([
   ]);
 
-  const handleonInsert = (name, login_idx) => {
+  const handleonInsert = (name, login_idx, thumb_url) => {
     const list = {
       id: login_idx,
       name,
+      thumb_url
     };
     setLists(lists.concat(list));
   };
@@ -453,7 +430,6 @@ function UploadSalesLog(props) {
   }
 
   const onAccountSelectChange = (v, actiontype) => {
-    console.log(v)
     setSelectedAccountPerson(null)
     setSelectedAccount(v);
     setFromData({
@@ -478,6 +454,7 @@ function UploadSalesLog(props) {
     display: 'block',
   }
 
+  //bottom bar 안보기에 
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
@@ -490,7 +467,7 @@ function UploadSalesLog(props) {
       <MyAppBar
         barTitle={'일지 쓰기'}
         showBackButton
-        paramId={props.match.params.id}
+        paramId={id}
         onRevise={onFormRevise}
         onSaveClick={onFormSubmit}
         navigateTo={handleOnBack}
@@ -590,6 +567,7 @@ function UploadSalesLog(props) {
         {radiocheck === '0010002' ?
           <div className="row">
             <div className="col-12">
+              <label style={labelStyle}> 리드 단계 <span style={{ color: 'red' }}>*</span></label>
               <StyledSelect
                 isSearchable={false}
                 isDisabled={true}
@@ -692,7 +670,9 @@ function UploadSalesLog(props) {
         <div className="row" style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 2px 0px 2px' }}>
           <label style={labelStyle}> 내용 <span style={{ color: 'red' }}>*</span></label>
 
-          {!props.match.params.id ? <LogListModal buttonLabel='임시저장함' /> : <></>}
+          {!id ? <LogListModal buttonLabel='임시저장함' /> : <></>}
+          {(id ? id.length < 3 : false) && <LogListModal buttonLabel='임시저장함' />}
+
 
         </div>
         <div className="mt-2"></div>
@@ -704,36 +684,36 @@ function UploadSalesLog(props) {
             onChange={onChangeContent}
           />
         </div>
-        {!props.match.params.id ? <div className="row ml-1 mr-1 mt-1" style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div >
-            <img src={require('assets/icons/clip.png')} alt='clip_logo' />
-            <input type='file' id='input-file' onChange={selectFile} multiple />
-
+        <div className='mt-1'></div>
+        {!id ? <>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+              <img src={require('assets/icons/clip.png')} alt='clip_logo' />
+              <input type='file' id='input-file' onChange={selectFile} multiple />
+            </div>
+            <div>
+              <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
+            </div>
           </div>
-          <div >
-            <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
+          <div ></div>
+          <div style={{ float: 'right' }}>
             <CouserList lists={lists} handleonRemove={handleonRemove} />
           </div>
-        </div> : <div className='mt-1'></div>}
-        {!props.match.params.id ? <div className="row">
-          <div className="col-12 d-flex justify-content-center">
-            {/* <button className="btn btn-primary" onClick={onFormSubmit} >
-              등록
-            </button>
-            <button className="btn btn-primary ml-2" onClick={onFormTemporarySubmit} >
-              임시저장
-            </button> */}
+        </> : <div className='mt-1'></div>}
+        {(id ? id.length < 3 : false) && <>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+            </div>
+            <div>
+              <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
+            </div>
           </div>
-        </div> :
-          // <div className="row">
-          //   <div className="col-12 d-flex justify-content-center">
-          //     <button className="btn btn-primary" onClick={onFormSubmit} >
-          //       수정
-          //     </button>
-          //   </div>
-          // </div>
-          null
-        }
+          <div ></div>
+          <div style={{ float: 'right' }}>
+            <CouserList lists={lists} handleonRemove={handleonRemove} />
+          </div>
+        </>}
+        <div className='mt-5'></div>
       </div >
     </React.Fragment >
   );
@@ -741,11 +721,12 @@ function UploadSalesLog(props) {
 
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
-  const { userList, temporaryLoglist, log, logcouser, temporaryloglistresponse } = state.SalesLog;
+  const { userList, temporaryLoglist, log, logcouser, temporaryloglistresponse, tempodone } = state.SalesLog;
   const { postCustomerResponse } = state.Customer
   return {
     accounts, userList, accountslist,
-    accountpersonlist, temporaryLoglist, log, logcouser, postCustomerResponse, temporaryloglistresponse
+    accountpersonlist, temporaryLoglist, log, logcouser,
+    postCustomerResponse, temporaryloglistresponse, tempodone
   };
 };
 const mapStateToDispatch = {
@@ -758,7 +739,8 @@ const mapStateToDispatch = {
   getLogList: getLogList.call,
   putSalesLog: putSalesLog.call,
   clearLog,
-  clearTempLog
+  clearTempLog,
+  postAutoSalesLog: postAutoSalesLog.call
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(UploadSalesLog);

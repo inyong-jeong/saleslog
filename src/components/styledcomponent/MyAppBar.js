@@ -25,6 +25,7 @@ import { useHistory } from 'react-router';
 import { removeAll } from 'helpers/authUtils';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { PanoramaFishEyeRounded } from '@material-ui/icons';
 
 const { confirm } = Modal;
 const useStyles = makeStyles({
@@ -66,9 +67,10 @@ const MyAppBar = ({
   badgeContent,
   deleteClick,
   onRevise,
-  paramId
-
+  paramId,
 }) => {
+
+
   const history = useHistory()
   const classes = useStyles()
   const isMobile = useMediaQuery({
@@ -207,14 +209,14 @@ const MyAppBar = ({
               </div>
             }
             {
-              (paramId && onRevise) &&
+              ((paramId ? paramId.length > 4 : false) && onRevise) &&
               <div className={classes.textButtonStyle}>
                 <Button size="small" onClick={onRevise} >
                   수정 완료
                 </Button>
               </div>
             }
-
+            {/* 일지 작성 할때  화면에 보이는 버튼 */}
             {
               (!paramId && tempSaveClick) &&
               <div className={classes.tempButtonStyle}>
@@ -223,7 +225,6 @@ const MyAppBar = ({
                 </Button>
               </div>
             }
-
             {
               (!paramId && onSaveClick) &&
               <div className={classes.textButtonStyle}>
@@ -232,6 +233,24 @@ const MyAppBar = ({
                 </Button>
               </div>
             }
+            {/* 일지 작성 할때 임시저장함에서 임시저장 리스트 불러온 후 화면에 보이는 버튼 */}
+            {
+              ((paramId ? paramId.length < 3 : false) && tempSaveClick) &&
+              <div className={classes.tempButtonStyle}>
+                <Button size="small" onClick={tempSaveClick} >
+                  임시저장
+                </Button>
+              </div>
+            }
+            {
+              ((paramId ? paramId.length < 3 : false) && onSaveClick) &&
+              <div className={classes.textButtonStyle}>
+                <Button size="small" onClick={onSaveClick} >
+                  저장
+                </Button>
+              </div>
+            }
+
 
             <Typography variant="h6"
               style={{ fontSize: 14, fontWeight: 'normal' }}>
@@ -261,3 +280,5 @@ const MyAppBar = ({
 }
 
 export default MyAppBar;
+
+            // {/* (!paramId || paramId ? paramId.length < 3 : false) */}

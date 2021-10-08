@@ -60,7 +60,7 @@ function LogList({ loglist, handleNextPage, loglists }) {
   line-height: 2rem;
 `;
   const handleLogClick = (loglist) => {
-    history.push(`/main/manage/saleslog/${loglist.slog_idx}`)
+    history.push(`/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`)
   }
   const SalesLogItem = ({ loglist }) => (
 
