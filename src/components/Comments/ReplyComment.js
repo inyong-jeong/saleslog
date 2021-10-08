@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import SingleComment from './SingleComment';
 
 function ReplyComment(props) {
 
+  // const state = useSelector(state => state.SalesLog)
+  // const commentres = state.commentres
   const [ChildCommentNumber, setChildCommentNumber] = useState(0)
   const [OpenReplyComments, setOpenReplyComments] = useState(false)
   useEffect(() => {
@@ -33,7 +36,11 @@ function ReplyComment(props) {
   const handleChange = () => {
     setOpenReplyComments(!OpenReplyComments)
   }
-
+  // useEffect(() => {
+  //   if (commentres) {
+  //     setOpenReplyComments(!OpenReplyComments)
+  //   }
+  // }, [commentres])
 
   return (
     <div>
@@ -41,7 +48,7 @@ function ReplyComment(props) {
       {ChildCommentNumber > 0 &&
         <p style={{ fontSize: '14px', margin: 0, color: 'gray', cursor: 'pointer' }}
           onClick={handleChange} >
-          답글 {ChildCommentNumber}개 더보기
+          {!OpenReplyComments ? `답글 ${ChildCommentNumber}개 더보기` : `답글 접기`}
         </p>
       }
 

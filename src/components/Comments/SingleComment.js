@@ -3,6 +3,9 @@ import { Comment, Avatar, Button, Input } from 'antd';
 import { connect } from 'react-redux';
 import { postComment, deleteComment, putComment, getprofile } from 'redux/actions';
 import { LaptopWindowsOutlined } from '@material-ui/icons';
+import cmm from 'constants/common';
+import moment from 'moment';
+
 
 const { TextArea } = Input;
 
@@ -28,47 +31,32 @@ function SingleComment(props) {
       parent_idx: props.idx
     }
     props.postComment(data)
+    setOpenReply(!OpenReply)
+
   }
 
   const OnDelete = () => {
 
-    if (props.comment.user_name !== props.profileinformation[0].user_name) {
-      window.alert('본인의 피드맥만 삭제할 수 있습니다.')
-    } else {
-      const body = {
-        fd_idx: props.idx
-      }
-      props.deleteComment(body)
+
+    const body = {
+      fd_idx: props.idx
     }
+    props.deleteComment(body)
+
   }
 
   const OnChange = () => {
-    console.log(1111, props.comment.user_name)
-    console.log(1111, props.profileinformation[0].user_name)
 
+    setOpenChange(!openchange)
 
-    if (props.comment.user_name !== props.profileinformation[0].user_name) {
-      window.alert('본인의 피드맥만 수정할 수 있습니다.')
-    } else {
-      setOpenChange(!openchange)
-    }
 
   }
 
   const actions = [
     <span onClick={openReply} key="comment-basic-reply-to">답글달기 </span>,
-    <span onClick={OnChange} key="comment-basic-delete-to">수정 </span>,
-    <span onClick={OnDelete} key="comment-basic-delete-to">삭제 </span>,
-
+    <>{props.comment.upd_yn === 'Y' && <span onClick={OnChange} key="comment-basic-delete-to">수정 </span>}</>,
+    <>{props.comment.del_yn === 'Y' && <span onClick={OnDelete} key="comment-basic-delete-to">삭제 </span>}</>,
   ]
-
-  useEffect(() => {
-    if (props.commentdelete) {
-
-    }
-  }, [props.commentdelete])
-
-
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -93,7 +81,7 @@ function SingleComment(props) {
         author={<div>{props.comment.user_name} {props.comment.title}</div>}
         avatar={
           <Avatar
-            src={props.comment.thumb_url}
+            src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + props.comment.thumb_url}
             alt="image"
           />
         }
@@ -101,14 +89,14 @@ function SingleComment(props) {
 
           openchange ?
             <>
-              <input type='text' value={CommentChangeValue} onChange={handleOnChange} />
-              <button onClick={handleOnSubmit}>변경</button>
+              <input style={{ border: '1px solid #9d9d9d' }} type='text' value={CommentChangeValue} onChange={handleOnChange} />
+              <button className='comment_submit' style={{ color: 'white', backgroundColor: 'black', border: 'none', height: '25.63px' }} onClick={handleOnSubmit}>변경</button>
             </> :
             <p>
               {props.comment.note}
             </p>
         }
-        datetime={props.comment.cre_dt}
+        datetime={moment(props.comment.cre_dt).format('YYYY-MM-DD HH:mm')}
       ></Comment>
 
 
@@ -118,10 +106,10 @@ function SingleComment(props) {
             style={{ width: '100%', borderRadius: '5px' }}
             onChange={handleChange}
             value={CommentValue}
-            placeholder="피드백 남기기"
+            placeholder="답글 남기기"
           />
           <br />
-          <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>제출</Button>
+          <Button style={{ width: '20%', height: '52px', backgroundColor: 'black', color: 'white' }} onClick={onSubmit}>게시</Button>
         </form>
       }
 
@@ -131,10 +119,10 @@ function SingleComment(props) {
 
 
 const mapStateToProps = (state) => {
-  const { commentdelete } = state.SalesLog;
+  const { commentdelete, commentres } = state.SalesLog;
   const { profileinformation } = state.Profile;
 
-  return { commentdelete, profileinformation };
+  return { commentdelete, profileinformation, commentres };
 };
 const mapStateToDispatch = {
   deleteComment: deleteComment.call,

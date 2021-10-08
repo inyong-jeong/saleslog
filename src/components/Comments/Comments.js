@@ -26,12 +26,13 @@ function Comments(props) {
       parent_idx: 0
     }
     props.postComment(data)
+    setComment('')
   }
 
   return (
-    <div>
+    <>
       <Collapse defaultActiveKey={['1']} ghost>
-        <Panel header={<div>피드백 {props.CommentLists.length}개</div>} key="1">
+        <Panel header={<div className='feedback mt-1' style={{ display: 'inline-block' }}><span style={{ verticalAlign: 'middle' }}>피드백 {props.CommentLists.length}개</span></div>} key="1">
           {props.CommentLists && props.CommentLists.map((comment, index) => (
             (!comment.parent_idx &&
               <React.Fragment>
@@ -50,16 +51,14 @@ function Comments(props) {
               placeholder="피드백 남기기"
             />
             <br />
-            <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>제출</Button>
+            <Button style={{ width: '20%', height: '52px', backgroundColor: 'black', color: 'white' }} onClick={onSubmit}>게시</Button>
           </form>
         </Panel>
       </Collapse>
       {/* <br />
       <p> 피드백 {props.CommentLists.length}개 보기</p>
       <hr /> */}
-
-
-    </div>
+    </>
   )
 }
 

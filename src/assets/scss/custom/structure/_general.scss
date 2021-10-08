@@ -120,6 +120,18 @@ hr {
   display: none;
 }
 
+//피드백 마우스 오버
+
+.feedback:hover {
+background-color: #F6F6F6;
+transition: 400ms ease-in-out;
+}
+
+// .comment_submit:hover{
+//   transform: scale(1.05);
+// transition: 400ms ease-in-out;
+// }
+
 //::-webkit-scrollbar { display: none; }
 
 
