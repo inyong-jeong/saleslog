@@ -17,7 +17,8 @@ import {
   DELETE_COMMENT,
   GET_COMMENT_LISTS,
   CLEAR_SALESLOG,
-  CLEAR_TEMP_LOG
+  CLEAR_TEMP_LOG,
+  POST_AUTO_SALESLOG
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -25,6 +26,7 @@ import { fetchActionGenerator } from '../utils';
 
 export const postSalesLog = fetchActionGenerator(POST_SALESLOG, 'data');
 export const postTemporarySalesLog = fetchActionGenerator(POST_TEMPORARY_SALESLOG, 'data');
+export const postAutoSalesLog = fetchActionGenerator(POST_AUTO_SALESLOG, 'data'); //자동 임시저장
 export const uploadFile = fetchActionGenerator(UPLOAD_FILE, 'data');
 export const getUserList = fetchActionGenerator(SELECT_USER_LIST, 'data');
 export const getTemporaryLogLists = fetchActionGenerator(GET_TEMPORARY_LISTS);
@@ -45,6 +47,7 @@ export const postComment = fetchActionGenerator(POST_COMMENT, 'data');
 export const putComment = fetchActionGenerator(PUT_COMMENT, 'data');
 export const deleteComment = fetchActionGenerator(DELETE_COMMENT, 'data');
 export const getCommentLists = fetchActionGenerator(GET_COMMENT_LISTS, 'data');
+
 
 export const clearLog = () => ({
   type: CLEAR_SALESLOG,

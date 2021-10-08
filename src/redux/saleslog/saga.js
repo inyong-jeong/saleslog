@@ -17,7 +17,8 @@ import {
   POST_COMMENT,
   PUT_COMMENT,
   DELETE_COMMENT,
-  GET_COMMENT_LISTS
+  GET_COMMENT_LISTS,
+  POST_AUTO_SALESLOG
 } from '../../constants/actionTypes';
 
 import {
@@ -36,7 +37,8 @@ import {
   postComment,
   putComment,
   deleteComment,
-  getCommentLists
+  getCommentLists,
+  postAutoSalesLog
 } from './actions';
 
 import {
@@ -55,9 +57,10 @@ function* _postSalesLog({ payload: { data } }) {
     const response = yield call(post_fetch_files, 'https://backend.saleslog.co/saleslog/regi_saleslog', data);
     yield put(postSalesLog.success(response));
     yield successMessage('일지가 등록되었습니다.')
-
   } catch (error) {
     yield put(postSalesLog.error(error));
+    yield errorMessage('일지가 등록에 실패했습니다.')
+
   }
 }
 
@@ -69,8 +72,22 @@ function* _postTemporarySalesLog({ payload: { data } }) {
 
   } catch (error) {
     yield put(postTemporarySalesLog.error(error));
+    yield errorMessage('일지가 임시저장에 실패했습니다.')
+
   }
 }
+
+function* _postAutoSalesLog({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_saleslog_temp_auto', data);
+    yield put(postAutoSalesLog.success(response));
+    yield successMessage('일지가 자동 임시저장 되었습니다.')
+  } catch (error) {
+    yield put(postAutoSalesLog.error(error));
+  }
+}
+
+
 
 function* _getUserList({ payload: { data } }) {
   try {
@@ -145,6 +162,8 @@ function* _putSalesLog({ payload: { data } }) {
 
   } catch (error) {
     yield put(putSalesLog.error(error));
+    yield errorMessage('일지수정에 실패했습니다.')
+
   }
 }
 
@@ -220,6 +239,10 @@ export function* watchPostTemporarySalesLog() {
   yield takeEvery(POST_TEMPORARY_SALESLOG, _postTemporarySalesLog);
 }
 
+export function* watchPostAutoSalesLog() {
+  yield takeEvery(POST_AUTO_SALESLOG, _postAutoSalesLog);
+}
+
 export function* watchGetUserList() {
   yield takeEvery(SELECT_USER_LIST, _getUserList);
 }
@@ -282,6 +305,7 @@ function* salesLogSaga() {
     //일지작성 관련
     fork(watchPostSalesLog),
     fork(watchPostTemporarySalesLog),
+    fork(watchPostAutoSalesLog),
     fork(watchGetUserList),
     fork(watchGetTemporaryLogLists),
     fork(watchGetTemporaryLogList),

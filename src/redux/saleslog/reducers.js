@@ -45,19 +45,22 @@ import {
   DELETE_FILE_SUCCESS,
   DELETE_FILE_ERROR,
   CLEAR_SALESLOG,
-  CLEAR_TEMP_LOG
-
-
+  CLEAR_TEMP_LOG,
+  POST_AUTO_SALESLOG,
+  POST_AUTO_SALESLOG_SUCCESS,
+  POST_AUTO_SALESLOG_ERROR
 } from '../../constants/actionTypes';
 
 
 
 const INIT_STATE = {
+  posttempres: false,
   submitLoading: false,
   userlist: [],
   temporaryLoglists: [],
   temporaryLoglist: null,
   temporaryloglistresponse: false,
+  tempodone: false,
   loglist: null,
   loglistcount: null,
   searchloglist: null,
@@ -79,6 +82,8 @@ const INIT_STATE = {
   putfileloading: false,
   putfileuploading: false,
   deletefileloading: false,
+  autoresponse: null,
+  postautoresponse: null
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
@@ -93,12 +98,18 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, postSalesLogResponse: action.payload.response, submitLoading: false };
     case POST_SALESLOG_ERROR:
       return { ...state, postSalesLogError: action.payload.error, submitLoading: false };
+    case POST_AUTO_SALESLOG:
+      return { ...state, submitLoading: true, postautoresponse: true };
+    case POST_AUTO_SALESLOG_SUCCESS:
+      return { ...state, autoresponse: action.payload.response, submitLoading: false, postautoresponse: false };
+    case POST_AUTO_SALESLOG_ERROR:
+      return { ...state, postSalesLogError: action.payload.error, submitLoading: false, postautoresponse: false };
     case POST_TEMPORARY_SALESLOG:
-      return { ...state, submitLoading: true };
+      return { ...state, submitLoading: true, posttempres: true };
     case POST_TEMPORARY_SALESLOG_SUCCESS:
-      return { ...state, postTemporarySalesLogResponse: action.payload.response, submitLoading: false };
+      return { ...state, postTemporarySalesLogResponse: action.payload.response, submitLoading: false, posttempres: false };
     case POST_TEMPORARY_SALESLOG_ERROR:
-      return { ...state, postTemporarySalesLogError: action.payload.error, submitLoading: false };
+      return { ...state, postTemporarySalesLogError: action.payload.error, submitLoading: false, posttempres: false };
     case SELECT_USER_LIST:
       return { ...state, submitLoading: true };
     case SELECT_USER_LIST_SUCCESS:
@@ -112,11 +123,11 @@ const SalesLog = (state = INIT_STATE, action) => {
     case GET_TEMPORARY_LISTS_ERROR:
       return { ...state, temporaryLoglisterror: action.payload.error };
     case GET_TEMPORARY_LIST:
-      return { ...state, submitLoading: true, temporaryloglistresponse: true };
+      return { ...state, submitLoading: true, temporaryloglistresponse: true, tempodone: true };
     case GET_TEMPORARY_LIST_SUCCESS:
-      return { ...state, temporaryLoglist: action.payload.response.message, temporaryloglistresponse: false };
+      return { ...state, temporaryLoglist: action.payload.response.message[0][0], temporaryloglistresponse: false, tempodone: true };
     case GET_TEMPORARY_LIST_ERROR:
-      return { ...state, temporaryLoglisterror: action.payload.error, submitLoading: false, temporaryloglistresponse: false };
+      return { ...state, temporaryLoglisterror: action.payload.error, submitLoading: false, temporaryloglistresponse: false, tempodone: false };
     case DELETE_TEMPORARY_LOG:
       return { ...state, submitLoading: true };
     case DELETE_TEMPORARY_LOG_SUCCESS:
