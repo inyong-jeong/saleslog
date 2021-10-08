@@ -13,7 +13,7 @@ import { Modal, Divider, Button, Avatar, Menu, Dropdown, Input } from 'antd';
 import { getWorkGroupInfo, getGroupMemberList, postGroupMemberOut } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { base64Enc } from 'constants/commonFunc';
-import { MemoryOutlined } from '@material-ui/icons';
+import { ReactComponent as MoreIcon } from '../../../assets/icons/workgroup/threeDots.svg'
 
 const { Search } = Input;
 const WgroupMemberPage = (props) => {
@@ -179,7 +179,7 @@ const WgroupMemberPage = (props) => {
                           <Button
                             key={login_idx}
                             type="link" >
-                            <EllipsisOutlined style={{ fontSize: 16, fontWeight: 800 }} />
+                            <MoreIcon />
                           </Button>
                         </Dropdown>
                       </div>
