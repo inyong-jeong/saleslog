@@ -172,15 +172,14 @@ const WgroupMemberPage = (props) => {
                               }} >내보내기
                               </Menu.Item>
                               <Divider dashed style={{ margin: 2 }} />
-                              <div style={{ fontSize: 12, padingLeft: 20, paddingTop: 10, paddingBottom: 10 }}>&nbsp;&nbsp;&nbsp;최근 접속시간: {item.upd_dt}</div>
+                              <div style={{ fontSize: 12, padding: '5px 0 0 0', color: '#333' }}>
+                                &nbsp;&nbsp;&nbsp; 최근 접속시간: {item.upd_dt}
+                              </div>
                             </Menu>}
                           placement="bottomRight"
                           trigger={['click', 'hover']} >
-                          <Button
-                            key={login_idx}
-                            type="link" >
-                            <MoreIcon />
-                          </Button>
+                          <MoreIcon />
+
                         </Dropdown>
                       </div>
                     </div>

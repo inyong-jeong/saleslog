@@ -114,7 +114,13 @@ const WgroupManagePage = () => {
         navigateNext={navigateNext}
       />
       <div className='content_body'>
-        <div style={{ cursor: 'pointer', marginTop: 10 }}>
+        <div style={{
+          cursor: 'pointer',
+          marginTop: 10,
+          color: '#333',
+          fontSize: 14,
+          fontWeight: 500
+        }}>
           <IconLabel title="정보 수정" pathUri="main/workgroup/update" src={<EditIcon />} />
           <Divider style={marginStyle} />
           <IconLabel title="맴버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
@@ -122,7 +128,16 @@ const WgroupManagePage = () => {
           <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
           <Divider style={marginStyle} />
         </div>
-        <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 19 }}>
+        <div style={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 19,
+          color: '#666',
+          fontSize: 14,
+          fontWeight: 500
+        }}>
           <IconLabel title="워크그룹 나가기" pathUri="main/workgroup/outwgroup" isIcon={false} />
           <div>&nbsp; |&nbsp; </div>
           <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false} />

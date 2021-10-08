@@ -22,7 +22,10 @@ const SupportPage = () => {
         navigateTo={navigateTo}
       />
       <div className='content_body'>
-        <FullTabs defaultActiveKey="1" onChange={onTabChange} >
+        <FullTabs
+          defaultActiveKey="1"
+          onChange={onTabChange}
+        >
           <TabPane tab='1:1 문의하기' key='1'>
             <InquiryPage />
           </TabPane>
