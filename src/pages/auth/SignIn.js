@@ -14,9 +14,9 @@ import { useCookies } from 'react-cookie';
 import { errorMessage, successMessage } from "constants/commonFunc";
 import cmm from 'constants/common';
 
-  
+
 const SignIn = (props) => {
-  const state = useSelector(state => state.Auth)  
+  const state = useSelector(state => state.Auth)
   const history = useHistory()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
@@ -30,16 +30,16 @@ const SignIn = (props) => {
   const [isSaveId, setIsSaveId] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(['userEmail']);
   const [inputs, setInputs] = useState({
-    username:(cookies.userEmail)?cookies.userEmail:'',
-    password:'',
-    platform:cmm.getPlatform()
+    username: (cookies.userEmail) ? cookies.userEmail : '',
+    password: '',
+    platform: cmm.getPlatform()
   })
 
   //페이지 첫 로딩
   useEffect(() => {
-    
-    if(cookies.userEmail !== undefined) {
-      setInputs({...inputs, username:cookies.userEmail})
+
+    if (cookies.userEmail !== undefined) {
+      setInputs({ ...inputs, username: cookies.userEmail })
     }
 
   }, []);
@@ -48,14 +48,14 @@ const SignIn = (props) => {
   //아이디저장 클릭
   const handleChecked = (e) => {
     setIsSaveId(e.target.checked);
-    if(!e.target.checked){
+    if (!e.target.checked) {
       removeCookie('userEmail');
     }
   }
 
   //Input change
-  const handelChange = (e) => {    
-    setInputs({...inputs, [e.target.id]:e.target.value})    
+  const handelChange = (e) => {
+    setInputs({ ...inputs, [e.target.id]: e.target.value })
   }
 
   // 로그인 버튼 클릭
@@ -68,7 +68,7 @@ const SignIn = (props) => {
 
     //아이디저장
     if (isSaveId) {
-      setCookie('userEmail', inputs.username, {maxAge: 60*60*24*30});
+      setCookie('userEmail', inputs.username, { maxAge: 60 * 60 * 24 * 30 });
     }
 
     e.preventDefault();
@@ -77,7 +77,7 @@ const SignIn = (props) => {
     const response_type = 'code';
     const grant_type = 'authorization_code';
     const state = 'myState';
-    
+
     dispatch(authorize.call(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform))
 
     //props.authorize(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform)
@@ -85,9 +85,9 @@ const SignIn = (props) => {
 
   // access token 
   const getAccessToken = (code) => {
-    console.log('getAccessToken::::::::::',code, cmm.CLIENT_SECRET, cmm.CLIENT_ID, grant_type)
+    console.log('getAccessToken::::::::::', code, cmm.CLIENT_SECRET, cmm.CLIENT_ID, grant_type)
     const grant_type = 'authorization_code';
-    dispatch(getOauthToken.call(code, cmm.CLIENT_SECRET,  cmm.CLIENT_ID, grant_type))
+    dispatch(getOauthToken.call(code, cmm.CLIENT_SECRET, cmm.CLIENT_ID, grant_type))
   }
 
 
@@ -104,25 +104,25 @@ const SignIn = (props) => {
 
   // 로그인 fetch 후 
   useEffect(() => {
-    console.log('로그인 응답 :::::::::::::::::',state.authcodeResponse)
+    console.log('로그인 응답 :::::::::::::::::', state.authcodeResponse)
 
-    if (!state.authcodeResponse){
+    if (!state.authcodeResponse) {
       return;
     }
 
     if (state.authcodeResponse.toString() == 'No User !!') {
       errorMessage('아이디 또는 비밀번호를 확인해 주세요');
-      setInputs({...inputs, password:''})      
-      state.authcodeResponse=null;
-      return; 
+      setInputs({ ...inputs, password: '' })
+      state.authcodeResponse = null;
+      return;
     } else {
-      console.log('로그인 시작::::::::::::',state.authcodeResponse)
+      console.log('로그인 시작::::::::::::', state.authcodeResponse)
       props.history.push('/authing');
       //getAccessToken(state.authcodeResponse.code);
-      state.authcodeResponse=null;
+      state.authcodeResponse = null;
       return;
     }
-    
+
   }, [state.authcodeResponse])
 
   // // getAccesToek fetch 후
@@ -140,7 +140,7 @@ const SignIn = (props) => {
   //     return; 
   //   } else {
   //     console.log('로그인 ::::::::::::',state.accesstokenResponse)
-      
+
   //     if (isUserAuthenticated()) {
   //       console.log('access Token :::::::::::::::::',getOauthAccessToken());
   //       history.push('/main');
@@ -151,7 +151,7 @@ const SignIn = (props) => {
   //     state.accesstokenResponse=null;
   //     return;
   //   }
-    
+
   // }, [state.accesstokenResponse])
 
 
@@ -224,7 +224,7 @@ const SignIn = (props) => {
                     onChange={handelChange}
                   />
                   <div>
-                    <Checkbox onChange={handleChecked} checked={isSaveId}><span style={{fontSize:12, color:'#a0a0a0'}}>아이지 저장</span></Checkbox>
+                    <Checkbox onChange={handleChecked} checked={isSaveId}><span style={{ fontSize: 12, color: '#a0a0a0' }}>아이디 저장</span></Checkbox>
                   </div>
 
                   <div className="form-group mt-3">
