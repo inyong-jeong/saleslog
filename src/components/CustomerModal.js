@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { postCustomer, postCustomerManger } from 'redux/actions';
 import { withRouter } from 'react-router-dom';
 import { Form, Input, Radio, Select } from 'antd';
+import { errorMessage } from "constants/commonFunc";
+
 
 const CustomerModal = (props) => {
   const {
@@ -64,7 +66,12 @@ const CustomerModal = (props) => {
   }
 
   const handleOnChange = () => {
-    if (accountbody.account_name === '' || accountbody.man_name === '' || accountbody.ceo_name === '' || accountbody.dept === '') {
+    console.log(1111)
+    if ((radiocheck === '0010001') &&
+      (accountbody.account_name === '' || accountbody.man_name === '' || accountbody.ceo_name === '' || accountbody.dept === '')) {
+      return alert('필수항목 누락입니다.')
+    } else if ((radiocheck === '0010002') &&
+      (accountbody.account_name === '' || accountbody.score === '' || accountbody.ceo_name === '')) {
       return alert('필수항목 누락입니다.')
     }
     props.postCustomer(accountbody);
@@ -154,7 +161,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label={<span >고객담당자<span style={{ color: 'red' }}>*</span></span>}
+              label={radiocheck === '0010001' ? <span >고객담당자<span style={{ color: 'red' }}>*</span></span> : <span>고객담당자</span>}
             >
               <Input
                 name='man_name'
@@ -163,7 +170,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label={<span >담당자부서<span style={{ color: 'red' }}>*</span></span>}
+              label={radiocheck === '0010001' ? <span >담당자부서<span style={{ color: 'red' }}>*</span></span> : <span>담당자부서</span>}
             >
               <Input
                 name='dept'

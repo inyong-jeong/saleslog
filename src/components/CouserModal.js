@@ -3,6 +3,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 import { putSalesLogCoUser, getUserList } from 'redux/actions';
+import { errorMessage, successMessage } from "constants/commonFunc";
+
 
 
 const CouserModal = (props) => {
@@ -16,27 +18,29 @@ const CouserModal = (props) => {
 
   const [value, setValue] = useState('');
   const [id, setId] = useState('');
+  const [thumburl, setThumbUrl] = useState('')
 
-  const options = props.userlist ? props.userlist.map((v) => ({ label: v.user_name + '/' + v.title + '/' + v.dept_name + ' ' + v.email, value: v.login_idx })) : undefined
+  const options = props.userlist ? props.userlist.map((v) => ({ label: v.user_name + ' ' + v.title + ' ' + v.dept_name + ' (' + v.email + ')', value: v.login_idx, url: v.thumb_url })) : undefined
   const toggle = () => setModal(!modal);
   const handleOnClick = () => {
     setModal(!modal);
   }
 
   const AddCoUser = (e) => {
-    props.handleonInsert(value, id)
+    props.handleonInsert(value, id, thumburl)
     setValue('');
+    setId('');
     setId('');
     e.preventDefault();
     props.SearchChange(input.value, input.label, input.dept_idx, input.title)
-    window.alert("공동작성자가 추가되었습니다.")
+    // successMessage("공동작성자가 추가되었습니다.")
     setModal(!modal);
   }
 
   const handleChange = (selectedOption) => {
     setValue(selectedOption.label);
     setId(selectedOption.value);
-
+    setThumbUrl(selectedOption.url)
     setInput(selectedOption);
   }
 
@@ -53,7 +57,7 @@ const CouserModal = (props) => {
   // }, [props.putSalesLogCoUserResponse]);
 
   return (
-    <div>
+    <>
       <label color="primary" onClick={handleOnClick} style={{ cursor: 'pointer' }}>
         <img className="ml-2" style={{ positon: 'fixed' }} src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
       </label>
@@ -73,7 +77,7 @@ const CouserModal = (props) => {
           <Button color="light" onClick={toggle}>취소</Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </>
   );
 }
 
