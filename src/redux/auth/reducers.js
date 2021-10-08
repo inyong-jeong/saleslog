@@ -88,9 +88,9 @@ const Auth = (state = INIT_STATE, action) => {
     case POST_WORKGROUP:
       return { ...state, email: action.payload.useremail };
     case POST_WORKGROUP_SUCCESS:
-      return { ...state, postworkgroupResponse: action.payload.response.message };
+      return { ...state, postworkgroupResponse: action.payload.response };
     case POST_WORKGROUP_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, postworkgroupResponse: action.payload.response };
     case POST_INVITE:
       return { ...state };
     case POST_INVITE_SUCCESS:

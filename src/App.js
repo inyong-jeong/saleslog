@@ -18,6 +18,7 @@ import { isUserAuthenticated, isUserAuthenticating } from "helpers/authUtils";
 
 // Themes
 import "./assets/scss/DefaultTheme.scss";
+import 'react-sortable-tree/style.css';
 
 // Lazy loading and code splitting -
 // Derieved idea from https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
