@@ -49,15 +49,14 @@ const NivoBarChart = (props) => {
         ]}
         fill={[]}
         borderColor={{ from: 'color', modifiers: [['brighter', 1.6]] }}
-        axisTop={null}
-        axisRight={null}
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
           legend: '',
           legendPosition: 'middle',
-          legendOffset: 32
+          legendOffset: 32,
+          //  tickValues: [1, 2, 3, 4, 5]
         }}
         axisLeft={{
           tickSize: 5,
@@ -67,12 +66,11 @@ const NivoBarChart = (props) => {
           legendPosition: 'middle',
           legendOffset: -40
         }}
+
         labelSkipWidth={12}
         labelSkipHeight={12}
-        labelTextColor={{ from: 'color', modifiers: [['brighter', 1.6]] }}
-        legends={[
+        labelTextColor="#ffffff"
 
-        ]}
       />
     </div>
   );
