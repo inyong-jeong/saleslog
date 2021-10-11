@@ -31,31 +31,32 @@ const AuthLayout = (props) => {
     props.checkAccessToken()
   }, [])
 
-  useEffect(() => {
-    if (props.accesstokenerror === '토큰만료') {
-      console.log('트큰만료:::::::::::::::::::::')
-      const client_id = cmm.CLIENT_ID;    // 'saleslog.co';
-      const client_secret = cmm.CLIENT_SECRET; // "8fba114f8291cf28e443c30aba7cce86";
-      const grant_type = "refresh_token";
-      props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
-    } else if (props.accesstokenerror === 'noToken') {
-      console.log('notoken::::::::::::::::::')
-      removeAll()
-      props.history.push('/signin')
-    }
-  }, [props.accesstokenerror])
+  // test
+  // useEffect(() => {
+  //   if (props.accesstokenerror === '토큰만료') {
+  //     console.log('트큰만료:::::::::::::::::::::')
+  //     const client_id = cmm.CLIENT_ID;    // 'saleslog.co';
+  //     const client_secret = cmm.CLIENT_SECRET; // "8fba114f8291cf28e443c30aba7cce86";
+  //     const grant_type = "refresh_token";
+  //     props.getRefreshOauthToken(getOauthRefreshToken(), client_id, client_secret, grant_type)
+  //   } else if (props.accesstokenerror === 'noToken') {
+  //     console.log('notoken::::::::::::::::::')
+  //     removeAll()
+  //     props.history.push('/signin')
+  //   }
+  // }, [props.accesstokenerror])
 
 
-  //리프레쉬 토큰이 만료됐을 때 타미오면 확인 요망
-  useEffect(() => {
-    if (props.refreshtokenresponse == 'invalid_grant') {
-      removeAll()
-      props.history.push('/signin')
-    } else if (props.refreshtokenresponse == 'ok') {
-      console.log('리프래시::::::::::::::::::: ',props.refreshtokenresponse)
-      window.location.reload();
-    }
-  }, [props.refreshtokenresponse])
+  // //리프레쉬 토큰이 만료됐을 때 타미오면 확인 요망
+  // useEffect(() => {
+  //   if (props.refreshtokenresponse == 'invalid_grant') {
+  //     removeAll()
+  //     props.history.push('/signin')
+  //   } else if (props.refreshtokenresponse == 'ok') {
+  //     console.log('리프래시::::::::::::::::::: ',props.refreshtokenresponse)
+  //     window.location.reload();
+  //   }
+  // }, [props.refreshtokenresponse])
 
   useEffect(() => {
     setisNaviShow(props.isShowNaviBar);

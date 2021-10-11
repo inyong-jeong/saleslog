@@ -46,8 +46,10 @@ export const oauthAuthorize = async (username, password, client_id, redirect_uri
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const oauthgetaccesstoken = async (code, client_secret, client_id, grant_type) => {
@@ -74,8 +76,10 @@ export const oauthgetaccesstoken = async (code, client_secret, client_id, grant_
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 
@@ -103,8 +107,11 @@ export const oauthgetrefreshaccesstoken = async (refresh_token, client_id, clien
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
+  
 }
 
 export const postFindPassword = async (email) => {
@@ -128,8 +135,10 @@ export const postFindPassword = async (email) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const postChangePassword = async (code, email, password) => {
@@ -156,8 +165,10 @@ export const postChangePassword = async (code, email, password) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })    
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const postAuthorizationNumber = async (email) => {
@@ -181,8 +192,10 @@ export const postAuthorizationNumber = async (email) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const postClientRegisteration = async (useremail, password, user_name) => {
@@ -208,8 +221,10 @@ export const postClientRegisteration = async (useremail, password, user_name) =>
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const postInviteEmail = async (login_id, invite_email, permission) => {
@@ -235,8 +250,10 @@ export const postInviteEmail = async (login_id, invite_email, permission) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const postInviteRegister = async (user_email, invite_code, user_name, user_password, use_name) => {
@@ -264,8 +281,10 @@ export const postInviteRegister = async (user_email, invite_code, user_name, use
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }
 
 export const postWorkGroupmodel = async (user_email, comp_name, comp_domain) => {
@@ -291,6 +310,8 @@ export const postWorkGroupmodel = async (user_email, comp_name, comp_domain) => 
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    }).then(response => response.json())
-  return response;
+    })
+    const result = await response.json()
+    const data = await result
+  return data;
 }

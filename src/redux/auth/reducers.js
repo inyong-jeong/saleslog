@@ -65,20 +65,22 @@ const Auth = (state = INIT_STATE, action) => {
     case OAUTH_AUTHORIZE_SUCCESS:
       return { ...state, authcodeResponse: action.payload.response.message };
     case OAUTH_AUTHORIZE_ERROR:
-      return { ...state, authcodeResponse: action.payload.response.message };
+      return { ...state, authcodeResponse: action.payload.error };
     // access token 받아오기
     case GET_OAUTH_TOKEN:
       return { ...state };
     case GET_OAUTH_TOKEN_SUCCESS:
+      console.log('GET_OAUTH_TOKEN_SUCCESS:',action.payload.response)
       return { ...state, accesstokenResponse: action.payload.response };
     case GET_OAUTH_TOKEN_ERROR:
-      return { ...state, accesstokenResponse: action.payload.response };
+      console.log('GET_OAUTH_TOKEN_ERROR:',action.payload.error)
+      return { ...state, accesstokenResponse: action.payload.error };
     case POST_AUTHNUMBER:
       return { ...state };
     case POST_AUTHNUMBER_SUCCESS:
       return { ...state, authNumberResponse: action.payload.response.message };
     case POST_AUTHNUMBER_ERROR:
-      return { ...state, authNumberResponse: action.payload.response.message };
+      return { ...state, authNumberResponse: action.payload.error };
     case POST_REGISTRATION:
       return { ...state, email: action.payload.useremail };
     case POST_REGISTRATION_SUCCESS:
@@ -90,13 +92,15 @@ const Auth = (state = INIT_STATE, action) => {
     case POST_WORKGROUP_SUCCESS:
       return { ...state, postworkgroupResponse: action.payload.response };
     case POST_WORKGROUP_ERROR:
-      return { ...state, postworkgroupResponse: action.payload.response };
+      return { ...state, postworkgroupResponse: action.payload.error };
     case POST_INVITE:
       return { ...state };
     case POST_INVITE_SUCCESS:
-      return { ...state, postinviteResponse: action.payload.response.message.state };
+      console.log('success::',action.payload);
+      return { ...state, postinviteResponse: action.payload.response };
     case POST_INVITE_ERROR:
-      return { ...state, error: action.payload };
+      console.log('error:::',action.payload);
+      return { ...state, postinviteResponse: action.payload.error };
     case FIND_PASSWORD:
       return { ...state };
     case FIND_PASSWORD_SUCCESS:

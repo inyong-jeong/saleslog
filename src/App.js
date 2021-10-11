@@ -16,6 +16,7 @@ import { routes } from "./routes";
 // setup fake backend
 import { isUserAuthenticated, isUserAuthenticating } from "helpers/authUtils";
 
+
 // Themes
 import "./assets/scss/DefaultTheme.scss";
 import 'react-sortable-tree/style.css';
@@ -24,7 +25,7 @@ import 'react-sortable-tree/style.css';
 // Derieved idea from https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const loading = () => (
   <div style={{ textAlign: 'center', height: '100vh', lineHeight: '100vh' }}>
-    <Spin size='large' tip='잠시만 기다려 주세요...' />
+    <Spin size='large' tip='★★★★★잠시만 기다려 주세요...a★' />
   </div>
 );
 
@@ -82,6 +83,7 @@ class App extends Component {
   }
 
   getLayout = () => {
+    console.log('App.js   ::::::::::::')
     if (isUserAuthenticating() === "true")
       return AuthenticatingLayout;
     return isUserAuthenticated() ? AuthLayout : NonAuthLayout;

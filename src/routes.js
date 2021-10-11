@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
 import { Route } from 'react-router-dom';
-import { isUserAuthenticated, removeAll } from './helpers/authUtils';
+import { isUserAuthenticated, removeAll, isAccessToken } from './helpers/authUtils';
 
 
 //로그인 관련 컴포넌트
@@ -72,6 +72,7 @@ const MyInquiryDetails = React.lazy(() => import('./pages/support/detail'))
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
+    console.log('LandingRoute::::::::::::', isTokenValid)
     if (props.match.path === '/' && isTokenValid) {
       // redirect to main
       return <Redirect to={{ pathname: '/main', state: { from: props.location } }} />
@@ -81,14 +82,36 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 );
 
 const MainRoute = ({ component: Component, roles, ...rest }) => (
-  <Route {...rest} render={props => {
-    const isTokenValid = isUserAuthenticated();
-    console.log(isTokenValid);
-    if (props.match.path.startsWith('/main') && !isTokenValid) {
+  <Route {...rest} render={props => {    
+    const isTokenValid =  isUserAuthenticated();
+    console.log('MainRoute::::::::::',isTokenValid);
+
+     if (isTokenValid) {
+      //토큰 만료 확인 및 갱신 
+      let isTokenOK =  isAccessToken().then((res) => {
+        console.log('routes:::: isTokenOK::::',res, isTokenOK)
+        if (res == 'NoToken') {
+          removeAll();
+          props.history.push('/signin')
+          
+        } else if (res == 'ReToken') {
+          //props.history.replace(props.history.location)
+          window.location.reload();          
+        } 
+      })
+      return <Component {...props} />
+      
+    } else {
       removeAll();
       return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
     }
-    return <Component {...props} />
+
+
+    // if (props.match.path.startsWith('/main') && !isTokenValid) {
+    //   removeAll();
+    //   return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
+    // }
+    // return <Component {...props} />
   }} />
 );
 

@@ -2,6 +2,38 @@ import { getOauthAccessToken, getOauthRefreshToken,removeAll } from 'helpers/aut
 import { useHistory } from 'react-router';
 import cmm from 'constants/common';
 
+
+
+//토큰 만료 확인 (authUtil 에서 호출)
+const check_token_fetch = async (url, token) => {
+  console.log('check_token_fetch:::시작')
+  try {
+    //엑세스 토큰 만료 확인 
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+      })
+      
+    const result = await response.json()
+    const data = await result
+    console.log('check_token_fetch:::완료',data)
+    
+    // if (data.success !== true) {
+    //   //throw new Error(data.message)
+    // }
+    
+    return data
+  } catch (error) {
+    return null;
+    //throw new Error(error)
+  }
+}
+
+
+
+
 //토큰 만료 확인
 const check_fetch = async (url) => {
   const token = await getOauthAccessToken();
@@ -13,6 +45,7 @@ const check_fetch = async (url) => {
     throw new Error('noToken')
   } 
 
+  //엑세스 토큰 만료 확인 
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -25,6 +58,7 @@ const check_fetch = async (url) => {
   if (data.success !== true) {
     throw new Error(data.message)
   }
+
   return data
 }
 
@@ -127,4 +161,4 @@ const post_fetch_files = async (url, data) => {
   return response
 }
 
-export { post_fetch, get_fetch, post_fetch_files, check_fetch }
+export { post_fetch, get_fetch, post_fetch_files, check_fetch, check_token_fetch }

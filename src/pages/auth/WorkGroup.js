@@ -5,7 +5,8 @@ import { getCi } from "helpers/domainUtils";
 import { regex } from 'constants/regex';
 import useInput from 'hooks/useInput';
 import { postRegisteration, postAuthNumber, postWorkGroup } from 'redux/actions';
-
+import cmm from 'constants/common';
+import { errorMessage, successMessage } from "constants/commonFunc";
 //import { proxyPath } from '@theklab/saleslog/src/proxy';
 
 import StyledCheckbox from 'components/styledcomponent/Checkbox'
@@ -27,9 +28,12 @@ function WorkGroup(props) {
   //조건 오류 상태 데이터
   const [compnameerror, setCompNameError] = useState();
   const [compdomainerror, setCompDomainError] = useState();
+  const [inviterEmail, setInviterEmail] = useState();
 
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
+
+    setInviterEmail(props.email);
 
     return () => {
       window.removeEventListener("resize", updateWindowDimensions);
@@ -72,11 +76,25 @@ function WorkGroup(props) {
 
   const handleOnSubmit = () => {
 
+    if (cmm.isEmpty(comp_name)) {
+      setCompNameError('워크그룹 이름을 입력하세요.')
+      return;
+    } else  {
+      setCompNameError('')
+    }
+
     if (comp_name.length >= 20) {
       setCompNameError('이름은 최대 20자 이내여야 합니다.')
       return;
     } else {
       setCompNameError('')
+    }
+
+    if (cmm.isEmpty(comp_domain)) {
+      setCompDomainError('워크그룹 URL을 입력하세요.')
+      return;
+    } else {
+      setCompDomainError('')
     }
 
     if (comp_domain.lengh >= 20) {
@@ -86,19 +104,28 @@ function WorkGroup(props) {
       setCompDomainError('');
     }
 
-    props.postWorkGroup(props.email, comp_name, comp_domain)
+    if (cmm.isEmpty(inviterEmail)) {
+      props.history.push('/signin');
+      return;
+    } else {
+      props.postWorkGroup(inviterEmail, comp_name, comp_domain)
+    }
 
   }
 
-  // const handleOnSubmit = () => {
-  //   // props.history.push('/invite');
-  //   console.log(props.email)
-  //   props.postWorkGroup(props.email, '생성', 'tesseasdsee')
+  useEffect(() => {
+    if (props.postworkgroupResponse) {
+      if (props.postworkgroupResponse.status && props.postworkgroupResponse.status !== 200){
+        //errorMessage(props.postworkgroupResponse.message)  
+        setCompDomainError('이미 사용중인 URL 입니다.');      
+      } else {
+        setCompDomainError('');
+        props.history.push('/invite');
+      }
+    }
+  }, [props.postworkgroupResponse]);
 
-
-  // }
-
-
+  
   // 컴포넌트 스타일링
 
   const ViewStyle = {
@@ -130,13 +157,12 @@ function WorkGroup(props) {
                 <form>
                   <div className='mb-3'>
                     <h4 style={{ textAlign: 'center', fontSize: 14, color: '#111' }}>
-                      <BdayLogo /> &nbsp; 동료들과 함께 일하고 소통할 워크스페이스를 만들어보세요!
-                    </h4>
+                      <BdayLogo />&nbsp;동료들과 함께 일하고 소통할 워크그룹를 만들어보세요!</h4>
                   </div>
                   <div style={{ margin: 10 }}>
                     <div className='mb-3' />
                     <h4 style={{ fontSize: 14, marginTop: 10, color: '#111', marginBottom: 5, }}>
-                      워크스페이스의 이름을 지어볼까요?
+                      워크그룹의 이름을 지어볼까요?
                     </h4>
                     <StyledInput
                       id="workgroup"
@@ -148,7 +174,7 @@ function WorkGroup(props) {
                     {compnameerror && <p className="text-danger mt-2">{compnameerror}</p>}
                     <div className='mt-3' />
                     <h4 style={{ fontSize: 14, marginTop: 10, color: '#111', marginBottom: 5, }}>
-                      워크스페이스의 URL 주소를 정해주세요.
+                      워크그룹의 URL 주소를 정해주세요.
                     </h4>
                     <StyledInput
                       style={{ width: '260px', fontSize: '14px' }}
@@ -163,7 +189,7 @@ function WorkGroup(props) {
                   </div>
                   <div className="form-group mt-3">
                     <h4 style={{ fontSize: 13, color: '#333', textAlign: 'center', margin: 20 }}>
-                      워크스페이스 이름과 URL 주소는 워크스페이스 설정페이지에서 언제든지변경할 수 있습니다.
+                      워크그룹 이름과 URL 주소는 워크그룹 설정페이지에서 언제든지변경할 수 있습니다.
                     </h4>
                   </div>
                   <div className="form-group">
@@ -185,8 +211,8 @@ function WorkGroup(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { authNumberResponse, authNumberError, email } = state.Auth;
-  return { authNumberResponse, authNumberError, email };
+  const { authNumberResponse, authNumberError, email, postworkgroupResponse } = state.Auth;
+  return { authNumberResponse, authNumberError, email, postworkgroupResponse };
 };
 
 const mapStateToDispatch = {

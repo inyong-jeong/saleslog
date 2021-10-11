@@ -4,7 +4,9 @@ import { Spin } from 'antd'
 import { getOauthToken, } from 'redux/actions';
 import { isUserAuthenticated, getOauthCode, isUserAuthorized } from 'helpers/authUtils';
 import { removeAll } from 'helpers/authUtils';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import { errorMessage, successMessage } from "constants/commonFunc";
+
 const AuthenticatingLayout = (props) => {
 
   const handletoken = () => {
@@ -14,7 +16,15 @@ const AuthenticatingLayout = (props) => {
     props.getOauthToken(getOauthCode(), client_secret, client_id, grant_type)
   }
 
+
   useEffect(() => {
+    console.log('authenticatingLayout::[]:a★★★:')
+    
+  }, [])
+
+
+  useEffect(() => {
+    console.log('isUserAuthorized()::::',isUserAuthorized())
     if (isUserAuthorized() === true) {
       handletoken();
     } else if (isUserAuthorized() === false) {
@@ -24,10 +34,24 @@ const AuthenticatingLayout = (props) => {
   }, [isUserAuthorized()])
 
   useEffect(() => {
+    console.log('isUserAuthenticated():토큰여부확인:::',isUserAuthenticated())
     if (isUserAuthenticated() === true) {
       props.history.push('/main');
     }
   }, [isUserAuthenticated()])
+
+  useEffect(() => {
+    console.log('accesstokenResponse()::::',props.accesstokenResponse)
+    if (props.accesstokenResponse) {
+      console.log('authing:::',props.accesstokenResponse)
+      if (props.accesstokenResponse == 'invalid_grant') {
+        errorMessage('인증코드 오류입니다. 다시 로그인 해 주세요')
+        props.history.push('/signin');
+      }
+    }
+  }, [props.accesstokenResponse])
+
+
 
   return (
     <div style={{ textAlign: 'center', height: '100vh', lineHeight: '100vh' }}>

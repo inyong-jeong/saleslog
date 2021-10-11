@@ -27,7 +27,7 @@ const SignUp = (props) => {
   const [firstname, onChangeFirstName] = useInput('');
   const [lastname, onChangeLastName] = useInput('')
   const [authnumber, onChangeAuthNumber] = useInput('')
-  const [myName, onChangeMyName] = useInput('')
+  const [user_name, onChangeUser_name] = useInput('')
 
   //조건 오류 상태 데이터
   const [term, setTerm] = useState(false)
@@ -50,7 +50,7 @@ const SignUp = (props) => {
   useEffect(() => {
 
     if (state.authNumberResponse) {
-      console.log('인증메일 :::::::::::::::::', state.authNumberResponse)
+      //console.log('인증메일 :::::::::::::::::', state.authNumberResponse)
       if (state.authNumberResponse == 'No Data !!') {
         setEmailError("이미 사용중인 메일입니다.");
       } else {
@@ -66,7 +66,7 @@ const SignUp = (props) => {
 
   // 함수 정의
   const onChangeTerm = useCallback((e) => {
-    console.log('checked : ', e.target.checked);
+    //console.log('checked : ', e.target.checked);
     setTerm(e.target.checked);
   }, []);
 
@@ -96,7 +96,7 @@ const SignUp = (props) => {
   }
 
   const handleOnSubmit = () => {
-    if (myName === '') {
+    if (user_name === '') {
       setUsernameerror('이름을 입력해 주세요.')
       return;
     } else {
@@ -141,7 +141,7 @@ const SignUp = (props) => {
       setTerm('')
     }
 
-    dispatch(postRegisteration.call(useremail, password, myName))
+    dispatch(postRegisteration.call(useremail, password, user_name))
     history.push('/workgroup');
 
   }
@@ -220,8 +220,8 @@ const SignUp = (props) => {
                       id="name"
                       title="이름"
                       placeholder="이름 입력"
-                      value={myName}
-                      onChange={onChangeMyName}
+                      value={user_name}
+                      onChange={onChangeUser_name}
                     />
                     {usernameerror && <p className="text-danger mt-2">{usernameerror}</p>}
                   </div>

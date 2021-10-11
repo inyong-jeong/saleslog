@@ -1,3 +1,6 @@
+import cmm from 'constants/common';
+import { check_token_fetch } from 'model/FetchManage'
+import { oauthgetrefreshaccesstoken } from 'model/auth'
 
 // export const isUserAuthenticated = () => {
 //   let userInfo = localStorage.getItem('tk-sso-token');
@@ -139,14 +142,98 @@ export const setOauthRefreshToken = (token) => {
 
 export const isUserAuthorized = () => {
   let userInfo = localStorage.getItem('auth-code');
-  console.log('인즈코드 여부 isUserAuthenticated:',userInfo);
+  console.log('인증코드 여부 isUserAuthorized:',userInfo);
   return (userInfo && userInfo !== 'undefined') ? true : false;
 }
 
+//Access Token 확인 (routes.js 에서 호출, 반환값:'NoToken', 'OkToke', 'ReToke' )
+export const isAccessToken = async () => {
+  let token = localStorage.getItem('oauth-token');
+  
+  console.log('토큰 여부 isUserAuthenticated:a★:::',token);
+
+  // 엑세스 토큰이 없는 경우 
+  if (token == null || token == '' || token == 'undefined' ){
+    return 'NoToken';
+  }
+
+  console.log('isUserAuthticated::: 엑세스 토큰 체크시작...');
+  //token = 'asdlasdkfjiefkdjifej' //test
+  // 엑세스 토큰이 만료 체크 
+  const res = await check_token_fetch(cmm.SERVER_API_URL + '/secure', token)
+  
+  console.log('isUserAuthticated::: 엑세스 토큰 체크완료...',await res);
+  const result = await res;
+
+   if (result.success) {
+     console.log('true:::')
+     return 'OkToken';
+   } else if (result.message == '토큰만료') {
+    // 엑세스 토큰 재발행(refresh token)
+    const reToken = localStorage.getItem('oauth-refresh-token');
+    console.log('reToken:::',reToken);
+    
+    if (reToken == null || reToken == '' || reToken == 'undefined' ){
+      return 'NoToken';
+    } 
+
+    const reRes  = await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
+    const reResult = await reRes;
+    console.log('리프래시 토큰 재발행 :::', await reRes);
+    if (reResult.error == 'invalid_grant') {
+      console.log('false:::::::::::::::::::::')
+      
+      return 'NoToken';
+    } else {
+      console.log('true:::::::::::::::::::::')
+      setOauthAccessToken(reResult.access_token);
+      setOauthRefreshToken(reResult.refresh_token);
+      return 'ReToken';
+    }
+    
+    
+    
+  }
+  //return (token && token !== 'undefined') ? true : false;
+
+  //});
+  // console.log('check')
+  // // refresh 토큰으로 다시 받음
+  // const reToken = await getOauthRefreshToken();
+  // if (reToken == null || reToken == '' || reToken == 'undefined' ){
+  //   return false;
+  // } 
+
+  // await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
+  // .then(res => {
+  //   console.log('리프래시 토큰 ::: ', res)
+  // })
+
+
+  //console.log(cmm.FILE_PATH_FILES)
+
+  // refresh 토큰이 만료 인경우 로그인으로 
+
+
+
+
+  
+}
+
+
+
+//storage 토큰 확인
 export const isUserAuthenticated = () => {
-  let userInfo = localStorage.getItem('oauth-token');
-  console.log('토큰 여부 isUserAuthenticated:',userInfo);
-  return (userInfo && userInfo !== 'undefined') ? true : false;
+  let token = localStorage.getItem('oauth-token');
+  console.log('토큰 여부 isUserAuthenticated:a★11:::',token);
+
+  // 엑세스 토큰이 없는 경우 
+  if (token == null || token == '' || token == 'undefined' ){
+    return false;
+  }
+
+  return (token && token !== 'undefined') ? true : false;
+
 }
 
 export const removeAll = () => {

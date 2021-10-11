@@ -37,6 +37,15 @@ import {
 import { SET_NAVIBAR_SHOW, SET_NAVIBAR_SHOW_SUCCESS } from "../../constants/actionTypes";
 
 //RENEWAL
+//Res 값 체크 (invalid_grant)
+function _oauthResCheck(res) {
+  if (res.error && res.error == "invalid_grant") {
+    return false;
+  } else { 
+    return true; 
+  }
+}
+
 
 function* _OauthAuthorize({ payload: { username, password, client_id, redirect_uri, response_type, grant_type, state, scope } }) {
   try {
@@ -54,11 +63,34 @@ function* _OauthAuthorize({ payload: { username, password, client_id, redirect_u
 
 function* _getOauthToken({ payload: { code, client_secret, client_id, grant_type } }) {
   try {
-    const response = yield call(oauthgetaccesstoken, code, client_secret, client_id, grant_type);
-    yield setOauthAccessToken(response.access_token);
-    yield setOauthRefreshToken(response.refresh_token);
-    yield setUserAuthenticating(false);
-    yield put(getOauthToken.success(response));
+
+    let response = yield call(oauthgetaccesstoken, code, client_secret, client_id, grant_type);
+    if (yield _oauthResCheck(response)) {
+      yield setOauthAccessToken(response.access_token);
+      yield setOauthRefreshToken(response.refresh_token);
+      yield setUserAuthenticating(false);
+      yield put(getOauthToken.success(response));  
+      return;
+    } else {      
+
+      // 오류가 떨어지면 2회 반복 로그인 시도
+      for(let i=0; i<2; i++) {
+        response = yield call(oauthgetaccesstoken, code, client_secret, client_id, grant_type);
+        if (yield _oauthResCheck(response)) {
+          yield setOauthAccessToken(response.access_token);
+          yield setOauthRefreshToken(response.refresh_token);
+          yield setUserAuthenticating(false);
+          yield put(getOauthToken.success(response));  
+          return;
+          //break;
+        }
+
+        
+      }
+      yield put(getOauthToken.error(response.error));
+    }
+    
+
   } catch (error) {
     yield put(getOauthToken.error(error.message));
   }
@@ -88,6 +120,7 @@ function* _postAuthNumber({ payload: { email } }) {
 
 function* _postRegistration({ payload: { useremail, password, user_name } }) {
   try {
+    console.log('_postRegistration::::',user_name)
     const response = yield call(postClientRegisteration, useremail, password, user_name);
     console.log(response);
     yield put(postRegisteration.success(response));
@@ -118,6 +151,7 @@ function* _postInviteRegistration({ payload: { user_email, invite_code, user_nam
 function* _postWorkGroup({ payload: { user_email, comp_name, comp_domain } }) {
   try {
     const response = yield call(postWorkGroupmodel, user_email, comp_name, comp_domain);
+    yield console.log('postWorkGroup::::',response)
     yield put(postWorkGroup.success(response));
   } catch (error) {
     yield put(postWorkGroup.error(error.message));
@@ -126,6 +160,7 @@ function* _postWorkGroup({ payload: { user_email, comp_name, comp_domain } }) {
 
 function* _checkAccessToken() {
   try {
+    //yield console.log('엑세스 토큰 체크::::::::::::::::')
     const response = yield call(check_fetch, 'https://backend.saleslog.co/secure');
     yield put(checkAccessToken.success(response));
   } catch (error) {
