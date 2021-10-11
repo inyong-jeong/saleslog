@@ -9,14 +9,13 @@ import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
-import { Modal, Divider, Avatar } from 'antd';
+import { Modal, Divider, Avatar, Spin } from 'antd';
 import StyledButton from '../../components/styledcomponent/Button';
 import { getWorkGroupInfo, getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { ReactComponent as EditIcon } from '../../assets/icons/workgroup/edit.svg'
 import { ReactComponent as MemberIcon } from '../../assets/icons/workgroup/member.svg'
 import { ReactComponent as OrgIcon } from '../../assets/icons/workgroup/org.svg'
-
 
 const WgroupManagePage = () => {
 
@@ -85,7 +84,6 @@ const WgroupManagePage = () => {
     }
 
   }, [state.postWorkGroupChangeRes])
-
 
   useEffect(() => {
     // 하단 네비 설정 
@@ -182,7 +180,7 @@ const WgroupManagePage = () => {
             hasMore={true}
             dataLength={wgList.length} >
             <List>
-              {((wgList) ? wgList.map((item, index) => {
+              {(wgList ? wgList.map((item, index) => {
                 const { organization, org_domain, org_idx, logo_url, member_cnt, accounts_cnt } = item;
                 return (
                   <div key={index} >
@@ -219,7 +217,7 @@ const WgroupManagePage = () => {
                     <Divider dashed style={{ marginLeft: 0, marginRight: 0, marginTop: 2, marginBottom: 2, }} />
                   </div>
                 )
-              }) : '')
+              }) : null)
 
               }
             </List>

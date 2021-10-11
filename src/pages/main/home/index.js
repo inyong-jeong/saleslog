@@ -25,11 +25,11 @@ import { ReactComponent as BdayLogo } from '../../../assets/icons/main/bday.svg'
 import { base64Enc } from 'constants/commonFunc';
 import { useHistory } from "react-router";
 import { postAnniversary } from "../../../redux/etc/actions";
+import styles from '../../../assets/style/Main.module.css'
 
 const SALESLOG_TYPE = 'SALESLOG_TYPE'
 const LEADLOG_TYPE = 'LEADLOG_TYPE'
 const { Panel } = Collapse
-
 const DashBoardPage = () => {
 
   const state = useSelector(state => state.Dashboard)
@@ -43,6 +43,8 @@ const DashBoardPage = () => {
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
+
+
 
   const mainGrayTitleStyle = {
     fontSize: 14,
@@ -369,7 +371,9 @@ const DashBoardPage = () => {
   }
 
   const DateItem = ({ item, onClick }) => (
-    <div style={{ cursor: 'pointer' }} onClick={onClick}>
+    <div
+      className={styles.dateItem}
+      onClick={onClick}>
       <div style={{ display: 'flex', marginBottom: 2, alignItems: 'center' }}>
         <p style={{ margin: 0, fontWeight: 500, fontSize: 14, color: '#111111' }}>{item.man_name}</p>
         <p style={{ margin: 0, fontWeight: 400, fontSize: 12, color: '#666666', marginLeft: 5, flexGrow: 2 }}>{item.account_name}</p>
@@ -406,7 +410,6 @@ const DashBoardPage = () => {
                 </div>
               </Panel>
             </Collapse>
-
             : null
         }
         {sectionTitle("영업일지 현황", <Calendar />)}
