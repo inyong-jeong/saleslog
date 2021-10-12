@@ -37,6 +37,8 @@ const AuthenticatingLayout = (props) => {
     console.log('isUserAuthenticated():토큰여부확인:::',isUserAuthenticated())
     if (isUserAuthenticated() === true) {
       props.history.push('/main');
+    } else {
+      
     }
   }, [isUserAuthenticated()])
 

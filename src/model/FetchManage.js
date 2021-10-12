@@ -105,17 +105,9 @@ const post_fetch = async (url, body) => {
   const result = await response.json()
   const data = await result
   if (data.status !== 200) {
-    console.log('fetch:::result::::data::::::::',data, data.message)
-    //Access Token 토큰만료의 경우 다시 토큰 요청함 
-    if (data.message == '토큰만료') {
-      const refreshToken = getOauthRefreshToken()
-      console.log('refreshToken:::::::::::::::::::',token, refreshToken)
-      
-
-    } else {
-      throw new Error(data.message)
-    }
+    throw new Error(data.message)
   }
+    
   return data
 }
 
