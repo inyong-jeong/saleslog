@@ -1,7 +1,7 @@
 import { message, Modal } from 'antd';
 
-const key = 'updatable'
-export const loadingAndSuccessMessage = (msg) => {
+const key = 'loading'
+export const loadingMessage = () => {
   message.loading(
     {
       content: '로딩중...',
@@ -11,25 +11,29 @@ export const loadingAndSuccessMessage = (msg) => {
       },
     }
   );
-  setTimeout(() => {
-    message.success({
-      content: msg,
+
+}
+
+export const hideMessage = () => {
+  const hide = message.loading(
+    {
+      content: '로딩중...',
       key,
-      duration: 2,
       style: {
         marginTop: 100,
       },
-    });
-  }, 1000);
-
+    }
+  );
+  hide()
 }
+
 
 export const successMessage = (msg) => {
   message.success({
     content: msg,
     duration: 0.8,
     style: {
-      marginTop: '100px',
+      marginTop: 100,
     },
   });
 }
@@ -39,7 +43,7 @@ export const errorMessage = (msg) => {
     content: msg,
     duration: 0.8,
     style: {
-      marginTop: '100px',
+      marginTop: 100,
     },
   });
 }
