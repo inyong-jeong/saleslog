@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { getTemporaryLogLists, getTemporaryLogList, deleteTemporaryLogList } from 'redux/actions';
 import { withRouter } from 'react-router-dom';
 import { Divider } from 'antd';
@@ -11,6 +11,10 @@ const LogListModal = (props) => {
     buttonLabel,
     className
   } = props;
+
+  const state = useSelector(state => state.SalesLog)
+  let deletetempresponse = state.deletetempresponse;
+
   const [editbutton, setEditButton] = useState(false);
   const [modal, setModal] = useState(false);
   const toggle = () => {
@@ -39,6 +43,15 @@ const LogListModal = (props) => {
     }
     props.deleteTemporaryLogList(data)
   }
+
+  //임시저장 지운 후 리스트(여러개) 불러오기
+  useEffect(() => {
+    if (deletetempresponse) {
+      props.getTemporaryLogLists();
+      state.deletetempresponse = false;
+    }
+  }, [deletetempresponse])
+
   // 임시저장 리스트(여러개) 불러오기
   useEffect(() => {
     props.getTemporaryLogLists();
