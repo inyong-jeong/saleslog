@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { List, Divider, Avatar } from 'antd';
-import styled from 'styled-components';
+import React, { useRef } from 'react';
+import { Divider, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Link, withRouter } from 'react-router-dom';
 import cmm from 'constants/common';
-import { useSelector } from "react-redux";
 import styles from '../assets/style/Main.module.css'
 import { ReactComponent as Dot } from '../assets/icons/main/dot.svg'
 import { ReactComponent as Feedback } from '../assets/icons/main/feedback.svg'
@@ -42,23 +39,20 @@ function LogList({ loglist, handleNextPage, loglists }) {
   // useResizeObserver({ callback: observeCallback, element: contentRef });
   // const onClick = (e) => {
   //   contentRef.current.classList.add("show");
-  //   setIsShowReadMore(false);
-  // };
 
-  const Wrap = styled.div``;
-  const Ellipsis = styled.div`
-  position: relative;
-  display: -webkit-box;
-  line-height: 2rem;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  
-`;
 
-  const Button = styled.button`
-  line-height: 2rem;
-`;
+  const contentstyles = {
+    position: 'relative',
+    display: '-webkit-box',
+    lineHeight: '',
+    overflow: 'hidden',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 5,
+    textOverflow: 'ellipsis',
+
+  }
+
+
   const handleLogClick = (loglist) => {
     history.push(`/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`)
   }
@@ -84,10 +78,9 @@ function LogList({ loglist, handleNextPage, loglists }) {
         <div className='mt-1'></div>
         {/* <div style={grayTextStyles}>{loglist.log} </div>
          */}
-        <Wrap>
-          <Ellipsis ref={contentRef}>{loglist.log}</Ellipsis>
-          {/* {isShowReadMore && <Button onClick={onClick}>...더보기</Button>} */}
-        </Wrap>
+        <div>
+          <div style={contentstyles} ref={contentRef}>{loglist.log}</div>
+        </div>
 
         <div className='mt-1'></div>
         <div style={{ display: 'flex' }}>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../../components/customer/styles/Customer.module.css'
 import { Tabs, Row, Col, Divider } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import { useDispatch } from 'react-redux'
@@ -39,7 +38,7 @@ function SalesLogList(props) {
 
   const [loglists, setLogLists] = useState([]);
   const [data, setData] = useState({
-    log_gb: '',
+    log_gb: '0010001',
     sales_man: '',
     sales_lead_gb: '',
     sales_goal: '',
@@ -91,14 +90,6 @@ function SalesLogList(props) {
     }
   }
 
-  const test = () => {
-    data.pageno = data.pageno + 1
-    setData({ ...data, 'pageno': data.pageno })
-  }
-
-  const TabStyle = {
-    width: '100%', textAlign: 'center'
-  }
 
   //검색어 기능 구현
   const [keywords, setKeywords] = useState(
@@ -193,7 +184,7 @@ function SalesLogList(props) {
       </Row> */}
         <Row>
           <Col sm={24} xs={24} md={24} lg={24} >
-            <FullTabs type='line' defaultActiveKey="1" onChange={onTabChange}>
+            <FullTabs type='line' defaultActiveKey="2" onChange={onTabChange}>
               {/* <TabPane tab="전체" key="1">
               <SalesLogFilter data={data} setData={setData} />
               {loglists.map((v) => (
