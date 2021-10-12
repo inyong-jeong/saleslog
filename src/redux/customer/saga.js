@@ -10,7 +10,8 @@ import {
   POST_EDIT_MANAGER_INFO,
   GET_MANAGER_INFO,
   POST_EDIT_NAMECARD,
-  DEL_CUSTOMER
+  DEL_CUSTOMER,
+  DEL_CUSTOMER_MANAGER
 } from '../../constants/actionTypes'
 
 import {
@@ -23,9 +24,10 @@ import {
   getManagerInfo,
   postEditManager,
   postEditNamecard,
-  deleteCustomer
+  deleteCustomer,
+  deleteCustomerManager
 } from './actions'
-import { forwardTo, successMessage, loadingAndSuccessMessage } from '../../constants/commonFunc'
+import { successMessage, loadingMessage, hideMessage } from '../../constants/commonFunc'
 
 //customer api 
 const BASE_URL = 'https://backend.saleslog.co/saleslog/'
@@ -39,12 +41,29 @@ const CUSTOMER_DETAILS = 'detail_accounts'
 const DETAIL_MANAGER_EDIT = 'upd_accounts_man'
 const DETAIL_MANAGER = 'detail_accounts_man'
 const NAMECARD_EDIT = 'upd_accounts_man_photo'
+const MANAGER_DEL = 'del_accounts_man'
+
+function* _deleteCustomerManager({ payload: { body } }) {
+  try {
+    yield loadingMessage()
+    const response = yield call(post_fetch, BASE_URL + MANAGER_DEL, body)
+    yield hideMessage()
+    yield put(deleteCustomerManager.success(response))
+    yield successMessage('해당 담당자가 삭제되었습니다.')
+  }
+  catch (error) {
+    yield put(deleteCustomerManager.error(error))
+
+  }
+}
 
 function* _deleteCustomer({ payload: { body } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, BASE_URL + ACC_DEL, body)
+    yield hideMessage()
     yield put(deleteCustomer.success(response))
-    yield put(successMessage('해당 고객사가 삭제되었습니다.'))
+    yield successMessage('해당 고객사가 삭제되었습니다.')
   }
   catch (error) {
     yield put(deleteCustomer.error(error))
@@ -114,7 +133,7 @@ function* _getCustomerDetails({ payload: { body } }) {
 }
 function* _postCustomerManager({ payload: { body } }) {
   try {
-    console.log(body)
+
     const response = yield call(post_fetch_files, BASE_URL + ACC_MAN_REGISTER, body)
     yield successMessage('담당자가 등록되었습니다.')
     yield put(postCustomerManger.success(response))
@@ -127,22 +146,24 @@ function* _postCustomerManager({ payload: { body } }) {
 
 function* _postCustomer({ payload: { body } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, BASE_URL + ACC_REGISTER, body)
-    //yield successMessage('고객사가 등록되었습니다.')
-    yield loadingAndSuccessMessage('고객사가 등록되었습니다.')
+    yield hideMessage()
     yield put(postCustomer.success(response))
+    yield successMessage('고객사가 등록되었습니다.')
 
 
   } catch (error) {
     yield put(postCustomer.error(error))
-    // yield alert(error)
   }
 }
 
 function* _getCustomer({ payload: { body, pageno } }) {
   try {
+    yield loadingMessage()
     body.pageno = pageno
     const response = yield call(post_fetch, BASE_URL + ACC_LIST, body)
+    yield hideMessage()
     yield put(getAllCustomer.success(response))
 
   } catch (error) {
@@ -158,6 +179,10 @@ function* _getUser({ payload: { body } }) {
     yield put(getUsers.error(error))
     //  yield alert(error)
   }
+}
+
+function* watchDeleteCustomerManager() {
+  yield takeEvery(DEL_CUSTOMER_MANAGER, _deleteCustomerManager)
 }
 
 function* watchDeleteCustomer() {
@@ -204,7 +229,8 @@ function* customerSaga() {
     fork(watchPostEditManager),
     fork(watchGetMangerInfo),
     fork(watchPostEditNamecard),
-    fork(watchDeleteCustomer)
+    fork(watchDeleteCustomer),
+    fork(watchDeleteCustomerManager)
   ])
 }
 

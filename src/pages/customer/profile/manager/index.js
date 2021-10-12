@@ -4,13 +4,17 @@ import { useHistory } from 'react-router';
 import { useStyles } from '../../registerManager';
 import Typography from '@material-ui/core/Typography';
 import { useParams } from 'react-router';
-import { getManagerInfo } from '../../../../redux/customer/actions';
+import { deleteCustomerManager, getManagerInfo } from '../../../../redux/customer/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Collapse } from 'antd';
 import cmm from 'constants/common';
 import AvatarUp from '../../../../components/AvatarUp';
-import { base64Dec, base64Enc } from 'constants/commonFunc';
+import { base64Dec } from 'constants/commonFunc';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
+import { stat } from 'fs-extra';
 
+const { confirm } = Modal
 const { Panel } = Collapse
 const ManagerProfilePage = () => {
 
@@ -22,6 +26,7 @@ const ManagerProfilePage = () => {
   };
   const history = useHistory()
   const [preview, setPreview] = useState(null)
+  const [managerPermission, setManagerPermission] = useState('N')
   const params = useParams()
   const dispatch = useDispatch()
   const state = useSelector(state => state.Customer)
@@ -41,10 +46,35 @@ const ManagerProfilePage = () => {
       pathname: `/main/manager/editManager/${params.singleId}/${params.accId}`,
     })
   }
+  const onDeleteClick = () => {
+    confirm({
+      title: '해당 담당자를 삭제하시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        dispatch(deleteCustomerManager.call({ accm_idx: base64Dec(params.singleId) }))
+      },
+      onCancel() {
+        //취소
+      },
+    })
+
+
+  }
+
 
   useEffect(() => {
-    state.getMangerResponse ? setPreview(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + managerDetails.man_photo) : setPreview(null)
+    if (state.getMangerResponse) {
+      setPreview(cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + managerDetails.man_photo)
+      setManagerPermission(managerDetails.upd_yn)
+
+      return
+    }
+    return setPreview(null)
+
   }, [state.loading])
+  console.log(managerPermission)
 
   return (
     <div>
@@ -52,6 +82,9 @@ const ManagerProfilePage = () => {
         showBackButton
         navigateTo={navigateTo}
         onEditClick={onEditClick}
+        onDeleteClick={onDeleteClick}
+        Dbutton={managerPermission === 'Y' ? 'Y' : 'N'}
+        Ubutton={managerPermission === 'Y' ? 'Y' : 'N'}
       />
       {
         state.getMangerResponse ?
