@@ -101,7 +101,7 @@ const WgroupManagePage = (props) => {
 
 
   const handleChangeFile = e => {
-    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+    if (e.target.files[0] && !e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
       return alertMessage('이미지 파일만 등록 가능합니다.')
     }
     const fileUploaded = e.target.files;
@@ -135,56 +135,56 @@ const WgroupManagePage = (props) => {
         onSaveClick={onSaveClick}
       />
       <div className='content_body'>
-      <div style={{ display: 'flex' }}>
-        <AvatarUp imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
-          iconShape='square'
-          height={90}
-          style={{
-            padding: 0,
-            marginLeft: 10,
-            width: 90,
-            height: 90
-          }}
-          handleChange={handleChangeFile} />
-        <div style={{ flexGrow: 2 }}>
-          <label >워크그룹 이름 <span style={{ color: 'red' }}>*</span></label><br />
-          <Input
-            name='comp_name'
-            onChange={handleChange}
-            value={inputs.comp_name}
-            required
-            placeholder="워크그룹 이름을 입력해주세요."
-            margin="normal"
-          />
+        <div style={{ display: 'flex' }}>
+          <AvatarUp imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
+            iconShape='square'
+            height={90}
+            style={{
+              padding: 0,
+              marginLeft: 10,
+              width: 90,
+              height: 90
+            }}
+            handleChange={handleChangeFile} />
+          <div style={{ flexGrow: 2 }}>
+            <label >워크그룹 이름 <span style={{ color: 'red' }}>*</span></label><br />
+            <Input
+              name='comp_name'
+              onChange={handleChange}
+              value={inputs.comp_name}
+              required
+              placeholder="워크그룹 이름을 입력해주세요."
+              margin="normal"
+            />
+          </div>
         </div>
-      </div>
-      <Divider style={{ margin: '30,10' }} />
-      <label style={{ marginLeft: 10 }}>워크그룹 URL  <span style={{ color: 'red' }}>*</span></label>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <Input
-          name='comp_domain'
-          onChange={handleChange}
-          value={inputs.comp_domain}
-          required
-          placeholder="URL 입력해주세요."
-          margin="normal"
-          style={{ marginLeft: 10, marginRight: 10 }}
-        />
-        <label style={{
-          fontSize: 14,
-          fontWeight: 400,
-          color: '#111111'
-        }}>&nbsp;.saleslog.com</label>
-      </div>
-      {
-        inputs.errResult.split('\n').map(item => {
-          return (<span key={item} style={{ fontSize: 11, color: '#EE1818' }}>{item}<br /></span>)
-        })
-      }
+        <Divider style={{ margin: '30,10' }} />
+        <label style={{ marginLeft: 10 }}>워크그룹 URL  <span style={{ color: 'red' }}>*</span></label>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <Input
+            name='comp_domain'
+            onChange={handleChange}
+            value={inputs.comp_domain}
+            required
+            placeholder="URL 입력해주세요."
+            margin="normal"
+            style={{ marginLeft: 10, marginRight: 10 }}
+          />
+          <label style={{
+            fontSize: 14,
+            fontWeight: 400,
+            color: '#111111'
+          }}>&nbsp;.saleslog.com</label>
+        </div>
+        {
+          inputs.errResult.split('\n').map(item => {
+            return (<span key={item} style={{ fontSize: 11, color: '#EE1818' }}>{item}<br /></span>)
+          })
+        }
       </div>
     </>
   );
