@@ -165,10 +165,15 @@ export const isAccessToken = async () => {
   console.log('isUserAuthticated::: 엑세스 토큰 체크완료...',await res);
   const result = await res;
 
-   if (result.success) {
-     console.log('true:::')
-     return 'OkToken';   
-   } else if (result.message == '토큰만료') {
+  if (result.success) {
+    if (result.org_idx == '') {
+      //워크그룹이 없는 경우
+      return 'NoWorkgroup';
+    } else {
+      return 'OkToken';   
+    }  
+     
+  } else if (result.message == '토큰만료') {
     // 엑세스 토큰 재발행(refresh token)
     const reToken = localStorage.getItem('oauth-refresh-token');
     console.log('reToken:::',reToken);
