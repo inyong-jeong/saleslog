@@ -13,7 +13,7 @@ import StyledButton from 'components/styledcomponent/Button'
 import { useCookies } from 'react-cookie';
 import { errorMessage, successMessage } from "constants/commonFunc";
 import cmm from 'constants/common';
-
+import { Helmet } from "react-helmet";
 
 const SignIn = (props) => {
   const state = useSelector(state => state.Auth)
@@ -175,6 +175,10 @@ const SignIn = (props) => {
     };
   }, []);
 
+  if (undefined) {
+    console.log(11111111)
+  }
+
   const ViewStyle = {
     height: viewHeight,
     flexDirection: 'row',
@@ -189,17 +193,15 @@ const SignIn = (props) => {
     fontSize: 14
   }
 
-  if (undefined) {
-    console.log(11111111)
-  }
-
   return (
     <>
+      <Helmet>
+        <title>로그인</title>
+      </Helmet>
       <div className="container-md">
         <div className="row" style={ViewStyle}>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2" />
-          <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
-            <div className="card">
+          <div style={{ margin: 'auto' }}>
+            <div style={{ width: 390, backgroundColor: '#fff' }}>
               <div className="card-body" style={CardStyle} >
                 <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
                   <WhiteLogo width={150} height={50} fill='black' />
@@ -265,7 +267,6 @@ const SignIn = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-xxl-4 col-xl-4 col-lg-2 col-md-2 col-sm-2"></div>
         </div>
       </div>
     </>
