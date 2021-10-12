@@ -79,9 +79,10 @@ const WgroupManagePage = (props) => {
 
   //워크그룹 생성
   const handelWGroupRegi = () => {
+    setIsShowModal(false)
     //워크그룹 생성페이지 이동
     history.push('/main/workgroup/register');
-    setIsShowModal(false)
+    
   }
 
   useEffect(() => {
@@ -95,10 +96,10 @@ const WgroupManagePage = (props) => {
   useEffect(() => {
     if (state.postWorkGroupChangeRes) {
       console.log('wglist:::::::::::::::', state.postWorkGroupChangeRes)
-
-      //워크그룹  이동
-      history.push('/main/workgroup');
+      state.postWorkGroupChangeRes = null;
       setIsShowModal(false)
+      //워크그룹  이동
+      history.push('/main/workgroup');      
     }
 
   }, [state.postWorkGroupChangeRes])

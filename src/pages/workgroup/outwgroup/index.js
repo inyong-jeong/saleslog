@@ -9,6 +9,7 @@ import { useHistory } from 'react-router';
 import { Button, Checkbox, } from 'antd';
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { getWorkGroupInfo, postWorkGroupOut } from 'redux/workgroup/actions';
+import { errorMessage } from '../../../constants/commonFunc';
 
 const WgroupMemberPage = () => {
   const state = useSelector(state => state.Workgroup)
@@ -34,8 +35,8 @@ const WgroupMemberPage = () => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: true
-    }
-    )
+    })
+
     //워크그룹 정보 가져오기
     dispatch(getWorkGroupInfo.call())
 
@@ -58,8 +59,14 @@ const WgroupMemberPage = () => {
   //워크그룹 나가기 fetch 후
   useEffect(() => {
     if (state.postWorkGroupOutRes) {
-      //워크그룹 선택
-      history.push('/main/workgroup/chgwgroup')
+      if (state.postWorkGroupOutRes.message == 'master') {
+        state.postWorkGroupOutRes = null;
+        errorMessage('다른 사용자에 마스터권한을 부여 후 나가기 가능 합니다.');
+      } else {
+        state.postWorkGroupOutRes = null;
+        //워크그룹 선택 
+        history.push('/main/workgroup/chgwgroup')
+      }
     }
   }, [state.postWorkGroupOutRes])
 

@@ -318,7 +318,7 @@ const WgroupDeptPage = (props) => {
           </p>
         </div>
         <Divider style={{ margin: 5 }} />
-        {(inputs.treedata.length > 0) &&
+        {(inputs.treedata && inputs.treedata.length > 0) &&
           <div style={{ height: window.innerHeight }}>
             <SortableTree
               theme={FileExplorerTheme}

@@ -86,7 +86,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
     console.log('MainRoute::::::::::', isTokenValid);
-
+    console.log('props.history.location.pathname::::', props.history.location.pathname)
     if (isTokenValid) {
       //토큰 만료 확인 및 갱신 
       let isTokenOK = isAccessToken().then((res) => {
@@ -99,7 +99,12 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
           //props.history.replace(props.history.location)
           window.location.reload();
         } else if (res == 'NoWorkgroup') {
-          props.history.push('/main/workgroup/chgwgroup')
+          console.log('props.history.location.pathname::::', props.history.location.pathname)
+          if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
+              props.history.location.pathname != '/main/workgroup/register' ) {
+            console.log('test')
+            props.history.push('/main/workgroup/chgwgroup')
+          }
         }
       })
       return <Component {...props} />

@@ -166,8 +166,8 @@ function* _postWorkGroupOut({ payload: { body } }) {
     yield put(postWorkGroupOut.success(response))
 
   } catch (error) {
-    yield console.log('워크그룹 나가기 에러', error)
-    yield put(postWorkGroupOut.error(error))
+    yield console.log('워크그룹 나가기 에러', error.message)
+    yield put(postWorkGroupOut.error(error.message))
   }
 }
 
