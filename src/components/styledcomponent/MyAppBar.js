@@ -169,11 +169,11 @@ const MyAppBar = ({
             {
               isMobile && !showBackButton &&
               <div className={classes.appBarIcon}>
-                <IconButton color="inherit" onClick={notiClick}>
+                {/* <IconButton color="inherit" onClick={notiClick}>
                   <Badge badgeContent={badgeContent} color="secondary">
                     <Noti stroke='#333333' />
                   </Badge>
-                </IconButton>
+                </IconButton> */}
                 <Dropdown
                   trigger="click"
                   overlay={menu}>
