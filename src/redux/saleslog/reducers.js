@@ -54,7 +54,14 @@ import {
   DELETE_SALESLOG_ERROR,
   PUT_SALESLOG,
   PUT_SALESLOG_SUCCESS,
-  PUT_SALESLOG_ERROR
+  PUT_SALESLOG_ERROR,
+  SET_SALES_GB,
+  PUT_COUSER,
+  PUT_COUSER_SUCCESS,
+  PUT_COUSER_ERROR,
+  DELETE_COUSER,
+  DELETE_COUSER_SUCCESS,
+  DELETE_COUSER_ERROR
 } from '../../constants/actionTypes';
 
 const INIT_STATE = {
@@ -97,7 +104,13 @@ const INIT_STATE = {
   //일지수정 response
   putlog: false,
   //일지 작성 response
-  postlog: false
+  postlog: false,
+  //공동작성자 관련 response,
+  putcouser: false,
+  deletecouser: false,
+  //임시저장 삭제 response
+  deletetempresponse: false
+
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
@@ -106,6 +119,8 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, log: null };
     case CLEAR_TEMP_LOG:
       return { ...state, temporaryLoglist: null };
+    case SET_SALES_GB:
+      return { ...state, salesgb: action.payload };
     case POST_SALESLOG:
       return { ...state, submitLoading: true, postlog: false };
     case POST_SALESLOG_SUCCESS:
@@ -155,11 +170,11 @@ const SalesLog = (state = INIT_STATE, action) => {
     case GET_TEMPORARY_LIST_ERROR:
       return { ...state, temporaryLoglisterror: action.payload.error, submitLoading: false, temporaryloglistresponse: false, tempodone: false };
     case DELETE_TEMPORARY_LOG:
-      return { ...state, submitLoading: true };
+      return { ...state, submitLoading: true, deletetempresponse: false };
     case DELETE_TEMPORARY_LOG_SUCCESS:
-      return { ...state, deletetemporaryLogresponse: action.payload.response.message.fieldCount };
+      return { ...state, deletetemporaryLogresponse: action.payload.response.message.fieldCount, deletetempresponse: true };
     case DELETE_TEMPORARY_LOG_ERROR:
-      return { ...state, };
+      return { ...state, deletetempresponse: false };
     //영업일지 불러오기 관련
     case GET_SALESLOGS:
       return { ...state, loadLogsLoading: true, loadLogsDone: false };
@@ -204,6 +219,20 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, commentlists: action.payload.response.message };
     case GET_COMMENT_LISTS_ERROR:
       return { ...state };
+    //공동작성자
+    case PUT_COUSER:
+      return { ...state, putcouserloading: false, putcouser: false };
+    case PUT_COUSER_SUCCESS:
+      return { ...state, putcouserloading: true, putcouser: true };
+    case PUT_COUSER_ERROR:
+      return { ...state, putcouserloading: false, putcouser: false };
+    case DELETE_COUSER:
+      return { ...state, deletecouserloading: false, deletecouser: false };
+    case DELETE_COUSER_SUCCESS:
+      return { ...state, deletecouserloading: true, deletecouser: true };
+    case DELETE_COUSER_ERROR:
+      return { ...state, deletecouserloading: false, deletecouser: false };
+
     //첨부파일
     case PUT_FILE:
       return { ...state, putfileloading: false };

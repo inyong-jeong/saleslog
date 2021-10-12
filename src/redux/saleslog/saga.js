@@ -19,7 +19,9 @@ import {
   DELETE_COMMENT,
   GET_COMMENT_LISTS,
   POST_AUTO_SALESLOG,
-  DELETE_SALESLOG
+  DELETE_SALESLOG,
+  PUT_COUSER,
+  DELETE_COUSER
 } from '../../constants/actionTypes';
 
 import {
@@ -40,7 +42,9 @@ import {
   deleteComment,
   getCommentLists,
   postAutoSalesLog,
-  deleteSalesLog
+  deleteSalesLog,
+  putCouser,
+  deleteCouser
 } from './actions';
 
 import {
@@ -243,6 +247,25 @@ function* _getCommentLists({ payload: { data } }) {
   }
 }
 
+//공동작성자 관련
+function* _putCouser({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_saleslog_cousers', data);
+    yield put(putCouser.success(response));
+  } catch (error) {
+    yield put(putCouser.error(error));
+  }
+}
+function* _deleteCouser({ payload: { data } }) {
+  try {
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog_cousers', data);
+    yield put(deleteCouser.success(response));
+  } catch (error) {
+    yield put(deleteCouser.error(error));
+  }
+}
+
+
 
 //일지작성 관련
 
@@ -320,6 +343,15 @@ export function* watchgetCommentLists() {
   yield takeEvery(GET_COMMENT_LISTS, _getCommentLists);
 }
 
+//공동작성자
+export function* watchputCouser() {
+  yield takeEvery(PUT_COUSER, _putCouser);
+}
+export function* watchdeleteCouser() {
+  yield takeEvery(DELETE_COUSER, _deleteCouser);
+}
+
+
 function* salesLogSaga() {
   yield all([
     //일지작성 관련
@@ -343,7 +375,9 @@ function* salesLogSaga() {
     fork(watchputComment),
     fork(watchdeleteComment),
     fork(watchgetCommentLists),
-
+    //공동작성자 관련
+    fork(watchputCouser),
+    fork(watchdeleteCouser),
   ]);
 }
 

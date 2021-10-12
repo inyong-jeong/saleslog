@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog, deleteSalesLog } from 'redux/actions';
+import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog, deleteSalesLog, putCouser, deleteCouser } from 'redux/actions';
 import { connect } from 'react-redux';
 import { Row, Col, Upload, Avatar, Modal } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
 import Comments from 'components/Comments/Comments'
-import { useSelector } from "react-redux";
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import cmm from 'constants/common';
 import { PlusOutlined } from '@ant-design/icons';
 import { ResponsivePie } from '@nivo/pie';
 import NeedsCard from 'components/NeedsCard'
-import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { SET_NAVIBAR_SHOW, SET_SALES_GB } from 'constants/actionTypes';
 import { base64Dec, base64Enc } from "constants/commonFunc";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import CouserModal from 'components/CouserModal'
+import CouserList from 'components/CouserList';
+
+
 
 
 const { confirm } = Modal;
@@ -21,15 +24,15 @@ const { confirm } = Modal;
 
 function SalesLog(props) {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: false
-    })
-  }, [])
+
+
+
   const state = useSelector(state => state.SalesLog)
   let deletelog = state.deletelog;
+  let putcouser = state.putcouser;
+  let deletecouser = state.deletecouser;
 
+  const [salesgb, setSalesGb] = useState();
   const [CommentLists, setCommentLists] = useState([])
   const [filelist, setFileList] = useState([])
   const [logneedslist, setLogNeedsList] = useState([])
@@ -43,6 +46,8 @@ function SalesLog(props) {
   }
   const [Log, setLog] = useState(null)
   // const Log = props.log ? props.log[0] : null
+
+
 
 
   //공동작성자 아이콘 추가 함수
@@ -65,6 +70,22 @@ function SalesLog(props) {
     }
     return FileList
   }
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: false
+    })
+  }, [])
+
+  useEffect(() => {
+    if (salesgb) {
+      dispatch({
+        type: SET_SALES_GB,
+        payload: salesgb
+      })
+    }
+  }, [salesgb])
+
 
   // useEffect(() => {
   //   console.log(props.match.params.id)
@@ -77,12 +98,12 @@ function SalesLog(props) {
   useEffect(() => {
     if (props.log) {
       setLog(props.log)
+      setSalesGb(props.log.sales_gb)
       setFileList(getFileList(props.log))
     }
     return () => { props.clearLog() }
 
   }, [props.log])
-
 
   const handleOnBack = () => {
     props.history.goBack()
@@ -259,6 +280,44 @@ function SalesLog(props) {
     "fontSize": 16,
   }
 
+  //공동작성자 수정 , 추가 함수
+
+  const [lists, setLists] = useState([
+  ]);
+
+  //공동작성자 추가 후 일지상세 불러오기
+  useEffect(() => {
+    if (putcouser) {
+      props.getLogList(data)
+      state.putcouser = false;
+    }
+  }, [putcouser])
+
+  //공동작성자 삭제 후 일지상세 불러오기
+
+  useEffect(() => {
+    if (deletecouser) {
+      props.getLogList(data)
+      state.deletecouser = false;
+    }
+  }, [deletecouser])
+
+  //공동작성자 바뀌면 리스트 set
+  useEffect(() => {
+    setLists(props.logcouser)
+  }, [props.logcouser])
+
+  const handleonInsert = (name, login_idx, thumb_url) => {
+    props.putCouser({ slog_idx: base64Dec(props.match.params.id), couser_idx: login_idx })
+  };
+
+  const handleonRemove = (id) => {
+    props.deleteCouser({ slog_idx: base64Dec(props.match.params.id), couser_idx: id })
+  }
+
+
+
+
   return (
     <>
       <MyAppBar barTitle={'영업일지 상세'} showBackButton
@@ -309,15 +368,20 @@ function SalesLog(props) {
                   <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
                 </li>
                 <li >
-                  <div style={{ display: 'flex' }}>
+                  {/* <div style={{ display: 'flex' }}>
                     <img
                       src={require('assets/icons/profile.png')}
                       alt='document_icon' />
                     <span>&nbsp;</span>
                     <p style={{ marginTop: '2px' }}>공동 작성자 현황</p>
+                  </div> */}
+                  <div>
+                    <CouserModal handleonInsert={handleonInsert} />
                   </div>
-
-                  {props.logcouser && props.logcouser.map(v => {
+                  <div>
+                    <CouserList lists={lists} handleonRemove={handleonRemove} />
+                  </div>
+                  {/* {props.logcouser && props.logcouser.map(v => {
                     return (
                       <div className='mt-1' style={{ display: 'flex' }} >
                         <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + v.thumb_url} />
@@ -326,7 +390,7 @@ function SalesLog(props) {
                     )
                   }
                   )
-                  }
+                  } */}
                 </li>
               </ul>
             </StyledCard>}
@@ -451,7 +515,9 @@ const mapStateToDispatch = {
   putFile: putFile.call,
   deleteFile: deleteFile.call,
   clearLog,
-  deleteSalesLog: deleteSalesLog.call
+  deleteSalesLog: deleteSalesLog.call,
+  putCouser: putCouser.call,
+  deleteCouser: deleteCouser.call
 }
 
 export default connect(mapStateToProps, mapStateToDispatch)(SalesLog);

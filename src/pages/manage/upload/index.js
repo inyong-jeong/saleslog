@@ -10,12 +10,12 @@ import { errorMessage } from "constants/commonFunc";
 import { useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import StyledSelect from 'components/styledcomponent/StyledSelect';
-import { base64Dec, base64Enc } from "constants/commonFunc";
+import { base64Dec } from "constants/commonFunc";
 
 import Divider from 'components/Divider'
 import { TimePicker, Radio, DatePicker, Input, Tooltip } from 'antd';
 import CouserModal from 'components/CouserModal'
-import CouserList from 'components/CouserList';
+import UcouserList from 'components/UcouserList';
 import LogListModal from 'components/LogListModal'
 import CustomerModal from 'components/CustomerModal'
 import moment from 'moment';
@@ -57,6 +57,10 @@ function UploadSalesLog(props) {
   const state = useSelector(state => state.SalesLog)
   let putresponse = state.putlog;
   let postresponse = state.postlog;
+  // let deletetempresponse = state.deletetempresponse;
+  //공동작성자 리스트
+  const [lists, setLists] = useState([
+  ]);
 
   //일지 등록 스테이트
   const [accountsList, setAccountsList] = useState([]);
@@ -68,8 +72,7 @@ function UploadSalesLog(props) {
   const [leadactivity, setLeadActivity] = useState(null);
   const [channel, setChannel] = useState(null);
   const [isFilePicked, setIsFilePicked] = useState(false);
-  const [couser, setCoUser] = useState([])
-  const [couserlist, setCoUserList] = useState('');
+
 
   const InputStyle = { border: '1px solid #AAAAAA' }
   const [selectedFiles, setSelectedFiles] = useState(undefined);
@@ -102,12 +105,18 @@ function UploadSalesLog(props) {
     return result
   }
 
-  //자동 저장
   const handleOnIdle = event => {
-    if (getLastActiveTime()) {
+
+    //일지작성 할 때 자동 임시저장
+    if (getLastActiveTime() && !props.match.params.id) {
+      props.postAutoSalesLog(fromData)
+
+      // 임시저장 할 때 자동 임시저장
+    } else if (getLastActiveTime() && base64Dec(props.match.params.id).length < 2) {
       props.postAutoSalesLog(fromData)
     }
   }
+
   const { getLastActiveTime } = useIdleTimer({
     timeout: 20000,
     onIdle: handleOnIdle,
@@ -115,7 +124,7 @@ function UploadSalesLog(props) {
 
   useEffect(() => {
     //고객사 fetch
-    props.selectAccounts({ sales_gb: radiocheck });
+    props.selectAccounts({ sales_gb: props.salesgb });
     // log load
     if (id && props.temporaryloglistresponse === false) {
       const data = {
@@ -128,7 +137,7 @@ function UploadSalesLog(props) {
   useEffect(() => {
     if (props.log) {
       //데이터 set
-      // setRadioCheck(props.log.sales_gb)
+      setRadioCheck(props.log.sales_gb)
       setSelectedAccount(props.log.acc_idx)
       setSelectedAccountPerson(props.log.accm_idx)
       setLeadActivity(props.log.sales_lead_gb)
@@ -161,7 +170,7 @@ function UploadSalesLog(props) {
   //임시저장
   useEffect(() => {
     if (props.temporaryLoglist) {
-      // setRadioCheck(props.log.sales_gb)
+      setRadioCheck(props.temporaryLoglist.sales_gb);
       setSelectedAccount(props.temporaryLoglist.acc_idx === 0 ? null : props.temporaryLoglist.acc_idx)
       setSelectedAccountPerson(props.temporaryLoglist.accm_idx === 0 ? null : props.temporaryLoglist.accm_idx)
       setLeadActivity(props.temporaryLoglist.sales_lead_gb === 'null' ? null : props.temporaryLoglist.sales_lead_gb)
@@ -209,7 +218,7 @@ function UploadSalesLog(props) {
     lati: 0,
     longi: 0,
     score: '',
-    cousers: couser,
+    cousers: lists,
     fileup: selectedFiles
   })
 
@@ -348,17 +357,10 @@ function UploadSalesLog(props) {
     })
   }
 
-  const handleOnChange = (login_idx, user_name) => {
-    const couserlists = {
-      id: login_idx,
-      user_name,
-    };
 
-    setCoUser(couser.concat(couserlists))
-    setCoUserList(user_name);
-  }
 
   //공동작성자 
+
 
   function getFields(input, field) {
     let output = [];
@@ -367,19 +369,34 @@ function UploadSalesLog(props) {
     return output;
   }
 
+  //공동작성자 추가
+  const handleonInsert = (name, login_idx, thumb_url) => {
+    console.log(login_idx);
+    const list = {
+      id: login_idx,
+      name,
+      thumb_url
+    };
+    setLists(lists.concat(list));
+  };
+
+  //공동작성자 삭제
+  const handleonRemove = (id) => {
+    console.log(id);
+    setLists(lists.filter(list => list.id !== id));
+  }
+
+  //공동작성자 data set
   useEffect(() => {
-    if (couser) {
-      const result = getFields(couser, 'id')
-      const realresult = result.join(',');
-      setFromData({ ...fromData, cousers: realresult })
+    if (lists) {
+      const result = getFields(lists, 'id')
+      setFromData({ ...fromData, cousers: result })
     }
-  }, [couser])
+  }, [lists])
 
   const handleOnBack = () => {
     props.history.push('/main/manage');
   };
-
-
 
   // 일지 작성
   const onFormSubmit = () => {
@@ -429,22 +446,7 @@ function UploadSalesLog(props) {
     delete fromData.fileup;
     props.postTemporarySalesLog(fromData)
   }
-  const [lists, setLists] = useState([
-  ]);
 
-  const handleonInsert = (name, login_idx, thumb_url) => {
-    const list = {
-      id: login_idx,
-      name,
-      thumb_url
-    };
-    setLists(lists.concat(list));
-  };
-
-  const handleonRemove = (id) => {
-    setLists(lists.filter(list => list.id !== id));
-    setCoUser(couser.filter(couserList => couserList.id !== id))
-  }
 
 
   const getSalesAccount = () => {
@@ -725,12 +727,12 @@ function UploadSalesLog(props) {
               <input type='file' id='input-file' onChange={selectFile} multiple />
             </div>
             <div>
-              <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
+              <CouserModal handleonInsert={handleonInsert} />
             </div>
           </div>
           <div ></div>
           <div style={{ float: 'right' }}>
-            <CouserList lists={lists} handleonRemove={handleonRemove} />
+            <UcouserList lists={lists} handleonRemove={handleonRemove} />
           </div>
         </> : <div className='mt-1'></div>}
         {(id ? id.length < 3 : false) && <>
@@ -738,12 +740,12 @@ function UploadSalesLog(props) {
             <div>
             </div>
             <div>
-              <CouserModal SearchChange={handleOnChange} handleonInsert={handleonInsert} />
+              <CouserModal handleonInsert={handleonInsert} />
             </div>
           </div>
           <div ></div>
           <div style={{ float: 'right' }}>
-            <CouserList lists={lists} handleonRemove={handleonRemove} />
+            <UcouserList lists={lists} handleonRemove={handleonRemove} />
           </div>
         </>}
         <div className='mt-5'></div>
@@ -754,12 +756,12 @@ function UploadSalesLog(props) {
 
 const mapStateToProps = (state) => {
   const { accounts, accountslist, accountpersonlist } = state.Account;
-  const { userList, temporaryLoglist, log, logcouser, temporaryloglistresponse, tempodone } = state.SalesLog;
+  const { userList, temporaryLoglist, log, logcouser, temporaryloglistresponse, tempodone, salesgb } = state.SalesLog;
   const { postCustomerResponse } = state.Customer
   return {
     accounts, userList, accountslist,
     accountpersonlist, temporaryLoglist, log, logcouser,
-    postCustomerResponse, temporaryloglistresponse, tempodone
+    postCustomerResponse, temporaryloglistresponse, tempodone, salesgb
   };
 };
 const mapStateToDispatch = {

@@ -19,7 +19,9 @@ import {
   CLEAR_SALESLOG,
   CLEAR_TEMP_LOG,
   POST_AUTO_SALESLOG,
-  DELETE_SALESLOG
+  DELETE_SALESLOG,
+  PUT_COUSER,
+  DELETE_COUSER
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -51,6 +53,10 @@ export const putComment = fetchActionGenerator(PUT_COMMENT, 'data');
 export const deleteComment = fetchActionGenerator(DELETE_COMMENT, 'data');
 export const getCommentLists = fetchActionGenerator(GET_COMMENT_LISTS, 'data');
 
+
+//공동작성자 관련
+export const putCouser = fetchActionGenerator(PUT_COUSER, 'data');
+export const deleteCouser = fetchActionGenerator(DELETE_COUSER, 'data');
 
 export const clearLog = () => ({
   type: CLEAR_SALESLOG,

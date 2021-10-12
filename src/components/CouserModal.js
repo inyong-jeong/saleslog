@@ -9,7 +9,6 @@ import { errorMessage, successMessage } from "constants/commonFunc";
 
 const CouserModal = (props) => {
   const {
-    buttonLabel,
     className
   } = props;
 
@@ -32,16 +31,19 @@ const CouserModal = (props) => {
     setId('');
     setId('');
     e.preventDefault();
-    props.SearchChange(input.value, input.label, input.dept_idx, input.title)
+    // props.SearchChange(input.value, input.label, input.dept_idx, input.title)
     // successMessage("공동작성자가 추가되었습니다.")
     setModal(!modal);
   }
 
   const handleChange = (selectedOption) => {
+    console.log(selectedOption);
     setValue(selectedOption.label);
     setId(selectedOption.value);
     setThumbUrl(selectedOption.url)
-    setInput(selectedOption);
+    // setInput(selectedOption);
+    // props.SearchChange(selectedOption.value, selectedOption.label)
+
   }
 
 
@@ -59,8 +61,10 @@ const CouserModal = (props) => {
   return (
     <>
       <label color="primary" onClick={handleOnClick} style={{ cursor: 'pointer' }}>
-        <img className="ml-2" style={{ positon: 'fixed' }} src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
+        <img style={{ positon: 'fixed' }} src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
+
       </label>
+      <div style={{ display: 'inline-block', verticalAlign: '-3px', marginLeft: '3px' }}>공동작성자</div>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>공동작성자 추가</ModalHeader>
         <ModalBody>
