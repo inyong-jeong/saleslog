@@ -6,15 +6,14 @@ import useInput from 'hooks/useInput';
 import { postRegisteration, postAuthNumber } from 'redux/actions';
 import { useHistory } from "react-router";
 import StyledCheckbox from 'components/styledcomponent/Checkbox'
-import StyledInput from 'components/styledcomponent/Input';
 import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
-import { successMessage, errorMessage } from 'constants/commonFunc';
+import { successMessage, } from 'constants/commonFunc';
 
+const SignUp = () => {
 
-const SignUp = (props) => {
   const state = useSelector(state => state.Auth)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -50,7 +49,6 @@ const SignUp = (props) => {
   useEffect(() => {
 
     if (state.authNumberResponse) {
-      //console.log('인증메일 :::::::::::::::::', state.authNumberResponse)
       if (state.authNumberResponse == 'No Data !!') {
         setEmailError("이미 사용중인 메일입니다.");
       } else {
@@ -66,7 +64,7 @@ const SignUp = (props) => {
 
   // 함수 정의
   const onChangeTerm = useCallback((e) => {
-    //console.log('checked : ', e.target.checked);
+
     setTerm(e.target.checked);
   }, []);
 
@@ -81,7 +79,7 @@ const SignUp = (props) => {
   const handleOnPostAuthNumber = () => {
     if (new RegExp(regex.email).exec(useremail)) {
       dispatch(postAuthNumber.call(useremail));
-      //successMessage('인증메일이 발송되었습니다');
+
     } else {
       setEmailError("이메일 형식이 잘못되었습니다");
     }
@@ -146,14 +144,6 @@ const SignUp = (props) => {
 
   }
 
-  // const handleOnSubmit = () => {
-  //   props.postRegisteration('tss0822@naver.co', '1111', '인용', '정')
-  //   // props.history.push('/workgroup');
-
-  // }
-
-  // 컴포넌트 스타일링
-
   const ViewStyle = {
     height: viewHeight,
     flexDirection: 'row',
@@ -165,11 +155,6 @@ const SignUp = (props) => {
     flexDirection: 'column',
     alignItems: 'center',
     display: 'flex'
-  }
-
-  const ImgStyle = {
-    textAlign: 'center',
-    cursor: 'pointer'
   }
 
   const CheckBoxStyle = {

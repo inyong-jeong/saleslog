@@ -10,28 +10,8 @@ import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import { useParams } from "react-router";
-import RoundHalfInputField from "../../components/RoundHalfInputField";
 
 const SignUpInvite = () => {
-
-  const ViewStyle = {
-    height: viewHeight,
-    flexDirection: 'row',
-    display: 'flex',
-    justifyContent: 'center',
-  };
-
-  const CardStyle = {
-    flexDirection: 'column',
-    alignItems: 'center',
-    display: 'flex'
-  }
-
-  const CheckBoxStyle = {
-    fontSize: '14px',
-    color: '#aaaaaa',
-    fontWeight: 'normal'
-  }
 
   const params = useParams()
   const state = useSelector(state => state.Auth)
@@ -41,7 +21,7 @@ const SignUpInvite = () => {
 
 
   // 회원가입 인풋 상태 데이터
-  const [useremail, onChangeId] = useInput('');
+  const [userEmail, setUserEmail] = useState('')
   const [password, onChangePassword] = useInput('')
   const [passwordcheck, onChangePasswordCheck] = useInput('')
   const [firstname, onChangeFirstName] = useInput('');
@@ -75,15 +55,19 @@ const SignUpInvite = () => {
   }, []);
 
   useEffect(() => {
-    if (!state.loading && !state.postCheckisRegisteredResponse) {
+    if (state.postCheckisRegisteredResponse) {
       history.push('/signin')
+      return
     }
+    setUserEmail(decodeURIComponent(params.inviteEmail))
+
+    // history.push('/signin')
+
 
   }, [state.loading])
 
-  // 함수 정의
-  const onChangeTerm = useCallback((e) => {
-    //console.log('checked : ', e.target.checked);
+
+  const onChangeTerm = useCallback(e => {
     setTerm(e.target.checked);
   }, []);
 
@@ -96,6 +80,7 @@ const SignUpInvite = () => {
   }
 
   const handleOnSubmit = () => {
+
     if (user_name === '') {
       setUsernameerror('이름을 입력해 주세요.')
       return;
@@ -112,7 +97,6 @@ const SignUpInvite = () => {
 
 
     if (password !== passwordcheck) {
-      console.log(password, passwordcheck)
       setPassWordError('비밀번호가 일치하지 않습니다.')
       return;
     } else {
@@ -133,9 +117,27 @@ const SignUpInvite = () => {
       setTerm('')
     }
 
-    dispatch(postInviteRegistration.call(useremail, params.inviteCode, user_name, password, params.useName))
+    dispatch(postInviteRegistration.call(userEmail, params.inviteCode, user_name, password, params.useName))
     history.push('/workgroup');
 
+  }
+  const ViewStyle = {
+    height: viewHeight,
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'center',
+  };
+
+  const CardStyle = {
+    flexDirection: 'column',
+    alignItems: 'center',
+    display: 'flex'
+  }
+
+  const CheckBoxStyle = {
+    fontSize: '14px',
+    color: '#aaaaaa',
+    fontWeight: 'normal'
   }
 
   return (
@@ -154,12 +156,12 @@ const SignUpInvite = () => {
                   </div>
                   <form>
                     <div className="form-group">
-                      <RoundHalfInputField
+                      <RoundInputField
                         disabled
                         id="user_email"
                         title="이메일"
-                        value={useremail}
-                        onChange={onChangeId}
+                        value={userEmail}
+                        onChange={setUserEmail}
                       />
                     </div>
                     <div className="form-group">

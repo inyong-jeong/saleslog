@@ -118,7 +118,7 @@ const Auth = (state = INIT_STATE, action) => {
     case POST_CHECK_IS_REGISTERED_SUCCESS:
       return { ...state, postCheckisRegisteredResponse: action.payload.response, loading: false }
     case POST_CHECK_IS_REGISTERED_ERROR:
-      return { ...state, postCheckisRegisteredResponse: action.payload.response, loading: false }
+      return { ...state, postCheckisRegisteredResponse: false, loading: false }
 
     //NAVI BAR
     case SET_NAVIBAR_SHOW:
