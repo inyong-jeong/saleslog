@@ -26,7 +26,7 @@ function ReplyComment(props) {
       <React.Fragment>
         {comment.parent_idx === parentCommentId &&
           <div style={{ width: '80%', marginLeft: '40px' }}>
-            <SingleComment key={comment.fd_idx} comment={comment} postId={props.postId} idx={comment.fd_idx} refreshFunction={props.refreshFunction} />
+            <SingleComment key={comment.fd_idx} comment={comment} postId={props.postId} idx={comment.fd_idx} refreshFunction={props.refreshFunction} feedbackCount={ChildCommentNumber} />
             <ReplyComment key={comment.cre_id} CommentLists={props.CommentLists} parentCommentId={comment.fd_idx} postId={props.postId} refreshFunction={props.refreshFunction} />
           </div>
         }

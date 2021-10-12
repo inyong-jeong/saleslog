@@ -53,7 +53,7 @@ function SingleComment(props) {
   }
 
   const actions = [
-    <span onClick={openReply} key="comment-basic-reply-to">답글달기 </span>,
+    <>{!(props.feedbackCount > 0) && <span onClick={openReply} key="comment-basic-reply-to">답글달기 </span>}</>,
     <>{props.comment.upd_yn === 'Y' && <span onClick={OnChange} key="comment-basic-delete-to">수정 </span>}</>,
     <>{props.comment.del_yn === 'Y' && <span onClick={OnDelete} key="comment-basic-delete-to">삭제 </span>}</>,
   ]
