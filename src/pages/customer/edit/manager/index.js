@@ -165,7 +165,11 @@ const EditCustomerManager = () => {
   return (
 
     <div>
-      <MyAppBar barTitle={'담당자 프로필 수정'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />
+      <MyAppBar
+        barTitle={'담당자 프로필 수정'}
+        showBackButton
+        navigateTo={navigateTo}
+        onSaveClick={onSaveClick} />
 
       <div className='content_body'>
         <div>
