@@ -1,7 +1,7 @@
 import {
   Badge, Toolbar, Typography,
   IconButton,
-  //Menu, MenuItem
+
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
@@ -25,7 +25,6 @@ import { useHistory } from 'react-router';
 import { removeAll } from 'helpers/authUtils';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { PanoramaFishEyeRounded } from '@material-ui/icons';
 
 const { confirm } = Modal;
 const useStyles = makeStyles({
@@ -42,16 +41,6 @@ const useStyles = makeStyles({
     right: 80,
   },
 })
-//앱바 제목 - bartitle
-//뒤로가기 버튼 보이기 - showbackbutton
-//뒤록가기 버튼 클릭 -  navigate to
-// 수정 버튼 보이기 및 클릭이벤트 - edit click 
-// 등록 버튼 보이기 및 클릭이벤트 - save click 
-// 알림 클릭 ->notiClick
-// 프로필 클릭 ->profileClick
-//navigateNext ->  텍스트 옆에 다른 곳으로 이동하는 오른쪽 버튼 넣어주고 싶을 때 정의 
-//showAddButton -> 오른쪽에 + 버튼 표시 
-//onAddClick ->  showAddButton 의 클릭 이벤트 정의 
 
 const MyAppBar = ({
   barTitle,
@@ -60,15 +49,14 @@ const MyAppBar = ({
   navigateTo,
   onEditClick,
   onSaveClick,
-  notiClick,
-  navigateNext,
-  tempSaveClick,
-  onAddClick,
-  badgeContent,
-  deleteClick,
-  onRevise,
-  paramId,
   onDeleteClick,
+  onAddClick,
+  notiClick,
+  onRevise,
+  tempSaveClick,
+  navigateNext,
+  badgeContent,
+  paramId,
   Dbutton,
   Ubutton
 }) => {
@@ -275,13 +263,7 @@ const MyAppBar = ({
                 <NavigateNextIcon />
               </IconButton>
             }
-            {deleteClick &&
-              <div className={classes.tempButtonStyle}>
-                <Button size="small" onClick={deleteClick} >
-                  삭제
-                </Button>
-              </div>
-            }
+
           </Toolbar>
         </div>
       </div>
