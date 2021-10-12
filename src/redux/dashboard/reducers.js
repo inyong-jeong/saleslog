@@ -21,14 +21,14 @@ const Dashboard = (state = initialState, action) => {
     case GET_SALES_STAT_SUCCESS:
       return { ...state, getsaleslogstatRes: action.payload.response.message, loading: false }
     case GET_SALES_STAT_ERROR:
-      return { ...state, getsaleslogstatRes: { state: false, message: action.payload.error }, loading: false }
+      return { ...state, getsaleslogstatRes: false, loading: false }
 
     case GET_LEAD_STAT:
       return { ...state, loading: true }
     case GET_LEAD_STAT_SUCCESS:
       return { ...state, getleadlogstatRes: action.payload.response.message, loading: false }
     case GET_LEAD_STAT_ERROR:
-      return { ...state, getleadlogstatRes: { state: false, message: action.payload.error }, loading: false }
+      return { ...state, getleadlogstatRes: false, loading: false }
 
     default:
       return { ...state };

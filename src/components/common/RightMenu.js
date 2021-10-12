@@ -112,7 +112,7 @@ export default function RightMenu() {
             <div>
               <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 생일만 표시됩니다.</p>
               <div className='mt-1' />
-              {
+              {state.postAnniveraryResponse &&
                 bday.map((item, index) => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
                 ))
@@ -123,7 +123,7 @@ export default function RightMenu() {
             <div>
               <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 결혼 기념일만 표시됩니다.</p>
               <div className='mt-1' />
-              {
+              {state.postAnniveraryResponse &&
                 mday.map((item, index) => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
                 ))
@@ -133,7 +133,7 @@ export default function RightMenu() {
           <Panel header="시스템 공지사항" key="3" style={customPanelStyle}>
             <div>
               {noticeDesc}
-              {
+              {state.postSysResponse &&
                 sysNotice.map((item, index) => (
                   <NoticeItem key={item.accm_idx} item={item} onClick={() => handleSysNotice(item)} />
                 ))
@@ -143,7 +143,7 @@ export default function RightMenu() {
           <Panel header="워크그룹 공지사항" key="4" style={customPanelStyle}>
             <div>
               {noticeDesc}
-              {
+              {state.postWGResponse &&
                 wgNotice.map((item, index) => (
                   <NoticeItem key={item.b_idx} item={item} onClick={() => handleWgNotice(item)} />
                 ))
