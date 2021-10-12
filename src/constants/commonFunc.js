@@ -1,18 +1,28 @@
 import { message, Modal } from 'antd';
-import history from './history';
 
-
+const key = 'updatable'
 export const loadingAndSuccessMessage = (msg) => {
-  message.loading('잠시만 기다려주세요...', 2.5)
-    .then(() => message.success(msg, 0.8))
+  message.loading(
+    {
+      content: '로딩중...',
+      key,
+      style: {
+        marginTop: 100,
+      },
+    }
+  );
+  setTimeout(() => {
+    message.success({
+      content: msg,
+      key,
+      duration: 2,
+      style: {
+        marginTop: 100,
+      },
+    });
+  }, 1000);
 
 }
-
-export const loadingMessage = () => {
-  const hide = message.loading('잠시만 기다려주세요...', 0);
-  // Dismiss manually and asynchronously
-  setTimeout(hide, 2500);
-};
 
 export const successMessage = (msg) => {
   message.success({

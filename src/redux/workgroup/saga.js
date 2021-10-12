@@ -78,7 +78,7 @@ const DEPT_DELETE = '/org/del_dept'                   //workgroup Dept Delete
 function* _postLogoWorkgroup({ payload: { body } }) {
   try {
     const response = yield call(post_fetch_files, cmm.SERVER_API_URL + WGROUP_REGISTER_LOGO, body)
-    yield call(loadingAndSuccessMessage('로고가 변경 되었습니다.'))
+    yield loadingAndSuccessMessage('로고가 변경 되었습니다.')
     yield put(postWorkGroupLogo.success(response))
     //  yield successMessage('로고가 변경 되었습니다.')
 

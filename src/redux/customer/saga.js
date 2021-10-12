@@ -25,7 +25,7 @@ import {
   postEditNamecard,
   deleteCustomer
 } from './actions'
-import { forwardTo, successMessage } from '../../constants/commonFunc'
+import { forwardTo, successMessage, loadingAndSuccessMessage } from '../../constants/commonFunc'
 
 //customer api 
 const BASE_URL = 'https://backend.saleslog.co/saleslog/'
@@ -128,7 +128,8 @@ function* _postCustomerManager({ payload: { body } }) {
 function* _postCustomer({ payload: { body } }) {
   try {
     const response = yield call(post_fetch, BASE_URL + ACC_REGISTER, body)
-    yield successMessage('고객사가 등록되었습니다.')
+    //yield successMessage('고객사가 등록되었습니다.')
+    yield loadingAndSuccessMessage('고객사가 등록되었습니다.')
     yield put(postCustomer.success(response))
 
 
