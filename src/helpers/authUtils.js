@@ -166,7 +166,8 @@ export const isAccessToken = async () => {
   const result = await res;
 
   if (result.success) {
-    if (result.org_idx == '') {
+    console.log('result::::::::::::::::',result);
+    if (result.message.org_idx == '') {
       //워크그룹이 없는 경우
       return 'NoWorkgroup';
     } else {
@@ -196,7 +197,7 @@ export const isAccessToken = async () => {
       return 'ReToken';
     }
     
-  } else if (result.auth_ok == true && result.org_idx == '') {
+  } else if (result.message.auth_ok == true && result.message.org_idx == '') {
     //워크그룹이 없는 경우
     return 'NoWorkgroup';
 
