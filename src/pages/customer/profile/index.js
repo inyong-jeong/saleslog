@@ -50,7 +50,7 @@ const CustomerDetail = () => {
     history.push(`/main/customer/edit/${base64Enc(customerId)}/${base64Enc(managerId)}`)
   }
 
-  const deleteClick = () => {
+  const onDeleteClick = () => {
     confirm({
       title: '해당 고객사를 삭제하시겠습니까?',
       icon: <ExclamationCircleOutlined />,
@@ -74,18 +74,14 @@ const CustomerDetail = () => {
 
   return (
     <div>
-      {managerPermission === 'Y' ?
-        <MyAppBar barTitle={'고객 프로필'}
-          showBackButton
-          navigateTo={navigateTo}
-          onEditClick={onEditClick}
-          deleteClick={deleteClick}
-        /> :
-        <MyAppBar barTitle={'고객 프로필'}
-          showBackButton
-          navigateTo={navigateTo}
-        />
-      }
+      <MyAppBar barTitle={'고객 프로필'}
+        showBackButton
+        navigateTo={navigateTo}
+        onEditClick={onEditClick}
+        onDeleteClick={onDeleteClick}
+        Dbutton={managerPermission === 'Y' ? 'Y' : 'N'}
+        Ubutton={managerPermission === 'Y' ? 'Y' : 'N'}
+      />
 
       <div className='content_body'>
         <FullTabs defaultActiveKey="1" >
