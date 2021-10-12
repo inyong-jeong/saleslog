@@ -28,6 +28,9 @@ import {
   GET_REFRESH_OAUTH_TOKEN_SUCCESS,
   GET_REFRESH_OAUTH_TOKEN_ERROR,
   SET_NAVIBAR_SHOW,
+  POST_CHECK_IS_REGISTERED,
+  POST_CHECK_IS_REGISTERED_ERROR,
+  POST_CHECK_IS_REGISTERED_SUCCESS
 } from 'constants/actionTypes';
 
 let INIT_STATE = {
@@ -40,7 +43,9 @@ let INIT_STATE = {
   response: null,
   refreshtokenresponse: null,
   isShowNaviBar: true,
-  authcodeError: null
+  authcodeError: null,
+  postCheckisRegisteredResponse: null,
+  loading: null,
 };
 
 const Auth = (state = INIT_STATE, action) => {
@@ -70,10 +75,10 @@ const Auth = (state = INIT_STATE, action) => {
     case GET_OAUTH_TOKEN:
       return { ...state };
     case GET_OAUTH_TOKEN_SUCCESS:
-      console.log('GET_OAUTH_TOKEN_SUCCESS:',action.payload.response)
+      console.log('GET_OAUTH_TOKEN_SUCCESS:', action.payload.response)
       return { ...state, accesstokenResponse: action.payload.response };
     case GET_OAUTH_TOKEN_ERROR:
-      console.log('GET_OAUTH_TOKEN_ERROR:',action.payload.error)
+      console.log('GET_OAUTH_TOKEN_ERROR:', action.payload.error)
       return { ...state, accesstokenResponse: action.payload.error };
     case POST_AUTHNUMBER:
       return { ...state };
@@ -96,10 +101,10 @@ const Auth = (state = INIT_STATE, action) => {
     case POST_INVITE:
       return { ...state };
     case POST_INVITE_SUCCESS:
-      console.log('success::',action.payload);
+      console.log('success::', action.payload);
       return { ...state, postinviteResponse: action.payload.response };
     case POST_INVITE_ERROR:
-      console.log('error:::',action.payload);
+      console.log('error:::', action.payload);
       return { ...state, postinviteResponse: action.payload.error };
     case FIND_PASSWORD:
       return { ...state };
@@ -107,6 +112,14 @@ const Auth = (state = INIT_STATE, action) => {
       return { ...state, findPasswordResponse: action.payload.response };
     case FIND_PASSWORD_FAILED:
       return { ...state, findPasswordError: action.payload.error };
+
+    case POST_CHECK_IS_REGISTERED:
+      return { ...state, loading: true }
+    case POST_CHECK_IS_REGISTERED_SUCCESS:
+      return { ...state, postCheckisRegisteredResponse: action.payload.response, loading: false }
+    case POST_CHECK_IS_REGISTERED_ERROR:
+      return { ...state, postCheckisRegisteredResponse: action.payload.response, loading: false }
+
     //NAVI BAR
     case SET_NAVIBAR_SHOW:
       return { ...state, isShowNaviBar: action.payload };

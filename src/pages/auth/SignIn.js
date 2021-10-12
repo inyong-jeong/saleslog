@@ -7,7 +7,7 @@ import RoundInputField from "components/RoundInputField";
 import { isUserAuthenticated, getOauthAccessToken } from 'helpers/authUtils';
 import { isUserAuthorized } from 'helpers/authUtils';
 import { Checkbox } from 'antd';
-import { authorize, getOauthToken, postRegisteration, postInvite, postInviteRegistration } from 'redux/actions';
+import { authorize, getOauthToken } from 'redux/actions';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import StyledButton from 'components/styledcomponent/Button'
 import { useCookies } from 'react-cookie';

@@ -11,6 +11,7 @@ import {
   POST_INVITE_REGISTRATION,
   POST_WORKGROUP,
   CHECK_ACCESS_TOKEN,
+  POST_CHECK_IS_REGISTERED
 
 } from 'constants/actionTypes';
 
@@ -33,5 +34,5 @@ export const postRegisteration = fetchActionGenerator(POST_REGISTRATION, 'userem
 export const postInvite = fetchActionGenerator(POST_INVITE, 'login_id', 'invite_email', 'permission');
 export const postInviteRegistration = fetchActionGenerator(POST_INVITE_REGISTRATION, 'user_email', 'invite_code', 'user_name', 'user_password', 'use_name');
 export const postWorkGroup = fetchActionGenerator(POST_WORKGROUP, 'user_email', 'comp_name', 'comp_domain');
-
+export const postCheckIsRegistered = fetchActionGenerator(POST_CHECK_IS_REGISTERED, 'body')
 

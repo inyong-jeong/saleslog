@@ -177,7 +177,7 @@ const routes = [
   { path: '/findpwsucceed', name: 'FindPasswordSucceed', component: FindPasswordSucceed, route: LandingRoute, exact: true },
   { path: '/change_pw', name: 'ChangePassword', component: ChangePassword, route: LandingRoute, exact: true },
   { path: '/signup', name: 'SignUp', component: SignUp, route: LandingRoute, exact: true },
-  { path: '/signup/invite/:inviteCode/:inviteEmail', name: 'SignUpInvite', component: SignUpInvite, route: LandingRoute, exact: true },
+  { path: '/signup/invite/:inviteCode/:inviteEmail/:useName', name: 'SignUpInvite', component: SignUpInvite, route: LandingRoute, exact: true },
   { path: '/findid', name: 'FindId', component: FindId, route: LandingRoute, exact: true },
   { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute, exact: true },
   { path: '/workgroup', name: 'WorkGroup', component: WorkGroup, route: LandingRoute, exact: true },

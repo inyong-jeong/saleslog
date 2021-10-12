@@ -47,8 +47,8 @@ export const oauthAuthorize = async (username, password, client_id, redirect_uri
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -77,8 +77,8 @@ export const oauthgetaccesstoken = async (code, client_secret, client_id, grant_
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -108,10 +108,10 @@ export const oauthgetrefreshaccesstoken = async (refresh_token, client_id, clien
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
-  
+
 }
 
 export const postFindPassword = async (email) => {
@@ -136,8 +136,8 @@ export const postFindPassword = async (email) => {
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -165,9 +165,9 @@ export const postChangePassword = async (code, email, password) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         "Accept": "application/json",
       }
-    })    
-    const result = await response.json()
-    const data = await result
+    })
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -193,8 +193,8 @@ export const postAuthorizationNumber = async (email) => {
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -222,8 +222,8 @@ export const postClientRegisteration = async (useremail, password, user_name) =>
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -251,8 +251,8 @@ export const postInviteEmail = async (login_id, invite_email, permission) => {
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -282,8 +282,8 @@ export const postInviteRegister = async (user_email, invite_code, user_name, use
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }
 
@@ -311,7 +311,7 @@ export const postWorkGroupmodel = async (user_email, comp_name, comp_domain) => 
         "Accept": "application/json",
       }
     })
-    const result = await response.json()
-    const data = await result
+  const result = await response.json()
+  const data = await result
   return data;
 }

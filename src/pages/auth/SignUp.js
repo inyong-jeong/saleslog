@@ -201,21 +201,6 @@ const SignUp = (props) => {
 
                   </div>
                   <div className="form-group">
-                    {/* <RoundHalfInputField
-                      id="user_name"
-                      title="이름"
-                      placeholder="이름"
-                      value={firstname}
-                      onChange={onChangeFirstName}
-                    />
-                    <span> </span>
-                    <RoundHalfInputField
-                      id="user_last_name"
-                      title="성"
-                      placeholder="성"
-                      value={lastname}
-                      onChange={onChangeLastName}
-                    /> */}
                     <RoundInputField
                       id="name"
                       title="이름"

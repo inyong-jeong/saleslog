@@ -2,7 +2,6 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
 import {
-
   authorize,
   getOauthToken,
   getRefreshOauthToken,
@@ -11,17 +10,18 @@ import {
   postInvite,
   postInviteRegistration,
   postWorkGroup,
-  checkAccessToken
+  checkAccessToken,
+  postCheckIsRegistered
 } from "../actions";
 
 //RENEWAL
 import {
   oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken,
   postAuthorizationNumber, postClientRegisteration, postInviteEmail, postInviteRegister,
-  postWorkGroupmodel
+  postWorkGroupmodel,
 } from 'model/auth';
 
-import { get_fetch, check_fetch, post_fetch } from 'model/FetchManage'
+import { check_fetch, post_fetch_no_token } from 'model/FetchManage'
 import {
   setUserAuthenticating,
   setOauthCode,
@@ -31,19 +31,43 @@ import {
 
 import {
   OAUTH_AUTHORIZE,
-  GET_OAUTH_TOKEN, GET_REFRESH_OAUTH_TOKEN, POST_AUTHNUMBER, POST_REGISTRATION, POST_INVITE, POST_INVITE_REGISTRATION,
-  POST_WORKGROUP, CHECK_ACCESS_TOKEN
+  GET_OAUTH_TOKEN,
+  GET_REFRESH_OAUTH_TOKEN,
+  POST_AUTHNUMBER,
+  POST_REGISTRATION,
+  POST_INVITE,
+  POST_INVITE_REGISTRATION,
+  POST_WORKGROUP,
+  CHECK_ACCESS_TOKEN,
+  POST_CHECK_IS_REGISTERED
 } from "constants/actionTypes";
-import { SET_NAVIBAR_SHOW, SET_NAVIBAR_SHOW_SUCCESS } from "../../constants/actionTypes";
+import { hideMessage, loadingMessage } from "../../constants/commonFunc";
 
-//RENEWAL
+const REGISTER_CHECK_URL = 'https://auth.theklab.co/login/check_user_invite'
 //Res 값 체크 (invalid_grant)
 function _oauthResCheck(res) {
   if (res.error && res.error == "invalid_grant") {
     return false;
-  } else { 
-    return true; 
+  } else {
+    return true;
   }
+}
+
+function* _postCheckIsRegistered({ payload: { body } }) {
+  try {
+    yield loadingMessage()
+    yield console.log('saga invite register', body)
+    const response = yield call(post_fetch_no_token, REGISTER_CHECK_URL, body)
+    yield console.log('saga invite res', response)
+    yield hideMessage()
+    yield put(postCheckIsRegistered.success(response))
+
+  }
+  catch (error) {
+    yield put(postCheckIsRegistered.error(error))
+    yield console.log('saga invite err', error)
+  }
+
 }
 
 
@@ -69,27 +93,27 @@ function* _getOauthToken({ payload: { code, client_secret, client_id, grant_type
       yield setOauthAccessToken(response.access_token);
       yield setOauthRefreshToken(response.refresh_token);
       yield setUserAuthenticating(false);
-      yield put(getOauthToken.success(response));  
+      yield put(getOauthToken.success(response));
       return;
-    } else {      
+    } else {
 
       // 오류가 떨어지면 2회 반복 로그인 시도
-      for(let i=0; i<2; i++) {
+      for (let i = 0; i < 2; i++) {
         response = yield call(oauthgetaccesstoken, code, client_secret, client_id, grant_type);
         if (yield _oauthResCheck(response)) {
           yield setOauthAccessToken(response.access_token);
           yield setOauthRefreshToken(response.refresh_token);
           yield setUserAuthenticating(false);
-          yield put(getOauthToken.success(response));  
+          yield put(getOauthToken.success(response));
           return;
           //break;
         }
 
-        
+
       }
       yield put(getOauthToken.error(response.error));
     }
-    
+
 
   } catch (error) {
     yield put(getOauthToken.error(error.message));
@@ -120,7 +144,7 @@ function* _postAuthNumber({ payload: { email } }) {
 
 function* _postRegistration({ payload: { useremail, password, user_name } }) {
   try {
-    console.log('_postRegistration::::',user_name)
+    console.log('_postRegistration::::', user_name)
     const response = yield call(postClientRegisteration, useremail, password, user_name);
     console.log(response);
     yield put(postRegisteration.success(response));
@@ -151,7 +175,6 @@ function* _postInviteRegistration({ payload: { user_email, invite_code, user_nam
 function* _postWorkGroup({ payload: { user_email, comp_name, comp_domain } }) {
   try {
     const response = yield call(postWorkGroupmodel, user_email, comp_name, comp_domain);
-    yield console.log('postWorkGroup::::',response)
     yield put(postWorkGroup.success(response));
   } catch (error) {
     yield put(postWorkGroup.error(error.message));
@@ -170,6 +193,10 @@ function* _checkAccessToken() {
 }
 
 //renewal
+
+export function* wawtchPostCheckIsRegistered() {
+  yield takeEvery(POST_CHECK_IS_REGISTERED, _postCheckIsRegistered)
+}
 export function* watchOauthAuthorize() {
   yield takeEvery(OAUTH_AUTHORIZE, _OauthAuthorize);
 }
@@ -215,8 +242,10 @@ function* authSaga() {
     fork(watchPostInvite),
     fork(watchPostInviteRegistration),
     fork(watchPostWorkGroup),
+    fork(wawtchPostCheckIsRegistered),
     //토큰만료 확인
     fork(watchCheckAccessToken),
+
 
   ]);
 }

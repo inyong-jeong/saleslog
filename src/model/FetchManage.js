@@ -1,4 +1,4 @@
-import { getOauthAccessToken, getOauthRefreshToken,removeAll } from 'helpers/authUtils'
+import { getOauthAccessToken, getOauthRefreshToken, removeAll } from 'helpers/authUtils'
 import { useHistory } from 'react-router';
 import cmm from 'constants/common';
 
@@ -14,16 +14,16 @@ const check_token_fetch = async (url, token) => {
       headers: {
         'Authorization': `Bearer ${token}`
       }
-      })
-      
+    })
+
     const result = await response.json()
     const data = await result
-    console.log('check_token_fetch:::완료',data)
-    
+    console.log('check_token_fetch:::완료', data)
+
     // if (data.success !== true) {
     //   //throw new Error(data.message)
     // }
-    
+
     return data
   } catch (error) {
     return null;
@@ -38,12 +38,12 @@ const check_token_fetch = async (url, token) => {
 const check_fetch = async (url) => {
   const token = await getOauthAccessToken();
   const reToken = await getOauthRefreshToken();
-  console.log('check_fetch:::: TOKEN :::::::::: ',token, reToken, )
+  console.log('check_fetch:::: TOKEN :::::::::: ', token, reToken,)
 
   //access / refresh 토큰중 하나라도 없으면 로그인으로 이동
   if (token.toString() == 'undefined' || reToken.toString() == 'undefined') {
     throw new Error('noToken')
-  } 
+  }
 
   //엑세스 토큰 만료 확인 
   const response = await fetch(url, {
@@ -54,7 +54,7 @@ const check_fetch = async (url) => {
   })
   const result = await response.json()
   const data = await result
-  
+
   if (data.success !== true) {
     throw new Error(data.message)
   }
@@ -85,7 +85,7 @@ const get_fetch = async (url) => {
 //post 
 const post_fetch = async (url, body) => {
   const token = getOauthAccessToken();
-  
+
   let formBody = [];
   for (let property in body) {
     let encodedKey = encodeURIComponent(property)
@@ -107,9 +107,38 @@ const post_fetch = async (url, body) => {
   if (data.status !== 200) {
     throw new Error(data.message)
   }
-    
+
   return data
 }
+
+//post - no token
+const post_fetch_no_token = async (url, body) => {
+
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property)
+    let encodedValue = encodeURIComponent(body[property])
+    formBody.push(encodedKey + "=" + encodedValue)
+  }
+  formBody = formBody.join("&");
+
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+    },
+    body: formBody
+  })
+  const result = await response.json()
+  const data = await result
+  if (data.status !== 200) {
+    throw new Error(data.message)
+  }
+
+  return data
+}
+
 
 //post - file
 const post_fetch_files = async (url, data) => {
@@ -153,4 +182,4 @@ const post_fetch_files = async (url, data) => {
   return response
 }
 
-export { post_fetch, get_fetch, post_fetch_files, check_fetch, check_token_fetch }
+export { post_fetch, get_fetch, post_fetch_files, check_fetch, check_token_fetch, post_fetch_no_token }
