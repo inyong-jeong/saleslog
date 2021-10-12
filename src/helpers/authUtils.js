@@ -167,7 +167,7 @@ export const isAccessToken = async () => {
 
    if (result.success) {
      console.log('true:::')
-     return 'OkToken';
+     return 'OkToken';   
    } else if (result.message == '토큰만료') {
     // 엑세스 토큰 재발행(refresh token)
     const reToken = localStorage.getItem('oauth-refresh-token');
@@ -191,8 +191,10 @@ export const isAccessToken = async () => {
       return 'ReToken';
     }
     
-    
-    
+  } else if (result.auth_ok == true && result.org_idx == '') {
+    //워크그룹이 없는 경우
+    return 'NoWorkgroup';
+
   }
   //return (token && token !== 'undefined') ? true : false;
 

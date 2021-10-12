@@ -71,22 +71,14 @@ const SalesLogFilterDash = (props) => {
 
   //마운트 될 때 
   useEffect(() => {
-    //    
-    //setSelId(props.id)  
-    // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa::::::::::::::::aaaaaaaaaaaaaaa',firstLoading, chgCombo, selId)
     props.getorganizationDash(filterdata)
-
-    //setFirstLoading(true)
-
   }, [])
 
 
   //맴버조회 fetch 후  
   useEffect(() => {
-    // console.log('맴버조회:::::::::::::::', selId,' == ', props.id, selId == props.id)
     if (props.organizationuserDashRes && (selIdUser == props.id)) {
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
-      //console.log(userlist)
       props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
       setSelIdUser()
@@ -96,9 +88,8 @@ const SalesLogFilterDash = (props) => {
 
   //부서조회 fetch 후
   useEffect(() => {
-    //console.log('부서조회:::::::::::::::', selId,' == ', props.id, selId == props.id)
     if (props.organizationDashRes && (selId == props.id)) {
-
+console.log('props.organizationDashRes:::', props.organizationDashRes)
       if (chgCombo === 0) {
         setBigList(props.organizationDashRes)
       } else if (chgCombo === 1) {

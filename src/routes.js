@@ -97,13 +97,16 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
         } else if (res == 'ReToken') {
           //props.history.replace(props.history.location)
           window.location.reload();          
+        } else if (res == 'NoWorkgroup') {
+          props.history.push('/main/workgroup/chgwgroup')
         } 
       })
       return <Component {...props} />
       
     } else {
       removeAll();
-      return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
+      props.history.push('/signin')
+      //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
     }
 
 

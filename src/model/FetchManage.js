@@ -85,7 +85,7 @@ const get_fetch = async (url) => {
 //post 
 const post_fetch = async (url, body) => {
   const token = getOauthAccessToken();
-  console.log('token::::::::::::::::::::',token)
+  
   let formBody = [];
   for (let property in body) {
     let encodedKey = encodeURIComponent(property)

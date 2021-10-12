@@ -83,7 +83,6 @@ class App extends Component {
   }
 
   getLayout = () => {
-    console.log('App.js   ::::::::::::')
     if (isUserAuthenticating() === "true")
       return AuthenticatingLayout;
     return isUserAuthenticated() ? AuthLayout : NonAuthLayout;
