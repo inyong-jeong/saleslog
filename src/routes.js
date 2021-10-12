@@ -11,6 +11,7 @@ const FindPassword = React.lazy(() => import('./pages/auth/FindPassword'));
 const FindPasswordSucceed = React.lazy(() => import('./pages/auth/FindPasswordSucceed'));
 const ChangePassword = React.lazy(() => import('./pages/auth/ChangePassword'));
 const SignUp = React.lazy(() => import('./pages/auth/SignUp'));
+const SignUpInvite = React.lazy(() => import('./pages/auth/SignUpInvite'));
 const FindId = React.lazy(() => import('./pages/auth/FindId'));
 const Authing = React.lazy(() => import('./components/AuthenticatingLayout'));
 const WorkGroup = React.lazy(() => import('./pages/auth/WorkGroup'));
@@ -82,27 +83,27 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 );
 
 const MainRoute = ({ component: Component, roles, ...rest }) => (
-  <Route {...rest} render={props => {    
-    const isTokenValid =  isUserAuthenticated();
-    console.log('MainRoute::::::::::',isTokenValid);
+  <Route {...rest} render={props => {
+    const isTokenValid = isUserAuthenticated();
+    console.log('MainRoute::::::::::', isTokenValid);
 
-     if (isTokenValid) {
+    if (isTokenValid) {
       //토큰 만료 확인 및 갱신 
-      let isTokenOK =  isAccessToken().then((res) => {
-        console.log('routes:::: isTokenOK::::',res, isTokenOK)
+      let isTokenOK = isAccessToken().then((res) => {
+        console.log('routes:::: isTokenOK::::', res, isTokenOK)
         if (res == 'NoToken') {
           removeAll();
           props.history.push('/signin')
-          
+
         } else if (res == 'ReToken') {
           //props.history.replace(props.history.location)
-          window.location.reload();          
+          window.location.reload();
         } else if (res == 'NoWorkgroup') {
           props.history.push('/main/workgroup/chgwgroup')
-        } 
+        }
       })
       return <Component {...props} />
-      
+
     } else {
       removeAll();
       props.history.push('/signin')
@@ -176,6 +177,7 @@ const routes = [
   { path: '/findpwsucceed', name: 'FindPasswordSucceed', component: FindPasswordSucceed, route: LandingRoute, exact: true },
   { path: '/change_pw', name: 'ChangePassword', component: ChangePassword, route: LandingRoute, exact: true },
   { path: '/signup', name: 'SignUp', component: SignUp, route: LandingRoute, exact: true },
+  { path: '/signup/invite/:inviteCode/:inviteEmail', name: 'SignUpInvite', component: SignUpInvite, route: LandingRoute, exact: true },
   { path: '/findid', name: 'FindId', component: FindId, route: LandingRoute, exact: true },
   { path: '/authing', name: 'Authing', component: Authing, route: LandingRoute, exact: true },
   { path: '/workgroup', name: 'WorkGroup', component: WorkGroup, route: LandingRoute, exact: true },
