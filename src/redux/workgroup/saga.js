@@ -1,7 +1,12 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { post_fetch, post_fetch_files } from 'model/FetchManage'
-import { message } from 'antd';
-import { successMessage, errorMessage, loadingMessage, loadingAndSuccessMessage } from 'constants/commonFunc';
+
+import {
+  successMessage,
+  errorMessage,
+  loadingMessage,
+  hideMessage,
+} from 'constants/commonFunc';
 import {
   POST_WORKGROUP_LOGO,
   GET_WORKGROUP_INFO,
@@ -73,14 +78,14 @@ const DEPT_REGISTER = '/org/regi_dept'                //workgroup Dept Register
 const DEPT_UPDATE = '/org/upd_dept'                   //workgroup Dept Update
 const DEPT_DELETE = '/org/del_dept'                   //workgroup Dept Delete
 
-
 //워크그룹 로고
 function* _postLogoWorkgroup({ payload: { body } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch_files, cmm.SERVER_API_URL + WGROUP_REGISTER_LOGO, body)
-    yield loadingAndSuccessMessage('로고가 변경 되었습니다.')
+    yield hideMessage()
     yield put(postWorkGroupLogo.success(response))
-    //  yield successMessage('로고가 변경 되었습니다.')
+    yield successMessage('로고가 변경되었습니다.')
 
   } catch (error) {
     yield put(postWorkGroupLogo.error(error))
@@ -89,11 +94,10 @@ function* _postLogoWorkgroup({ payload: { body } }) {
 //워크그룹 상세
 function* _getWorkgroupInfo({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_GET_INFO, body)
-
+    yield hideMessage()
     yield put(getWorkGroupInfo.success(response))
-    yield console.log(response)
 
   } catch (error) {
     yield put(getWorkGroupInfo.error(error))
@@ -102,11 +106,11 @@ function* _getWorkgroupInfo({ payload: { body } }) {
 //워크그룹 수정
 function* _postWorkGroupUpd({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_UPD, body)
-
+    yield hideMessage()
     yield put(postWorkGroupUpd.success(response))
-    yield successMessage('저장 되었습니다.')
+    yield successMessage('저장되었습니다.')
 
   } catch (error) {
     yield put(postWorkGroupUpd.error(error))
@@ -116,11 +120,11 @@ function* _postWorkGroupUpd({ payload: { body } }) {
 //워크그룹 생성
 function* _postWorkGroupRegi({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_REGI, body)
-
+    yield hideMessage()
     yield put(postWorkGroupRegi.success(response))
-    yield successMessage('생성 되었습니다.')
+    yield successMessage('생성되었습니다.')
 
   } catch (error) {
     yield put(postWorkGroupRegi.error(error))
@@ -130,9 +134,9 @@ function* _postWorkGroupRegi({ payload: { body } }) {
 //워크그룹 리스트
 function* _getWorkGroupList({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_LIST, body)
-    yield console.log('fetch result', response);
+    yield hideMessage()
     yield put(getWorkGroupList.success(response))
   } catch (error) {
     yield put(getWorkGroupList.error(error))
@@ -142,11 +146,11 @@ function* _getWorkGroupList({ payload: { body } }) {
 //워크그룹 변경
 function* _postWorkGroupChange({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_CHANGE, body)
-    yield console.log('aaaaaaaaaaaaaaaaaaa::::::::::::', response)
+    yield hideMessage()
     yield put(postWorkGroupChange.success(response))
-    yield successMessage('워크그룹이 변경 되었습니다.')
+    yield successMessage('워크그룹이 변경되었습니다.')
 
   } catch (error) {
     yield put(postWorkGroupChange.error(error))
@@ -156,13 +160,13 @@ function* _postWorkGroupChange({ payload: { body } }) {
 //워크그룹 나가기
 function* _postWorkGroupOut({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_OUT, body)
-
+    yield hideMessage()
     yield put(postWorkGroupOut.success(response))
-    //yield successMessage('변경 되었습니다.')
 
   } catch (error) {
+    yield console.log('워크그룹 나가기 에러', error)
     yield put(postWorkGroupOut.error(error))
   }
 }
@@ -171,14 +175,14 @@ function* _postWorkGroupOut({ payload: { body } }) {
 //워크그룹 삭제
 function* _postWorkGroupDel({ payload: { body } }) {
   try {
-    console.log('fetch::::delwgroup::::::::::', body)
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + WGROUP_DEL, body)
-    yield console.log('result::::::::::::::', response)
+    yield hideMessage()
     yield put(postWorkGroupDel.success(response))
-    //yield successMessage( '변경 되었습니다.')
+    yield successMessage('워크그룹이 삭제되었습니다.')
 
   } catch (error) {
-    yield console.log('result::::::error::::::::', error)
+    yield console.log('워크그룹 삭제 에러', error)
     yield errorMessage(error.message)
     yield put(postWorkGroupDel.error(error))
   }
@@ -187,8 +191,9 @@ function* _postWorkGroupDel({ payload: { body } }) {
 //워크그룹 맴버 리스트
 function* _getGroupMemberList({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_LIST, body)
+    yield hideMessage()
     yield put(getGroupMemberList.success(response))
 
   } catch (error) {
@@ -199,7 +204,9 @@ function* _getGroupMemberList({ payload: { body } }) {
 //워크그룹 맴버 상세
 function* _getGroupMemberDetail({ payload: { body } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_DETAIL, body)
+    yield hideMessage()
     yield put(getGroupMemberDetail.success(response))
 
   } catch (error) {
@@ -211,10 +218,11 @@ function* _getGroupMemberDetail({ payload: { body } }) {
 function* _postGroupMemberUpd({ payload: { body } }) {
   try {
 
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_UPD, body)
-
+    yield hideMessage()
     yield put(postGroupMemberUpd.success(response))
-    yield successMessage('수정 되었습니다.')
+    yield successMessage('멤버가 수정되었습니다.')
 
   } catch (error) {
     yield put(postGroupMemberUpd.error(error))
@@ -224,9 +232,9 @@ function* _postGroupMemberUpd({ payload: { body } }) {
 //워크그룹 맴버 내보내기
 function* _postGroupMemberOut({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_OUT, body)
-
+    yield hideMessage()
     yield put(postGroupMemberOut.success(response))
     yield successMessage('맴버를 내보냈습니다.')
 
@@ -239,9 +247,9 @@ function* _postGroupMemberOut({ payload: { body } }) {
 //내 프로필 정보 가져오기
 function* _getProfileInfo({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + PROFILE_GET_INFO, body)
-
+    yield hideMessage()
     yield put(getProfileInfo.success(response))
 
 
@@ -253,11 +261,11 @@ function* _getProfileInfo({ payload: { body } }) {
 //워크그룹 초대
 function* _postGroupInvite({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.AUTH_SERVER_API_URL + MEMBER_INVITE, body)
-
+    yield hideMessage()
     yield put(postGroupInvite.success(response))
-    yield successMessage('초대 메일을 발송했습니다.')
+    yield successMessage('초대 메일을 성공적으로 발송했습니다.')
 
   } catch (error) {
     yield put(postGroupInvite.error(error))
@@ -268,9 +276,9 @@ function* _postGroupInvite({ payload: { body } }) {
 //워크그룹 초대 리스트
 function* _getInviteList({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + INVITE_LIST, body)
-
+    yield hideMessage()
     yield put(getInviteList.success(response))
 
   } catch (error) {
@@ -281,9 +289,9 @@ function* _getInviteList({ payload: { body } }) {
 //워크그룹 초대 취소
 function* _postInviteDel({ payload: { body } }) {
   try {
-    console.log('fetch::Invite:: Delete:::::::::::::::::', body)
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + INVITE_DEL, body)
-    yield console.log('result:::::::::::::::::::', response)
+    yield hideMessage()
     yield put(postInviteDel.success(response))
     yield successMessage('초대가 취소되었습니다.')
 
@@ -295,9 +303,9 @@ function* _postInviteDel({ payload: { body } }) {
 //부서리스트
 function* _getDeptInfo({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + DEPT_GET_INFO, body)
-
+    yield hideMessage()
     yield put(getDeptInfo.success(response))
 
   } catch (error) {
@@ -308,10 +316,11 @@ function* _getDeptInfo({ payload: { body } }) {
 //부서 등록
 function* _postDeptRegi({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + DEPT_REGISTER, body)
+    yield hideMessage()
     yield put(postDeptRegi.success(response))
-    yield successMessage('등록 되었습니다.')
+    yield successMessage('부서가 등록되었습니다.')
 
   } catch (error) {
     yield put(postDeptRegi.error(error))
@@ -321,10 +330,11 @@ function* _postDeptRegi({ payload: { body } }) {
 //부서 수정
 function* _postDeptUpd({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + DEPT_UPDATE, body)
+    yield hideMessage()
     yield put(postDeptUpd.success(response))
-    yield successMessage('수정 되었습니다.')
+    yield successMessage('부서가 수정되었습니다.')
 
   } catch (error) {
     yield put(postDeptUpd.error(error))
@@ -333,10 +343,11 @@ function* _postDeptUpd({ payload: { body } }) {
 //부서 삭제
 function* _postDeptDel({ payload: { body } }) {
   try {
-
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + DEPT_DELETE, body)
+    yield hideMessage()
     yield put(postDeptDel.success(response))
-    yield successMessage('삭제 되었습니다.')
+    yield successMessage('부서가 삭제되었습니다.')
 
   } catch (error) {
     yield put(postDeptDel.error(error))
