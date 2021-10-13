@@ -172,7 +172,7 @@ const Etc = (state = initialState, action) => {
       return { ...state, loading: false }
     case POST_WORKGROUP_NOTICE_SUCCESS:
       return { ...state, loading: true, postWGResponse: action.payload.response.message }
-    case POST_WORKGROUP_ERROR:
+    case POST_WORKGROUP_NOTICE_ERROR:
       return { ...state, loading: true, postWGResponse: false }
 
     default:

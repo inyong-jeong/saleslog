@@ -20,11 +20,9 @@ const grpNoticeRegi = () => {
   const [noticeData, setNoticeData] = useState([])
   const [noticeId, setNoticeId] = useState(null)
 
-  //이전페이지
   const navigateTo = () => history.goBack()
 
   useEffect(() => {
-    // 하단 네비 설정 
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: true
@@ -35,13 +33,10 @@ const grpNoticeRegi = () => {
 
   }, [params.noticeId])
 
-  const onEditClick = (e) => {
-    //공지사항 수정
+  const onEditClick = () => {
     history.push({ pathname: `/main/etc/notice/group/update/${params.noticeId}/` })
     return
   }
-
-  //공지사항등록 fetch 후
   useEffect(() => {
     if (state.getNoticeGrpDetailRes) {
       setNoticeData(state.getNoticeGrpDetailRes[0])
