@@ -185,7 +185,7 @@ const myProfilePage = (props) => {
         </div>
         <Divider />
         <div>
-          <label style={labelTextStyle}>맴버 구분 </label><br />
+          <label style={labelTextStyle}>멤버 구분 </label><br />
           <label style={grayResultTextStyle}>{cmm.permission(myData[0].permissions)}</label>
         </div>
         <Divider />
