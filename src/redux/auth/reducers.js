@@ -33,7 +33,10 @@ import {
   FIND_PASSWORD_ERROR,
   CHANGE_PASSWORD,
   CHANGE_PASSWORD_SUCCESS,
-  CHANGE_PASSWORD_ERROR
+  CHANGE_PASSWORD_ERROR,
+  POST_INVITE_REGISTRATION,
+  POST_INVITE_REGISTRATION_ERROR,
+  POST_INVITE_REGISTRATION_SUCCESS
 } from 'constants/actionTypes';
 
 let INIT_STATE = {
@@ -48,12 +51,12 @@ let INIT_STATE = {
   isShowNaviBar: true,
   authcodeError: null,
   postCheckisRegisteredResponse: null,
+  postInviteRegisteredResponse: null,
   loading: null,
   findresponse: false,
   changeresponse: false,
   changePasswordResponse: null,
-  changePasswordError: null,
-
+  changePasswordError: null
 
 };
 
@@ -135,6 +138,13 @@ const Auth = (state = INIT_STATE, action) => {
       return { ...state, postCheckisRegisteredResponse: action.payload.response, loading: false }
     case POST_CHECK_IS_REGISTERED_ERROR:
       return { ...state, postCheckisRegisteredResponse: false, loading: false }
+
+    case POST_INVITE_REGISTRATION:
+      return { ...state, loading: true }
+    case POST_INVITE_REGISTRATION_SUCCESS:
+      return { ...state, loading: false, postInviteRegisteredResponse: action.payload.response }
+    case POST_INVITE_REGISTRATION_ERROR:
+      return { ...state, loading: false, postInviteRegisteredResponse: false }
 
     //NAVI BAR
     case SET_NAVIBAR_SHOW:

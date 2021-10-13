@@ -11,7 +11,7 @@ import { authorize, getOauthToken } from 'redux/actions';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import StyledButton from 'components/styledcomponent/Button'
 import { useCookies } from 'react-cookie';
-import { errorMessage, successMessage } from "constants/commonFunc";
+import { errorMessage } from "constants/commonFunc";
 import cmm from 'constants/common';
 import { Helmet } from "react-helmet";
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -25,6 +25,7 @@ const SignIn = (props) => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
+
 
   // const [username, onChangeId] = useInput('');
   // const [password, onChangePassword] = useInput('')
@@ -78,19 +79,15 @@ const SignIn = (props) => {
   }
 
   // 로그인 버튼 클릭
-  const handleOnLogin = (e) => {
+  const handleOnLogin = () => {
     if (!inputs.username.length > 0 || !inputs.password.length > 0) {
-      //antd errorMessage  안먹음.. 확인필요 
-      errorMessage('이메일 주소와 비밀번호를 입력하세요.');
-      return; // alert('이메일 주소와 비밀번호를 입력하세요.')
+      return errorMessage('이메일 주소와 비밀번호를 입력하세요.')
     }
 
     //아이디저장
     if (isSaveId) {
       setCookie('userEmail', inputs.username, { maxAge: 60 * 60 * 24 * 30 });
     }
-
-    e.preventDefault();
     const client_id = 'saleslog.co';
     const redirect_uri = cmm.AUTH_SERVER_API_URL + '/oauth/client_auth';
     const response_type = 'code';
@@ -125,12 +122,10 @@ const SignIn = (props) => {
   useEffect(() => {
     console.log('로그인 응답 :::::::::::::::::', state.authcodeResponse)
 
-    if (!state.authcodeResponse) {
-      return;
-    }
+    if (!state.authcodeResponse) return
 
     if (state.authcodeResponse.toString() == 'No User !!') {
-      errorMessage('아이디 또는 비밀번호를 확인해 주세요');
+      errorMessage('아이디 또는 비밀번호를 확인해주세요');
       setInputs({ ...inputs, password: '' })
       state.authcodeResponse = null;
       return;
@@ -268,9 +263,7 @@ const SignIn = (props) => {
                   <div className="form-group mt-3">
                     <StyledButton
                       disabled={loading}
-                      onClick={(e) => {
-                        handleOnLogin(e)
-                      }}>
+                      onClick={handleOnLogin}>
                       로그인
                     </StyledButton>
                   </div>

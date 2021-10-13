@@ -45,7 +45,7 @@ import {
   FIND_PASSWORD,
   CHANGE_PASSWORD
 } from "constants/actionTypes";
-import { hideMessage, loadingMessage } from "../../constants/commonFunc";
+import { errorMessage, hideMessage, loadingMessage } from "../../constants/commonFunc";
 
 const REGISTER_CHECK_URL = 'https://auth.theklab.co/login/check_user_invite'
 //Res 값 체크 (invalid_grant)
@@ -60,16 +60,13 @@ function _oauthResCheck(res) {
 function* _postCheckIsRegistered({ payload: { body } }) {
   try {
     yield loadingMessage()
-    yield console.log('saga invite register', body)
     const response = yield call(post_fetch_no_token, REGISTER_CHECK_URL, body)
-    yield console.log('saga invite res', response)
     yield hideMessage()
     yield put(postCheckIsRegistered.success(response))
 
   }
   catch (error) {
     yield put(postCheckIsRegistered.error(error))
-    yield console.log('saga invite err', error)
   }
 
 }
@@ -77,15 +74,18 @@ function* _postCheckIsRegistered({ payload: { body } }) {
 
 function* _OauthAuthorize({ payload: { username, password, client_id, redirect_uri, response_type, grant_type, state, scope } }) {
   try {
+    yield loadingMessage()
     const response = yield call(oauthAuthorize, username, password, client_id, redirect_uri, response_type, grant_type, state, scope);
-    console.log(response);
+    console.log('* _OauthAuthorize ::', response);
     setOauthCode(response.message.code);
     setUserAuthenticating(true);
+    yield hideMessage()
     yield put(authorize.success(response));
 
   } catch (error) {
     const message = "error";
     yield put(authorize.error(message));
+    console.log('* _OauthAuthorize error::', error);
   }
 }
 
@@ -167,11 +167,17 @@ function* _postInvite({ payload: { login_id, invite_email, permission } }) {
 }
 
 function* _postInviteRegistration({ payload: { user_email, invite_code, user_name, user_password, use_name } }) {
+
   try {
+    loadingMessage()
     const response = yield call(postInviteRegister, user_email, invite_code, user_name, user_password, use_name);
+    yield hideMessage()
     yield put(postInviteRegistration.success(response));
+
   } catch (error) {
     yield put(postInviteRegistration.error(error.message));
+    yield put(errorMessage('유효하지 않은 가입 경로입니다.'))
+
   }
 }
 
