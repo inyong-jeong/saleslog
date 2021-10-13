@@ -1,25 +1,17 @@
-import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import Input from 'components/styledcomponent/Input'
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
-import FullTabs from "components/styledcomponent/FullTabs";
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import { useHistory } from 'react-router';
-import { Modal, Divider, Button, Select, Checkbox, Dropdown, Menu } from 'antd';
+import { Button, Checkbox, } from 'antd';
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { getWorkGroupInfo, postWorkGroupDel } from 'redux/workgroup/actions';
+import { postWorkGroupDel } from 'redux/workgroup/actions';
 import { errorMessage } from '../../../constants/commonFunc';
-import cmm from 'constants/common';
-const { Option } = Select;
-const { TabPane } = FullTabs;
 
-const WgroupMemberPage = (props) => {
+const WgroupMemberPage = () => {
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -68,12 +60,12 @@ const WgroupMemberPage = (props) => {
   //워크그룹 삭제 fetch 후
   useEffect(() => {
     if (state.postWorkGroupDelRes) {
-      console.log('state.postWorkGroupDelRes',state.postWorkGroupDelRes)
-      if (state.postWorkGroupDelRes.state == false) {        
+      console.log('state.postWorkGroupDelRes', state.postWorkGroupDelRes)
+      if (state.postWorkGroupDelRes.state == false) {
         errorMessage(state.postWorkGroupDelRes.message);
         state.postWorkGroupDelRes = null;
       } else {
-        console.log('state.postWorkGroupDelRes',state.postWorkGroupDelRes)
+        console.log('state.postWorkGroupDelRes', state.postWorkGroupDelRes)
         state.postWorkGroupDelRes = null;
         //워크그룹 선택
         history.push('/main/workgroup/chgwgroup')
@@ -96,19 +88,17 @@ const WgroupMemberPage = (props) => {
 
   return (
     <div>
-      {<MyAppBar
+      <MyAppBar
         barTitle={'워크그룹 삭제'}
         showBackButton
-        navigateTo={navigateTo}
+        navigateTo={navigateTo} />
 
-      />}
       <div className='content_body'>
-      <div style={{ flex: 1, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
-        <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', padding: 10, }}>
+        <div style={{ fontSize: 14, padding: 10, textAlign: 'center', color: '#333' }}>
           <ExclamationCircleOutlined
-            style={{ color: '#C90000', position: 'relative', top: -4 }} />&nbsp;
+            style={{ color: '#C90000' }} />&nbsp;
           이 워크그룹을 정말로 삭제 하시겠습니까?<br />
-          모든 게시물, 첨부파일, 크레딧을 포함하여 이 워크그룹과 관련한 모든 데이터가 영구적으로 삭제되며, 되돌릴 수 없습니다.
+          <span style={{ fontSize: 12 }}>모든 게시물, 첨부파일, 크레딧을 포함하여 이 워크그룹과 관련한 모든 데이터가 영구적으로 삭제되며, 되돌릴 수 없습니다.</span>
         </div>
         <div style={{ width: '100%', fontSize: 12, padding: 10, verticalAlign: 'middle', }}>
           <Input.Password
@@ -120,10 +110,9 @@ const WgroupMemberPage = (props) => {
             margin="normal"
           />
         </div>
-        <div style={{ width: '100%', marginTop: 10 }}>
+        <div style={{ marginTop: 10, textAlign: 'center' }}>
           <Checkbox onChange={onChkChange}
-            style={{ fontSize: 12, padding: 10, }}
-          >워크그룹의 모든 데이터가 삭제됨을 충분히 이해 했습니다.
+            style={{ fontSize: 12, padding: 10 }}>워크그룹의 모든 데이터가 삭제됨을 충분히 이해 했습니다.
           </Checkbox>
         </div>
         <div
@@ -150,7 +139,7 @@ const WgroupMemberPage = (props) => {
           >워크그룹 삭제</Button>
         </div>
       </div>
-      </div>
+
     </div>
   );
 }

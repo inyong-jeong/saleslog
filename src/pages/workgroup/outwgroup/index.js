@@ -80,44 +80,44 @@ const WgroupMemberPage = () => {
       <MyAppBar
         barTitle={'워크그룹 나가기'}
         showBackButton
-        navigateTo={navigateTo}
+        navigateTo={navigateTo} />
 
-      />
       <div className='content_body'>
-        <div style={{ flex: 1, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
-          <div style={{ width: '100%', fontSize: 14, verticalAlign: 'middle', padding: 10, }}>
-            <ExclamationCircleOutlined style={{ color: '#C90000', position: 'relative', top: -4 }} />&nbsp;{((groupInfo) ? groupInfo.organization : '워크그룹')}에서 나가면 더이상 워크그룹 정보에 접근할 수 없게 되며, 이 작업은 취소할 수 없습니다.
-          </div>
-          <div style={{ width: '100%', marginTop: 10 }}>
-            <Checkbox onChange={onChkChange}
-              style={{ fontSize: 12, padding: 10, }}
-            >워크그룹에서 나가는 것과 관련된 내용을 충분히 이해 했습니다.</Checkbox>
-          </div>
-          <div
-            style={{
-              position: ((isMobile) ? 'absolute' : ''),
-              width: '100%',
-              height: ((isMobile) ? 60 : 200),
-              bottom: 60,
-              textAlign: 'center',
-              justifyContent: 'flex-end'
+        <div style={{ fontSize: 14, padding: 10, textAlign: 'center', color: '#333' }}>
+          <ExclamationCircleOutlined style={{ color: '#C90000' }} />
+          &nbsp;{((groupInfo) ? groupInfo.organization : '워크그룹')} 에서 나가면 더이상 워크그룹 정보에 접근할 수 없으며, 이 작업은 취소할 수 없습니다.
+        </div>
+        <div style={{ marginTop: 10, textAlign: 'center' }}>
+          <Checkbox onChange={onChkChange}
+            style={{ fontSize: 12, padding: 10, }}>
+            워크그룹에서 나가는 것과 관련된 내용을 충분히 이해 했습니다.
+          </Checkbox>
+        </div>
+        <div
+          style={{
+            position: ((isMobile) ? 'absolute' : ''),
+            width: '100%',
+            height: ((isMobile) ? 60 : 200),
+            bottom: 60,
+            textAlign: 'center',
+            justifyContent: 'flex-end'
 
-            }}>
-            <Button
-              style={{
-                width: ((isMobile) ? '90%' : '50%'),
-                top: ((isMobile) ? 0 : 100),
-                height: 50,
-                bottom: 10,
-                padding: 5
-              }}
-              onClick={() => {
-                outWorkgroup()
-              }}
-            >워크그룹 나가기</Button>
-          </div>
+          }}>
+          <Button
+            style={{
+              width: ((isMobile) ? '90%' : '50%'),
+              top: ((isMobile) ? 0 : 100),
+              height: 50,
+              bottom: 10,
+              padding: 5
+            }}
+            onClick={() => {
+              outWorkgroup()
+            }}
+          >워크그룹 나가기</Button>
         </div>
       </div>
+
     </div>
   );
 }

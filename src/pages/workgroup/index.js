@@ -3,13 +3,12 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import IconLabel from 'components/IconLabel';
 import { useHistory } from 'react-router';
-import { Modal, Divider, Avatar, Spin } from 'antd';
+import { Modal, Divider, Avatar } from 'antd';
 import StyledButton from '../../components/styledcomponent/Button';
 import { getWorkGroupInfo, getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
@@ -38,37 +37,28 @@ const WgroupManagePage = () => {
     }
   )
 
-
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
 
-  //이전페이지
   const navigateTo = () => history.goBack()
 
-  //워크그룹 리스트 팝업
   const navigateNext = () => {
-    //워크그룹 리스트 가져오기
     dispatch(getWorkGroupList.call())
     setIsShowModal(true);
   }
 
-  //워크그룹 체인지
   const handelWGroupChange = (idx) => {
-    //워크그룹 변경
     dispatch(postWorkGroupChange.call({ chg_idx: idx }))
   }
 
-  //워크그룹 생성
-  const handelWGroupRegi = () => {
-    //워크그룹 생성페이지 이동
+  const handleWGroupRegister = () => {
     history.push('/main/workgroup/register');
     setIsShowModal(false)
   }
 
   useEffect(() => {
     if (state.getWorkGroupListRes) {
-      console.log('wglist:::::::::::::::', state.getWorkGroupListRes)
       setWgList(state.getWorkGroupListRes)
     }
 
@@ -76,9 +66,6 @@ const WgroupManagePage = () => {
 
   useEffect(() => {
     if (state.postWorkGroupChangeRes) {
-      console.log('wglist:::::::::::::::', state.postWorkGroupChangeRes)
-
-      //워크그룹 정보 가져오기
       dispatch(getWorkGroupInfo.call())
       setIsShowModal(false)
     }
@@ -86,23 +73,19 @@ const WgroupManagePage = () => {
   }, [state.postWorkGroupChangeRes])
 
   useEffect(() => {
-    // 하단 네비 설정 
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: true
     }
     )
-    //워크그룹 정보 가져오기
     dispatch(getWorkGroupInfo.call())
 
   }, [])
 
   useEffect(() => {
-    console.log('data:::::::::', data)
     if (!cmm.isEmpty(data) && data.length > 0) {
       setInputs({ ...inputs, data: data[0], prevImg: (cmm.isEmpty(data[0].logo_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) })
     }
-
   }, [data])
 
   return (
@@ -124,6 +107,7 @@ const WgroupManagePage = () => {
           <Divider style={marginStyle} />
           <IconLabel title="멤버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
           <Divider style={marginStyle} />
+          {/* 권한에 따라 보이기 필요  */}
           <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
           <Divider style={marginStyle} />
         </div>
@@ -171,7 +155,7 @@ const WgroupManagePage = () => {
                 <StyledButton
                   key={1}
                   onClick={() => {
-                    handelWGroupRegi()
+                    handleWGroupRegister()
                   }}>워크그룹 생성</StyledButton>
               </div>
             </div>
@@ -181,7 +165,7 @@ const WgroupManagePage = () => {
             hasMore={true}
             dataLength={wgList.length} >
             <List>
-              {(wgList ? wgList.map((item, index) => {
+              {wgList ? wgList.map((item, index) => {
                 const { organization, org_domain, org_idx, logo_url, member_cnt, accounts_cnt } = item;
                 return (
                   <div key={index} >
@@ -218,8 +202,7 @@ const WgroupManagePage = () => {
                     <Divider dashed style={{ marginLeft: 0, marginRight: 0, marginTop: 2, marginBottom: 2, }} />
                   </div>
                 )
-              }) : null)
-
+              }) : null
               }
             </List>
           </InfiniteScroll>
