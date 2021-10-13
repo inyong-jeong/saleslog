@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { findPassword } from 'redux/actions';
 import { regex } from 'constants/regex';
@@ -8,9 +8,13 @@ import { getCi } from "helpers/domainUtils";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import StyledButton from '../../components/styledcomponent/Button';
 function FindPassword(props) {
+
+  const state = useSelector(state => state.Auth);
+  let findresponse = state.findresponse;
+
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
   const [email, setEmail] = useState('');
-  const [error, setError] = useState();
+  const [alarm, setAlarm] = useState();
 
   useEffect(() => {
     window.addEventListener('resize', updateWindowDimensions);
@@ -24,12 +28,18 @@ function FindPassword(props) {
     setViewHeight(window.innerHeight);
   }
 
+  useEffect(() => {
+    if (findresponse) {
+      setAlarm('비밀번호 재설정 메일이 발송되었습니다');
+      findresponse = false;
+    }
+  }, [findresponse])
   const handleValidSubmit = (e) => {
     e.preventDefault();
     if (new RegExp(regex.email).exec(email)) {
       props.findPassword(email);
     } else {
-      setError("이메일 형식이 잘못되었습니다");
+      setAlarm("이메일 형식이 잘못되었습니다");
     }
   }
   const handleLandingPage = () => {
@@ -56,9 +66,9 @@ function FindPassword(props) {
   return (
     <div className="container-fluid" style={{ height: viewHeight }}>
       <div className="row" style={{ height: viewHeight }}>
-        <div className="col-lg-4 col-md-3 col-sm-2">
+        <div className="col-lg-3 col-md-3 col-sm-2">
         </div>
-        <div className="col-lg-4 col-md-6 col-sm-8 align-self-center">
+        <div className="col-lg-6 col-md-6 col-sm-8 align-self-center">
           <div className="card">
             <div className="card-body" style={CardStyle}>
               <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
@@ -73,7 +83,7 @@ function FindPassword(props) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  {error && <p className="text-danger mt-2">{error}</p>}
+                  {alarm && <p className="text-danger mt-2">{alarm}</p>}
                 </div>
                 <div className="form-group mr-3 ml-1 mt-3">
                   <StyledButton onClick={handleValidSubmit}>
@@ -93,7 +103,7 @@ function FindPassword(props) {
             </div>
           </div>
         </div>
-        <div className="col-lg-4 col-md-3 col-sm-2">
+        <div className="col-lg-3 col-md-3 col-sm-2">
         </div>
       </div>
     </div>

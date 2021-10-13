@@ -11,14 +11,16 @@ import {
   postInviteRegistration,
   postWorkGroup,
   checkAccessToken,
-  postCheckIsRegistered
+  postCheckIsRegistered,
+  findPassword,
+  changePassword
 } from "../actions";
 
 //RENEWAL
 import {
   oauthAuthorize, oauthgetaccesstoken, oauthgetrefreshaccesstoken,
   postAuthorizationNumber, postClientRegisteration, postInviteEmail, postInviteRegister,
-  postWorkGroupmodel,
+  postWorkGroupmodel, postFindPassword, postChangePassword
 } from 'model/auth';
 
 import { check_fetch, post_fetch_no_token } from 'model/FetchManage'
@@ -39,7 +41,9 @@ import {
   POST_INVITE_REGISTRATION,
   POST_WORKGROUP,
   CHECK_ACCESS_TOKEN,
-  POST_CHECK_IS_REGISTERED
+  POST_CHECK_IS_REGISTERED,
+  FIND_PASSWORD,
+  CHANGE_PASSWORD
 } from "constants/actionTypes";
 import { hideMessage, loadingMessage } from "../../constants/commonFunc";
 
@@ -192,6 +196,25 @@ function* _checkAccessToken() {
   }
 }
 
+function* _postFindPassword({ payload: { email } }) {
+  try {
+    const response = yield call(postFindPassword, email);
+    yield put(findPassword.success(response));
+  } catch (error) {
+    yield put(findPassword.error(error));
+    console.log(error)
+  }
+}
+
+function* _postChangePassword({ payload: { code, email, password } }) {
+  try {
+    const response = yield call(postChangePassword, code, email, password);
+    yield put(changePassword.success(response));
+  } catch (error) {
+    yield put(changePassword.error(error));
+    console.log(error)
+  }
+}
 //renewal
 
 export function* wawtchPostCheckIsRegistered() {
@@ -231,6 +254,18 @@ export function* watchCheckAccessToken() {
   yield takeEvery(CHECK_ACCESS_TOKEN, _checkAccessToken);
 }
 
+//비번 찾기
+
+export function* watchPostFindPassword() {
+  yield takeEvery(FIND_PASSWORD, _postFindPassword);
+}
+
+//비번 변경
+
+export function* watchPostChangePassword() {
+  yield takeEvery(CHANGE_PASSWORD, _postChangePassword);
+}
+
 
 function* authSaga() {
   yield all([
@@ -245,7 +280,10 @@ function* authSaga() {
     fork(wawtchPostCheckIsRegistered),
     //토큰만료 확인
     fork(watchCheckAccessToken),
-
+    //비밀번호 찾기
+    fork(watchPostFindPassword),
+    //비밀번호 변경
+    fork(watchPostChangePassword),
 
   ]);
 }

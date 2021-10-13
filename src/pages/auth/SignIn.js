@@ -6,7 +6,7 @@ import { Spinner } from "reactstrap";
 import RoundInputField from "components/RoundInputField";
 import { isUserAuthenticated, getOauthAccessToken } from 'helpers/authUtils';
 import { isUserAuthorized } from 'helpers/authUtils';
-import { Checkbox } from 'antd';
+import { Checkbox, Modal } from 'antd';
 import { authorize, getOauthToken } from 'redux/actions';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import StyledButton from 'components/styledcomponent/Button'
@@ -14,6 +14,10 @@ import { useCookies } from 'react-cookie';
 import { errorMessage, successMessage } from "constants/commonFunc";
 import cmm from 'constants/common';
 import { Helmet } from "react-helmet";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+const { confirm } = Modal;
+
 
 const SignIn = (props) => {
   const state = useSelector(state => state.Auth)
@@ -34,6 +38,21 @@ const SignIn = (props) => {
     password: '',
     platform: cmm.getPlatform()
   })
+
+  //modal state
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   //페이지 첫 로딩
   useEffect(() => {
@@ -193,6 +212,23 @@ const SignIn = (props) => {
     fontSize: 14
   }
 
+  if (undefined) {
+    console.log(11111111)
+  }
+
+  const onFindId = () => {
+    confirm({
+      title: '이메일 계정 찾기',
+      icon: <ExclamationCircleOutlined />,
+      content: '이메일 주소가 기억나지 않으시나요? 회사명, 사용자이름, 이름, 직급, 휴대폰 번호를 이메일로 보내주시면 확인해드리겠습니다!(saleslog@saleslog.co)',
+      okText: '확인',
+      cancelText: '취소',
+      onOk() {
+      },
+
+    })
+  }
+
   return (
     <>
       <Helmet>
@@ -252,11 +288,7 @@ const SignIn = (props) => {
                   {loading && <Spinner color="primary" />}
                 </form>
                 <div style={{ fontSize: 14, color: 'black' }}>
-                  <Link
-                    to="/findid"
-                  >
-                    아이디 찾기
-                  </Link>
+                  <span style={{ cursor: 'pointer' }} onClick={onFindId}>아이디 찾기</span>
                   <span > | </span>
                   <Link
                     to="/findpw"

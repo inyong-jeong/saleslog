@@ -1,8 +1,5 @@
 // @flow
 import {
-  FIND_PASSWORD,
-  FIND_PASSWORD_SUCCESS,
-  FIND_PASSWORD_FAILED,
   POST_AUTHNUMBER,
   POST_AUTHNUMBER_SUCCESS,
   POST_AUTHNUMBER_ERROR,
@@ -30,7 +27,13 @@ import {
   SET_NAVIBAR_SHOW,
   POST_CHECK_IS_REGISTERED,
   POST_CHECK_IS_REGISTERED_ERROR,
-  POST_CHECK_IS_REGISTERED_SUCCESS
+  POST_CHECK_IS_REGISTERED_SUCCESS,
+  FIND_PASSWORD,
+  FIND_PASSWORD_SUCCESS,
+  FIND_PASSWORD_ERROR,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_ERROR
 } from 'constants/actionTypes';
 
 let INIT_STATE = {
@@ -46,6 +49,12 @@ let INIT_STATE = {
   authcodeError: null,
   postCheckisRegisteredResponse: null,
   loading: null,
+  findresponse: false,
+  changeresponse: false,
+  changePasswordResponse: null,
+  changePasswordError: null,
+
+
 };
 
 const Auth = (state = INIT_STATE, action) => {
@@ -106,13 +115,20 @@ const Auth = (state = INIT_STATE, action) => {
     case POST_INVITE_ERROR:
       console.log('error:::', action.payload);
       return { ...state, postinviteResponse: action.payload.error };
+    //비밀번호 찾기
     case FIND_PASSWORD:
-      return { ...state };
+      return { ...state, findresponse: false };
     case FIND_PASSWORD_SUCCESS:
-      return { ...state, findPasswordResponse: action.payload.response };
-    case FIND_PASSWORD_FAILED:
-      return { ...state, findPasswordError: action.payload.error };
-
+      return { ...state, findPasswordResponse: action.payload.response, findresponse: true };
+    case FIND_PASSWORD_ERROR:
+      return { ...state, findPasswordError: action.payload.error, findresponse: false };
+    //비밀번호 변경
+    case CHANGE_PASSWORD:
+      return { ...state, changeresponse: false };
+    case CHANGE_PASSWORD_SUCCESS:
+      return { ...state, changePasswordResponse: action.payload.response, changeresponse: true };
+    case CHANGE_PASSWORD_ERROR:
+      return { ...state, changePasswordError: action.payload.error, changeresponse: false };
     case POST_CHECK_IS_REGISTERED:
       return { ...state, loading: true }
     case POST_CHECK_IS_REGISTERED_SUCCESS:

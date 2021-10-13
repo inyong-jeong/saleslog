@@ -180,7 +180,7 @@ const routes = [
   { path: '/signin', name: 'SignIn', component: SignIn, route: LandingRoute, exact: true },
   { path: '/findpw', name: 'FindPassword', component: FindPassword, route: LandingRoute, exact: true },
   { path: '/findpwsucceed', name: 'FindPasswordSucceed', component: FindPasswordSucceed, route: LandingRoute, exact: true },
-  { path: '/change_pw', name: 'ChangePassword', component: ChangePassword, route: LandingRoute, exact: true },
+  { path: '/change_pw/:email/:code', name: 'ChangePassword', component: ChangePassword, route: LandingRoute, exact: true },
   { path: '/signup', name: 'SignUp', component: SignUp, route: LandingRoute, exact: true },
   { path: '/signup/invite/:inviteCode/:inviteEmail/:useName', name: 'SignUpInvite', component: SignUpInvite, route: LandingRoute, exact: true },
   { path: '/findid', name: 'FindId', component: FindId, route: LandingRoute, exact: true },
