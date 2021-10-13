@@ -29,7 +29,7 @@ const inVite = (props) => {
 
   //조건 오류 상태 데이터
   const [inputerror, setInputerror] = useState();
-  
+
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
     if (state.postworkgroupResponse) {
@@ -41,7 +41,7 @@ const inVite = (props) => {
     };
   }, []);
 
-  
+
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);
   };
@@ -55,19 +55,19 @@ const inVite = (props) => {
     e.preventDefault();
 
     if (cmm.isEmpty(memberstatus)) {
-      setInputerror('맴버권한을 선택하세요.')
+      setInputerror('멤버 권한을 선택하세요.')
       return;
-    } else  {
+    } else {
       setInputerror('')
     }
 
     if (cmm.isEmpty(invitemail)) {
       setInputerror('초대할 메일을 입력하세요.')
       return;
-    } else  {
+    } else {
       setInputerror('')
     }
-    
+
     dispatch(postInvite.call(10000062, invitemail, memberstatus))
     //props.postInvite(loginIdx, invitemail, memberstatus)
 
@@ -75,7 +75,7 @@ const inVite = (props) => {
 
   // 맴버초대 fetch 후
   useEffect(() => {
-    console.log('fetch 후:::',state.postinviteResponse)
+    console.log('fetch 후:::', state.postinviteResponse)
     if (state.postinviteResponse) {
       if (state.postinviteResponse.message.state == 'OK') {
         successMessage('초대메일이 발송 되었습니다.')
@@ -110,7 +110,7 @@ const inVite = (props) => {
 
   }
 
-  const memberStatusOption = [{ label: '마스터', value: 0 }, { label: '치프', value: 1 }, { label: '매니저', value: 2 }, { label: '구성원', value: 9 }];
+  const memberStatusOption = [{ label: 'Master', value: 0 }, { label: 'Chief', value: 1 }, { label: 'Manager', value: 2 }, { label: 'Staff', value: 9 }];
   const selectStyle = {
     menu: (provided, state) => ({
       ...provided,
