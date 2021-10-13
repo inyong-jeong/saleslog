@@ -495,7 +495,7 @@ const DashBoardPage = () => {
         </Row>
         <div className='mt-1' />
 
-        <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onchangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
+        <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onChangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
         <div className='mt-2' />
         <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
 
