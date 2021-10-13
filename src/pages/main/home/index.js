@@ -424,7 +424,7 @@ const DashBoardPage = () => {
         }
         {sectionTitle("영업일지 현황", <Calendar />)}
         <div className='mt-1' />
-        <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onchangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
+        <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onChangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
         {/* <Row gutter={4} >
           <Col sm={24} xs={24} md={24} lg={24} >
             <RangePicker className='col-12'
