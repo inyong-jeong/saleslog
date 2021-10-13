@@ -163,7 +163,7 @@ const WgroupDeptPage = (props) => {
     for (let i = 0; i < array.length; i++) {
       if (treeExpanded && treeExpanded.length > 0) {
         for (let j = 0; j < treeExpanded.length; j++) {
-          if (array[i]['dept_idx'] == treeExpanded[j].dept_idx) {
+          if (array[i]['dept_idx'] === treeExpanded[j].dept_idx) {
             expanded = treeExpanded[j].expanded;
             break;
           }
@@ -228,19 +228,19 @@ const WgroupDeptPage = (props) => {
 
     let arr = inputs.treedata;
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].dept_idx == data.idx) {
+      if (arr[i].dept_idx === data.idx) {
         arr[i].title = data.title;
         break;
       } else if (arr[i].children) {
         let child = arr[i].children;
         for (let j = 0; j < child.length; j++) {
-          if (child[j].dept_idx == data.idx) {
+          if (child[j].dept_idx === data.idx) {
             child[j].title = data.title;
             break;
           } else if (child[j].children) {
             let child2 = child[j].children;
             for (let k = 0; k < child2.length; k++) {
-              if (child2[k].dept_idx == data.idx) {
+              if (child2[k].dept_idx === data.idx) {
                 child2[k].title = data.title;
                 break;
               }
@@ -266,7 +266,7 @@ const WgroupDeptPage = (props) => {
     let arr = treeExpanded;
     let isSet = false;
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].dept_idx == data.node.dept_idx) {
+      if (arr[i].dept_idx === data.node.dept_idx) {
         arr[i].expanded = data.expanded;
         isSet = true;
         break;
@@ -357,7 +357,7 @@ const WgroupDeptPage = (props) => {
                       updDept({ dept_idx: node.dept_idx, dept_name: node.title })
                     }}
                   />,
-                  (node.lvl != 3) &&
+                  (node.lvl !== 3) &&
                   <PlusSquareOutlined
                     style={{
                       position: 'relative',
