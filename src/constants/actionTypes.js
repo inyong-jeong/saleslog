@@ -136,6 +136,11 @@ export const DELETE_COUSER_ERROR = 'DELETE_COUSER_ERROR';
 export const CLEAR_SALESLOG = 'CLEAR_SALESLOG';
 export const CLEAR_TEMP_LOG = 'CLEAR_TEMP_LOG';
 
+//데이터 저장
+export const STORE_DATA = 'STORE_DATA';
+
+
+
 // 피드백
 export const POST_COMMENT = 'POST_COMMENT'; // 피드백 등록
 export const POST_COMMENT_SUCCESS = 'POST_COMMENT_SUCCESS';

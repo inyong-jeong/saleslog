@@ -4,10 +4,15 @@ const { Search } = Input;
 
 
 
-function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEnter, clearKeyword }) {
+function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEnter, clearKeyword, word }) {
 
   const [keyword, setKeyword] = useState('')
 
+  useEffect(() => {
+    setKeyword(word)
+  }, [])
+
+  console.log(keyword);
   const handleKeyword = (e) => {
 
     setKeyword(e.target.value)
@@ -40,7 +45,7 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
   // 검색어가 바뀔때
   useEffect(() => {
     console.log('searchStr:::', searchStr)
-    if (searchStr && searchStr != '') {
+    if (searchStr && searchStr !== '') {
       setKeyword(searchStr);
       searchEnter(searchStr);
       clearKeyword();
@@ -48,15 +53,14 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
   }, [searchStr])
 
 
-  const handleClearKeyword = () => {
-    setKeyword('')
-  }
-  const hasKeyword = !!keyword
+  // const handleClearKeyword = () => {
+  //   setKeyword('')
+  // }
+  // const hasKeyword = !!keyword
 
-  const ref = useRef();
+  // const ref = useRef();
   const handleOnClick = (e) => {
     console.log(e.type)
-
   }
   return (
     <>
@@ -77,6 +81,8 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
           onChange={handleKeyword}
           // enterButton={handleEnter}
           onSearch={handleEnter}
+          // searchKeyWord={keyword}
+          // setsearchKeyWord={setKeyword}
           style={{
             width: '100%',
             marginBottom: 10,

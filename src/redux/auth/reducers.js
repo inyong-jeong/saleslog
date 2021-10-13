@@ -131,7 +131,7 @@ const Auth = (state = INIT_STATE, action) => {
     case CHANGE_PASSWORD_SUCCESS:
       return { ...state, changePasswordResponse: action.payload.response, changeresponse: true };
     case CHANGE_PASSWORD_ERROR:
-      return { ...state, changePasswordError: action.payload.error, changeresponse: false };
+      return { ...state, changePasswordError: action.payload, changeresponse: false };
     case POST_CHECK_IS_REGISTERED:
       return { ...state, loading: true }
     case POST_CHECK_IS_REGISTERED_SUCCESS:

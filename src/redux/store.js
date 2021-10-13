@@ -9,22 +9,22 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 
 const persistConfig = {
-    key: 'primary',
-    whitelist: ['User'],
-    storage,
+  key: 'root',
+  // whitelist: ['Saleslog'],
+  storage,
 }
 
 export function configureStore(initialState) {
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-    let store = createStore(
-        persistReducer(persistConfig, reducers),
-        initialState,
-        composeEnhancers(
-            applyMiddleware(...middlewares)
-        ),
-    );
-    sagaMiddleware.run(sagas);
-    var persistor = persistStore(store);
-    return { store, persistor };
+  let store = createStore(
+    persistReducer(persistConfig, reducers),
+    initialState,
+    composeEnhancers(
+      applyMiddleware(...middlewares)
+    ),
+  );
+  sagaMiddleware.run(sagas);
+  var persistor = persistStore(store);
+  return { store, persistor };
 }

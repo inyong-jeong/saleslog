@@ -29,7 +29,7 @@ function ChangePassword(props) {
     confirm({
       title: '성공적으로 비밀번호가 변경됐습니다',
       icon: <ExclamationCircleOutlined />,
-      content: '세일즈로그 로그인 페이지로 이동합니다.',
+      content: '세일즈로그 로그인 페이지로 이동합니다',
       cancelText: '취소',
       okText: '확인',
       onOk() {
@@ -51,14 +51,14 @@ function ChangePassword(props) {
     if (changeresponse) {
       // props.history.goBack();
       onLoginPageClick();
-      state.changeresponse = false;
+      // state.changeresponse = false;
     }
   }, [changeresponse]);
 
   const onChangePasswordClick = (e) => {
     e.preventDefault();
     if (newPassword !== newPasswordConfirm) {
-      setError('비밀번호 확인이 다릅니다.');
+      setError('비밀번호 확인이 다릅니다');
       return;
     } else if (!pattern1.test(newPassword) || !pattern2.test(newPassword) || !pattern3.test(newPassword) || newPassword.length < 8) {
       setError('비밀번호 형식이 잘못되었습니다 (특수문자 포함 8자리 이상)')

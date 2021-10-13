@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Row, Col, Divider } from 'antd';
 import Text from 'antd/lib/typography/Text';
-import { useDispatch } from 'react-redux'
-import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { useDispatch, useSelector } from 'react-redux'
+import { SET_NAVIBAR_SHOW, STORE_DATA } from 'constants/actionTypes';
 
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
@@ -17,10 +17,13 @@ import {
 } from 'redux/actions';
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import CustomFab from '../../components/styledcomponent/CustomFab';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
+
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
+  const state = useSelector(state => state.SalesLog)
+  let StoredData = state.StoredData;
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -31,12 +34,20 @@ function SalesLogList(props) {
 
   }, [])
 
-  const history = useHistory()
+  const history = useHistory();
+  const location = useLocation();
+
+  console.log(history);
+  console.log(location);
+
+
+
   const navigateTo = () => history.push({
     pathname: '/main/upload'
   })
 
   const [loglists, setLogLists] = useState([]);
+  const [tabkey, setTabKey] = useState('0010001');
   const [data, setData] = useState({
     log_gb: '0010001',
     sales_man: '',
@@ -49,6 +60,8 @@ function SalesLogList(props) {
     srch: '',
     need_cod: ''
   })
+
+  console.log(data);
 
   // 처음 업로드 될 때 dispatch, data 바뀔 때 call
 
@@ -80,9 +93,11 @@ function SalesLogList(props) {
   const onTabChange = (key) => {
     switch (key) {
       case '2':
+        setTabKey('0010001')
         setData({ ...data, log_gb: '0010001', pageno: 1 })
         break
       case '3':
+        setTabKey('0010002')
         setData({ ...data, log_gb: '0010002', pageno: 1 })
         break
       default:
@@ -96,9 +111,15 @@ function SalesLogList(props) {
     JSON.parse(localStorage.getItem('keywords') || '[]'),
   )
 
+
   //검색어
   const [searchStr, setSearchStr] = useState('')
 
+
+
+  console.log(keywords);
+  console.log(searchStr);
+  console.log(props.searchKeyWord);
   useEffect(() => {
     localStorage.setItem('keywords', JSON.stringify(keywords))
   }, [keywords])
@@ -130,16 +151,22 @@ function SalesLogList(props) {
   }
 
   //최근검색어 display
+  const [word, setWord] = useState('')
   const [focus, setFocus] = useState(false)
   const [click, setClick] = useState()
   const onSearch = (keyword) => {
     console.log(keyword)
     if (keyword) {
       setFocus(keyword)
+      setWord(keyword)
     } else {
       return setFocus(false);
     }
   }
+
+  console.log(word);
+
+
   const onEnter = (v) => {
     setFocus(v);
   }
@@ -159,6 +186,28 @@ function SalesLogList(props) {
     console.log('click:::::::::::::', v)
     setSearchStr(v)
   }
+  //페이지 넘길때 데이터 저장
+
+  const [RealData, setRealData] = useState()
+  useEffect(() => {
+    return () => {
+      console.log('페이지 변환', data)
+      dispatch({
+        type: STORE_DATA,
+        payload: [RealData, loglists, word, tabkey]
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    // Data = data
+    setRealData(data)
+
+  }, [props])
+  // useEffect(() => {
+  //   setData(state.)
+  // }
+  // ,[])
 
 
   return (
@@ -169,6 +218,7 @@ function SalesLogList(props) {
         {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
         <SearchBar searchStr={searchStr}
+          word={state.StoredData && state.StoredData.word}
           onAddKeyword={handleAddKeyword}
           SearchChange={onSearch}
           SearchEnter={onEnter}
@@ -203,7 +253,7 @@ function SalesLogList(props) {
                 </div>
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0 }} />
 
-                {loglists.map((v) => (
+                {(tabkey === '0010001') && loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     loglist={v}
                     handleNextPage={handleNextPage}
@@ -218,7 +268,7 @@ function SalesLogList(props) {
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
                 <Divider />
-                {loglists.map((v) => (
+                {(tabkey === '0010002') && loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     loglist={v}
                     handleNextPage={handleNextPage}

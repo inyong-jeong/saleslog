@@ -33,6 +33,7 @@ function FindPassword(props) {
       setAlarm('비밀번호 재설정 메일이 발송되었습니다');
       findresponse = false;
     }
+    // setAlarm(null)
   }, [findresponse])
   const handleValidSubmit = (e) => {
     e.preventDefault();

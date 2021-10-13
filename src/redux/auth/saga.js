@@ -215,6 +215,7 @@ function* _postFindPassword({ payload: { email } }) {
 function* _postChangePassword({ payload: { code, email, password } }) {
   try {
     const response = yield call(postChangePassword, code, email, password);
+    console.log(response);
     yield put(changePassword.success(response));
   } catch (error) {
     yield put(changePassword.error(error));

@@ -61,7 +61,8 @@ import {
   PUT_COUSER_ERROR,
   DELETE_COUSER,
   DELETE_COUSER_SUCCESS,
-  DELETE_COUSER_ERROR
+  DELETE_COUSER_ERROR,
+  STORE_DATA
 } from '../../constants/actionTypes';
 
 const INIT_STATE = {
@@ -109,12 +110,15 @@ const INIT_STATE = {
   putcouser: false,
   deletecouser: false,
   //임시저장 삭제 response
-  deletetempresponse: false
+  deletetempresponse: false,
+  StoredData: null,
 
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
+    case STORE_DATA:
+      return { ...state, StoredData: action.payload };
     case CLEAR_SALESLOG:
       return { ...state, log: null };
     case CLEAR_TEMP_LOG:

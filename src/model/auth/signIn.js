@@ -168,6 +168,9 @@ export const postChangePassword = async (code, email, password) => {
     })
   const result = await response.json()
   const data = await result
+  if (data.status !== 200) {
+    throw new Error(data.message)
+  }
   return data;
 }
 
