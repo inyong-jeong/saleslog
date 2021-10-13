@@ -19,7 +19,7 @@ const SalesLogFilterDash = (props) => {
   const [selIdUser, setSelIdUser] = useState(props.id);
 
   const [treedata, setTreedata] = useState([])
-  
+
   const [chgCombo, setChgCombo] = useState(0);
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
@@ -28,7 +28,7 @@ const SalesLogFilterDash = (props) => {
   const [filteredOptions, setFilteredOptions] = useState([])
   //const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
 
-  
+
 
   const salesActivityOption =
     [{ label: '선택없음', value: '' },
@@ -78,14 +78,14 @@ const SalesLogFilterDash = (props) => {
 
   //맴버조회 fetch 후  
   useEffect(() => {
-    
+
     if (props.organizationuserDashRes && (selIdUser === props.id)) {
       const memList = props.organizationuserDashRes.map(v => v.user_name);
-      const optList = memList && memList.filter((v) => !selectedItems.includes(v)) 
+      const optList = memList && memList.filter((v) => !selectedItems.includes(v))
       setFilteredlist(memList);
       setFilteredOptions(optList);
 
-      
+
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
       props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
@@ -112,7 +112,7 @@ const SalesLogFilterDash = (props) => {
     }
   }, [selectedOrganizationuser])
 
-  
+
   useEffect(() => {
     //console.log('data::::change:::::',data)
     props.getorganizationusersDash(data)
@@ -148,11 +148,11 @@ const SalesLogFilterDash = (props) => {
 
 
   //부서 선택
-  const handeltreeOnChange = (v,label, extra) => {
+  const handeltreeOnChange = (v, label, extra) => {
     if (v) {
       //console.log('부서선택:::',v, label, extra.allCheckedNodes[0].node.props.id, props.id)
       setSelId(extra.allCheckedNodes[0].node.props.id);
-      setSelIdUser(extra.allCheckedNodes[0].node.props.id);  
+      setSelIdUser(extra.allCheckedNodes[0].node.props.id);
       setSelectedOrganization(v);
       props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
     } else {
@@ -198,7 +198,7 @@ const SalesLogFilterDash = (props) => {
     }
     return rtn;
   }
-  
+
 
   //const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
   //const filteredOptions = filteredlist && filteredlist.filter((v) => !selectedItems.includes(v)) 
@@ -225,8 +225,8 @@ const SalesLogFilterDash = (props) => {
             onChange={onOrganizationUserSelectChange}
             value={selectedItems}
             id={props.id}
-          >
-            {filteredOptions && filteredOptions.map((item, index) => (              
+            maxTagCount={3} >
+            {filteredOptions && filteredOptions.map((item, index) => (
               <Select.Option key={index} id={props.id} value={item}>
                 {item}
               </Select.Option>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import StyledButton from 'components/styledcomponent/Button'
 import { Button } from 'antd';
 import { Row, Col, DatePicker } from 'antd'
 import moment from 'moment';
@@ -10,7 +9,7 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
   const [selected, setSelected] = useState(defaultSelected);
   const [sdt, setSdt] = useState(moment())
   const [edt, setEdt] = useState(moment())
-  
+
   const handleOnClick = (id) => {
     //e.preventDefault();
     if (onSelected) {
@@ -33,12 +32,12 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
 
   }, [])
 
-  const handleonChangeFrom =(v) => {
+  const handleonChangeFrom = (v) => {
     setSdt(moment(v))
     onChangeFrom(v);
   }
 
-  const handleonChangeTo =(v) => {
+  const handleonChangeTo = (v) => {
     setEdt(moment(v))
     onChangeTo(v);
   }
@@ -53,21 +52,21 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
           </Col>
         })
         }
-      </Row>      
-      {(selected == 4) &&        
-        <Row gutter={[6, 6]} style={{marginTop:5}}>
+      </Row>
+      {(selected == 4) &&
+        <Row gutter={[6, 6]} style={{ marginTop: 5 }}>
           {/* <Col sm={isMobile?12:6} xs={isMobile?12:6} md={isMobile?12:6} lg={isMobile?12:6}> */}
-          <Col sm={12} xs={12} md={12} lg={12}> 
-            <DatePicker key={1} style={{width:'100%'}}
+          <Col sm={12} xs={12} md={12} lg={12}>
+            <DatePicker key={1} style={{ width: '100%' }}
               defaultValue={sdt}
               format={'YYYY-MM-DD'}
               allowClear={false}
               inputReadOnly={true}
               onChange={handleonChangeFrom}
-            /> 
+            />
           </Col>
-          <Col sm={12} xs={12} md={12} lg={12}> 
-            <DatePicker key={1} style={{width:'100%'}}
+          <Col sm={12} xs={12} md={12} lg={12}>
+            <DatePicker key={1} style={{ width: '100%' }}
               defaultValue={edt}
               format={'YYYY-MM-DD'}
               allowClear={false}
@@ -77,7 +76,7 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
           </Col>
         </Row>
       }
-      
+
     </>
   )
 }
