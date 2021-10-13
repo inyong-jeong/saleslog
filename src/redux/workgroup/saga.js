@@ -182,9 +182,8 @@ function* _postWorkGroupDel({ payload: { body } }) {
     yield successMessage('워크그룹이 삭제되었습니다.')
 
   } catch (error) {
-    yield console.log('워크그룹 삭제 에러', error)
-    yield errorMessage(error.message)
-    yield put(postWorkGroupDel.error(error))
+    yield console.log('워크그룹 삭제 에러', error.message)    
+    yield put(postWorkGroupDel.error(error.message))
   }
 }
 

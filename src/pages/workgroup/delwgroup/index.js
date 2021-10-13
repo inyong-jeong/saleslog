@@ -14,6 +14,7 @@ import { useHistory } from 'react-router';
 import { Modal, Divider, Button, Select, Checkbox, Dropdown, Menu } from 'antd';
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { getWorkGroupInfo, postWorkGroupDel } from 'redux/workgroup/actions';
+import { errorMessage } from '../../../constants/commonFunc';
 import cmm from 'constants/common';
 const { Option } = Select;
 const { TabPane } = FullTabs;
@@ -44,8 +45,7 @@ const WgroupMemberPage = (props) => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: true
-    }
-    )
+    })
     //워크그룹 정보 가져오기
     //dispatch(getWorkGroupInfo.call())   
 
@@ -68,8 +68,16 @@ const WgroupMemberPage = (props) => {
   //워크그룹 삭제 fetch 후
   useEffect(() => {
     if (state.postWorkGroupDelRes) {
-      //워크그룹 선택
-      history.push('/main/workgroup/chgwgroup')
+      console.log('state.postWorkGroupDelRes',state.postWorkGroupDelRes)
+      if (state.postWorkGroupDelRes.state == false) {        
+        errorMessage(state.postWorkGroupDelRes.message);
+        state.postWorkGroupDelRes = null;
+      } else {
+        console.log('state.postWorkGroupDelRes',state.postWorkGroupDelRes)
+        state.postWorkGroupDelRes = null;
+        //워크그룹 선택
+        history.push('/main/workgroup/chgwgroup')
+      }
     }
   }, [state.postWorkGroupDelRes])
 

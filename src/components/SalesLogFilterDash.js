@@ -9,21 +9,20 @@ import {
 import cmm from 'constants/common';
 
 
+
 const SalesLogFilterDash = (props) => {
+  const [selectedOrganization, setSelectedOrganization] = useState(undefined);
   const [selectedOrganization1, setSelectedOrganization1] = useState(undefined);
   const [selectedOrganization2, setSelectedOrganization2] = useState(undefined);
   const [selectedOrganization3, setSelectedOrganization3] = useState(undefined);
   const [selId, setSelId] = useState(props.id);
   const [selIdUser, setSelIdUser] = useState(props.id);
 
-  const [biglist, setBigList] = useState(undefined);
-  const [middlelist, setMiddleList] = useState(undefined);
-  const [smalllist, setSmallList] = useState(undefined);
-
+  const [treedata, setTreedata] = useState([])
+  
   const [chgCombo, setChgCombo] = useState(0);
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
-  const [firstLoading, setFirstLoading] = useState(false)
-
+  
 
   const salesActivityOption =
     [{ label: '선택없음', value: '' },
@@ -57,12 +56,6 @@ const SalesLogFilterDash = (props) => {
     { label: '상품니즈', value: '상품' }];
 
 
-  //하위부서 조회
-  const [filterdata, setFilterData] = useState({
-    dept_idx: 0,
-    typ: 'lvl'
-  })
-
   //부서별 사용자 조회
   const [data, setData] = useState({
     dept_idx: 0,
@@ -71,13 +64,17 @@ const SalesLogFilterDash = (props) => {
 
   //마운트 될 때 
   useEffect(() => {
-    props.getorganizationDash(filterdata)
+    //부서 정보 가져오기
+    props.getorganizationDash({ dept_idx: 0, typ: 'tree' })
+
   }, [])
 
 
   //맴버조회 fetch 후  
   useEffect(() => {
-    if (props.organizationuserDashRes && (selIdUser == props.id)) {
+    console.log('selIdUser:::::',selIdUser, props.id, selIdUser === props.id);
+    if (props.organizationuserDashRes && (selIdUser === props.id)) {
+      console.log('set userlist:::::',selIdUser, props.id, selIdUser === props.id);
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
       props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
@@ -88,70 +85,64 @@ const SalesLogFilterDash = (props) => {
 
   //부서조회 fetch 후
   useEffect(() => {
+    console.log('dept fetch ::::',selId, props.id)
     if (props.organizationDashRes && (selId == props.id)) {
-console.log('props.organizationDashRes:::', props.organizationDashRes)
-      if (chgCombo === 0) {
-        setBigList(props.organizationDashRes)
-      } else if (chgCombo === 1) {
-        setMiddleList(props.organizationDashRes)
-      } else if (chgCombo === 2) {
-        setSmallList(props.organizationDashRes)
-      }
-      setChgCombo(0)
+      console.log('dept fetch ::::',selId, props.id)
+      setTreedata(getTreeData(props.organizationDashRes))
       setSelId()
     }
   }, [props.organizationDashRes])
 
 
-  // 대분류 선택
-  useEffect(() => {
-    //console.log('selidx:::22222222222:', selectedOrganization1)
-    if (!cmm.isEmpty(selectedOrganization1)) {
-      //props.getorganization(filterdata)
-      setChgCombo(1)
-    }
-  }, [selectedOrganization1])
+  // // 대분류 선택
+  // useEffect(() => {
+  //   //console.log('selidx:::22222222222:', selectedOrganization1)
+  //   if (!cmm.isEmpty(selectedOrganization1)) {
+  //     //props.getorganization(filterdata)
+  //     setChgCombo(1)
+  //   }
+  // }, [selectedOrganization1])
 
-  //중분류 선택
-  useEffect(() => {
-    if (!cmm.isEmpty(selectedOrganization2)) {
-      //props.getorganization(filterdata)
-      setChgCombo(2)
-    }
-  }, [selectedOrganization2])
+  // //중분류 선택
+  // useEffect(() => {
+  //   if (!cmm.isEmpty(selectedOrganization2)) {
+  //     //props.getorganization(filterdata)
+  //     setChgCombo(2)
+  //   }
+  // }, [selectedOrganization2])
 
-  // 소분류 선택
-  useEffect(() => {
-    if (!cmm.isEmpty(selectedOrganization3)) {
-      //props.getorganizationusersDash(data)
-      setChgCombo(3)
-    }
-  }, [selectedOrganization3])
+  // // 소분류 선택
+  // useEffect(() => {
+  //   if (!cmm.isEmpty(selectedOrganization3)) {
+  //     //props.getorganizationusersDash(data)
+  //     setChgCombo(3)
+  //   }
+  // }, [selectedOrganization3])
 
-  // 부서 선택 후
-  useEffect(() => {
-    //console.log('chgCombo::::::::::::::', props.id, chgCombo, selectedOrganization1)
-    if (chgCombo === 1) {
-      //하위부서 조회
-      props.getorganizationDash({ dept_idx: selectedOrganization1, typ: 'lvl' })
-      //부서별 맴버 조회
-      props.getorganizationusersDash({ dept_idx: selectedOrganization1, typ: 'tree' })
+  // // 부서 선택 후
+  // useEffect(() => {
+  //   //console.log('chgCombo::::::::::::::', props.id, chgCombo, selectedOrganization1)
+  //   if (chgCombo === 1) {
+  //     //하위부서 조회
+  //     props.getorganizationDash({ dept_idx: selectedOrganization1, typ: 'lvl' })
+  //     //부서별 맴버 조회
+  //     props.getorganizationusersDash({ dept_idx: selectedOrganization1, typ: 'tree' })
 
-    } else if (chgCombo === 2) {
+  //   } else if (chgCombo === 2) {
 
-      //하위부서 조회
-      props.getorganizationDash({ dept_idx: selectedOrganization2, typ: 'lvl' })
-      //부서별 맴버 조회
-      props.getorganizationusersDash({ dept_idx: selectedOrganization2, typ: 'tree' })
+  //     //하위부서 조회
+  //     props.getorganizationDash({ dept_idx: selectedOrganization2, typ: 'lvl' })
+  //     //부서별 맴버 조회
+  //     props.getorganizationusersDash({ dept_idx: selectedOrganization2, typ: 'tree' })
 
-    } else if (chgCombo === 3) {
-      //하위부서 조회
-      props.getorganizationDash({ dept_idx: selectedOrganization3, typ: 'lvl' })
-      //부서별 맴버 조회
-      props.getorganizationusersDash({ dept_idx: selectedOrganization3, typ: 'tree' })
+  //   } else if (chgCombo === 3) {
+  //     //하위부서 조회
+  //     props.getorganizationDash({ dept_idx: selectedOrganization3, typ: 'lvl' })
+  //     //부서별 맴버 조회
+  //     props.getorganizationusersDash({ dept_idx: selectedOrganization3, typ: 'tree' })
 
-    }
-  }, [chgCombo])
+  //   }
+  // }, [chgCombo])
 
   // 멤버 선택
   useEffect(() => {
@@ -162,65 +153,109 @@ console.log('props.organizationDashRes:::', props.organizationDashRes)
     }
   }, [selectedOrganizationuser])
 
+  
   useEffect(() => {
     props.getorganizationusersDash(data)
   }, [data])
 
-  const selectStyle =
-    { width: '100%' }
+  const selectStyle = { width: '100%' }
 
 
-  const onOrganizationSelectChange1 = (v, opt) => {
-    //console.log('delidx:::vvvvvvvvvvvvvv::::::::::::::', v, opt.id,props.id,  (props.id != opt.id))
-    setSelId(opt.id);
-    setSelIdUser(opt.id);
-    setSelectedOrganization1(v);
-    setSelectedOrganization2('');
-    setSelectedOrganization3('');
-    setMiddleList([]);
-    setSmallList([]);
-    if (v !== '') {
+  // const onOrganizationSelectChange1 = (v, opt) => {
+  //   //console.log('delidx:::vvvvvvvvvvvvvv::::::::::::::', v, opt.id,props.id,  (props.id != opt.id))
+  //   setSelId(opt.id);
+  //   setSelIdUser(opt.id);
+  //   setSelectedOrganization1(v);
+  //   setSelectedOrganization2('');
+  //   setSelectedOrganization3('');
+  //   setMiddleList([]);
+  //   setSmallList([]);
+  //   if (v !== '') {
+  //     props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
+  //   } else {
+  //     props.getorganizationusersDash({ dept_idx: 0, typ: 'tree' })
+  //   }
+
+  //   // setBigList(props.organizationlist)
+  //   //setFilterData({ ...filterdata, 'dept_idx': v })
+  //   //setChgNo(1)
+
+  //   //setData({ ...data, 'dept_idx': v })
+  // }
+
+  // const onOrganizationSelectChange2 = (v, opt) => {
+  //   setSelId(opt.id);
+  //   setSelIdUser(opt.id);
+  //   setSelectedOrganization2(v);
+  //   setSelectedOrganization3('');
+  //   setSmallList([]);
+  //   if (v !== '') {
+  //     props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
+  //   } else {
+  //     props.getorganizationusersDash({ dept_idx: selectedOrganization1, typ: 'tree' })
+  //   }
+  //   // setMiddleList(props.organizationlist)
+  //   //setFilterData({ ...filterdata, 'dept_idx': v })
+  //   //setData({ ...data, 'dept_idx': v })
+  // }
+  // const onOrganizationSelectChange3 = (v, opt) => {
+  //   setSelId(opt.id);
+  //   setSelIdUser(opt.id);
+  //   setSelectedOrganization3(v);
+  //   if (v !== '') {
+  //     props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
+  //   } else {
+  //     props.getorganizationusersDash({ dept_idx: selectedOrganization2, typ: 'tree' })
+  //   }
+
+  //   // setSmallList(props.organizationlist)
+  //   //setFilterData({ ...filterdata, 'dept_idx': v })
+  //   //setData({ ...data, 'dept_idx': v })
+  // }
+
+
+  //부서데이타 treedata 변환
+  const getTreeData = (array) => {
+
+    if (!array || array.length <= 0) {
+      return null;
+    }
+
+    var map = {};
+    for (var i = 0; i < array.length; i++) {
+      var obj = { "value": array[i]['dept_idx'], "title": array[i]['dept_name'], "id": props.id };
+      obj.children = [];
+      map[obj.value] = obj;
+      var parent = array[i]['parent_idx'] || '-';
+
+      if (!map[parent]) {
+        map[parent] = {
+          children: []
+        };
+      }
+      map[parent].children.push(obj);
+    }
+
+    return map['-'].children;
+
+  }
+
+
+  //부서 선택
+  const handeltreeOnChange = (v,label, extra) => {
+    if (v) {
+      console.log('부서선택:::',v, label, extra.allCheckedNodes[0].node.props.id, props.id)
+      setSelId(extra.allCheckedNodes[0].node.props.id);
+      setSelIdUser(extra.allCheckedNodes[0].node.props.id);  
+      setSelectedOrganization(v);
       props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
     } else {
+      setSelectedOrganization(v);
       props.getorganizationusersDash({ dept_idx: 0, typ: 'tree' })
     }
 
-    // setBigList(props.organizationlist)
-    //setFilterData({ ...filterdata, 'dept_idx': v })
-    //setChgNo(1)
-
-    //setData({ ...data, 'dept_idx': v })
   }
 
-  const onOrganizationSelectChange2 = (v, opt) => {
-    setSelId(opt.id);
-    setSelIdUser(opt.id);
-    setSelectedOrganization2(v);
-    setSelectedOrganization3('');
-    setSmallList([]);
-    if (v !== '') {
-      props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
-    } else {
-      props.getorganizationusersDash({ dept_idx: selectedOrganization1, typ: 'tree' })
-    }
-    // setMiddleList(props.organizationlist)
-    //setFilterData({ ...filterdata, 'dept_idx': v })
-    //setData({ ...data, 'dept_idx': v })
-  }
-  const onOrganizationSelectChange3 = (v, opt) => {
-    setSelId(opt.id);
-    setSelIdUser(opt.id);
-    setSelectedOrganization3(v);
-    if (v !== '') {
-      props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
-    } else {
-      props.getorganizationusersDash({ dept_idx: selectedOrganization2, typ: 'tree' })
-    }
-
-    // setSmallList(props.organizationlist)
-    //setFilterData({ ...filterdata, 'dept_idx': v })
-    //setData({ ...data, 'dept_idx': v })
-  }
 
   function filterList(label) {
     let list = []
@@ -236,6 +271,7 @@ console.log('props.organizationDashRes:::', props.organizationDashRes)
     return list
   }
 
+  //맴버 선택
   const onOrganizationUserSelectChange = (label) => {
     setSelectedItems(label);
     //console.log(filterList(label));
@@ -256,7 +292,7 @@ console.log('props.organizationDashRes:::', props.organizationDashRes)
     }
     return rtn;
   }
-
+  
 
   const [selectedItems, setSelectedItems] = useState([])
   const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
@@ -264,27 +300,18 @@ console.log('props.organizationDashRes:::', props.organizationDashRes)
   return (
     <>
       <Row gutter={6}>
-        <Col sm={6} xs={6} md={6} lg={6}>
-          <Select placeholder='대분류'
-            style={selectStyle}
-            options={biglist && selComboList(biglist, props.id)}
-            value={selectedOrganization1}
-            onChange={onOrganizationSelectChange1}
-          />
-        </Col>
-        <Col sm={6} xs={6} md={6} lg={6}>
-          <Select placeholder='중분류'
-            style={selectStyle}
-            options={middlelist && selComboList(middlelist, props.id)}
-            onChange={onOrganizationSelectChange2}
-            value={selectedOrganization2} />
-        </Col>
-        <Col sm={6} xs={6} md={6} lg={6}>
-          <Select placeholder='소분류'
-            style={selectStyle}
-            options={smalllist && selComboList(smalllist, props.id)}
-            onChange={onOrganizationSelectChange3}
-            value={selectedOrganization3} />
+        <Col sm={12} xs={18} md={18} lg={18}>
+          <TreeSelect
+            style={{ width: '100%' }}
+            value={selectedOrganization}
+            treeLine={true}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treedata}
+            placeholder={'부서선택'}
+            treeDefaultExpandAll
+            allowClear
+            id={props.id}
+            onChange={handeltreeOnChange} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='멤버'
