@@ -4,7 +4,6 @@ import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import { Divider, Switch } from 'antd';
 
 const NotificationSetting = () => {
-  //알림 설정은 모바일에서만 할수있다는 창 필요할듯
 
   const history = useHistory()
 
@@ -34,7 +33,7 @@ const NotificationSetting = () => {
             paddingLeft: 5,
             margin: 0,
             flexBasis: '100%'
-          }}>알람을 끄면 모든 알림음이 울리지 않습니다. </p>
+          }}>알람을 끄면 모든 알림이 뜨지 않습니다. </p>
         </div>
       </div>
       <Divider />

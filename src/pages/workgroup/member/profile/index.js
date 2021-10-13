@@ -178,7 +178,7 @@ const WgroupMemberPage = (props) => {
           <Divider style={{ width: '100%', margin: 5 }} />
         </div>
         <div style={{ marginTop: 10 }}>
-          <div><label style={labelTextStyle}>맴버 구분 </label></div>
+          <div><label style={labelTextStyle}>멤버 구분 </label></div>
           <Select value={inputs.permissions}
             style={{ width: '100%', height: 25 }}
             onChange={handleChange}>

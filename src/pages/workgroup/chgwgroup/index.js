@@ -182,7 +182,7 @@ const WgroupManagePage = (props) => {
           <InfiniteScroll
             hasMore={true}
             dataLength={wgList.length} >
-            <List className={classes.root}>
+            <List>
               {((wgList) ? wgList.map((item, index) => {
                 const { organization, org_domain, org_idx, logo_url, member_cnt, accounts_cnt } = item;
                 return (
@@ -208,7 +208,7 @@ const WgroupManagePage = (props) => {
                           <span style={{ fontSize: 12 }}>{org_domain}</span>
                         </div>
                         <div style={{ fontSize: 12, width: 70, paddingLeft: 10, color: '#aaaaaa' }}>
-                          <span>맴버</span><br />
+                          <span>멤버</span><br />
                           <span>고객사</span>
                         </div>
                         <div style={{ fontSize: 12, width: 30, paddingLeft: 10, textAlign: 'right', right: 10, justifyContent: 'flex-end' }}>

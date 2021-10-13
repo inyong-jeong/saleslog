@@ -237,7 +237,7 @@ function* _postGroupMemberOut({ payload: { body } }) {
     const response = yield call(post_fetch, cmm.SERVER_API_URL + MEMBER_OUT, body)
     yield hideMessage()
     yield put(postGroupMemberOut.success(response))
-    yield successMessage('맴버를 내보냈습니다.')
+    yield successMessage('멤버를 내보냈습니다.')
 
   } catch (error) {
     yield put(postGroupMemberOut.error(error))

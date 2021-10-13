@@ -147,7 +147,7 @@ const WgroupMemberPage = (props) => {
                 />
               </div>
               <div style={{ width: '100%', marginTop: 10 }}>
-                <label style={{ fontSize: 12 }}>초대하고자 하는 사람의 맴버구분을 선택하세요</label>
+                <label style={{ fontSize: 12 }}>초대하고자 하는 사람의 멤버구분을 선택하세요</label>
                 <Select value={inputs.permission}
                   style={{ width: '100%', height: 50, fontSize: 16 }}
                   size={'large'}

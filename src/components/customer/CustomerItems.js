@@ -14,11 +14,6 @@ import { base64Enc } from 'constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 100, //nav bottom tab 
-  },
   square: {
     color: '#000',
     backgroundColor: '#e2e2e2',
@@ -65,7 +60,6 @@ const CustomerItems = ({ inputs, page, setPage }) => {
     dispatch(getAllCustomer.call(inputs, page))
   }, [page])
 
-  //paging 
   useEffect(() => {
     if (responseLists && loading == false) {
       if (page == 1) {
@@ -87,7 +81,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
       hasMore={true}
       dataLength={cusotomerList.length}
       next={handleNextPage}>
-      <List className={classes.root}>
+      <List>
         <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{listCounts ? listCounts : 0}</span> 개의 고객</Text>
         <Divider style={{ margin: 0 }} />
         {cusotomerList ?

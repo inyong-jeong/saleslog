@@ -187,7 +187,7 @@ const WgroupMemberPage = () => {
           </List>
         </InfiniteScroll>
         <Modal
-          title="맴버 내보내기"
+          title="멤버 내보내기"
           visible={isShowModal}
           width={((isMobile) ? '90%' : 450)}
           onOk={() => { setIsShowModal(false) }}
@@ -195,19 +195,11 @@ const WgroupMemberPage = () => {
           footer={[
             <div key={1}
               style={{
-                position: 'absolute',
                 display: 'flex',
-                justifyContent: 'center',
-                backgroundColor: '#ffffff',
-                left: 0,
-                width: '100%',
-                height: 60
-              }}><Button
+              }}>
+              <Button
                 style={{
-                  fontSize: 16,
-                  backgroundColor: '#ffffff',
-                  width: '45%',
-                  height: 50
+                  flexGrow: 1
                 }}
                 key={1}
                 onClick={() => {
@@ -215,17 +207,14 @@ const WgroupMemberPage = () => {
                 }}>취소</Button>
               <Button
                 style={{
-                  fontSize: 16,
-                  backgroundColor: '#ffffff',
-                  width: '45%',
-                  height: 50
+                  flexGrow: 1
                 }}
                 key={2}
                 onClick={() => {
                   outMember()
                 }}>네</Button>
             </div>
-          ]}> <p>맴버 내보내기는 취소할 수 없습니다.<br />맴버를 내보낼까요?</p>
+          ]}> <p>멤버 내보내기는 취소할 수 없습니다.<br />멤버를 내보낼까요?</p>
 
         </Modal>
       </div>

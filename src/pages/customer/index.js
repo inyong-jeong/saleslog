@@ -10,7 +10,6 @@ import CustomerItems from "../../components/customer/CustomerItems";
 import { getUsers } from "../../redux/customer/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { useLocation } from "react-router";
 import CustomUp from "../../components/styledcomponent/CustomUpButton";
 
 const { TabPane } = FullTabs;
@@ -18,7 +17,6 @@ const { Search } = Input;
 const CustomerShow = () => {
 
   const history = useHistory()
-  const location = useLocation()
   const navigateTo = () => history.push({
     pathname: '/main/customer/register'
   })
@@ -38,7 +36,6 @@ const CustomerShow = () => {
     setUsers(state.userLists)
   }, [state.userListsResponse])
 
-  //옵션 사원들 가져오기
   const [users, setUsers] = useState([])
   const scoreType = [{ '전체': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
   const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
@@ -54,7 +51,6 @@ const CustomerShow = () => {
     pageno: page,
   })
 
-  //tab
   const onTabChange = (key) => {
     switch (key) {
       case '2':
