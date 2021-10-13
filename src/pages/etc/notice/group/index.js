@@ -86,6 +86,7 @@ const GroupNoticePage = () => {
             marginBottom: 10,
             marginTop: 10,
           }} />
+
         <NoticeItems
           page={page}
           setPage={setPage}
