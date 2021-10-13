@@ -82,22 +82,6 @@ cmm.permission = (data) => {
   }
 }
 
-//permission 한글
-cmm.permissionH = (data) => {
-  switch (data) {
-    case '0':
-      return '마스터';
-    case '1':
-      return '치프';
-    case '2':
-      return '매니저';
-    case '9':
-      return '구성원';
-    default:
-      return '구성원';
-  }
-}
-
 cmm.dashboardChartColors = ['#f09a31', '#ff8052', '#fe6d75', '#ec6597', '#cb69b1', '#9e70c1', '#6776c3', '#1e78b8']
 
 module.exports = cmm;

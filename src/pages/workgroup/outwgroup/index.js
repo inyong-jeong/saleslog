@@ -61,7 +61,7 @@ const WgroupMemberPage = () => {
     if (state.postWorkGroupOutRes) {
       if (state.postWorkGroupOutRes.message == 'master') {
         state.postWorkGroupOutRes = null;
-        errorMessage('다른 사용자에 마스터권한을 부여 후 나가기 가능 합니다.');
+        errorMessage('다른 사용자에 Master 권한을 부여해야 나갈 수 있습니다.');
       } else {
         state.postWorkGroupOutRes = null;
         //워크그룹 선택 

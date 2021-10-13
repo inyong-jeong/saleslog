@@ -154,60 +154,60 @@ const WgroupMemberPage = (props) => {
         navigateTo={navigateTo}
         onSaveClick={onSaveClick}
       />
-    <div className='content_body'>
-      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-        <Avatar
-          src={(cmm.isEmpty(memberData[0].thumb_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + memberData[0].thumb_url)}
-          shape='square' size={(isMobile) ? 90 : 120} />
+      <div className='content_body'>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Avatar
+            src={(cmm.isEmpty(memberData[0].thumb_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + memberData[0].thumb_url)}
+            shape='square' size={(isMobile) ? 90 : 120} />
 
-        <div style={{ flexGrow: 2, marginLeft: 10, }}>
-          <label style={labelTextStyle}>이름 </label><br />
-          <label style={blackResultTextStyle}>{memberData[0].user_name}</label>
-          <Divider dashed style={{ margin: 3 }} />
+          <div style={{ flexGrow: 2, marginLeft: 10, }}>
+            <label style={labelTextStyle}>이름 </label><br />
+            <label style={blackResultTextStyle}>{memberData[0].user_name}</label>
+            <Divider dashed style={{ margin: 3 }} />
+          </div>
         </div>
-      </div>
-      <Divider />
-      <div>
-        <label style={labelTextStyle}>휴대폰 번호 </label><br />
-        <label style={blackResultTextStyle}>{memberData[0].phone_number}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <label style={labelTextStyle}>이메일 </label><br />
-        <label style={grayResultTextStyle}>{memberData[0].email}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <div><label style={labelTextStyle}>맴버 구분 </label></div>
-        <Select value={inputs.permissions}
-          style={{ width: '100%', height: 25 }}
-          onChange={handleChange}>
-          <Option value={'0'}>마스터</Option>
-          <Option value={'1'}>치프</Option>
-          <Option value={'2'}>매니저</Option>
-          <Option value={'9'}>구성원</Option>
-        </Select>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <label style={labelTextStyle}>소속</label><br />
-        <TreeSelect
-          style={{ width: '100%' }}
-          value={inputs.dept_idx}
-          treeLine={true}
-          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-          treeData={treedata}
-          placeholder={memberData[0].dept_name}
-          treeDefaultExpandAll
-          onChange={handeltreeOnChange} />
+        <Divider />
+        <div>
+          <label style={labelTextStyle}>휴대폰 번호 </label><br />
+          <label style={blackResultTextStyle}>{memberData[0].phone_number}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label style={labelTextStyle}>이메일 </label><br />
+          <label style={grayResultTextStyle}>{memberData[0].email}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <div><label style={labelTextStyle}>맴버 구분 </label></div>
+          <Select value={inputs.permissions}
+            style={{ width: '100%', height: 25 }}
+            onChange={handleChange}>
+            <Option value={'0'}>Master</Option>
+            <Option value={'1'}>Chief</Option>
+            <Option value={'2'}>Manager</Option>
+            <Option value={'9'}>Staff</Option>
+          </Select>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label style={labelTextStyle}>소속</label><br />
+          <TreeSelect
+            style={{ width: '100%' }}
+            value={inputs.dept_idx}
+            treeLine={true}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treedata}
+            placeholder={memberData[0].dept_name}
+            treeDefaultExpandAll
+            onChange={handeltreeOnChange} />
 
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <label style={labelTextStyle}>최근 접속 일시</label><br />
-        <label style={grayResultTextStyle}>{memberData[0].upd_dt}</label>
-        <Divider style={{ width: '100%', margin: 5 }} />
-      </div>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label style={labelTextStyle}>최근 접속 일시</label><br />
+          <label style={grayResultTextStyle}>{memberData[0].upd_dt}</label>
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
       </div>
     </div>
   );

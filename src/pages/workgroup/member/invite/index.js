@@ -152,10 +152,10 @@ const WgroupMemberPage = (props) => {
                   style={{ width: '100%', height: 50, fontSize: 16 }}
                   size={'large'}
                   onChange={handlePermChange}>
-                  <Option value={'0'}>마스터</Option>
-                  <Option value={'1'}>치프</Option>
-                  <Option value={'2'}>매니저</Option>
-                  <Option value={'9'}>구성원</Option>
+                  <Option value={'0'}>Master</Option>
+                  <Option value={'1'}>Chief</Option>
+                  <Option value={'2'}>Manager</Option>
+                  <Option value={'9'}>Staff</Option>
                 </Select>
               </div>
               <div
