@@ -59,11 +59,6 @@ export default function TopMenu({ badgeContent }) {
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="4">
-        <Link to={'/main/notification'}>
-          <Setting />알림 설정
-        </Link>
-      </Menu.Item>
       <Menu.Item key="5">
         <Link to={'/main/support'}>
           <Support />지원센터
