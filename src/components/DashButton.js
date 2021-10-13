@@ -3,10 +3,7 @@ import StyledButton from 'components/styledcomponent/Button'
 import { Button } from 'antd';
 import { Row, Col, DatePicker } from 'antd'
 import moment from 'moment';
-import { defaults } from 'autoprefixer';
-import cmm from 'constants/common';
-
-const { RangePicker } = DatePicker;
+import { useMediaQuery } from "react-responsive";
 
 export default function DashButton({ tab, onSelected, defaultSelected, onChangeFrom, onChangeTo }) {
 
@@ -21,6 +18,11 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
       setSelected(id)
     }
   }
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:1190px)"
+  });
+
 
 
   //마운트 될 때 
@@ -54,7 +56,8 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
       </Row>      
       {(selected == 4) &&        
         <Row gutter={[6, 6]} style={{marginTop:5}}>
-          <Col sm={8} xs={8} md={8} lg={8}>
+          {/* <Col sm={isMobile?12:6} xs={isMobile?12:6} md={isMobile?12:6} lg={isMobile?12:6}> */}
+          <Col sm={12} xs={12} md={12} lg={12}> 
             <DatePicker key={1} style={{width:'100%'}}
               defaultValue={sdt}
               format={'YYYY-MM-DD'}
@@ -62,8 +65,8 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
               inputReadOnly={true}
               onChange={handleonChangeFrom}
             /> 
-          </Col><div style={{paddingTop:6}}>~</div>
-          <Col sm={8} xs={8} md={8} lg={8}>
+          </Col>
+          <Col sm={12} xs={12} md={12} lg={12}> 
             <DatePicker key={1} style={{width:'100%'}}
               defaultValue={edt}
               format={'YYYY-MM-DD'}

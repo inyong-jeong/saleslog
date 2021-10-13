@@ -205,21 +205,21 @@ const SalesLogFilterDash = (props) => {
   return (
     <>
       <Row gutter={6}>
-        <Col sm={12} xs={18} md={18} lg={18}>
+        <Col sm={12} xs={12} md={12} lg={12}>
           <TreeSelect
             style={{ width: '100%' }}
             value={selectedOrganization}
             treeLine={true}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             treeData={treedata}
-            placeholder={'부서선택'}
+            placeholder={'부서 전체'}
             treeDefaultExpandAll
             allowClear
             id={props.id}
             onChange={handeltreeOnChange} />
         </Col>
-        <Col sm={6} xs={6} md={6} lg={6}>
-          <Select placeholder='멤버'
+        <Col sm={12} xs={12} md={12} lg={12}>
+          <Select placeholder='멤버 전체'
             mode='multiple'
             style={selectStyle}
             onChange={onOrganizationUserSelectChange}
