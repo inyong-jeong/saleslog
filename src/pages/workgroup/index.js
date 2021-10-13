@@ -98,7 +98,7 @@ const WgroupManagePage = () => {
   }, [])
 
   useEffect(() => {
-    console.log('data:::::::::',data)
+    console.log('data:::::::::', data)
     if (!cmm.isEmpty(data) && data.length > 0) {
       setInputs({ ...inputs, data: data[0], prevImg: (cmm.isEmpty(data[0].logo_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) })
     }
@@ -122,7 +122,7 @@ const WgroupManagePage = () => {
         }}>
           <IconLabel title="정보 수정" pathUri="main/workgroup/update" src={<EditIcon />} />
           <Divider style={marginStyle} />
-          <IconLabel title="맴버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
+          <IconLabel title="멤버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
           <Divider style={marginStyle} />
           <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
           <Divider style={marginStyle} />

@@ -52,7 +52,7 @@ cmm.setDataList = (v) => {
 
 //mobile/pc 체크 
 cmm.getPlatform = () => {
-  console.log(navigator.userAgent)
+  // console.log(navigator.userAgent)
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent)) {
     return 'mobile';
   } else {

@@ -274,18 +274,3 @@ const SignIn = (props) => {
 }
 
 export default SignIn;
-
-// const mapStateToProps = (state) => {
-//   const { loading, authcodeResponse, authcodeError } = state.Auth;
-//   return { loading, authcodeResponse, authcodeError };
-// };
-
-// const mapStateToDispatch = {
-//   authorize: authorize.call,
-//   getOauthToken: getOauthToken.call,
-//   postRegisteration: postRegisteration.call,
-//   postInvite: postInvite.call,
-//   postInviteRegistration: postInviteRegistration.call
-
-// }
-// export default connect(mapStateToProps, mapStateToDispatch)(SignIn);

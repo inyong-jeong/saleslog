@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
+
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import List from '@material-ui/core/List';
@@ -7,7 +7,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
-import { EllipsisOutlined } from "@ant-design/icons";
 import { useHistory } from 'react-router';
 import { Modal, Divider, Button, Avatar, Menu, Dropdown, Input } from 'antd';
 import { getWorkGroupInfo, getGroupMemberList, postGroupMemberOut } from 'redux/workgroup/actions';
@@ -16,12 +15,11 @@ import { base64Enc } from 'constants/commonFunc';
 import { ReactComponent as MoreIcon } from '../../../assets/icons/workgroup/threeDots.svg'
 
 const { Search } = Input;
-const WgroupMemberPage = (props) => {
+const WgroupMemberPage = () => {
 
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
-  const data = state.data;
   const [isShowModal, setIsShowModal] = useState(false)
   const [outIdx, setOutIdx] = useState('')
   const [memberList, setMemberList] = useState([])
@@ -42,11 +40,7 @@ const WgroupMemberPage = (props) => {
       payload: true
     }
     )
-
-    //워크그룹 정보 가져오기
     dispatch(getWorkGroupInfo.call())
-
-
   }, [])
 
   useEffect(() => {
