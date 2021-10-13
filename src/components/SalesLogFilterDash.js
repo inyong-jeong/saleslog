@@ -22,6 +22,12 @@ const SalesLogFilterDash = (props) => {
   
   const [chgCombo, setChgCombo] = useState(0);
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
+
+  const [selectedItems, setSelectedItems] = useState([])
+  const [filteredlist, setFilteredlist] = useState([])
+  const [filteredOptions, setFilteredOptions] = useState([])
+  //const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
+
   
 
   const salesActivityOption =
@@ -72,9 +78,14 @@ const SalesLogFilterDash = (props) => {
 
   //맴버조회 fetch 후  
   useEffect(() => {
-    console.log('selIdUser:::::',selIdUser, props.id, selIdUser === props.id);
+    
     if (props.organizationuserDashRes && (selIdUser === props.id)) {
-      console.log('set userlist:::::',selIdUser, props.id, selIdUser === props.id);
+      const memList = props.organizationuserDashRes.map(v => v.user_name);
+      const optList = memList && memList.filter((v) => !selectedItems.includes(v)) 
+      setFilteredlist(memList);
+      setFilteredOptions(optList);
+
+      
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
       props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
@@ -85,64 +96,12 @@ const SalesLogFilterDash = (props) => {
 
   //부서조회 fetch 후
   useEffect(() => {
-    console.log('dept fetch ::::',selId, props.id)
     if (props.organizationDashRes && (selId == props.id)) {
-      console.log('dept fetch ::::',selId, props.id)
       setTreedata(getTreeData(props.organizationDashRes))
       setSelId()
     }
   }, [props.organizationDashRes])
 
-
-  // // 대분류 선택
-  // useEffect(() => {
-  //   //console.log('selidx:::22222222222:', selectedOrganization1)
-  //   if (!cmm.isEmpty(selectedOrganization1)) {
-  //     //props.getorganization(filterdata)
-  //     setChgCombo(1)
-  //   }
-  // }, [selectedOrganization1])
-
-  // //중분류 선택
-  // useEffect(() => {
-  //   if (!cmm.isEmpty(selectedOrganization2)) {
-  //     //props.getorganization(filterdata)
-  //     setChgCombo(2)
-  //   }
-  // }, [selectedOrganization2])
-
-  // // 소분류 선택
-  // useEffect(() => {
-  //   if (!cmm.isEmpty(selectedOrganization3)) {
-  //     //props.getorganizationusersDash(data)
-  //     setChgCombo(3)
-  //   }
-  // }, [selectedOrganization3])
-
-  // // 부서 선택 후
-  // useEffect(() => {
-  //   //console.log('chgCombo::::::::::::::', props.id, chgCombo, selectedOrganization1)
-  //   if (chgCombo === 1) {
-  //     //하위부서 조회
-  //     props.getorganizationDash({ dept_idx: selectedOrganization1, typ: 'lvl' })
-  //     //부서별 맴버 조회
-  //     props.getorganizationusersDash({ dept_idx: selectedOrganization1, typ: 'tree' })
-
-  //   } else if (chgCombo === 2) {
-
-  //     //하위부서 조회
-  //     props.getorganizationDash({ dept_idx: selectedOrganization2, typ: 'lvl' })
-  //     //부서별 맴버 조회
-  //     props.getorganizationusersDash({ dept_idx: selectedOrganization2, typ: 'tree' })
-
-  //   } else if (chgCombo === 3) {
-  //     //하위부서 조회
-  //     props.getorganizationDash({ dept_idx: selectedOrganization3, typ: 'lvl' })
-  //     //부서별 맴버 조회
-  //     props.getorganizationusersDash({ dept_idx: selectedOrganization3, typ: 'tree' })
-
-  //   }
-  // }, [chgCombo])
 
   // 멤버 선택
   useEffect(() => {
@@ -155,64 +114,11 @@ const SalesLogFilterDash = (props) => {
 
   
   useEffect(() => {
+    //console.log('data::::change:::::',data)
     props.getorganizationusersDash(data)
   }, [data])
 
   const selectStyle = { width: '100%' }
-
-
-  // const onOrganizationSelectChange1 = (v, opt) => {
-  //   //console.log('delidx:::vvvvvvvvvvvvvv::::::::::::::', v, opt.id,props.id,  (props.id != opt.id))
-  //   setSelId(opt.id);
-  //   setSelIdUser(opt.id);
-  //   setSelectedOrganization1(v);
-  //   setSelectedOrganization2('');
-  //   setSelectedOrganization3('');
-  //   setMiddleList([]);
-  //   setSmallList([]);
-  //   if (v !== '') {
-  //     props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
-  //   } else {
-  //     props.getorganizationusersDash({ dept_idx: 0, typ: 'tree' })
-  //   }
-
-  //   // setBigList(props.organizationlist)
-  //   //setFilterData({ ...filterdata, 'dept_idx': v })
-  //   //setChgNo(1)
-
-  //   //setData({ ...data, 'dept_idx': v })
-  // }
-
-  // const onOrganizationSelectChange2 = (v, opt) => {
-  //   setSelId(opt.id);
-  //   setSelIdUser(opt.id);
-  //   setSelectedOrganization2(v);
-  //   setSelectedOrganization3('');
-  //   setSmallList([]);
-  //   if (v !== '') {
-  //     props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
-  //   } else {
-  //     props.getorganizationusersDash({ dept_idx: selectedOrganization1, typ: 'tree' })
-  //   }
-  //   // setMiddleList(props.organizationlist)
-  //   //setFilterData({ ...filterdata, 'dept_idx': v })
-  //   //setData({ ...data, 'dept_idx': v })
-  // }
-  // const onOrganizationSelectChange3 = (v, opt) => {
-  //   setSelId(opt.id);
-  //   setSelIdUser(opt.id);
-  //   setSelectedOrganization3(v);
-  //   if (v !== '') {
-  //     props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
-  //   } else {
-  //     props.getorganizationusersDash({ dept_idx: selectedOrganization2, typ: 'tree' })
-  //   }
-
-  //   // setSmallList(props.organizationlist)
-  //   //setFilterData({ ...filterdata, 'dept_idx': v })
-  //   //setData({ ...data, 'dept_idx': v })
-  // }
-
 
   //부서데이타 treedata 변환
   const getTreeData = (array) => {
@@ -244,7 +150,7 @@ const SalesLogFilterDash = (props) => {
   //부서 선택
   const handeltreeOnChange = (v,label, extra) => {
     if (v) {
-      console.log('부서선택:::',v, label, extra.allCheckedNodes[0].node.props.id, props.id)
+      //console.log('부서선택:::',v, label, extra.allCheckedNodes[0].node.props.id, props.id)
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);  
       setSelectedOrganization(v);
@@ -294,9 +200,8 @@ const SalesLogFilterDash = (props) => {
   }
   
 
-  const [selectedItems, setSelectedItems] = useState([])
-  const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
-  const filteredOptions = filteredlist && filteredlist.filter((v) => !selectedItems.includes(v))
+  //const filteredlist = props.organizationuserDashRes && props.organizationuserDashRes.map(v => v.user_name);
+  //const filteredOptions = filteredlist && filteredlist.filter((v) => !selectedItems.includes(v)) 
   return (
     <>
       <Row gutter={6}>
@@ -321,7 +226,7 @@ const SalesLogFilterDash = (props) => {
             value={selectedItems}
             id={props.id}
           >
-            {filteredOptions && filteredOptions.map((item, index) => (
+            {filteredOptions && filteredOptions.map((item, index) => (              
               <Select.Option key={index} id={props.id} value={item}>
                 {item}
               </Select.Option>

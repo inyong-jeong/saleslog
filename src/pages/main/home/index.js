@@ -225,9 +225,14 @@ const DashBoardPage = () => {
   }
 
   //영업일지 날짜 변경시
-  const onChange = (dates) => {
-    if (dates && dates.length > 1) {
-      setBodyLog({ ...bodyLog, from_dt: dates[0].format('YYYY-MM-DD'), to_dt: dates[1].format('YYYY-MM-DD') })
+  const onChangeFrom = (dates) => {
+    if (dates) {
+      setBodyLog({ ...bodyLog, from_dt: dates.format('YYYY-MM-DD')})
+    }
+  }
+  const onChangeTo = (dates) => {
+    if (dates) {
+      setBodyLog({ ...bodyLog, to_dt: dates.format('YYYY-MM-DD') })
     }
   }
 
@@ -244,9 +249,14 @@ const DashBoardPage = () => {
   }
 
   //리드일지 날짜 변경시
-  const onChangeRd = (dates, dateStrings) => {
-    if (dates && dates.length > 1) {
-      setBodyLogRd({ ...bodyLogRd, from_dt: dates[0].format('YYYY-MM-DD'), to_dt: dates[1].format('YYYY-MM-DD') })
+  const onChangeFromRd = (dates, dateStrings) => {
+    if (dates) {
+      setBodyLogRd({ ...bodyLogRd, from_dt: dates.format('YYYY-MM-DD')})
+    }
+  }
+  const onChangeToRd = (dates, dateStrings) => {
+    if (dates) {
+      setBodyLogRd({ ...bodyLogRd, to_dt: dates.format('YYYY-MM-DD') })
     }
   }
 
@@ -414,7 +424,7 @@ const DashBoardPage = () => {
         }
         {sectionTitle("영업일지 현황", <Calendar />)}
         <div className='mt-1' />
-        <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChange={onChange} defaultSelected={bodyLog.dt_typ} />
+        <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onchangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
         {/* <Row gutter={4} >
           <Col sm={24} xs={24} md={24} lg={24} >
             <RangePicker className='col-12'
@@ -485,7 +495,7 @@ const DashBoardPage = () => {
         </Row>
         <div className='mt-1' />
 
-        <DashButton key='sales_buttonRd' tab={tabs} onSelected={onSelectedRd} onChange={onChangeRd} defaultSelected={bodyLogRd.dt_typ} />
+        <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onchangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
         <div className='mt-2' />
         <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
 
