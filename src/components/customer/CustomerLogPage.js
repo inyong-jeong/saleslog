@@ -41,8 +41,18 @@ const CustomerLogPage = () => {
     maxHeight: '8.6em',
     lineHeight: '1.8em',
     fontWeight: 300
-
   }
+
+  const contentstyles = {
+    position: 'relative',
+    display: '-webkit-box',
+    lineHeight: '',
+    overflow: 'hidden',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 5,
+    textOverflow: 'ellipsis',
+  }
+
   useEffect(() => {
     dispatch(getLogLists.call(inputs))
 
@@ -67,28 +77,33 @@ const CustomerLogPage = () => {
           <div style={{ flexGrow: 2 }}>
             <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}>{singleList.user_name}</p>
             <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname} { }</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{singleList.sales_goal_t}<Dot /> 대면 <Dot /> 전략 니즈</p>
+            <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>
+              {singleList.sales_goal_t}<Dot />  {singleList.sales_activity_t} <Dot /> {singleList.needs_cods}</p>
           </div>
           <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
         <div style={grayTextStyles}>{singleList.account_name} <Dot /> {singleList.man_name} </div>
         <div style={{ fontSize: 14, fontWeight: 500 }}>{singleList.title}</div>
-        <div style={grayTextStyles}>{singleList.log} </div>
-        <div style={{ display: 'flex', height: 85 }}>
-          {(singleList.file1 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file1} />}
-          {(singleList.file2 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file2} />}
-          {(singleList.file3 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file3} />}
-          {(singleList.file4 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file4} />}
-          {(singleList.file5 !== '') && <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file5} />}
+        <div className='mt-1'></div>
+        <div>
+          <div style={contentstyles}>{singleList.log}</div>
+        </div>
+        <div className='mt-1'></div>
+        <div style={{ display: 'flex' }}>
+          {(singleList.file1 !== '') && <Avatar size={64} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file1} />}
+          {(singleList.file2 !== '') && <Avatar size={64} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file2} />}
+          {(singleList.file3 !== '') && <Avatar size={64} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file3} />}
+          {(singleList.file4 !== '') && <Avatar size={64} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file4} />}
+          {(singleList.file5 !== '') && <Avatar size={64} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file5} />}
         </div>
         <div
           style={{
+            position: 'relative',
+            bottom: 0,
             fontSize: 12,
             color: '#333333',
             fontWeight: 400,
-            position: 'absolute',
-            bottom: 0
           }}>
           <Feedback /> 피드백 {singleList.feedback_cnt}개</div>
       </div>
