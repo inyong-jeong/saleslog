@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { useHistory, useParams } from 'react-router'
+import { useHistory } from 'react-router'
 import { getSupportInquiryLists } from '../../redux/support/actions'
 
 export default function MyInquiryLists() {
@@ -20,16 +20,15 @@ export default function MyInquiryLists() {
 
   useEffect(() => {
     if (state.loading) return
-    //paging 
   }, [state.loading])
 
   const ListItem = ({ inquiry }) => (
     <div onClick={() => history.push(`/main/support/details/${inquiry.b_idx}`)} style={{ cursor: 'pointer' }}>
-      <div style={{ float: 'left', width: '70%' }}>
+      <div style={{ float: 'left' }}>
         <p style={{ fontSize: 14, margin: 0, fontWeight: '400' }}>{inquiry.title}</p>
         <p style={{ fontSize: 12, color: '#666666', margin: 0 }}>{inquiry.cre_dt}</p>
       </div>
-      <div style={{ float: 'right', width: '10%', marginRight: 10 }}>
+      <div style={{ float: 'right', marginRight: 10 }}>
         {inquiry.complete_yn === "N" ? <Button>처리중</Button> : <Button>처리완료</Button>}
       </div>
       <Divider style={{ margin: 8 }} />
@@ -50,7 +49,7 @@ export default function MyInquiryLists() {
           inquiryLists ?
             <>
               {
-                inquiryLists.message.map((inquiry, index) =>
+                inquiryLists.message.map((inquiry) =>
                   <ListItem inquiry={inquiry} key={inquiry.b_idx} />
                 )
               }
