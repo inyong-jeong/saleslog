@@ -12,7 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
 import { base64Enc } from 'constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
-
+import { useMediaQuery } from 'react-responsive';
 const useStyles = makeStyles((theme) => ({
   square: {
     color: '#000',
@@ -35,6 +35,11 @@ const bluebox = {
 
 const CustomerItems = ({ inputs, page, setPage }) => {
 
+  const isMobile = useMediaQuery({
+    query: "(max-width:1190px)"
+  });
+
+
   const classes = useStyles()
   const dispatch = useDispatch()
   const [cusotomerList, setCustomerList] = useState([])
@@ -47,6 +52,12 @@ const CustomerItems = ({ inputs, page, setPage }) => {
 
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, 1))
+
+    isMobile && window.scrollTo({
+      top: 100,
+      left: 100,
+      behavior: 'smooth'
+    });
   }, [])
 
   useEffect(() => {
@@ -70,10 +81,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   }, [loading])
 
   const handleNextPage = () => {
-    if (loading == true) return
-    setPage(page + 1)
-
-    console.log('고객사 리스트 :: handleNextPage()')
+    if (!loading) setPage(page + 1)
   }
 
   return (

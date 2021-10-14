@@ -82,7 +82,6 @@ const CustomerShow = () => {
           allowClear
           onSearch={onSearch}
           style={{
-            width: '100%',
             marginBottom: 10,
             marginTop: 10,
           }} />
