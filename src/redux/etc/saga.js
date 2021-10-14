@@ -1,6 +1,8 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { post_fetch, post_fetch_files } from 'model/FetchManage'
 import { successMessage, errorMessage } from 'constants/commonFunc';
+import { setUserInfo } from 'helpers/authUtils';
+
 import {
   GET_PROFILE_DETAIL,
   POST_PROFILE_UPD,
@@ -94,9 +96,16 @@ function* _postAnniversary() {
 //프로필 정보
 function* _getProfileDetail({ payload: { body } }) {
   try {
-    console.log('fetch::::delwgroup::::::::::', body)
+    //console.log('fetch::::delwgroup::::::::::', body)
     const response = yield call(post_fetch_files, cmm.SERVER_API_URL + PROFILE_INFO, body)
-    yield console.log('result::::::::::::::::', response)
+    //yield console.log('result::::::::::::::::', response)
+    if (response.status == 200 && response.message.length > 0) {
+      yield setUserInfo({
+        permissions:response.message[0].permissions, 
+        user_name:response.message[0].user_name, 
+        wgroupName:response.message[0].organization
+      })
+    }
     yield put(getProfileDetail.success(response))
 
   } catch (error) {

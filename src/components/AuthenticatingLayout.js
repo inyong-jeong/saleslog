@@ -9,6 +9,7 @@ import { errorMessage, successMessage } from "constants/commonFunc";
 
 const AuthenticatingLayout = (props) => {
 
+  // 토큰 발급요청
   const handletoken = () => {
     const client_id = 'saleslog.co';
     const client_secret = '8fba114f8291cf28e443c30aba7cce86';
@@ -17,14 +18,14 @@ const AuthenticatingLayout = (props) => {
   }
 
 
-  useEffect(() => {
-    console.log('authenticatingLayout::[]:a★★★:')
+  // useEffect(() => {
+  //   //console.log('authenticatingLayout::[]:a★★★:')
     
-  }, [])
+  // }, [])
 
 
   useEffect(() => {
-    console.log('isUserAuthorized()::::',isUserAuthorized())
+    //console.log('isUserAuthorized()::::',isUserAuthorized())
     if (isUserAuthorized() === true) {
       handletoken();
     } else if (isUserAuthorized() === false) {
@@ -34,7 +35,7 @@ const AuthenticatingLayout = (props) => {
   }, [isUserAuthorized()])
 
   useEffect(() => {
-    console.log('isUserAuthenticated():토큰여부확인:::',isUserAuthenticated())
+    //console.log('isUserAuthenticated():토큰여부확인:::',isUserAuthenticated())
     if (isUserAuthenticated() === true) {
       props.history.push('/main');
     } else {
@@ -43,9 +44,9 @@ const AuthenticatingLayout = (props) => {
   }, [isUserAuthenticated()])
 
   useEffect(() => {
-    console.log('accesstokenResponse()::::',props.accesstokenResponse)
+    //console.log('accesstokenResponse()::::',props.accesstokenResponse)
     if (props.accesstokenResponse) {
-      console.log('authing:::',props.accesstokenResponse)
+      //console.log('authing:::',props.accesstokenResponse)
       if (props.accesstokenResponse == 'invalid_grant') {
         errorMessage('인증코드 오류입니다. 다시 로그인 해 주세요')
         props.history.push('/signin');

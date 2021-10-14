@@ -3,6 +3,7 @@ import { Row, Col, Divider, Collapse } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import moment from 'moment';
 import { getsaleslogstat, getleadlogstat } from 'redux/dashboard/actions';
+import { getProfileInfo } from 'redux/workgroup/actions';
 import DashButton from 'components/DashButton'
 import DashButton5 from 'components/DashButton5'
 import DashButton3 from 'components/DashButton3'
@@ -148,6 +149,9 @@ const DashBoardPage = () => {
 
   // birthday 
   useEffect(() => {
+    //프로필 가져오기( 스토리지 저장함)
+    dispatch(getProfileInfo.call())
+
     dispatch(postAnniversary.call())
   }, [])
 

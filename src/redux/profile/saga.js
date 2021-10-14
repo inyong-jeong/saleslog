@@ -1,5 +1,7 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { get_fetch, post_fetch_files } from 'model/FetchManage'
+import { setUserInfo } from 'helpers/authUtils';
+
 import {
   GET_PROFILE,
   GET_PROFILE_PICTURE
@@ -11,7 +13,13 @@ import {
 function* _getProfile() {
   try {
     const response = yield call(get_fetch, 'https://backend.saleslog.co/org/myinfo')
-    console.log(response)
+    if (response.status == 200 && response.message.length > 0) {
+      yield setUserInfo({
+        permissions:response.message[0].permissions, 
+        user_name:response.message[0].user_name, 
+        wgroupName:response.message[0].organization
+      })
+    }
     yield put(getprofile.success(response))
   } catch (error) {
     yield put(getprofile.error(error))
