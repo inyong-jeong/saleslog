@@ -1,5 +1,6 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { post_fetch, post_fetch_files } from 'model/FetchManage'
+import { setUserInfo } from 'helpers/authUtils';
 
 import {
   successMessage,
@@ -251,6 +252,14 @@ function* _getProfileInfo({ payload: { body } }) {
     yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + PROFILE_GET_INFO, body)
     yield hideMessage()
+    
+    if (response.status == 200 && response.message.length > 0) {
+      yield setUserInfo({
+        permissions:response.message[0].permissions, 
+        user_name:response.message[0].user_name, 
+        wgroupName:response.message[0].organization
+      })
+    }
     yield put(getProfileInfo.success(response))
 
 

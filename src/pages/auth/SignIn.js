@@ -130,7 +130,7 @@ const SignIn = (props) => {
       state.authcodeResponse = null;
       return;
     } else {
-      console.log('로그인 시작::::::::::::', state.authcodeResponse)
+      //console.log('로그인 시작::::::::::::', state.authcodeResponse)
       props.history.push('/authing');
       //getAccessToken(state.authcodeResponse.code);
       state.authcodeResponse = null;
@@ -189,9 +189,6 @@ const SignIn = (props) => {
     };
   }, []);
 
-  if (undefined) {
-    console.log(11111111)
-  }
 
   const ViewStyle = {
     height: viewHeight,
@@ -205,10 +202,6 @@ const SignIn = (props) => {
     alignItems: 'center',
     display: 'flex',
     fontSize: 14
-  }
-
-  if (undefined) {
-    console.log(11111111)
   }
 
   const onFindId = () => {
