@@ -13,10 +13,12 @@ import { getWorkGroupInfo, getGroupMemberList, postGroupMemberOut } from 'redux/
 import cmm from 'constants/common';
 import { base64Enc } from 'constants/commonFunc';
 import { ReactComponent as MoreIcon } from '../../../assets/icons/workgroup/threeDots.svg'
+import { getUserInfo } from 'helpers/authUtils';
 
 const { Search } = Input;
 const WgroupMemberPage = () => {
 
+  const myInfo = getUserInfo();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -151,30 +153,33 @@ const WgroupMemberPage = () => {
                         <div style={{ fontSize: 12, fontWeight: 350, lineHeight: '18px', color: '#666666' }}>{email}</div>
                       </div>
                       <div style={{ flex: 1, fontSize: 12, width: '10%', maxWidth: 50, paddingRight: 10, textAlign: 'right', right: 0, alignItems: 'flex-end' }}>
-                        <Dropdown
-                          key={login_idx}
-                          event={srch}
-                          overlay={
-                            <Menu key={login_idx} style={{ width: 200 }}>
-                              <Menu.Item key={1} onClick={() => {
-                                const param = base64Enc(login_idx)
-                                history.push(`/main/workgroup/member/profile/${param}`)
-                              }} >프로필 보기
-                              </Menu.Item>
-                              <Menu.Item key={2} onClick={() => {
-                                outMemberAlert(login_idx)
-                              }} >내보내기
-                              </Menu.Item>
-                              <Divider dashed style={{ margin: 2 }} />
-                              <div style={{ fontSize: 12, padding: '5px 0 0 0', color: '#333' }}>
-                                &nbsp;&nbsp;&nbsp; 최근 접속시간: {item.upd_dt}
-                              </div>
-                            </Menu>}
-                          placement="bottomRight"
-                          trigger={['click', 'hover']} >
-                          <MoreIcon />
-
-                        </Dropdown>
+                        {
+                          myInfo.permission != 9 ?
+                            <Dropdown
+                              key={login_idx}
+                              event={srch}
+                              overlay={
+                                <Menu key={login_idx} style={{ width: 200 }}>
+                                  <Menu.Item key={1} onClick={() => {
+                                    const param = base64Enc(login_idx)
+                                    history.push(`/main/workgroup/member/profile/${param}`)
+                                  }} >프로필 보기
+                                  </Menu.Item>
+                                  <Menu.Item key={2} onClick={() => {
+                                    outMemberAlert(login_idx)
+                                  }} >내보내기
+                                  </Menu.Item>
+                                  <Divider dashed style={{ margin: 2 }} />
+                                  <div style={{ fontSize: 12, padding: '5px 0 0 0', color: '#333' }}>
+                                    &nbsp;&nbsp;&nbsp; 최근 접속시간: {item.upd_dt}
+                                  </div>
+                                </Menu>}
+                              placement="bottomRight"
+                              trigger={['click', 'hover']} >
+                              <MoreIcon />
+                            </Dropdown>
+                            : null
+                        }
                       </div>
                     </div>
                   </ListItem>

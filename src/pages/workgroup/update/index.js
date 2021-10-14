@@ -3,16 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import AvatarUp from 'components/AvatarUp';
-import IconLabel from 'components/IconLabel';
 import Input from 'components/styledcomponent/Input'
 import { useHistory } from 'react-router';
-import { Avatar, Divider, notification } from 'antd';
-import { transform } from 'babel-core';
+import { Divider } from 'antd';
 import { getWorkGroupInfo, postWorkGroupLogo, postWorkGroupUpd } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { alertMessage } from '../../../constants/commonFunc';
-const WgroupManagePage = (props) => {
+import { getUserInfo } from 'helpers/authUtils';
 
+const WgroupManagePage = () => {
+  const myInfo = getUserInfo();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const navigateTo = () => history.push('/main/workgroup')
@@ -132,7 +132,7 @@ const WgroupManagePage = (props) => {
         barTitle={(cmm.isEmpty(inputs.comp_name)) ? '워크그룹' : inputs.comp_name}
         showBackButton
         navigateTo={navigateTo}
-        onSaveClick={onSaveClick}
+        onSaveClick={myInfo.permission == 0 ? onSaveClick : false}
       />
       <div className='content_body'>
         <div style={{ display: 'flex' }}>

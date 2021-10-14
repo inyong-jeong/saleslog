@@ -133,12 +133,10 @@ const WgroupManagePage = () => {
         <div style={{ height: 20 }}></div>
         <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
         <Divider style={{ margin: 10 }} />
-        {myInfo.permission == 9 ? null :
-          <>
-            <IconLabel title="멤버 관리" pathUri="main/workgroup/member"></IconLabel>
-            <Divider style={{ margin: 10 }} />
-          </>
-        }
+        <>
+          <IconLabel title="멤버 관리" pathUri="main/workgroup/member"></IconLabel>
+          <Divider style={{ margin: 10 }} />
+        </>
         <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
         <Divider style={{ margin: 10 }} />
         <div className={classes.bottomBar} >

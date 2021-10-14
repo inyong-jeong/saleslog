@@ -10,12 +10,9 @@ import { Divider, Avatar, Select, TreeSelect } from 'antd';
 import { getGroupMemberDetail, getDeptInfo, postGroupMemberUpd } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { base64Dec } from 'constants/commonFunc';
-import { getUserInfo } from 'helpers/authUtils';
 
 const { Option } = Select;
 const WgroupMemberPage = () => {
-
-  const myInfo = getUserInfo();
   const labelTextStyle = {
     fontSize: 12,
     color: '#666666',
@@ -152,7 +149,6 @@ const WgroupMemberPage = () => {
         barTitle={'멤버 프로필'}
         showBackButton
         navigateTo={navigateTo}
-
         onSaveClick={onSaveClick}
       />
       <div className='content_body'>

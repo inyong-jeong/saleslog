@@ -10,9 +10,11 @@ import { getNoticeGrpList } from "redux/etc/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useLocation } from "react-router";
-
+import { getUserInfo } from 'helpers/authUtils';
 const { Search } = Input;
+
 const GroupNoticePage = () => {
+  const myInfo = getUserInfo();
   const history = useHistory()
   const location = useLocation()
   const navigateTo = () => history.push({ pathname: '/main/etc/notice/group/register' })
@@ -97,9 +99,12 @@ const GroupNoticePage = () => {
           noticeType={'group'}
         />
 
-        <div className={styles.Wrapper}>
-          <CustomFab navigateTo={navigateTo} />
-        </div>
+        {myInfo.permission != 9 ?
+          <div className={styles.Wrapper}>
+            <CustomFab navigateTo={navigateTo} />
+          </div>
+          : null}
+
       </div>
     </div>
   );

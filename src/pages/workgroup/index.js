@@ -109,6 +109,7 @@ const WgroupManagePage = () => {
           <Divider style={marginStyle} />
           <IconLabel title="멤버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
           <Divider style={marginStyle} />
+
           {
             myInfo.permission == 0 ?
               <>
@@ -201,11 +202,11 @@ const WgroupManagePage = () => {
                           <span style={{ fontSize: 14 }}>{organization}</span><br />
                           <span style={{ fontSize: 12 }}>{org_domain}</span>
                         </div>
-                        <div style={{ fontSize: 12, width: 70, paddingLeft: 10, color: '#aaaaaa' }}>
+                        <div style={{ fontSize: 12, width: 70, color: '#aaaaaa' }}>
                           <span>멤버</span><br />
                           <span>고객사</span>
                         </div>
-                        <div style={{ fontSize: 12, width: 30, paddingLeft: 10, textAlign: 'right', right: 10, justifyContent: 'flex-end' }}>
+                        <div style={{ fontSize: 12, width: 40, paddingLeft: 10, textAlign: 'right', right: 10, justifyContent: 'flex-end' }}>
                           <span>{member_cnt}</span><br />
                           <span>{accounts_cnt}</span>
                         </div>
