@@ -13,6 +13,7 @@ import { useHistory } from 'react-router';
 import { Modal, Divider, Button, Avatar } from 'antd';
 import { getWorkGroupInfo, getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
+import { getUserInfo } from 'helpers/authUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +43,9 @@ const theme = createTheme({
   },
 });
 
-const WgroupManagePage = (props) => {
+const WgroupManagePage = () => {
+
+  const myInfo = getUserInfo();
   const classes = useStyles();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
@@ -130,8 +133,12 @@ const WgroupManagePage = (props) => {
         <div style={{ height: 20 }}></div>
         <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
         <Divider style={{ margin: 10 }} />
-        <IconLabel title="멤버 관리" pathUri="main/workgroup/member"></IconLabel>
-        <Divider style={{ margin: 10 }} />
+        {myInfo.permission == 9 ? null :
+          <>
+            <IconLabel title="멤버 관리" pathUri="main/workgroup/member"></IconLabel>
+            <Divider style={{ margin: 10 }} />
+          </>
+        }
         <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
         <Divider style={{ margin: 10 }} />
         <div className={classes.bottomBar} >

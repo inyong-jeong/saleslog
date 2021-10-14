@@ -3,7 +3,7 @@ import StyledSelect from '../styledcomponent/StyledSelect';
 const { Option } = StyledSelect;
 
 function onSearch(val) {
-  console.log('filter name search::: ', val)
+
 }
 
 const eachSelectStyle = {
@@ -33,7 +33,6 @@ const SelectFilter = ({
     setPage(1)
   }
 
-  //등급 옵션 
   const options = []
   for (let result of gradeType) {
     options.push(<Option key={Object.values(result)}> {Object.keys(result)}</Option>)
@@ -45,9 +44,7 @@ const SelectFilter = ({
       userNames.push(<Option key={user.login_idx}>{user.user_name}</Option>)
     })
   }
-  const handleDeselect = e => {
-    //console.log(e)
-  }
+
   return (
     <div style={{ display: 'flex' }}>
 

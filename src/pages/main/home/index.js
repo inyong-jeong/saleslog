@@ -26,12 +26,15 @@ import { base64Enc } from 'constants/commonFunc';
 import { useHistory } from "react-router";
 import { postAnniversary } from "../../../redux/etc/actions";
 import styles from '../../../assets/style/Main.module.css'
+import { getUserInfo } from 'helpers/authUtils';
 
 const SALESLOG_TYPE = 'SALESLOG_TYPE'
 const LEADLOG_TYPE = 'LEADLOG_TYPE'
 const { Panel } = Collapse
+
 const DashBoardPage = () => {
 
+  const myInfo = getUserInfo();
   const state = useSelector(state => state.Dashboard)
   const etcState = useSelector(etcState => etcState.Etc)
   const dispatch = useDispatch()
@@ -389,7 +392,8 @@ const DashBoardPage = () => {
         <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onChangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
 
         <div className='mt-2' />
-        <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} />
+        {myInfo.permission == 0 ? <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} /> : null}
+
         <div className='mt-5' />
 
         {salesStat &&
@@ -448,8 +452,10 @@ const DashBoardPage = () => {
 
         <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onChangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
         <div className='mt-2' />
-        <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
-
+        {myInfo.permission == 0 ?
+          <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
+          : null
+        }
         <div className='mt-5' />
         {leadStat ?
           <div>

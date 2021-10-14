@@ -15,6 +15,7 @@ import cmm from 'constants/common';
 import { ReactComponent as EditIcon } from '../../assets/icons/workgroup/edit.svg'
 import { ReactComponent as MemberIcon } from '../../assets/icons/workgroup/member.svg'
 import { ReactComponent as OrgIcon } from '../../assets/icons/workgroup/org.svg'
+import { getUserInfo } from 'helpers/authUtils';
 
 const WgroupManagePage = () => {
 
@@ -25,6 +26,7 @@ const WgroupManagePage = () => {
     marginRight: 0
   }
 
+  const myInfo = getUserInfo();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -107,9 +109,14 @@ const WgroupManagePage = () => {
           <Divider style={marginStyle} />
           <IconLabel title="멤버 관리" pathUri="main/workgroup/member" src={<MemberIcon />} />
           <Divider style={marginStyle} />
-          {/* 권한에 따라 보이기 필요  */}
-          <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
-          <Divider style={marginStyle} />
+          {
+            myInfo.permission == 0 ?
+              <>
+                <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
+                <Divider style={marginStyle} />
+              </>
+              : null}
+
         </div>
         <div style={{
           cursor: 'pointer',
@@ -122,8 +129,13 @@ const WgroupManagePage = () => {
           fontWeight: 500
         }}>
           <IconLabel title="워크그룹 나가기" pathUri="main/workgroup/outwgroup" isIcon={false} />
-          <div>&nbsp; |&nbsp; </div>
-          <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false} />
+
+          {myInfo.permission == 0 ?
+            <>
+              <div>&nbsp; |&nbsp; </div>
+              <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false} />
+            </> : null}
+
         </div>
 
         <Modal
