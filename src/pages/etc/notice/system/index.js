@@ -78,29 +78,29 @@ const SystemNoticePage = () => {
   return (
     <div>
       <MyAppBar barTitle={'시스템 공지'} />
-    <div className='content_body'>
-      <Search
-        placeholder="검색"
-        allowClear
-        onSearch={onSearch}
-        style={{
-          width: '100%',
-          marginBottom: 10,
-          marginTop: 10,
-        }} />
-      <NoticeItems
-        page={page}
-        setPage={setPage}
-        setInputs={setInputs}
-        setData={setData}
-        data={noticeList}
-        loading={loading}
-        noticeType={'system'}
-      />
-
-      <div className={styles.Wrapper}>
+      <div className='content_body'>
+        <Search
+          placeholder="검색"
+          allowClear
+          onSearch={onSearch}
+          style={{
+            width: '100%',
+            marginBottom: 10,
+            marginTop: 10,
+          }} />
+        <NoticeItems
+          page={page}
+          setPage={setPage}
+          setInputs={setInputs}
+          setData={setData}
+          data={noticeList}
+          loading={loading}
+          noticeType={'system'}
+        />
+        {/* 우리가 등록하는 공지 */}
+        {/* <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
-      </div>
+      </div> */}
       </div>
     </div>
   );
