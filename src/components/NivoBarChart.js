@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ResponsiveBar } from '@nivo/bar'
-import { dountseries, barseries, leadseries, LeadOption, Baroption, dountOption } from 'constants/chart'
 import cmm from 'constants/common';
+
 
 const NivoBarChart = (props) => {
 
@@ -26,7 +26,6 @@ const NivoBarChart = (props) => {
         indexScale={{ type: 'band', round: true }}
         valueFormat={{ format: '', enabled: false }}
         colors={colors(props.colors)}
-        // colors={{ scheme: 'blues' }}
         defs={[
           {
             id: 'dots',
@@ -49,23 +48,27 @@ const NivoBarChart = (props) => {
         ]}
         fill={[]}
         borderColor={{ from: 'color', modifiers: [['brighter', 1.6]] }}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: '',
-          legendPosition: 'middle',
-          legendOffset: 32,
-          //  tickValues: [1, 2, 3, 4, 5]
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: '',
-          legendPosition: 'middle',
-          legendOffset: -40
-        }}
+        axisBottom={
+          props.hideAxisBottom ? null :
+            {
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: '',
+              legendPosition: 'middle',
+              legendOffset: 32,
+              //  tickValues: [1, 2, 3, 4, 5]
+            }}
+        axisLeft={
+          props.hideAxisLeft ? null :
+            {
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: '',
+              legendPosition: 'middle',
+              legendOffset: -40
+            }}
 
         labelSkipWidth={12}
         labelSkipHeight={12}

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, DatePicker, Divider, Collapse } from 'antd'
+import { Row, Col, Divider, Collapse } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
-import cmm from 'constants/common';
 import moment from 'moment';
-import { getsaleslogstat, getleadlogstat, getorganization, getorganizationusers } from 'redux/dashboard/actions';
+import { getsaleslogstat, getleadlogstat } from 'redux/dashboard/actions';
 import DashButton from 'components/DashButton'
 import DashButton5 from 'components/DashButton5'
 import DashButton3 from 'components/DashButton3'
 import NivoBarChart from "components/NivoBarChart";
 import NivoPieChart from "components/NivoPieChart";
-import { dountseries, barseries, leadseries, LeadOption, Baroption, dountOption } from 'constants/chart'
+import { Baroption } from 'constants/chart'
 import SalesLogFilterDash from 'components/SalesLogFilterDash';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -44,8 +43,6 @@ const DashBoardPage = () => {
     query: "(max-width:1190px)"
   });
 
-
-
   const mainGrayTitleStyle = {
     fontSize: 14,
     fontWeight: 500,
@@ -74,7 +71,6 @@ const DashBoardPage = () => {
   const leadChartCardWrapperStyle = {
     display: 'flex',
     flexDirection: 'column',
-    margin: 15,
     gridGap: 10,
   }
 
@@ -162,17 +158,6 @@ const DashBoardPage = () => {
 
   }, [etcState.loading])
 
-  //부서 조회 용
-  const [inputDept, setinputDept] = useState({
-    dept_idx: 0,
-    typ: 'lvl'
-  })
-  //부서별 사용자 조회 
-  const [inputUser, setInputUser] = useState({
-    dept_idx: 0,
-    typ: 'tree'
-  })
-
   //영업일지 검색용 body
   const [bodyLog, setBodyLog] = useState({
     dt_typ: '1',
@@ -204,7 +189,6 @@ const DashBoardPage = () => {
   // 영업일지 fetch 후
   useEffect(() => {
     if (state.getsaleslogstatRes) {
-      console.log('영업일지 STATE::', state.getsaleslogstatRes)
       setSalesStat(state.getsaleslogstatRes)
     }
   }, [state.getsaleslogstatRes])
@@ -212,22 +196,19 @@ const DashBoardPage = () => {
   // 리드일지 fetch 후
   useEffect(() => {
     if (state.getleadlogstatRes) {
-      console.log('리드일지 STATE :: ', state.getleadlogstatRes)
       setLeadStat(state.getleadlogstatRes)
     }
   }, [state.getleadlogstatRes])
 
   //영업일지 날짜 구분 클릭
   const onSelected = (id) => {
-    //console.log('date click:::::::::::::::', id)
     setBodyLog({ ...bodyLog, dt_typ: id });
-
   }
 
   //영업일지 날짜 변경시
   const onChangeFrom = (dates) => {
     if (dates) {
-      setBodyLog({ ...bodyLog, from_dt: dates.format('YYYY-MM-DD')})
+      setBodyLog({ ...bodyLog, from_dt: dates.format('YYYY-MM-DD') })
     }
   }
   const onChangeTo = (dates) => {
@@ -238,7 +219,6 @@ const DashBoardPage = () => {
 
   //영업일지 목표 구분 클릭
   const onSelected_goal = (id) => {
-    // console.log('date click:::::::::::::::', id)
     setBodyLog({ ...bodyLog, sales_goal: id });
   }
 
@@ -251,7 +231,7 @@ const DashBoardPage = () => {
   //리드일지 날짜 변경시
   const onChangeFromRd = (dates, dateStrings) => {
     if (dates) {
-      setBodyLogRd({ ...bodyLogRd, from_dt: dates.format('YYYY-MM-DD')})
+      setBodyLogRd({ ...bodyLogRd, from_dt: dates.format('YYYY-MM-DD') })
     }
   }
   const onChangeToRd = (dates, dateStrings) => {
@@ -298,7 +278,6 @@ const DashBoardPage = () => {
         break;
     }
 
-
     if (parseInt(data.calc_cnt) > 0) {
       arrowChartcolor = '#0000ff';
       ArrowIcon = <Up />
@@ -318,9 +297,7 @@ const DashBoardPage = () => {
 
   //bar 차트 데이타
   const barChartData = (data) => {
-    let rtn = [];
-    let j = 0;
-
+    let rtn = []
     rtn[0] = { active_id: data[7].name, '기타': data[7].cnt };
     rtn[1] = { active_id: data[6].name, '소셜커뮤니티': data[6].cnt };
     rtn[2] = { active_id: data[5].name, '도서/전문정보': data[5].cnt };
@@ -329,36 +306,17 @@ const DashBoardPage = () => {
     rtn[5] = { active_id: data[2].name, '행사참여': data[2].cnt };
     rtn[6] = { active_id: data[1].name, '이메일': data[1].cnt };
     rtn[7] = { active_id: data[0].name, '전화': data[0].cnt };
-
-
-
-    // for (let i = data.length -1 ; i >= 0; i--) {
-    //   let st = data[i].name;
-    //   rtn[j] = { active_id: data[i].name, st: data[i].cnt };
-    //   j = j+1;
-    // }
-    // console.log('chart::::::::::::::data:::::::',rtn);
-    return rtn;
+    return rtn
   }
 
   const barChartDataRd = (data) => {
-    let rtn = [];
-    let j = 0;
-
+    let rtn = []
     rtn[0] = { active_id: data[0].name, '발굴': data[0].cnt };
     rtn[1] = { active_id: data[1].name, '접촉': data[1].cnt };
     rtn[2] = { active_id: data[2].name, '제안': data[2].cnt };
     rtn[3] = { active_id: data[3].name, '검증': data[3].cnt };
-
-    // for (let i = data.length -1 ; i >= 0; i--) {
-    //   let st = data[i].name;
-    //   rtn[j] = { active_id: data[i].name, st: data[i].cnt };
-    //   j = j+1;
-    // }
-    // console.log('chart::::::::::::::data:::::::',rtn);
-    return rtn;
+    return rtn
   }
-
 
   //pie 차트 데이타 
   const pieChartData = (data) => {
@@ -425,18 +383,7 @@ const DashBoardPage = () => {
         {sectionTitle("영업일지 현황", <Calendar />)}
         <div className='mt-1' />
         <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onChangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
-        {/* <Row gutter={4} >
-          <Col sm={24} xs={24} md={24} lg={24} >
-            <RangePicker className='col-12'
-              placeholder={['0000.00.00', '0000.00.00']}
-              ranges={{
-                Today: [moment(), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-              }}
-              onChange={onChange}
-            />
-          </Col>
-        </Row> */}
+
         <div className='mt-2' />
         <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} />
         <div className='mt-5' />
@@ -476,7 +423,7 @@ const DashBoardPage = () => {
             <div className='mt-1' />
             <DashButton3 key='channel_button' tab={tabs2} onSelected={onSelected_goal} defaultSelected={bodyLog.sales_goal} />
             <NivoBarChart key={'bar_1'} data={barChartData(salesStat[1])} labels={Baroption.xaxis.categories}
-              margin={{ top: 50, right: 50, bottom: 50, left: 80 }} />
+              margin={{ top: 50, right: 50, bottom: 50, left: 80 }} hideAxisBottom />
 
             <div className='mt-5' />
             <Row >
@@ -527,6 +474,7 @@ const DashBoardPage = () => {
           <>
             <Row >
               <NivoBarChart
+                hideAxisLeft
                 key={'bar_2'}
                 data={barChartDataRd(leadStat[2])}
                 labels={Baroption.needslabel.categories}
@@ -592,11 +540,13 @@ const DashBoardPage = () => {
               </Col>
             </Row>
             <Row >
-              <NivoBarChart key={'bar_3'} data={barChartData(leadStat[4])} labels={Baroption.xaxis.categories}
-                margin={{ top: 50, right: 50, bottom: 50, left: 80 }} />
-              {/* <Col sm={24} xs={24} md={24} lg={24}>
-            <Chart options={Baroption} series={barseries} type="bar" />
-          </Col> */}
+              <NivoBarChart
+                key={'bar_3'}
+                data={barChartData(leadStat[4])}
+                labels={Baroption.xaxis.categories}
+                margin={{ top: 50, right: 50, bottom: 50, left: 80 }}
+                hideAxisBottom
+              />
             </Row>
             <div className='mt-5'></div>
 
