@@ -9,7 +9,7 @@ import cmm from 'constants/common';
 import { PlusOutlined } from '@ant-design/icons';
 import { ResponsivePie } from '@nivo/pie';
 import NeedsCard from 'components/NeedsCard'
-import { SET_NAVIBAR_SHOW, SET_SALES_GB } from 'constants/actionTypes';
+import { SET_NAVIBAR_SHOW, SET_SALES_GB, STORE_DATA } from 'constants/actionTypes';
 import { base64Dec, base64Enc } from "constants/commonFunc";
 import { useDispatch, useSelector } from 'react-redux'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -316,6 +316,14 @@ function SalesLog(props) {
   }
 
 
+  console.log(props)
+  // useEffect(() => {
+  //   console.log('페이지 변환', data)
+  //   dispatch({
+  //     type: STORE_DATA,
+  //     payload: [props.location.state, true]
+  //   })
+  // }, [])
 
 
   return (
@@ -337,37 +345,37 @@ function SalesLog(props) {
           <Col sm={24} xs={24} md={24} lg={24}>
             {Log && <StyledCard>
               <ul >
-                <li style={{ display: 'flex' }}>
+                <li key={1} id={1} style={{ display: 'flex' }}>
                   <img
                     src={require('assets/icons/calendar.png')}
                     alt='calendar_icon' />
                   <div className='ml-1'>{Log.meeting_date}</div>
                 </li>
-                <li style={{ display: 'flex' }}>
+                <li key={2} id={2} style={{ display: 'flex' }}>
                   <img
                     src={require('assets/icons/clock.png')}
                     alt='clock' />
                   <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
                 </li>
-                <li style={{ display: 'flex' }}>
+                <li key={3} id={3} style={{ display: 'flex' }}>
                   <img
                     src={require('assets/icons/location.png')}
                     alt='location' />
                   <div className='ml-1'>{Log.addr}</div>
                 </li>
-                <li style={{ display: 'flex' }}>
+                <li key={4} id={4} style={{ display: 'flex' }}>
                   <img
                     src={require('assets/icons/needs.png')}
                     alt='needs_icon' />
                   <div className='ml-1'>{Log.sales_goal_t} <span>&#183;</span> {Log.sales_activity_t}</div>
                 </li>
-                <li style={{ display: 'flex' }}>
+                <li key={5} id={5} style={{ display: 'flex' }}>
                   <img
                     src={require('assets/icons/document.png')}
                     alt='document_icon' />
                   <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
                 </li>
-                <li >
+                <li key={6} id={6} >
                   {/* <div style={{ display: 'flex' }}>
                     <img
                       src={require('assets/icons/profile.png')}
@@ -403,7 +411,6 @@ function SalesLog(props) {
             {Log && <StyledCard title='일지 내용'>
               <p>{Log.log}</p>
               <div className="clearfix">
-                {Log.file1}<br />{Log.file2}<br />{Log.file3}<br />{Log.file4}<br />{Log.file5}<br />
                 <Upload
                   listType="picture-card"
                   fileList={filelist}
@@ -489,7 +496,7 @@ function SalesLog(props) {
         </Row>
         <Row gutter={[4, 4]} >
           <Col sm={24} xs={24} md={24} lg={24}>
-            <Comments key={props.match.params.id} CommentLists={CommentLists} postId={base64Dec(props.match.params.id)} refreshFunction={updateComment} />
+            <Comments key={props.match.params.id} id={props.match.params.id} CommentLists={CommentLists} postId={base64Dec(props.match.params.id)} refreshFunction={updateComment} />
             {/* <Divider /> */}
           </Col>
         </Row>

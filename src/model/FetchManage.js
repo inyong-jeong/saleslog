@@ -6,7 +6,6 @@ import cmm from 'constants/common';
 
 //토큰 만료 확인 (authUtil 에서 호출)
 const check_token_fetch = async (url, token) => {
-  console.log('check_token_fetch:::시작')
   try {
     //엑세스 토큰 만료 확인 
     const response = await fetch(url, {
@@ -18,7 +17,6 @@ const check_token_fetch = async (url, token) => {
 
     const result = await response.json()
     const data = await result
-    console.log('check_token_fetch:::완료', data)
 
     // if (data.success !== true) {
     //   //throw new Error(data.message)
@@ -38,7 +36,6 @@ const check_token_fetch = async (url, token) => {
 const check_fetch = async (url) => {
   const token = await getOauthAccessToken();
   const reToken = await getOauthRefreshToken();
-  console.log('check_fetch:::: TOKEN :::::::::: ', token, reToken,)
 
   //access / refresh 토큰중 하나라도 없으면 로그인으로 이동
   if (token.toString() == 'undefined' || reToken.toString() == 'undefined') {

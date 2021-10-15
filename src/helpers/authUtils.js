@@ -144,30 +144,34 @@ export const isUserAuthorized = () => {
   //console.log('인증코드 여부 isUserAuthorized:',userInfo);
   return (userInfo && userInfo !== 'undefined') ? true : false;
 }
+export const getpersist = () => {
+  const persist = localStorage.getItem('persist:root');
+  return { persist: persist };
 
+}
 // 사용자정보 
 export const getUserInfo = () => {
   const permission = localStorage.getItem('user-permission');
   const userName = localStorage.getItem('user-name');
   const wgroupName = localStorage.getItem('user-wgroup-name');
-  return {permission:permission, userName:userName, wgroupName:wgroupName};
+  return { permission: permission, userName: userName, wgroupName: wgroupName };
 }
 // 사용자정보 저장
 export const setUserInfo = (data) => {
-  //console.log('setUserInfo:::::',data)
-  localStorage.setItem('user-permission',data.permissions);
-  localStorage.setItem('user-name',data.user_name);
-  localStorage.setItem('user-wgroup-name',data.wgroupName);
+  console.log('setUserInfo:::::', data)
+  localStorage.setItem('user-permission', data.permissions);
+  localStorage.setItem('user-name', data.user_name);
+  localStorage.setItem('user-wgroup-name', data.wgroupName);
 }
 
 //Access Token 확인 (routes.js 에서 호출, 반환값:'NoToken', 'OkToke', 'ReToke' )
 export const isAccessToken = async () => {
   let token = localStorage.getItem('oauth-token');
-  
+
   //console.log('토큰 여부 isUserAuthenticated:a★:::',token);
 
   // 엑세스 토큰이 없는 경우 
-  if (token == null || token == '' || token == 'undefined' ){
+  if (token == null || token == '' || token == 'undefined') {
     return 'NoToken';
   }
 
@@ -175,7 +179,7 @@ export const isAccessToken = async () => {
   //token = 'asdlasdkfjiefkdjifej' //test
   // 엑세스 토큰이 만료 체크 
   const res = await check_token_fetch(cmm.SERVER_API_URL + '/secure', token)
-  
+
   //console.log('isUserAuthticated::: 엑세스 토큰 체크완료...',await res);
   const result = await res;
 
@@ -185,24 +189,24 @@ export const isAccessToken = async () => {
       //워크그룹이 없는 경우
       return 'NoWorkgroup';
     } else {
-      return 'OkToken';   
-    }  
-     
+      return 'OkToken';
+    }
+
   } else if (result.message == '토큰만료') {
     // 엑세스 토큰 재발행(refresh token)
     const reToken = localStorage.getItem('oauth-refresh-token');
     //console.log('reToken:::',reToken);
-    
-    if (reToken == null || reToken == '' || reToken == 'undefined' ){
-      return 'NoToken';
-    } 
 
-    const reRes  = await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
+    if (reToken == null || reToken == '' || reToken == 'undefined') {
+      return 'NoToken';
+    }
+
+    const reRes = await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
     const reResult = await reRes;
     //console.log('리프래시 토큰 재발행 :::', await reRes);
     if (reResult.error == 'invalid_grant') {
       //console.log('false:::::::::::::::::::::')
-      
+
       return 'NoToken';
     } else {
       //console.log('true:::::::::::::::::::::')
@@ -210,7 +214,7 @@ export const isAccessToken = async () => {
       setOauthRefreshToken(reResult.refresh_token);
       return 'ReToken';
     }
-    
+
   } else if (result.message.auth_ok == true && result.message.org_idx == '') {
     //워크그룹이 없는 경우
     return 'NoWorkgroup';
@@ -239,7 +243,7 @@ export const isAccessToken = async () => {
 
 
 
-  
+
 }
 
 
@@ -247,10 +251,9 @@ export const isAccessToken = async () => {
 //storage 토큰 확인
 export const isUserAuthenticated = () => {
   let token = localStorage.getItem('oauth-token');
-  console.log('토큰 여부 isUserAuthenticated:a★11:::',token);
 
   // 엑세스 토큰이 없는 경우 
-  if (token == null || token == '' || token == 'undefined' ){
+  if (token == null || token == '' || token == 'undefined') {
     return false;
   }
 
@@ -259,9 +262,8 @@ export const isUserAuthenticated = () => {
 }
 
 export const removeAll = () => {
-  console.log('토큰삭제 removeAll:')
   const items = ['oauth-refresh-token', 'auth-code', 'is_authenticateing', 'oauth-token'];
-  items.map((item) => {    
+  items.map((item) => {
     localStorage.removeItem(item);
     //return 0;
   })

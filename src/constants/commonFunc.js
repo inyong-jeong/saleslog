@@ -62,3 +62,4 @@ export const base64Enc = (str) => {
 export const base64Dec = (str) => {
   return decodeURIComponent(window.atob(str));
 }
+

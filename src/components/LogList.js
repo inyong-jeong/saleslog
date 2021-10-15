@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 import { base64Enc } from "constants/commonFunc";
 
 // import useResizeObserver from 'components/useResizeObserver';
-function LogList({ loglist, handleNextPage, loglists }) {
+function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
 
   const history = useHistory()
   const grayTextStyles = {
@@ -52,28 +52,58 @@ function LogList({ loglist, handleNextPage, loglists }) {
 
   }
 
-
-  const handleLogClick = (loglist) => {
-    history.push(`/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`)
+  const bluebox = {
+    fontSize: 12,
+    backgroundColor: '#F6F6F6',
+    // marginLeft: 6,
+    color: '#000fff',
+    fontWeight: 400,
+    padding: 4,
+    borderRadius: '3px'
   }
-  const SalesLogItem = ({ loglist }) => (
+
+  const greenbox = {
+    fontSize: 12,
+    backgroundColor: '#F6F6F6',
+    // marginLeft: 6,
+    color: 'green',
+    fontWeight: 400,
+    padding: 4,
+    borderRadius: '3px'
+  }
+
+
+  const handleLogClick = (loglist, loglists, data) => {
+    history.push({
+      pathname: `/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`,
+      state: {
+        loglists: loglists,
+        data: data
+      }
+    })
+  }
+  const SalesLogItem = ({ loglist, tabkey, loglists, data }) => (
 
 
     <>
-      <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)} style={{ position: 'relative' }}>
+      <div className={styles.logWrapper} onClick={() => handleLogClick(loglist, loglists, data)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
             <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url} />
           </div>
           <div style={{ flexGrow: 2 }}>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></p>
-            <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname} { }</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>{loglist.sales_goal_t}<Dot /> {loglist.sales_activity_t} <Dot /> {loglist.needs_cods}</p>
+            <span style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></span><span>&nbsp;</span>
+            <span style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname}</span>
+            {(tabkey === '0010001') ?
+              <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /><span style={bluebox}> {loglist.needs_cods}</span></p>
+              : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.score}</span><Dot /><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /> <span style={bluebox}>{loglist.needs_cods}</span></p>}
+
           </div>
           <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{loglist.meeting_date} {loglist.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
-        <div style={grayTextStyles}>{loglist.account_name} <Dot /> {loglist.man_name}<Dot /> {loglist.man_posi} </div>
+        <div style={grayTextStyles}><span style={greenbox}>{loglist.account_name}</span> <Dot /><span style={greenbox}> {loglist.man_name} {loglist.man_posi}</span> </div>
+
         <div style={{ fontSize: 14, fontWeight: 500 }}><strong>{loglist.title}</strong></div>
         <div className='mt-1'></div>
         {/* <div style={grayTextStyles}>{loglist.log} </div>
@@ -102,7 +132,7 @@ function LogList({ loglist, handleNextPage, loglists }) {
           }}>
           <Feedback /> 피드백 {loglist.feedback_cnt}개</div>
       </div>
-      <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0 }} />
+      <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
     </>
   )
 
@@ -114,7 +144,7 @@ function LogList({ loglist, handleNextPage, loglists }) {
         next={handleNextPage}>
         <div>
           {
-            <SalesLogItem loglist={loglist} />
+            <SalesLogItem loglist={loglist} tabkey={tabkey} loglists={loglists} data={data} />
           }
         </div>
       </InfiniteScroll>

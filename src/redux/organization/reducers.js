@@ -19,22 +19,25 @@ const initialState = {
   organizationDashRes: null,
   organizationuserDashRes: null,
   loading: true,
+  organlistResponse: false,
+  organuserResponse: false,
+
 }
 
 const Organization = (state = initialState, action) => {
   switch (String(action.type)) {
     case GET_ORGANIZATION:
-      return { ...state, loading: true, }
+      return { ...state, organlistResponse: false, loading: true }
     case GET_ORGANIZATION_SUCCESS:
-      return { ...state, organizationlist: action.payload.response.message, loading: false }
+      return { ...state, organizationlist: action.payload.response.message, organlistResponse: true, loading: false }
     case GET_ORGANIZATION_ERROR:
-      return { ...state, loading: false }
+      return { ...state, organlistResponse: false, loading: false }
     case GET_ORGANIZATION_USER:
-      return { ...state, loading: true, }
+      return { ...state, organuserResponse: false, loading: true }
     case GET_ORGANIZATION_USER_SUCCESS:
-      return { ...state, organizationuserlist: action.payload.response.message, loading: false }
+      return { ...state, organizationuserlist: action.payload.response.message, organuserResponse: true, loading: false }
     case GET_ORGANIZATION_USER_ERROR:
-      return { ...state, loading: false }
+      return { ...state, organuserResponse: false, loading: false }
     case GET_ORGANIZATION_DASH:
       return { ...state, loading: true, }
     case GET_ORGANIZATION_DASH_SUCCESS:

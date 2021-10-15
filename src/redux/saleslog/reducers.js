@@ -66,6 +66,8 @@ import {
 } from '../../constants/actionTypes';
 
 const INIT_STATE = {
+  StoredData: null,
+  StoredDataResponse: false,
   posttempres: false,
   submitLoading: false,
   userlist: [],
@@ -111,14 +113,12 @@ const INIT_STATE = {
   deletecouser: false,
   //임시저장 삭제 response
   deletetempresponse: false,
-  StoredData: null,
-
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
     case STORE_DATA:
-      return { ...state, StoredData: action.payload };
+      return { ...state, StoredData: action.payload[0], StoredDataResponse: action.payload[1] };
     case CLEAR_SALESLOG:
       return { ...state, log: null };
     case CLEAR_TEMP_LOG:

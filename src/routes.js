@@ -18,6 +18,7 @@ const WorkGroup = React.lazy(() => import('./pages/auth/WorkGroup'));
 const InVite = React.lazy(() => import('./pages/auth/InVite'));
 const CongratuLation = React.lazy(() => import('./pages/auth/CongratuLation'));
 
+//테스트
 
 
 //메인 화면 관련 컴포넌트
@@ -85,12 +86,9 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 const MainRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
-    console.log('MainRoute::::::::::', isTokenValid);
-    console.log('props.history.location.pathname::::', props.history.location.pathname)
     if (isTokenValid) {
       //토큰 만료 확인 및 갱신 
       let isTokenOK = isAccessToken().then((res) => {
-        console.log('routes:::: isTokenOK::::', res, isTokenOK)
         if (res == 'NoToken') {
           removeAll();
           props.history.push('/signin')
@@ -99,9 +97,8 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
           //props.history.replace(props.history.location)
           window.location.reload();
         } else if (res == 'NoWorkgroup') {
-          console.log('props.history.location.pathname::::', props.history.location.pathname)
           if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
-              props.history.location.pathname != '/main/workgroup/register' ) {
+            props.history.location.pathname != '/main/workgroup/register') {
             console.log('test')
             props.history.push('/main/workgroup/chgwgroup')
           }
@@ -127,6 +124,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 const routes = [
   //Main Route
   { path: '/main', name: 'Home', component: Home, route: MainRoute, exact: true },
+
   { path: '/main/manage/saleslog/:id', name: 'SalesLog', component: SalesLog, route: MainRoute, exact: true },
   { path: '/main/manage', name: 'Manage', component: Manage, route: MainRoute, exact: true },
   { path: '/main/upload', name: 'Upload', component: Upload, route: MainRoute, exact: true },

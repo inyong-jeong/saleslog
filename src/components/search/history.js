@@ -5,7 +5,7 @@ import { convertTimeToFormat } from 'helpers/timeUtils'
 const HistoryContainer = styled.div`
 
   padding: 18px;
-  height: 200px;
+  height: 100px;
   overflow: auto;
 
 `

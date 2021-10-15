@@ -18,12 +18,18 @@ import {
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import CustomFab from '../../components/styledcomponent/CustomFab';
 import { useHistory, useLocation } from 'react-router-dom';
+import { getUserInfo, getpersist } from 'helpers/authUtils';
+
 
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
   const state = useSelector(state => state.SalesLog)
-  let StoredData = state.StoredData;
+  const Ostate = useSelector(state => state.Organization)
+
+  // let StoredData = state.StoredData;
+  // let StoredData = state.StoredData;
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -38,7 +44,7 @@ function SalesLogList(props) {
   const location = useLocation();
 
   console.log(history);
-  console.log(location);
+  console.log(props);
 
 
 
@@ -47,8 +53,11 @@ function SalesLogList(props) {
   })
 
   const [loglists, setLogLists] = useState([]);
-  const [tabkey, setTabKey] = useState('0010001');
-  const [data, setData] = useState({
+  const [tabkey, setTabKey] = useState();
+  const [firsttime, setFirsttime] = useState(true);
+  const [Secondtime, setSecondtime] = useState(false);
+
+  const [data, setData] = useState(state.StoredData ? state.StoredData : {
     log_gb: '0010001',
     sales_man: '',
     sales_lead_gb: '',
@@ -63,13 +72,39 @@ function SalesLogList(props) {
 
   console.log(data);
 
-  // 처음 업로드 될 때 dispatch, data 바뀔 때 call
+  // 권한에 따른 dispatch call
 
+  // console.log(JSON.parse(getpersist().persist));
 
   useEffect(() => {
-    props.getLogLists(data)
+    if (!firsttime) {
+      // dispatch({
+      //   type: STORE_DATA,
+      //   payload: [data]
+      // })
+      props.getLogLists(data)
+    }
   }, [data])
 
+  useEffect(() => {
+    setFirsttime(false);
+    if (getUserInfo().permission === '9') {
+      props.getLogLists(data)
+    }
+  }, [])
+
+
+
+  //상세보기 한 이후 back 했을 때 
+  // useEffect(() => {
+  //   if (state.StoredDataResponse && Secondtime) {
+  //     setTabKey(state.StoredData.data.log_gb);
+  //     setData(state.StoredData.data);
+  //     state.StoredDataResponse = false;
+  //   }
+  // }, [Secondtime])
+
+  console.log(data);
   // 데이터 받아 온 것 set
   useEffect(() => {
     if (props.loglist && !props.loadLogsLoading) {
@@ -92,11 +127,11 @@ function SalesLogList(props) {
   // tab 바뀔 때 sets
   const onTabChange = (key) => {
     switch (key) {
-      case '2':
+      case '0010001':
         setTabKey('0010001')
-        setData({ ...data, log_gb: '0010001', pageno: 1 })
+        setData({ ...data, log_gb: '0010001', sales_lead_gb: '', pageno: 1 })
         break
-      case '3':
+      case '0010002':
         setTabKey('0010002')
         setData({ ...data, log_gb: '0010002', pageno: 1 })
         break
@@ -105,21 +140,13 @@ function SalesLogList(props) {
     }
   }
 
-
   //검색어 기능 구현
   const [keywords, setKeywords] = useState(
     JSON.parse(localStorage.getItem('keywords') || '[]'),
   )
 
-
   //검색어
   const [searchStr, setSearchStr] = useState('')
-
-
-
-  console.log(keywords);
-  console.log(searchStr);
-  console.log(props.searchKeyWord);
   useEffect(() => {
     localStorage.setItem('keywords', JSON.stringify(keywords))
   }, [keywords])
@@ -127,8 +154,6 @@ function SalesLogList(props) {
 
   //검색어 추가
   const handleAddKeyword = (text, focus) => {
-    console.log(focus)
-    console.log('text', text)
     const newKeyword = {
       id: Date.now(),
       text: text,
@@ -153,7 +178,6 @@ function SalesLogList(props) {
   //최근검색어 display
   const [word, setWord] = useState('')
   const [focus, setFocus] = useState(false)
-  const [click, setClick] = useState()
   const onSearch = (keyword) => {
     console.log(keyword)
     if (keyword) {
@@ -164,13 +188,9 @@ function SalesLogList(props) {
     }
   }
 
-  console.log(word);
-
-
   const onEnter = (v) => {
     setFocus(v);
   }
-
   const onBlankEnter = (v) => {
     if (v === '') {
       setData({ ...data, srch: '', pageno: 1 })
@@ -187,27 +207,6 @@ function SalesLogList(props) {
     setSearchStr(v)
   }
   //페이지 넘길때 데이터 저장
-
-  const [RealData, setRealData] = useState()
-  useEffect(() => {
-    return () => {
-      console.log('페이지 변환', data)
-      dispatch({
-        type: STORE_DATA,
-        payload: [RealData, loglists, word, tabkey]
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    // Data = data
-    setRealData(data)
-
-  }, [props])
-  // useEffect(() => {
-  //   setData(state.)
-  // }
-  // ,[])
 
 
   return (
@@ -230,49 +229,40 @@ function SalesLogList(props) {
           onClearKeywords={handleClearKeywords}
           onRemoveKeyword={handleRemoveKeyword}
         />}
-        {/* </Col>
-      </Row> */}
+
         <Row>
           <Col sm={24} xs={24} md={24} lg={24} >
-            <FullTabs type='line' defaultActiveKey="2" onChange={onTabChange}>
-              {/* <TabPane tab="전체" key="1">
-              <SalesLogFilter data={data} setData={setData} />
-              {loglists.map((v) => (
-                <LogList key={v.slog_idx}
-                  loglist={v}
-                  handleNextPage={handleNextPage}
-                  // isnotbottom={isnotbottom}
-                  loglists={loglists} />
-              ))
-              }
-            </TabPane> */}
-              <TabPane tab="영업일지" key="2">
-                <SalesLogFilter data={data} setData={setData} />
+            <FullTabs type='line' defaultActiveKey="0010001" onChange={onTabChange} activeKey={tabkey}>
+
+              <TabPane tab="영업일지" key="0010001">
+                <SalesLogFilter data={data} setData={setData} firsttime={firsttime} />
                 <div className='mt-3 ml-2'>
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
-                <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0 }} />
+                <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '10px' }} />
 
-                {(tabkey === '0010001') && loglists.map((v) => (
+                {(loglists.length > 0) && loglists.map((v) => (
                   <LogList key={v.slog_idx}
+                    data={data}
                     loglist={v}
+                    tabkey={tabkey}
                     handleNextPage={handleNextPage}
-                    // isnotbottom={isnotbottom}
                     loglists={loglists} />
                 ))
                 }
               </TabPane>
-              <TabPane tab="리드일지" key="3">
-                <LeadLogFilter data={data} setData={setData} />
+              <TabPane tab="리드일지" key="0010002">
+                <LeadLogFilter key={'leadlog'} id={'leadlog'} data={data} setData={setData} />
                 <div className='mt-3 ml-2'>
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
-                <Divider />
-                {(tabkey === '0010002') && loglists.map((v) => (
+                <Divider style={{ borderWidth: '10px' }} />
+                {(loglists.length > 0) && loglists.map((v) => (
                   <LogList key={v.slog_idx}
+                    data={data}
                     loglist={v}
+                    tabkey={tabkey}
                     handleNextPage={handleNextPage}
-                    // isnotbottom={isnotbottom}
                     loglists={loglists} />
                 ))
                 }
@@ -293,6 +283,7 @@ function SalesLogList(props) {
 
 const mapStateToProps = (state) => {
   const { loglist, loadLogsLoading, searchloglist, loadSearchsLoading, loglistcount } = state.SalesLog;
+  // const { organlistResponse, organuserResponse } = state.Organization;
   return { loglist, loadLogsLoading, searchloglist, loadSearchsLoading, loglistcount };
 };
 

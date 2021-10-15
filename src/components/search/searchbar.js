@@ -12,7 +12,6 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
     setKeyword(word)
   }, [])
 
-  console.log(keyword);
   const handleKeyword = (e) => {
 
     setKeyword(e.target.value)
