@@ -17,35 +17,37 @@ const initialState = {
   organizationlist: null,
   organizationuserlist: null,
   organizationDashRes: null,
-  organizationuserDashRes: null
+  organizationuserDashRes: null,
+  loading: true,
 }
 
 const Organization = (state = initialState, action) => {
   switch (String(action.type)) {
     case GET_ORGANIZATION:
-      return { ...state }
+      return { ...state, loading: true, }
     case GET_ORGANIZATION_SUCCESS:
-      return { ...state, organizationlist: action.payload.response.message }
+      return { ...state, organizationlist: action.payload.response.message, loading: false }
     case GET_ORGANIZATION_ERROR:
-      return { ...state }
+      return { ...state, loading: false }
     case GET_ORGANIZATION_USER:
-      return { ...state }
+      return { ...state, loading: true, }
     case GET_ORGANIZATION_USER_SUCCESS:
-      return { ...state, organizationuserlist: action.payload.response.message }
+      return { ...state, organizationuserlist: action.payload.response.message, loading: false }
     case GET_ORGANIZATION_USER_ERROR:
-      return { ...state }
+      return { ...state, loading: false }
     case GET_ORGANIZATION_DASH:
-      return { ...state }
+      return { ...state, loading: true, }
     case GET_ORGANIZATION_DASH_SUCCESS:
-      return { ...state, organizationDashRes: action.payload.response.message }
+      return { ...state, organizationDashRes: action.payload.response.message, loading: false }
     case GET_ORGANIZATION_DASH_ERROR:
-      return { ...state }
+      return { ...state, loading: false, organizationuserDashRes: null }
     case GET_ORGANIZATION_USER_DASH:
-      return { ...state }
+      return { ...state, loading: true, }
     case GET_ORGANIZATION_USER_DASH_SUCCESS:
-      return { ...state, organizationuserDashRes: action.payload.response.message }
+      return { ...state, organizationuserDashRes: action.payload.response.message, loading: false }
     case GET_ORGANIZATION_USER_DASH_ERROR:
-      return { ...state }
+      return { ...state, loading: false, organizationuserDashRes: null }
+
     default:
       return { ...state };
   }

@@ -89,7 +89,8 @@ const WgroupMemberPage = () => {
 
 
   const onSearch = (keyword) => {
-    setSrch(keyword)
+    let trimKeyword = keyword.trim()
+    setSrch(trimKeyword)
   }
 
   const addMember = () => {
