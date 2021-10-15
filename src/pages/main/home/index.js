@@ -37,6 +37,7 @@ const DashBoardPage = () => {
   const myInfo = getUserInfo();
   const state = useSelector(state => state.Dashboard)
   const etcState = useSelector(etcState => etcState.Etc)
+  const orgState = useSelector(orgState => orgState.Organization)
   const dispatch = useDispatch()
   const history = useHistory()
   const [salesStat, setSalesStat] = useState();
@@ -101,9 +102,7 @@ const DashBoardPage = () => {
     gridGap: 10,
 
   }
-  //분류 선택 index (1:영업일지 대분류,2:영업 중분류,3:영업소분류,4:리드대분류,5:리드중분류,6:리드소분류)
-  const [selDept, setSelDept] = useState(0);
-  const selectStyle = { width: '100%' }
+
   const tabs = [{
     id: "1",
     label: "월"
@@ -150,22 +149,8 @@ const DashBoardPage = () => {
     label: "검증",
   }]
 
-  // birthday 
-  useEffect(() => {
-    //프로필 가져오기( 스토리지 저장함)
-    dispatch(getProfileInfo.call())
-
-    dispatch(postAnniversary.call())
-  }, [])
-
-  useEffect(() => {
-    if (etcState.postAnniveraryResponse) {
-      setBday(etcState.postAnniveraryResponse[0])
-    }
-
-  }, [etcState.loading])
-
-  //영업일지 검색용 body
+  const [userPermission, setUserPermission] = useState(null)
+  //SALESLOG
   const [bodyLog, setBodyLog] = useState({
     dt_typ: '1',
     from_dt: moment().format('YYYY-MM') + '-01',
@@ -173,8 +158,7 @@ const DashBoardPage = () => {
     sales_man: '',
     sales_goal: '',
   })
-
-  //리드일지 검색용 body
+  //SALESLOG LEAD
   const [bodyLogRd, setBodyLogRd] = useState({
     dt_typ: '1',
     from_dt: moment().format('YYYY-MM') + '-01',
@@ -183,20 +167,42 @@ const DashBoardPage = () => {
     sales_lead_gb: '',
   })
 
-  // bodyLog 값 바뀔 때 dispatch
   useEffect(() => {
+    dispatch(getProfileInfo.call())
+    dispatch(postAnniversary.call())
+    setUserPermission(myInfo.permission)
+  }, [])
+
+  useEffect(() => {
+    if (etcState.postAnniveraryResponse) {
+      setBday(etcState.postAnniveraryResponse[0])
+    }
+  }, [etcState.loading])
+
+  useEffect(() => {
+
+    if (userPermission != 9) {
+      console.log('EFFECT BODYLOG')
+      orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
+      return
+    }
+
     dispatch(getsaleslogstat.call(bodyLog))
+
   }, [bodyLog])
 
-  // bodyLogRd 값 바뀔 때 dispatch
   useEffect(() => {
+    if (userPermission != 9) {
+      orgState.organizationDashRes && dispatch(getleadlogstat.call(bodyLog))
+      return
+    }
     dispatch(getleadlogstat.call(bodyLogRd))
   }, [bodyLogRd])
 
   // 영업일지 fetch 후
   useEffect(() => {
     if (state.getsaleslogstatRes) {
-      setSalesStat(state.getsaleslogstatRes)
+      return setSalesStat(state.getsaleslogstatRes)
     }
   }, [state.getsaleslogstatRes])
 
@@ -392,7 +398,7 @@ const DashBoardPage = () => {
         <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onChangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
 
         <div className='mt-2' />
-        {myInfo.permission == 0 ? <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} /> : null}
+        {myInfo.permission != 9 ? <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} /> : null}
 
         <div className='mt-5' />
 
@@ -452,7 +458,7 @@ const DashBoardPage = () => {
 
         <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onChangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
         <div className='mt-2' />
-        {myInfo.permission == 0 ?
+        {myInfo.permission != 9 ?
           <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
           : null
         }
