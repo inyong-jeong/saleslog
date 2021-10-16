@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TreeSelect, Row, Col, Select } from 'antd';
 import { connect } from 'react-redux';
-import {
-  getorganizationDash, getorganizationusersDash
-} from 'redux/actions';
+import { getorganizationDash, getorganizationusersDash } from 'redux/actions';
 import { useMediaQuery } from "react-responsive";
 
 const SalesLogFilterDash = (props) => {
@@ -12,13 +10,11 @@ const SalesLogFilterDash = (props) => {
     query: "(max-width:1190px)"
   });
 
-  const [selectedOrganization, setSelectedOrganization] = useState(undefined);
   const [selId, setSelId] = useState(props.id);
   const [selIdUser, setSelIdUser] = useState(props.id);
   const [treedata, setTreedata] = useState([])
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
   const [selectedItems, setSelectedItems] = useState([])
-  const [filteredlist, setFilteredlist] = useState([])
   const [filteredOptions, setFilteredOptions] = useState([])
 
   //부서별 사용자 조회
@@ -41,11 +37,9 @@ const SalesLogFilterDash = (props) => {
     if (props.organizationuserDashRes && (selIdUser === props.id)) {
       const memList = props.organizationuserDashRes.map(v => v.user_name);
       const optList = memList && memList.filter((v) => !selectedItems.includes(v))
-      setFilteredlist(memList);
-      setFilteredOptions(optList);
-
-
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
+
+      setFilteredOptions(optList);
       props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
       setSelIdUser()
@@ -65,15 +59,12 @@ const SalesLogFilterDash = (props) => {
   // 멤버 선택
   useEffect(() => {
     if (selectedOrganizationuser) {
-
-      //console.log(selectedOrganizationuser)
       props.setData({ ...props.data, 'sales_man': selectedOrganizationuser, 'pageno': 1 })
     }
   }, [selectedOrganizationuser])
 
 
   useEffect(() => {
-    //console.log('data::::change:::::',data)
     props.getorganizationusersDash(data)
   }, [data])
 
@@ -107,15 +98,16 @@ const SalesLogFilterDash = (props) => {
 
 
   //부서 선택
-  const handeltreeOnChange = (v, label, extra) => {
-    if (v) {
-      //console.log('부서선택:::',v, label, extra.allCheckedNodes[0].node.props.id, props.id)
+  const onDepartmentChange = (departmentId, departmentLabel, extra) => {
+    if (departmentId) {
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
-      setSelectedOrganization(v);
-      props.getorganizationusersDash({ dept_idx: v, typ: 'tree' })
+
+      props.getorganizationusersDash({ dept_idx: departmentId, typ: 'tree' })
     } else {
-      setSelectedOrganization(v);
+
+      setSelIdUser(props.id);
+      setSelId(props.id);
       props.getorganizationusersDash({ dept_idx: 0, typ: 'tree' })
     }
   }
@@ -135,15 +127,12 @@ const SalesLogFilterDash = (props) => {
   }
 
   //맴버 선택
-  const onOrganizationUserSelectChange = (label) => {
-    setSelectedItems(label);
-    //console.log(filterList(label));
-    let memberlist = filterList(label)
+  const onOrganizationUserSelectChange = (selectedMembers) => {
+    setSelectedItems(selectedMembers);
+    let memberlist = filterList(selectedMembers)
     setSelectedOrganizationUser(memberlist);
-    // setFilterData({ ...filterdata, 'dept_idx': v, 'typ': 'tree' })
-    // setData({ ...data, 'dept_idx': v })
-  }
 
+  }
 
   //콤보박스 선택없음 추가
   const selComboList = (v, id) => {
@@ -162,7 +151,6 @@ const SalesLogFilterDash = (props) => {
         <Col sm={12} xs={12} md={12} lg={12}>
           <TreeSelect
             style={{ width: '100%' }}
-            value={selectedOrganization}
             treeLine={true}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             treeData={treedata}
@@ -170,16 +158,15 @@ const SalesLogFilterDash = (props) => {
             treeDefaultExpandAll
             allowClear
             id={props.id}
-            onChange={handeltreeOnChange} />
+            onChange={onDepartmentChange} />
         </Col>
         <Col sm={12} xs={12} md={12} lg={12}>
           <Select placeholder='멤버 전체'
             mode='multiple'
             style={selectStyle}
             onChange={onOrganizationUserSelectChange}
-            value={selectedItems}
             id={props.id}
-            maxTagCount={isMobile ? 2 : 3} >
+            maxTagCount={isMobile ? 1 : 2} >
             {filteredOptions && filteredOptions.map((item, index) => (
               <Select.Option key={index} id={props.id} value={item}>
                 {item}

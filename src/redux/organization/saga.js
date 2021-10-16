@@ -1,15 +1,15 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { post_fetch, post_fetch_files } from 'model/FetchManage'
 import {
-  GET_ORGANIZATION, 
+  GET_ORGANIZATION,
   GET_ORGANIZATION_USER,
-  GET_ORGANIZATION_DASH, 
+  GET_ORGANIZATION_DASH,
   GET_ORGANIZATION_USER_DASH
 } from '../../constants/actionTypes'
 import {
-  getorganization, 
+  getorganization,
   getorganizationusers,
-  getorganizationDash, 
+  getorganizationDash,
   getorganizationusersDash
 } from './actions'
 

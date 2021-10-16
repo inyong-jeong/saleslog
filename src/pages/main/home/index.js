@@ -180,10 +180,9 @@ const DashBoardPage = () => {
   }, [etcState.loading])
 
   useEffect(() => {
-
     if (userPermission != 9) {
-      console.log('EFFECT BODYLOG')
       orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
+      console.log('부서 bodylog EFFECT', bodyLog)
       return
     }
 
@@ -395,10 +394,21 @@ const DashBoardPage = () => {
         }
         {sectionTitle("영업일지 현황", <Calendar />)}
         <div className='mt-1' />
-        <DashButton key='sales_button' tab={tabs} onSelected={onSelected} onChangeFrom={onChangeFrom} onChangeTo={onChangeTo} defaultSelected={bodyLog.dt_typ} />
+        <DashButton
+          key='sales_button'
+          tab={tabs}
+          onSelected={onSelected}
+          onChangeFrom={onChangeFrom}
+          onChangeTo={onChangeTo}
+          defaultSelected={bodyLog.dt_typ} />
 
         <div className='mt-2' />
-        {myInfo.permission != 9 ? <SalesLogFilterDash key={'log'} id={'log'} data={bodyLog} setData={setBodyLog} /> : null}
+        {myInfo.permission != 9 ?
+          <SalesLogFilterDash
+            key={'log'}
+            id={'log'}
+            data={bodyLog}
+            setData={setBodyLog} /> : null}
 
         <div className='mt-5' />
 
@@ -459,7 +469,11 @@ const DashBoardPage = () => {
         <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onChangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
         <div className='mt-2' />
         {myInfo.permission != 9 ?
-          <SalesLogFilterDash key={'logRd'} id={'logRd'} data={bodyLogRd} setData={setBodyLogRd} />
+          <SalesLogFilterDash
+            key={'logRd'}
+            id={'logRd'}
+            data={bodyLogRd}
+            setData={setBodyLogRd} />
           : null
         }
         <div className='mt-5' />
