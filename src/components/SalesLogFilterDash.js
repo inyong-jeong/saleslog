@@ -128,10 +128,17 @@ const SalesLogFilterDash = (props) => {
 
   //맴버 선택
   const onOrganizationUserSelectChange = (selectedMembers) => {
-    setSelectedItems(selectedMembers);
-    let memberlist = filterList(selectedMembers)
-    setSelectedOrganizationUser(memberlist);
 
+    if (!selectedMembers.length > 0) {
+      let array = props.organizationuserDashRes.map(v => v.login_idx);
+      setSelectedOrganizationUser(array)
+      setSelectedItems([])
+
+    } else {
+      setSelectedItems(selectedMembers);
+      let memberlist = filterList(selectedMembers)
+      setSelectedOrganizationUser(memberlist);
+    }
   }
 
   //콤보박스 선택없음 추가
