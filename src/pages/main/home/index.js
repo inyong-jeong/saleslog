@@ -182,7 +182,6 @@ const DashBoardPage = () => {
   useEffect(() => {
     if (userPermission != 9) {
       orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
-      console.log('부서 bodylog EFFECT', bodyLog)
       return
     }
 
@@ -192,7 +191,7 @@ const DashBoardPage = () => {
 
   useEffect(() => {
     if (userPermission != 9) {
-      orgState.organizationDashRes && dispatch(getleadlogstat.call(bodyLog))
+      orgState.organizationDashRes && dispatch(getleadlogstat.call(bodyLogRd))
       return
     }
     dispatch(getleadlogstat.call(bodyLogRd))
@@ -466,7 +465,12 @@ const DashBoardPage = () => {
         </Row>
         <div className='mt-1' />
 
-        <DashButton key='sales_buttonRd' tab={tabs} onChangeFrom={onChangeFromRd} onChangeTo={onChangeToRd} onSelected={onSelectedRd} defaultSelected={bodyLogRd.dt_typ} />
+        <DashButton key='sales_buttonRd'
+          tab={tabs}
+          onChangeFrom={onChangeFromRd}
+          onChangeTo={onChangeToRd}
+          onSelected={onSelectedRd}
+          defaultSelected={bodyLogRd.dt_typ} />
         <div className='mt-2' />
         {myInfo.permission != 9 ?
           <SalesLogFilterDash
