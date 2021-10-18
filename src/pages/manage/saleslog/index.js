@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog, deleteSalesLog, putCouser, deleteCouser } from 'redux/actions';
 import { connect } from 'react-redux';
-import { Row, Col, Upload, Avatar, Modal } from 'antd'
+import { Row, Col, Upload, Modal, Divider } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
 import Comments from 'components/Comments/Comments'
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
@@ -15,9 +15,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import CouserModal from 'components/CouserModal'
 import CouserList from 'components/CouserList';
-
-
-
+import { ReactComponent as CalIcon } from 'assets/icons/log/cal.svg'
+import { ReactComponent as SquaresIcon } from 'assets/icons/log/fourSquares.svg'
+import { ReactComponent as LocationIcon } from 'assets/icons/log/location.svg'
+import { ReactComponent as TimeIcon } from 'assets/icons/log/time.svg'
+import { ReactComponent as BuildingIcon } from 'assets/icons/log/building.svg'
 
 const { confirm } = Modal;
 
@@ -338,41 +340,32 @@ function SalesLog(props) {
       <div className='content_body'>
         <Row>
           <Col>
-            {Log && <h4>{Log.title}</h4>}
+            {Log && <p style={{ fontSize: 14, fontWeight: 500, color: '#111' }}>{Log.title}</p>}
           </Col>
         </Row>
+        <div className='mt-1'></div>
         <Row gutter={[4, 4]}>
           <Col sm={24} xs={24} md={24} lg={24}>
             {Log && <StyledCard>
               <ul >
                 <li key={1} id={1} style={{ display: 'flex' }}>
-                  <img
-                    src={require('assets/icons/calendar.png')}
-                    alt='calendar_icon' />
+                  <CalIcon />
                   <div className='ml-1'>{Log.meeting_date}</div>
                 </li>
                 <li key={2} id={2} style={{ display: 'flex' }}>
-                  <img
-                    src={require('assets/icons/clock.png')}
-                    alt='clock' />
+                  <TimeIcon />
                   <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
                 </li>
                 <li key={3} id={3} style={{ display: 'flex' }}>
-                  <img
-                    src={require('assets/icons/location.png')}
-                    alt='location' />
+                  <LocationIcon />
                   <div className='ml-1'>{Log.addr}</div>
                 </li>
                 <li key={4} id={4} style={{ display: 'flex' }}>
-                  <img
-                    src={require('assets/icons/needs.png')}
-                    alt='needs_icon' />
+                  <SquaresIcon />
                   <div className='ml-1'>{Log.sales_goal_t} <span>&#183;</span> {Log.sales_activity_t}</div>
                 </li>
                 <li key={5} id={5} style={{ display: 'flex' }}>
-                  <img
-                    src={require('assets/icons/document.png')}
-                    alt='document_icon' />
+                  <BuildingIcon />
                   <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
                 </li>
                 <li key={6} id={6} >
@@ -473,7 +466,7 @@ function SalesLog(props) {
                     }
                   ]}
                 />
-              </div >
+              </div>
             </StyledCard> :
               <StyledCard title='니즈 분석'>
                 <div style={{ textAlign: 'center' }}>일지 로그에서 분류된 니즈가 없습니다. 코칭이 필요합니다.</div>
@@ -496,8 +489,11 @@ function SalesLog(props) {
         </Row>
         <Row gutter={[4, 4]} >
           <Col sm={24} xs={24} md={24} lg={24}>
+            <div className='mt-1' />
+            <Divider style={{ margin: 0 }} />
             <Comments key={props.match.params.id} id={props.match.params.id} CommentLists={CommentLists} postId={base64Dec(props.match.params.id)} refreshFunction={updateComment} />
-            {/* <Divider /> */}
+            <Divider style={{ margin: 0 }} />
+            <div className='mt-1' />
           </Col>
         </Row>
       </div>

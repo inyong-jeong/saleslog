@@ -5,6 +5,7 @@ import SingleComment from 'components/Comments//SingleComment';
 import ReplyComment from 'components/Comments//ReplyComment';
 import { connect } from 'react-redux';
 import { postComment } from 'redux/actions';
+import { ReactComponent as FeedbackIcon } from 'assets/icons/main/feedback.svg'
 
 const { Panel } = Collapse;
 
@@ -32,7 +33,7 @@ function Comments(props) {
   return (
     <>
       <Collapse defaultActiveKey={['1']} ghost>
-        <Panel header={<div className='feedback mt-1' style={{ display: 'inline-block' }}><span style={{ verticalAlign: 'middle' }}>피드백 {props.CommentLists.length}개</span></div>} key="1">
+        <Panel header={<div className='feedback mt-1' style={{ display: 'inline-block' }}><span style={{ verticalAlign: 'middle' }}><FeedbackIcon /> 피드백 {props.CommentLists.length}개</span></div>} key="1">
           {props.CommentLists && props.CommentLists.map((comment, index) => (
             (!comment.parent_idx &&
               <React.Fragment>

@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { putSalesLogCoUser, getUserList } from 'redux/actions';
 import { errorMessage, successMessage } from "constants/commonFunc";
-
+import { ReactComponent as PersonIcon } from 'assets/icons/log/person.svg'
 
 
 const CouserModal = (props) => {
@@ -61,7 +61,7 @@ const CouserModal = (props) => {
   return (
     <>
       <label color="primary" onClick={handleOnClick} style={{ cursor: 'pointer' }}>
-        <img style={{ positon: 'fixed' }} src={require('assets/icons/profile_plus.png')} alt='profile_plus_logo' />
+        <PersonIcon />
 
       </label>
       <div style={{ display: 'inline-block', verticalAlign: '-3px', marginLeft: '3px' }}>공동작성자</div>
