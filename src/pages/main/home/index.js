@@ -27,6 +27,9 @@ import { useHistory } from "react-router";
 import { postAnniversary } from "../../../redux/etc/actions";
 import styles from '../../../assets/style/Main.module.css'
 import { getUserInfo } from 'helpers/authUtils';
+import StyledButton from 'components/styledcomponent/Button'
+// json & excel
+import XLSX from 'xlsx';
 
 const SALESLOG_TYPE = 'SALESLOG_TYPE'
 const LEADLOG_TYPE = 'LEADLOG_TYPE'
@@ -367,6 +370,11 @@ const DashBoardPage = () => {
     </p>
   )
 
+  const handleCsvDownload = () => {
+    //XLSX
+    // https://github.com/SheetJS/sheetjs/tree/9866dfc010338394e4cfcd33a9fbc15dae017ee5/demos/react
+  }
+
   return (
     <>
       <MyAppBar
@@ -595,11 +603,12 @@ const DashBoardPage = () => {
             <div className='mt-5'></div>
           </>
         }
-        {/* <Row justify='center'>
-          <Col sm={12} xs={12} md={6} lg={6}>
-            <StyledButton>실적 다운로드</StyledButton>
+        <Row justify='center'>
+          <Col sm={12} xs={12} md={12} lg={12}>
+            <StyledButton onClick={handleCsvDownload}>실적 다운로드</StyledButton>
           </Col>
-        </Row> */}
+        </Row>
+        <div className='mt-5' />
       </div>
     </>
   );

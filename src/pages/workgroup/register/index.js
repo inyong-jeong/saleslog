@@ -1,39 +1,17 @@
-import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
-import AvatarUp from 'components/AvatarUp';
-import IconLabel from 'components/IconLabel';
 import Input from 'components/styledcomponent/Input'
 import { useHistory } from 'react-router';
-import { Avatar, Divider, Modal, notification } from 'antd';
-import { transform } from 'babel-core';
+import { Divider, } from 'antd';
 import { postWorkGroupRegi } from 'redux/workgroup/actions';
 import { alertMessage } from 'constants/commonFunc';
 import cmm from 'constants/common';
 
+const WgroupManagePage = () => {
 
-const useStyles = makeStyles({
-  bodyContent: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 0,
-    width: '100%'
-  },
-});
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0000FF',
-    }
-  },
-});
-
-const WgroupManagePage = (props) => {
-  const classes = useStyles();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const navigateTo = () => history.push('/main/workgroup')
@@ -49,17 +27,11 @@ const WgroupManagePage = (props) => {
     }
   )
 
-  const isMobile = useMediaQuery({
-    query: "(max-width:1190px)"
-  });
-
-
   useEffect(() => {
-    // 하단 네비 설정   
     dispatch({ type: SET_NAVIBAR_SHOW, payload: true })
   }, [])
 
-  const onSaveClick = (e) => {
+  const onSaveClick = () => {
     if (!inputs.comp_name || !inputs.comp_domain) {
       return alertMessage('워크그룹 이름,URL 은 필수 항목입니다.')
     }
@@ -92,32 +64,12 @@ const WgroupManagePage = (props) => {
     }
   }, [regiRes])
 
-
-  const handleChangeFile = e => {
-
-    const fileUploaded = e.target.files;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setInputs({
-        ...inputs,
-        fileup: fileUploaded,
-        prevImg: reader.result
-      })
-    }
-    if (!cmm.isEmpty(e.target.files)) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-
-
-  }
-
   const handleChange = (e) => {
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value
     })
   }
-
 
   return (
     <>

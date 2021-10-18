@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Avatar } from 'antd';
 import { CameraOutlined, PlusOutlined } from '@ant-design/icons';
 
-// IconLabel=============
+// IconLabel
 // 아이콘 형태 - iconShape ('':원모양 / 'square':사각모양)
 // 아이콘 크기 - iconSize
 const AvatarUp = (props) => {
@@ -13,16 +13,9 @@ const AvatarUp = (props) => {
     setImgsrc(props.imgsrc);
   }, [props.imgsrc]);
 
-  const handleClick = event => {
+  const handleClick = () => {
     hiddenFileInput.current.click();
   };
-
-
-  // const handleChange = event => {
-  //   const fileUploaded = event.target.files[0];
-  //   console.log('fileinfo',fileUploaded);
-
-  // };
 
   return (
     <div
@@ -38,10 +31,7 @@ const AvatarUp = (props) => {
             shape={props.iconShape}
             size={(props.iconSize === undefined) ? 20 : props.iconSize}
             style={props.style}
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick();
-            }}
+            onClick={handleClick}
           >
             <PlusOutlined
               style={{
@@ -49,10 +39,8 @@ const AvatarUp = (props) => {
                 marginTop: 5,
                 top: (props.iconSize === undefined) ? props.height / 2 - 30 : 0,
                 fontSize: '50px',
-
               }} />
           </Avatar>
-
         </div>
       }
       {((imgsrc === undefined || imgsrc === '' || imgsrc === null) ? false : true) &&
@@ -61,7 +49,6 @@ const AvatarUp = (props) => {
           size={(props.iconSize === undefined) ? 20 : props.iconSize}
           style={props.style}
           src={props.imgsrc}
-
         />
       }
       {/* 카메라 
@@ -75,14 +62,9 @@ const AvatarUp = (props) => {
         alignItems: 'center',
         justifyContent: 'center'
       }}
-        onClick={(e) => {
-          e.preventDefault();
-          handleClick();
-        }}>
+        onClick={handleClick}>
         <CameraOutlined style={{ position: 'relative', left: 0, top: -5, fontSize: '13px' }} />
       </Avatar>}
-
-
       <div style={{ padding: 5, marginTop: 2 }}>{props.title}</div>
       <input
         type="file"
