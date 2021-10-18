@@ -43,12 +43,12 @@ const AvatarUp = (props) => {
               handleClick();
             }}
           >
-            <PlusOutlined 
-              style={{ 
-                position: 'relative', 
-                marginTop:5,
-                top: (props.iconSize === undefined)? props.height / 2 - 30:0, 
-                fontSize: '50px' ,
+            <PlusOutlined
+              style={{
+                position: 'relative',
+                marginTop: 5,
+                top: (props.iconSize === undefined) ? props.height / 2 - 30 : 0,
+                fontSize: '50px',
 
               }} />
           </Avatar>
@@ -84,8 +84,12 @@ const AvatarUp = (props) => {
 
 
       <div style={{ padding: 5, marginTop: 2 }}>{props.title}</div>
-      <input type="file" ref={hiddenFileInput} style={{ display: 'none' }}
+      <input
+        type="file"
+        ref={hiddenFileInput}
+        style={{ display: 'none' }}
         onChange={props.handleChange}
+        accept='.png, .gif, .jpg'
       />
     </div>
   );
