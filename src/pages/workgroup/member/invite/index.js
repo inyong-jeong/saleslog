@@ -16,7 +16,7 @@ import { ReactComponent as MoreIcon } from 'assets/icons/workgroup/threeDots.svg
 const { Option } = Select;
 const { TabPane } = FullTabs;
 
-const WgroupMemberPage = (props) => {
+const WgroupMemberPage = () => {
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -192,7 +192,7 @@ const WgroupMemberPage = (props) => {
               dataLength={ivList.length} >
 
               <List style={{ width: '98%' }}>
-                {((ivList) ? ivList.map((item, index) => {
+                {(state.postInviteDelRes ? ivList.map((item, index) => {
                   const {
                     iv_idx,
                     login_idx,
@@ -244,7 +244,9 @@ const WgroupMemberPage = (props) => {
                       <Divider dashed style={{ margin: 3 }} />
                     </div>
                   )
-                }) : '')
+                }) : <>
+                  <p>발송 내역이 없습니다.</p>
+                </>)
 
                 }
               </List>

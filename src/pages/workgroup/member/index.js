@@ -103,7 +103,7 @@ const WgroupMemberPage = () => {
         barTitle={(groupInfo) ? groupInfo.organization : '워크그룹'}
         showBackButton
         navigateTo={navigateTo}
-        showAddButton
+        showAddButton={myInfo.permission != 9 ? true : false}
         onAddClick={addMember}
       />
       <div className='content_body'>
