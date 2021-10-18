@@ -101,9 +101,8 @@ const WgroupManagePage = () => {
 
 
   const handleChangeFile = e => {
-    if (e.target.files[0] && !e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
-      return alertMessage('이미지 파일만 등록 가능합니다.')
-    }
+    if (myInfo.permission == 9) return alertMessage('권한이 없습니다.')
+
     const fileUploaded = e.target.files;
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -136,7 +135,8 @@ const WgroupManagePage = () => {
       />
       <div className='content_body'>
         <div style={{ display: 'flex' }}>
-          <AvatarUp imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
+          <AvatarUp
+            imgsrc={cmm.isEmpty(inputs.prevImg) ? '' : inputs.prevImg}
             iconShape='square'
             height={90}
             style={{
