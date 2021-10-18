@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import { useHistory } from 'react-router';
-import { Divider, Button, Tooltip } from 'antd';
+import { Divider, Button, Tooltip, Modal } from 'antd';
 import { getDeptInfo, postDeptRegi, postDeptUpd, postDeptDel } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { useMediaQuery } from 'react-responsive';
@@ -12,6 +12,9 @@ import FileExplorerTheme from "react-sortable-tree-theme-full-node-drag";
 import TreeInput from 'components/TreeInput';
 import { PlusSquareOutlined, CheckOutlined, MinusSquareOutlined, MinusOutlined } from '@ant-design/icons';
 import { ReactComponent as Info } from '../../../assets/icons/info.svg'
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+const { confirm } = Modal;
+
 const WgroupDeptPage = (props) => {
 
   const state = useSelector(state => state.Workgroup)
@@ -93,11 +96,24 @@ const WgroupDeptPage = (props) => {
   }
 
   const updDept = (data) => {
+    console.log('updDept::: ',data)
     dispatch(postDeptUpd.call(data))
   }
 
   const delDept = (data) => {
-    dispatch(postDeptDel.call(data))
+    confirm({
+      title: '정말 삭제 하시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        dispatch(postDeptDel.call(data))
+      },
+      onCancel() {
+        //취소
+      },
+    })
+    
   }
 
   useEffect(() => {
@@ -153,6 +169,8 @@ const WgroupDeptPage = (props) => {
 
   //처음 inputs.treedata=[] 일때 가져옴
   const getTreeData = (array) => {
+
+    console.log('array::getTreeData:::',array);
 
     if (!array || array.length <= 0) {
       return null;
@@ -225,24 +243,41 @@ const WgroupDeptPage = (props) => {
 
   // tree 수정시 treeData 적용
   const setTreeData = (data) => {
-
-    let arr = inputs.treedata;
+    let arr = inputs.treedata;    
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].dept_idx === data.idx) {
+      if (arr[i].dept_idx == data.idx) {
         arr[i].title = data.title;
         break;
       } else if (arr[i].children) {
         let child = arr[i].children;
-        for (let j = 0; j < child.length; j++) {
-          if (child[j].dept_idx === data.idx) {
+        for (let j = 0; j < child.length; j++) {          
+          if (child[j].dept_idx == data.idx) {
             child[j].title = data.title;
             break;
-          } else if (child[j].children) {
+          } else if (child[j].children) {            
             let child2 = child[j].children;
-            for (let k = 0; k < child2.length; k++) {
-              if (child2[k].dept_idx === data.idx) {
+            for (let k = 0; k < child2.length; k++) {              
+              if (child2[k].dept_idx == data.idx) {
                 child2[k].title = data.title;
                 break;
+              } else if (child2[k].children) {
+                let child3 = child2[k].children;
+                for (let l = 0; l < child3.length; l++) {
+                  if (child3[l].dept_idx == data.idx) {
+                    child3[l].title = data.title;
+                    break;
+                  } else if (child3[l].children) {
+                    let child4 = child3[l].children;
+                    for (let m = 0; m < child4.length; m++) {
+                      if (child4[m].dept_idx == data.idx) {
+                        child4[m].title = data.title;
+                        break;
+                      }
+                    }
+                    child3[l].children = child4;
+                  }
+                }
+                child2[k].children = child3;
               }
             }
             child[j].children = child2;
@@ -256,7 +291,7 @@ const WgroupDeptPage = (props) => {
 
 
   // tree onChange
-  const updateTreeData = (treedata) => {
+  const updateTreeData = (treedata) => {    
     setInputs({ ...inputs, treedata: treedata })
   }
 
@@ -280,6 +315,7 @@ const WgroupDeptPage = (props) => {
 
   // tree 수정
   const inputChange = (data) => {
+    console.log('inputChange:::',data)
     setInputs({
       ...inputs,
       treedata: setTreeData(data)
@@ -353,11 +389,12 @@ const WgroupDeptPage = (props) => {
                       marginLeft: 10,
                     }}
 
-                    onClick={(e) => {
+                    onClick={(e) => {  
+                      console.log('onclick::',node, inputs.treedata);                    
                       updDept({ dept_idx: node.dept_idx, dept_name: node.title })
                     }}
                   />,
-                  (node.lvl !== 3) &&
+                  (node.lvl !== 5) &&
                   <PlusSquareOutlined
                     style={{
                       position: 'relative',
