@@ -252,7 +252,7 @@ const CustomerRegisterInfo = () => {
             style={{ width: '95%', margin: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <label className={classes.laebelStyle}>고객 구분 <span style={{ color: 'red' }}>*</span></label>
-              <Tooltip overlayStyle={{ whiteSpace: 'pre-line' }} title={z} >
+              <Tooltip title={customerType}>
                 <Info />
               </Tooltip>
             </div>
