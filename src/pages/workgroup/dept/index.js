@@ -96,7 +96,7 @@ const WgroupDeptPage = (props) => {
   }
 
   const updDept = (data) => {
-    console.log('updDept::: ',data)
+    //console.log('updDept::: ',data)
     dispatch(postDeptUpd.call(data))
   }
 
@@ -170,7 +170,7 @@ const WgroupDeptPage = (props) => {
   //처음 inputs.treedata=[] 일때 가져옴
   const getTreeData = (array) => {
 
-    console.log('array::getTreeData:::',array);
+    //console.log('array::getTreeData:::',array);
 
     if (!array || array.length <= 0) {
       return null;
@@ -315,7 +315,7 @@ const WgroupDeptPage = (props) => {
 
   // tree 수정
   const inputChange = (data) => {
-    console.log('inputChange:::',data)
+    //console.log('inputChange:::',data)
     setInputs({
       ...inputs,
       treedata: setTreeData(data)
@@ -390,7 +390,7 @@ const WgroupDeptPage = (props) => {
                     }}
 
                     onClick={(e) => {  
-                      console.log('onclick::',node, inputs.treedata);                    
+                      //console.log('onclick::',node, inputs.treedata);                    
                       updDept({ dept_idx: node.dept_idx, dept_name: node.title })
                     }}
                   />,
