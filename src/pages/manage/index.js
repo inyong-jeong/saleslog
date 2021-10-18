@@ -53,12 +53,12 @@ function SalesLogList(props) {
   })
 
   const [loglists, setLogLists] = useState([]);
-  const [tabkey, setTabKey] = useState();
+  const [tabkey, setTabKey] = useState('0010001');
   const [firsttime, setFirsttime] = useState(true);
   const [Secondtime, setSecondtime] = useState(false);
 
-  const [data, setData] = useState(state.StoredData ? state.StoredData : {
-    log_gb: '0010001',
+  const [data, setData] = useState(state.StoredData ? state.StoredData.data : {
+    log_gb: tabkey,
     sales_man: '',
     sales_lead_gb: '',
     sales_goal: '',
@@ -67,11 +67,17 @@ function SalesLogList(props) {
     accts_man: '',
     pageno: 1,
     srch: '',
-    need_cod: ''
+    need_cod: '',
+    // extra: ''
   })
 
   console.log(data);
 
+  useEffect(() => {
+    if (state.StoredData) {
+      setTabKey(state.StoredData.data.log_gb);
+    }
+  }, [state.StoredData])
   // 권한에 따른 dispatch call
 
   // console.log(JSON.parse(getpersist().persist));
@@ -217,7 +223,7 @@ function SalesLogList(props) {
         {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
         <SearchBar searchStr={searchStr}
-          word={state.StoredData && state.StoredData.word}
+          word={state.StoredData && state.StoredData.data.srch}
           onAddKeyword={handleAddKeyword}
           SearchChange={onSearch}
           SearchEnter={onEnter}
@@ -239,9 +245,9 @@ function SalesLogList(props) {
                 <div className='mt-3 ml-2'>
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
-                <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '10px' }} />
+                <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
 
-                {(loglists.length > 0) && loglists.map((v) => (
+                {loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     data={data}
                     loglist={v}
@@ -256,8 +262,8 @@ function SalesLogList(props) {
                 <div className='mt-3 ml-2'>
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
-                <Divider style={{ borderWidth: '10px' }} />
-                {(loglists.length > 0) && loglists.map((v) => (
+                <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
+                {loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     data={data}
                     loglist={v}

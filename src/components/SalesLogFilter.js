@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TreeSelect, Row, Col, Select } from 'antd';
-// import Select from 'react-select';
 import { useMediaQuery } from "react-responsive";
-
 import { connect, useSelector } from 'react-redux';
-import {
-  getorganization, getorganizationusers
-} from 'redux/actions';
-import cmm from 'constants/common';
+import { getorganization, getorganizationusers } from 'redux/actions';
 import { getUserInfo } from 'helpers/authUtils';
 
 
@@ -31,7 +26,6 @@ const SalesLogFilter = (props, { firsttime }) => {
   const [selectedItems, setSelectedItems] = useState([])
   const [filteredlist, setFilteredlist] = useState([])
   const [filteredOptions, setFilteredOptions] = useState([])
-
 
   const [activity, setActivity] = useState('');
   const [leadactivity, setLeadActivity] = useState('');
@@ -114,17 +108,12 @@ const SalesLogFilter = (props, { firsttime }) => {
   //마운트 될 때 
   useEffect(() => {
     //부서정보 가져오기
-    if (state2.StoredData === null) {
-      props.getorganization(data)
-    }
+    props.getorganization(data)
   }, [])
 
   useEffect(() => {
-    if (state2.StoredData === null) {
-      props.getorganizationusers(data)
-    }
-  }, [])
-
+    props.getorganizationusers(data)
+  }, [data])
 
   //부서조회 fetch 후
   useEffect(() => {
@@ -135,37 +124,60 @@ const SalesLogFilter = (props, { firsttime }) => {
     }
   }, [organlistResponse])
 
+  //부서 선택
+  const handeltreeOnChange = (v, label, extra) => {
+    console.log(v)
+    if (v) {
+      setSelId(extra.allCheckedNodes[0].node.props.id);
+      setSelIdUser(extra.allCheckedNodes[0].node.props.id);
+      setSelectedOrganization(v);
+      props.setData({ ...props.data, organization: v })
+      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+    } else {
+      setSelectedOrganization(v);
+      state2.StoredData.data.organization = undefined;
+      props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
+    }
+  }
+
 
   //맴버조회 fetch 후  
   useEffect(() => {
-    if (props.organizationuserlist && (selIdUser === props.id)) {
-
+    if (state.organuserResponse && (selIdUser === props.id)) {
       const memList = props.organizationuserlist.map(v => v.user_name);
       const optList = memList && memList.filter((v) => !selectedItems.includes(v))
       setFilteredlist(memList);
       setFilteredOptions(optList);
       const userlist = props.organizationuserlist.map(v => v.login_idx);
-      //userlist가 넘어갔다가 온 데이터로 되어야 한다. 근데 그게 아니다.
-      //화면 넘어갔다가 왔을 때 처음 화면이 마운트 될때는 호출이 안되고, 그다음부터는 호출이 되어야 한다.
-      props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
-
+      state2.StoredData ? props.setData({ ...props.data, 'sales_man': state2.StoredData.data.sales_man, 'pageno': 1 })
+        : props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
       setSelectedItems([]);
       setSelIdUser();
-
     }
-  }, [props.organizationuserlist])
+  }, [state.organuserResponse])
 
-  // 멤버 선택
-  useEffect(() => {
-    if (selectedOrganizationuser) {
-
-      console.log(selectedOrganizationuser)
-      props.setData({ ...props.data, 'sales_man': selectedOrganizationuser, 'pageno': 1 })
+  //멤버 선택
+  const onOrganizationUserSelectChange = (label) => {
+    if (label.length === 0) {
+      let array = props.organizationuserlist.map(v => v.login_idx);
+      props.setData({ ...props.data, members: label, sales_man: array, pageno: 1 })
+      state2.StoredData.data.members = [];
+      setSelectedItems([])
+    } else {
+      setSelectedItems(label);
+      let memberlist = filterList(label)
+      props.setData({ ...props.data, members: label, sales_man: memberlist, pageno: 1 })
     }
-  }, [selectedOrganizationuser])
+  }
 
+  // 멤버 선택 후
+  // useEffect(() => {
+  //   if (selectedOrganizationuser) {
 
-
+  //     console.log(selectedOrganizationuser)
+  //     props.setData({ ...props.data, 'sales_man': selectedOrganizationuser, 'pageno': 1 })
+  //   }
+  // }, [selectedOrganizationuser])
 
   const selectStyle =
     { width: '100%' }
@@ -185,21 +197,7 @@ const SalesLogFilter = (props, { firsttime }) => {
     return list
   }
 
-  //멤버 선택
-  const onOrganizationUserSelectChange = (label) => {
-    if (label.length === 0) {
-      let array = props.organizationuserlist.map(v => v.login_idx);
-      console.log(array);
-      setSelectedOrganizationUser(array)
-      setSelectedItems([])
-    } else {
-      console.log(label);
-      setSelectedItems(label);
-      console.log(filterList(label));
-      let memberlist = filterList(label)
-      setSelectedOrganizationUser(memberlist);
-    }
-  }
+
 
   const onLeadActivity = (option) => {
     setLeadActivity(option.value);
@@ -210,7 +208,6 @@ const SalesLogFilter = (props, { firsttime }) => {
   }
 
   const onSalesActivity = (option) => {
-    // setActivitylIndex(option)
     setActivity(option.value);
     props.setData({
       ...props.data,
@@ -219,7 +216,6 @@ const SalesLogFilter = (props, { firsttime }) => {
   };
 
   const onSalesChannel = (option) => {
-    // setChannelIndex(option);
     setChannel(option.value);
     props.setData({
       ...props.data,
@@ -228,7 +224,6 @@ const SalesLogFilter = (props, { firsttime }) => {
   };
 
   const onNeeds = (option) => {
-    // setChannelIndex(option);
     setNeeds(option.value)
     console.log(option)
     setChannel(option.value);
@@ -238,19 +233,6 @@ const SalesLogFilter = (props, { firsttime }) => {
     })
   };
 
-  //부서 선택
-  const handeltreeOnChange = (v, label, extra) => {
-    if (v) {
-      setSelId(extra.allCheckedNodes[0].node.props.id);
-      setSelIdUser(extra.allCheckedNodes[0].node.props.id);
-      setSelectedOrganization(v);
-      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
-    } else {
-      setSelectedOrganization(v);
-      props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
-    }
-  }
-
   return (
     <>
       {(getUserInfo().permission !== '9')
@@ -258,7 +240,8 @@ const SalesLogFilter = (props, { firsttime }) => {
           <Col sm={12} xs={12} md={12} lg={12}>
             <TreeSelect
               style={{ width: '100%' }}
-              value={selectedOrganization}
+              dropdownMatchSelectWidth={false}
+              value={state2.StoredData ? state2.StoredData.data.organization : selectedOrganization}
               treeLine={true}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={treedata}
@@ -274,7 +257,7 @@ const SalesLogFilter = (props, { firsttime }) => {
               mode='multiple'
               style={selectStyle}
               onChange={onOrganizationUserSelectChange}
-              value={selectedItems}
+              value={state2.StoredData ? state2.StoredData.data.members : selectedItems}
               maxTagCount={isMobile ? 2 : 3}
               id={props.id}
             >
@@ -300,20 +283,20 @@ const SalesLogFilter = (props, { firsttime }) => {
           <Select placeholder='활동'
             onChange={onSalesActivity}
             options={salesActivityOption}
-            value={salesActivityOption.value}
+            value={state2.StoredData ? state2.StoredData.data.sales_goal : salesActivityOption.value}
             style={selectStyle} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='채널'
             options={salesChannelOption}
-            value={salesChannelOption.value}
+            value={state2.StoredData ? state2.StoredData.data.sales_activity : salesChannelOption.value}
             onChange={onSalesChannel}
             style={selectStyle} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='니즈'
             options={NeedsOption}
-            value={NeedsOption.value}
+            value={state2.StoredData ? state2.StoredData.data.need_cod : NeedsOption.value}
             onChange={onNeeds}
             style={selectStyle} />
 

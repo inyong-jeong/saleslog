@@ -410,6 +410,7 @@ function SalesLog(props) {
                   onPreview={handlePreview}
                   onChange={handleChange}
                   maxCount={5}
+                  accept='.xlsx, .ppt, .pdf, .doc, .txt, .png, .jpg, .gif '
                 >
                   {filelist.length >= 5 ? null : uploadButton}
                 </Upload>

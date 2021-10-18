@@ -6,7 +6,7 @@ import {
   postTemporarySalesLog, uploadFile, getUserList, getLogList,
   clearLog, putSalesLog, clearTempLog, postAutoSalesLog
 } from 'redux/actions';
-import { errorMessage } from "constants/commonFunc";
+import { errorMessage, alertMessage } from "constants/commonFunc";
 import { useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import StyledSelect from 'components/styledcomponent/StyledSelect';
@@ -22,6 +22,7 @@ import moment from 'moment';
 import { ReactComponent as Info } from 'assets/icons/info.svg'
 import 'moment/locale/ko';
 import { useIdleTimer } from 'react-idle-timer'
+
 
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
@@ -328,7 +329,7 @@ function UploadSalesLog(props) {
   };
 
   const selectFile = (event) => {
-    console.log(event)
+
     setSelectedFiles(event.target.files);
     setFromData({
       ...fromData,
@@ -724,7 +725,8 @@ function UploadSalesLog(props) {
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
               <img src={require('assets/icons/clip.png')} alt='clip_logo' />
-              <input type='file' id='input-file' onChange={selectFile} multiple />
+              <input type='file' id='input-file' onChange={selectFile} accept='.xlsx, .ppt, .pdf, .doc, .txt, .png, .jpg, .gif '
+                multiple />
             </div>
             <div>
               <CouserModal handleonInsert={handleonInsert} />

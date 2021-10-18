@@ -62,7 +62,6 @@ import {
   DELETE_COUSER,
   DELETE_COUSER_SUCCESS,
   DELETE_COUSER_ERROR,
-  STORE_DATA
 } from '../../constants/actionTypes';
 
 const INIT_STATE = {
@@ -117,8 +116,6 @@ const INIT_STATE = {
 
 const SalesLog = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
-    case STORE_DATA:
-      return { ...state, StoredData: action.payload[0], StoredDataResponse: action.payload[1] };
     case CLEAR_SALESLOG:
       return { ...state, log: null };
     case CLEAR_TEMP_LOG:
@@ -181,7 +178,7 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, deletetempresponse: false };
     //영업일지 불러오기 관련
     case GET_SALESLOGS:
-      return { ...state, loadLogsLoading: true, loadLogsDone: false };
+      return { ...state, loadLogsLoading: true, loadLogsDone: false, StoredData: action.payload };
     case GET_SALESLOGS_SUCCESS:
       return { ...state, loadLogsLoading: false, loadLogsDone: true, loglist: action.payload.response.message[0], loglistcount: action.payload.response.message[1][0].totalCnt };
     case GET_SALESLOGS_ERROR:
