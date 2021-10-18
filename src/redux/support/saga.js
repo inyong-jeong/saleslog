@@ -11,7 +11,12 @@ import {
   getSupportInquiryLists
 } from './actions'
 import cmm from '../../constants/common'
-import { errorMessage, successMessage } from '../../constants/commonFunc'
+import {
+  errorMessage,
+  successMessage,
+  loadingMessage,
+  hideMessage,
+} from '../../constants/commonFunc'
 
 const ETC = "/etc"
 const REGI_QUESTION_SYS = "/regi_question_sys"
@@ -20,9 +25,12 @@ const DETAIL_QUESTION_SYS = '/detail_question_sys'
 
 function* _postSupportInquiry({ payload: { body } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + ETC + REGI_QUESTION_SYS, body)
-    yield successMessage('문의가 등록되었습니다.')
+    yield hideMessage()
     yield put(postSupportInquiry.success(response))
+    yield successMessage('문의가 등록되었습니다.')
+
   }
   catch (error) {
     yield errorMessage('문의 등록에 실패했습니다.')
@@ -32,7 +40,9 @@ function* _postSupportInquiry({ payload: { body } }) {
 
 function* _getSupportInquiryLists({ payload: { body } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, cmm.SERVER_API_URL + ETC + LIST_QUESTION_SYS, body)
+    yield hideMessage()
     yield put(getSupportInquiryLists.success(response))
 
   }
