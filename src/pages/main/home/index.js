@@ -149,7 +149,7 @@ const DashBoardPage = () => {
     label: "검증",
   }]
 
-  const [userPermission, setUserPermission] = useState(null)
+  const [userPermission, setUserPermission] = useState(myInfo.permission)
   //SALESLOG
   const [bodyLog, setBodyLog] = useState({
     dt_typ: '1',
@@ -184,9 +184,7 @@ const DashBoardPage = () => {
       orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
       return
     }
-
     dispatch(getsaleslogstat.call(bodyLog))
-
   }, [bodyLog])
 
   useEffect(() => {
