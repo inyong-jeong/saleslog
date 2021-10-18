@@ -566,11 +566,13 @@ const DashBoardPage = () => {
               {sectionTitle("리드 채널", <Channel />)}
             </div>
             <div className='mt-1' />
-            <Row>
-              <Col sm={24} xs={24} md={24} lg={24}>
-                <DashButton5 key='lead_channel_button' tab={tabs3} onSelected={onSelected_lead_gb} defaultSelected={bodyLogRd.sales_lead_gb} />
-              </Col>
-            </Row>
+            <div>
+              <DashButton5
+                key='lead_channel_button'
+                tab={tabs3}
+                onSelected={onSelected_lead_gb}
+                defaultSelected={bodyLogRd.sales_lead_gb} />
+            </div>
             <Row >
               <NivoBarChart
                 key={'bar_3'}
