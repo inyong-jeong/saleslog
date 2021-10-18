@@ -117,7 +117,7 @@ const SalesLogFilter = (props, { firsttime }) => {
 
   //부서조회 fetch 후
   useEffect(() => {
-    if (organlistResponse && (selId === props.id)) {
+    if (organlistResponse && (selId === props.id) && getUserInfo().permission !== '9') {
       setTreedata(getTreeData(props.organizationlist))
       setSelId()
       organlistResponse = false;
@@ -131,12 +131,14 @@ const SalesLogFilter = (props, { firsttime }) => {
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
       setSelectedOrganization(v);
-      props.setData({ ...props.data, organization: v })
+      // props.setData({ ...props.data, organization: v, members: undefined })
       props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+      // state2.StoredData.data.members = undefined;
     } else {
       setSelectedOrganization(v);
       state2.StoredData.data.organization = undefined;
       props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
+
     }
   }
 
@@ -236,7 +238,7 @@ const SalesLogFilter = (props, { firsttime }) => {
   return (
     <>
       {(getUserInfo().permission !== '9')
-        && <Row gutter={6}>
+        ? <Row gutter={6}>
           <Col sm={12} xs={12} md={12} lg={12}>
             <TreeSelect
               style={{ width: '100%' }}
@@ -268,7 +270,7 @@ const SalesLogFilter = (props, { firsttime }) => {
               ))}
             </Select>
           </Col>
-        </Row>}
+        </Row> : null}
       <Row className='mt-1'></Row>
       <Row gutter={6}>
         <Col sm={6} xs={6} md={6} lg={6}>

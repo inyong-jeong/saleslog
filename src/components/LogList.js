@@ -89,7 +89,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
       <div className={styles.logWrapper} onClick={() => handleLogClick(loglist, loglists, data)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
-            <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url} />
+            <Avatar src={loglist.thumb_url && cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url} />
           </div>
           <div style={{ flexGrow: 2 }}>
             <span style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></span><span>&nbsp;</span>

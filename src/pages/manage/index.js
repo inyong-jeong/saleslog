@@ -46,8 +46,6 @@ function SalesLogList(props) {
   console.log(history);
   console.log(props);
 
-
-
   const navigateTo = () => history.push({
     pathname: '/main/upload'
   })
@@ -80,14 +78,9 @@ function SalesLogList(props) {
   }, [state.StoredData])
   // 권한에 따른 dispatch call
 
-  // console.log(JSON.parse(getpersist().persist));
-
   useEffect(() => {
     if (!firsttime) {
-      // dispatch({
-      //   type: STORE_DATA,
-      //   payload: [data]
-      // })
+
       props.getLogLists(data)
     }
   }, [data])
@@ -98,17 +91,6 @@ function SalesLogList(props) {
       props.getLogLists(data)
     }
   }, [])
-
-
-
-  //상세보기 한 이후 back 했을 때 
-  // useEffect(() => {
-  //   if (state.StoredDataResponse && Secondtime) {
-  //     setTabKey(state.StoredData.data.log_gb);
-  //     setData(state.StoredData.data);
-  //     state.StoredDataResponse = false;
-  //   }
-  // }, [Secondtime])
 
   console.log(data);
   // 데이터 받아 온 것 set

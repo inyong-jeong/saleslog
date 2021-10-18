@@ -133,7 +133,7 @@ const LeadLogFilter = (props) => {
 
   //부서조회 fetch 후
   useEffect(() => {
-    if (organlistResponse) {
+    if (organlistResponse && (selId === props.id) && getUserInfo().permission !== '9') {
       setTreedata(getTreeData(props.organizationlist))
       setSelId()
       organlistResponse = false;
@@ -283,7 +283,7 @@ const LeadLogFilter = (props) => {
             disabled={false}
             style={selectStyle}
             options={leadActivityOption}
-            value={leadActivityOption.value}
+            value={state2.StoredData ? state2.StoredData.data.sales_lead_gb : leadActivityOption.value}
             onChange={onLeadActivity} />
         </Col>
         <Col sm={6} xs={6} md={6} lg={6}>
