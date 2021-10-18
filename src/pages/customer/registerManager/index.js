@@ -119,9 +119,9 @@ const RegisterManager = () => {
   }
 
   const handleFileChange = (e) => {
-    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
-      return alertMessage('이미지 파일만 등록 가능합니다.')
-    }
+    // if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+    //   return alertMessage('이미지 파일만 등록 가능합니다.')
+    // }
     let reader = new FileReader();
     reader.onloadend = () => {
       setAccoutManagerInputs({
