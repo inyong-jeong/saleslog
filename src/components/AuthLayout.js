@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom'
 import { LaptopWindowsOutlined } from '@material-ui/icons';
 import CustomUp from "./styledcomponent/CustomUpButton";
 import cmm from 'constants/common';
-
+import { Helmet } from "react-helmet";
 const { Content, Sider, Footer } = Layout;
 
 
@@ -67,6 +67,9 @@ const AuthLayout = (props) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, user-scalable=no"></meta>
+      </Helmet>
       {isMobile ?
         <Layout style={{ backgroundColor: '#fff', }}>
           <div>

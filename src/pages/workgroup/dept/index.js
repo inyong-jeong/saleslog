@@ -327,7 +327,7 @@ const WgroupDeptPage = (props) => {
               treeData={inputs.treedata}
               onChange={updateTreeData}
               onVisibilityToggle={updateTreeExpanded}
-              maxDepth={3}
+              maxDepth={5}
               canDrag={false}
               canDrop={false}
               isVirtualized={true}
