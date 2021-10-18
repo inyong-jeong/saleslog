@@ -163,6 +163,7 @@ const SalesLogFilterDash = (props) => {
             treeData={treedata}
             placeholder={'부서 전체'}
             treeDefaultExpandAll
+            dropdownMatchSelectWidth = {false}
             allowClear
             id={props.id}
             onChange={onDepartmentChange} />
