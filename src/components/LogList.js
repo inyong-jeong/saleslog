@@ -49,6 +49,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
     WebkitBoxOrient: 'vertical',
     WebkitLineClamp: 5,
     textOverflow: 'ellipsis',
+    whiteSpace: 'pre'
 
   }
 
