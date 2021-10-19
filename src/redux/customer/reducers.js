@@ -50,6 +50,7 @@ const initialState = {
   postNamecardResponse: null,
   deleteCustomerRepsonse: null,
   deleteCustomerManagerResponse: null,
+  customerStoredData: null,
 }
 
 const Customer = (state = initialState, action) => {
@@ -62,7 +63,7 @@ const Customer = (state = initialState, action) => {
       return { ...state, loading: false, postCustomerResponse: false }
 
     case GET_CUSTOMER:
-      return { ...state, loading: true }
+      return { ...state, loading: true, customerStoredData: action.payload }
     case GET_CUSTOMER_SUCCESS:
       return {
         ...state,
@@ -71,7 +72,7 @@ const Customer = (state = initialState, action) => {
         getCustomerResponse: true,
         postCustomerResponse: false,
         list: action.payload.response.message[0],
-        listCounts: action.payload.response.message[1][0].totalCnt
+        listCounts: action.payload.response.message[1][0].totalCnt,
       }
     case GET_CUSTOMER_ERROR:
       return {

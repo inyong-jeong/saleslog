@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StyledSelect from '../styledcomponent/StyledSelect';
-const { Option } = StyledSelect;
 
-function onSearch(val) {
-
-}
-
+const { Option } = StyledSelect
 const eachSelectStyle = {
   flex: 1,
   margin: 3,
@@ -20,17 +16,24 @@ const SelectFilter = ({
   setPage,
 }) => {
 
+  const [selectedUser, setSelectedUser] = useState(inputs.users ? inputs.users : null)
+  const [selectedSortyType, setSelectedSortType] = useState(inputs.order ? inputs.order : null)
+  const [selectedGradeType, setSelectedGradeType] = useState(inputs.gradeType ? inputs.gradeType : null)
+
   const onChangeSortType = (value) => {
     setInputs({ ...inputs, order: value })
     setPage(1)
+    setSelectedSortType(value)
   }
   const onChangeGradeType = (value) => {
     setInputs({ ...inputs, score: value })
     setPage(1)
+    setSelectedGradeType(value)
   }
   const onChangeUsers = (value) => {
     setInputs({ ...inputs, users: value })
     setPage(1)
+    setSelectedUser(value)
   }
 
   const options = []
@@ -52,23 +55,26 @@ const SelectFilter = ({
         showArrow
         showSearch={false}
         disabled={disabled}
+        value={selectedGradeType}
         style={eachSelectStyle}
         placeholder="등급/단계"
-        onChange={onChangeGradeType}>
+        onChange={onChangeGradeType}
+      >
         {options}
       </StyledSelect>
 
       <StyledSelect
         style={eachSelectStyle}
         showSearch
+        value={selectedUser}
         placeholder="담당 사원"
-        onChange={onChangeUsers}
-        onSearch={onSearch} >
+        onChange={onChangeUsers} >
         <Option key={''}>전체</Option>)
         {userNames}
       </StyledSelect>
 
       <StyledSelect
+        value={selectedSortyType}
         style={eachSelectStyle}
         placeholder="최근 등록순"
         onChange={onChangeSortType}>

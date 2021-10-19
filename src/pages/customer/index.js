@@ -37,6 +37,7 @@ const CustomerShow = () => {
   })
 
   const [tabkey, setTabKey] = useState('1')
+  const [searchKeyword, setSearchKeyword] = useState(inputs.srch ? inputs.srch : '')
 
   useEffect(() => {
     dispatch(getUsers.call({ srch: '' }))
@@ -79,7 +80,13 @@ const CustomerShow = () => {
   const onSearch = (keyword) => {
     keyword = keyword.trim()
     setInputs({ ...inputs, srch: keyword })
+    setSearchKeyword(keyword)
     setPage(1)
+
+  }
+
+  const hadleChangeKeyword = (e) => {
+    setSearchKeyword(e.target.value)
   }
 
   return (
@@ -89,6 +96,8 @@ const CustomerShow = () => {
         <Search
           placeholder="고객 검색"
           allowClear
+          onChange={hadleChangeKeyword}
+          value={searchKeyword}
           onSearch={onSearch}
           style={{
             marginBottom: 10,

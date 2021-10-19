@@ -128,7 +128,11 @@ const CustomerLogPage = () => {
           loglist && state.loglistcount != 0 ?
             loglist.map((singleList, index) =>
               <CustomerLogItem singleList={singleList} key={singleList.slog_idx} />
-            ) : <div style={{ fontSize: 14, fontWeight: 500, textAlign: 'center' }}>해당 고객사로 등록된 일지가 없습니다.</div>
+            ) : <div style={{ fontSize: 14, fontWeight: 500, textAlign: 'center' }}>
+              <p>해당 고객사로 등록된 일지가 없습니다.</p>
+              <Divider />
+              <p>일지는 Master와 소속 조직의 Chief, Manager로 열람 권한이 적용됩니다.</p>
+            </div>
         }
 
       </div>
