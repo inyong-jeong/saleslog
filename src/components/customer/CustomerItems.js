@@ -53,11 +53,11 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, 1))
 
-    isMobile && window.scrollTo({
-      top: 100,
-      left: 100,
-      behavior: 'smooth'
-    });
+    // isMobile && window.scrollTo({
+    //   top: 100,
+    //   left: 100,
+    //   behavior: 'smooth'
+    // });
   }, [])
 
   useEffect(() => {
