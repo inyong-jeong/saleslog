@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { regex } from 'constants/regex';
@@ -23,18 +23,19 @@ const SignUp = () => {
   const [useremail, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('')
   const [passwordcheck, onChangePasswordCheck] = useInput('')
-  const [firstname, onChangeFirstName] = useInput('');
-  const [lastname, onChangeLastName] = useInput('')
+  // const [firstname, onChangeFirstName] = useInput('');
+  // const [lastname, onChangeLastName] = useInput('')
   const [authnumber, onChangeAuthNumber] = useInput('')
   const [user_name, onChangeUser_name] = useInput('')
 
   //조건 오류 상태 데이터
   const [term, setTerm] = useState(false)
+  const [termerror, setTermError] = useState()
   const [emailerror, setEmailError] = useState();
   const [authnumbererror, setAuthNumberError] = useState();
   const [passworderror, setPassWordError] = useState();
   const [usernameerror, setUsernameerror] = useState();
-  const [compdomainerror, setCompDomainError] = useState();
+  // const [compdomainerror, setCompDomainError] = useState();
   const [authnumberRes, setAuthnumberRes] = useState();
 
 
@@ -133,10 +134,10 @@ const SignUp = () => {
     }
 
     if (term === false) {
-      setTerm('약관에 동의하여 주세요.')
+      setTermError('약관에 동의하여 주세요.')
       return;
     } else {
-      setTerm('')
+      setTermError()
     }
 
     dispatch(postRegisteration.call(useremail, password, user_name))
@@ -168,6 +169,39 @@ const SignUp = () => {
     marginLeft: '7px'
   }
 
+
+  // console.log(inputRef.current.focus());
+
+  useEffect(() => {
+    const name = document.getElementById('name');
+    const user_email = document.getElementById('user_email');
+    const authnumber = document.getElementById('authnumber');
+    const password = document.getElementById('password');
+    const passwordcheck = document.getElementById('passwordcheck');
+
+
+    name.addEventListener('focus', (e) => {
+      setUsernameerror('')
+    })
+
+    user_email.addEventListener('focus', (e) => {
+      setEmailError('')
+    })
+
+    authnumber.addEventListener('focus', (e) => {
+      setAuthNumberError('')
+    })
+
+    password.addEventListener('focus', (e) => {
+      setPassWordError('')
+    })
+
+    passwordcheck.addEventListener('focus', (e) => {
+      setPassWordError('')
+    })
+
+  }, [])
+    ;
   return (
     <>
       <Helmet>
@@ -189,6 +223,7 @@ const SignUp = () => {
                     <RoundInputField
                       id="name"
                       title="이름"
+                      type='text'
                       placeholder="이름 입력"
                       value={user_name}
                       onChange={onChangeUser_name}
@@ -249,7 +284,7 @@ const SignUp = () => {
                         동의 버튼을 선택하면 <span style={{ color: '#000000', textDecoration: 'underline' }}>세일즈로그 서비스 이용 약관,< br /> 위치정보 서비스 약관, 개인정보 처리방침</span>에 동의하게< br /> 됩니다.
                       </StyledCheckbox>
                     </div>
-                    {(!term) && <p className='text-danger mt-2 text-center'> 약관에 동의하여 주세요.</p>}
+                    {termerror && <p className='text-danger mt-2 text-center'> 약관에 동의하여 주세요.</p>}
 
                   </div>
                   <div className="form-group">

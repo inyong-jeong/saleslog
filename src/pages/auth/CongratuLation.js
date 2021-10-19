@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { getCi } from "helpers/domainUtils";
 import useInput from 'hooks/useInput';
 import { postInvite } from 'redux/actions';
+import { ReactComponent as WhiteLogo } from 'assets/icons/main/whiteLogo.svg'
 
 import Select from 'react-select';
 
@@ -83,6 +84,7 @@ function CongratuLation(props) {
     control: (defaultStyle) => ({ ...defaultStyle, width: '120px', height: '48px', borderColor: 'black', marginRight: '3px' }),
     indicatorSeparator: () => { }
   }
+
   return (
     <React.Fragment>
       <Helmet>
@@ -94,8 +96,8 @@ function CongratuLation(props) {
           <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8 col-sm-8 align-self-center ">
             <div className="card">
               <div className="card-body" style={CardStyle}>
-                <div style={ImgStyle}>
-                  <img src={getCi()} className="auth-logo mb-3" alt="logo" onClick={handleLandingPage} />
+                <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
+                  <WhiteLogo width={150} height={50} fill='black' />
                 </div>
                 <form>
                   <div className='mb-3'>

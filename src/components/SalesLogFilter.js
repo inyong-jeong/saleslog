@@ -35,13 +35,13 @@ const SalesLogFilter = (props, { firsttime }) => {
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
   const salesActivityOption =
-    [{ label: '전체', value: '' },
+    [{ label: '활동전체', value: '' },
     { label: '니즈조사', value: '0030001' },
     { label: '동향/정보수집', value: '0030002' },
     { label: '제안', value: '0030003' }];
 
   const salesChannelOption =
-    [{ label: '전체', value: '' },
+    [{ label: '채널전체', value: '' },
     { label: '전화', value: '0040001' },
     { label: '이메일', value: '0040002' },
     { label: '대면', value: '0040003' },
@@ -52,30 +52,24 @@ const SalesLogFilter = (props, { firsttime }) => {
     { label: '기타', value: '0040008' }];
 
   const leadActivityOption =
-    [{ label: '전체', value: '' },
+    [{ label: '리드전체', value: '' },
     { label: '발굴', value: '0020001' },
     { label: '접촉', value: '0020002' },
     { label: '제안', value: '0020003' },
     { label: '검증', value: '0020004' }];
 
   const NeedsOption =
-    [{ label: '전체', value: '' },
+    [{ label: '니즈전체', value: '' },
     { label: '전략니즈', value: '전략' },
     { label: '제품니즈', value: '제품' },
     { label: '개인니즈', value: '개인' },
     { label: '상품니즈', value: '상품' }];
 
 
-  //하위부서 조회
-  const [filterdata, setFilterData] = useState({
-    dept_idx: 0,
-    typ: 'lvl'
-  })
-
   //부서별 사용자 조회
   const [data, setData] = useState({
     dept_idx: 0,
-    typ: 'tree'
+    typ: 'mine'
   })
 
   //부서데이타 treedata 변환
@@ -119,29 +113,32 @@ const SalesLogFilter = (props, { firsttime }) => {
   useEffect(() => {
     if (organlistResponse && (selId === props.id) && getUserInfo().permission !== '9') {
       setTreedata(getTreeData(props.organizationlist))
-      setSelId()
+      setSelId();
+      props.setData({ ...props.data, 'dept_idx': '', 'pageno': 1 })
       organlistResponse = false;
     }
   }, [organlistResponse])
 
   //부서 선택
-  const handeltreeOnChange = (v, label, extra) => {
-    console.log(v)
-    if (v) {
+  const handeltreeOnChange = (departmentId, label, extra) => {
+
+    console.log(label);
+    console.log(departmentId);
+
+    if (departmentId) {
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
-      setSelectedOrganization(v);
-      // props.setData({ ...props.data, organization: v, members: undefined })
-      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
-      // state2.StoredData.data.members = undefined;
+      setSelectedOrganization(departmentId);
+      // props.setData({ ...props.data, organization: departmentId, members: undefined })
+      props.getorganizationusers({ dept_idx: departmentId, typ: 'tree' })
+      props.setData({ ...props.data, dept_idx: departmentId, pageno: 1, sales_man: '', members: undefined, organization: departmentId })
     } else {
-      setSelectedOrganization(v);
+      setSelectedOrganization(departmentId);
+      props.setData({ ...props.data, dept_idx: '', pageno: 1, sales_man: '', members: undefined, organization: departmentId })
       state2.StoredData.data.organization = undefined;
-      props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
-
+      props.getorganizationusers({ dept_idx: 0, typ: 'mine' })
     }
   }
-
 
   //맴버조회 fetch 후  
   useEffect(() => {
@@ -150,9 +147,9 @@ const SalesLogFilter = (props, { firsttime }) => {
       const optList = memList && memList.filter((v) => !selectedItems.includes(v))
       setFilteredlist(memList);
       setFilteredOptions(optList);
-      const userlist = props.organizationuserlist.map(v => v.login_idx);
-      state2.StoredData ? props.setData({ ...props.data, 'sales_man': state2.StoredData.data.sales_man, 'pageno': 1 })
-        : props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
+      // const userlist = props.organizationuserlist.map(v => v.login_idx);
+      // state2.StoredData ? props.setData({ ...props.data, 'dept_idx': '', 'pageno': 1 })
+      // : props.setData({ ...props.data, 'dept_idx': '', 'pageno': 1 })
       setSelectedItems([]);
       setSelIdUser();
     }
@@ -172,15 +169,6 @@ const SalesLogFilter = (props, { firsttime }) => {
     }
   }
 
-  // 멤버 선택 후
-  // useEffect(() => {
-  //   if (selectedOrganizationuser) {
-
-  //     console.log(selectedOrganizationuser)
-  //     props.setData({ ...props.data, 'sales_man': selectedOrganizationuser, 'pageno': 1 })
-  //   }
-  // }, [selectedOrganizationuser])
-
   const selectStyle =
     { width: '100%' }
 
@@ -197,16 +185,6 @@ const SalesLogFilter = (props, { firsttime }) => {
       }
     }
     return list
-  }
-
-
-
-  const onLeadActivity = (option) => {
-    setLeadActivity(option.value);
-    props.setData({
-      ...props.data,
-      'sales_lead_gb': option
-    })
   }
 
   const onSalesActivity = (option) => {
@@ -273,29 +251,29 @@ const SalesLogFilter = (props, { firsttime }) => {
         </Row> : null}
       <Row className='mt-1'></Row>
       <Row gutter={6}>
-        <Col sm={6} xs={6} md={6} lg={6}>
+        {/* <Col sm={6} xs={6} md={6} lg={6}>
           <Select placeholder='단계'
             disabled={true}
             style={selectStyle}
             options={leadActivityOption}
             value={leadActivityOption.value}
             onChange={onLeadActivity} />
-        </Col>
-        <Col sm={6} xs={6} md={6} lg={6}>
+        </Col> */}
+        <Col sm={8} xs={8} md={8} lg={8}>
           <Select placeholder='활동'
             onChange={onSalesActivity}
             options={salesActivityOption}
             value={state2.StoredData ? state2.StoredData.data.sales_goal : salesActivityOption.value}
             style={selectStyle} />
         </Col>
-        <Col sm={6} xs={6} md={6} lg={6}>
+        <Col sm={8} xs={8} md={8} lg={8}>
           <Select placeholder='채널'
             options={salesChannelOption}
             value={state2.StoredData ? state2.StoredData.data.sales_activity : salesChannelOption.value}
             onChange={onSalesChannel}
             style={selectStyle} />
         </Col>
-        <Col sm={6} xs={6} md={6} lg={6}>
+        <Col sm={8} xs={8} md={8} lg={8}>
           <Select placeholder='니즈'
             options={NeedsOption}
             value={state2.StoredData ? state2.StoredData.data.need_cod : NeedsOption.value}

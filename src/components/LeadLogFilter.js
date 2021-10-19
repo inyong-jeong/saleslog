@@ -34,13 +34,13 @@ const LeadLogFilter = (props) => {
   const [selectedOrganizationuser, setSelectedOrganizationUser] = useState(undefined);
 
   const salesActivityOption =
-    [{ label: '전체', value: '' },
+    [{ label: '활동전체', value: '' },
     { label: '니즈조사', value: '0030001' },
     { label: '동향/정보수집', value: '0030002' },
     { label: '제안', value: '0030003' }];
 
   const salesChannelOption =
-    [{ label: '전체', value: '' },
+    [{ label: '채널전체', value: '' },
     { label: '전화', value: '0040001' },
     { label: '이메일', value: '0040002' },
     { label: '대면', value: '0040003' },
@@ -51,14 +51,14 @@ const LeadLogFilter = (props) => {
     { label: '기타', value: '0040008' }];
 
   const leadActivityOption =
-    [{ label: '전체', value: '' },
+    [{ label: '리드전체', value: '' },
     { label: '발굴', value: '0020001' },
     { label: '접촉', value: '0020002' },
     { label: '제안', value: '0020003' },
     { label: '검증', value: '0020004' }];
 
   const NeedsOption =
-    [{ label: '전체', value: '' },
+    [{ label: '니즈전체', value: '' },
     { label: '전략니즈', value: '전략' },
     { label: '제품니즈', value: '제품' },
     { label: '개인니즈', value: '개인' },
@@ -116,18 +116,21 @@ const LeadLogFilter = (props) => {
 
 
   //부서 선택
-  const handeltreeOnChange = (v, label, extra) => {
-    console.log(v)
-    if (v) {
+  const handeltreeOnChange = (departmentId, label, extra) => {
+    console.log(departmentId)
+    if (departmentId) {
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
-      setSelectedOrganization(v);
-      props.setData({ ...props.data, organization: v })
-      props.getorganizationusers({ dept_idx: v, typ: 'tree' })
+      setSelectedOrganization(departmentId);
+      // props.setData({ ...props.data, organization: departmentId })
+      props.getorganizationusers({ dept_idx: departmentId, typ: 'tree' })
+      props.setData({ ...props.data, dept_idx: departmentId, pageno: 1, sales_man: '', members: undefined })
+
     } else {
-      setSelectedOrganization(v);
+      setSelectedOrganization(departmentId);
+      props.setData({ ...props.data, dept_idx: '', pageno: 1, sales_man: '', members: undefined, organization: departmentId })
       state2.StoredData.data.organization = undefined;
-      props.getorganizationusers({ dept_idx: 0, typ: 'tree' })
+      props.getorganizationusers({ dept_idx: 0, typ: 'mine' })
     }
   }
 
@@ -136,6 +139,7 @@ const LeadLogFilter = (props) => {
     if (organlistResponse && (selId === props.id) && getUserInfo().permission !== '9') {
       setTreedata(getTreeData(props.organizationlist))
       setSelId()
+      props.setData({ ...props.data, 'dept_idx': '', 'pageno': 1 })
       organlistResponse = false;
     }
   }, [organlistResponse])
@@ -148,12 +152,11 @@ const LeadLogFilter = (props) => {
       const optList = memList && memList.filter((v) => !selectedItems.includes(v))
       setFilteredlist(memList);
       setFilteredOptions(optList);
-      const userlist = props.organizationuserlist.map(v => v.login_idx);
-      state2.StoredData ? props.setData({ ...props.data, 'sales_man': state2.StoredData.data.sales_man, 'pageno': 1 })
-        : props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
+      // const userlist = props.organizationuserlist.map(v => v.login_idx);
+      // state2.StoredData ? props.setData({ ...props.data, 'sales_man': state2.StoredData.data.sales_man, 'pageno': 1 })
+      // : props.setData({ ...props.data, 'sales_man': userlist, 'pageno': 1 })
       setSelectedItems([]);
       setSelIdUser();
-      state.organuserResponse = false;
     }
   }, [state.organuserResponse])
 

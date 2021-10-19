@@ -68,8 +68,16 @@ function SalesLogList(props) {
     need_cod: '',
     dept_idx: ''
     // extra: ''
-  })
+  }
+  )
 
+  useEffect(() => {
+    if (state.StoredData) {
+      if (state.StoredData.data.accts) {
+        window.location.reload();
+      }
+    }
+  }, [])
   console.log(data);
 
   useEffect(() => {
@@ -230,7 +238,7 @@ function SalesLogList(props) {
                 </div>
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
 
-                {loglists.map((v) => (
+                {loglists.length > 0 && loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     data={data}
                     loglist={v}
@@ -246,7 +254,7 @@ function SalesLogList(props) {
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
-                {loglists.map((v) => (
+                {loglists.length && loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     data={data}
                     loglist={v}
