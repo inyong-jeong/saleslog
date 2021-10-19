@@ -9,7 +9,7 @@ import TextArea from "antd/lib/input/TextArea";
 import Input from 'components/styledcomponent/Input';
 import { postNoticeGrpRegi } from 'redux/etc/actions';
 import cmm from 'constants/common';
-
+import { errorMessage } from 'constants/commonFunc';
 const grpNoticeRegi = () => {
 
   const titleStyle = {
@@ -38,6 +38,7 @@ const grpNoticeRegi = () => {
   }, [])
 
   const onSaveClick = () => {
+
     if (cmm.isEmpty(inputs.title)) {
       return alert('제목을 입력하세요.')
     }
@@ -56,6 +57,10 @@ const grpNoticeRegi = () => {
   }, [state.postNoticeGrpRegiRes])
 
   const handleChange = (e) => {
+
+    if (e.target.value.length > 50) {
+      return errorMessage('제목은 50자를 넘을 수 없습니다.')
+    }
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value
