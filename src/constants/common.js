@@ -77,6 +77,8 @@ cmm.permission = (data) => {
       return 'Manager';
     case '9':
       return 'Staff';
+    case '-1000':
+      return 'TheKlab Admin';
     default:
       return 'Staff';
   }
