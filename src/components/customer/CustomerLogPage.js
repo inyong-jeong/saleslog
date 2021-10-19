@@ -28,7 +28,8 @@ const CustomerLogPage = () => {
     'accts_man': '',
     'srch': '',
     'pageno': 1,
-    'need_cod': ''
+    'need_cod': '',
+    'dept_idx': '',
   })
 
   const grayTextStyles = {
