@@ -98,7 +98,7 @@ const AuthLayout = (props) => {
                   <Content style={{ margin: 10, minHeight: '100vh' }}>
                     {props.children}
                   </Content>
-                  <Sider width={282}>
+                  <Sider width={360}>
                     <RightMenu />
                   </Sider>
                 </Layout>

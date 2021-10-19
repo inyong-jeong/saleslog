@@ -73,10 +73,10 @@ export default function RightMenu() {
           color: '#111111',
           textOverflow: 'ellipsis',
           overflow: 'hidden',
-          width: 130
+          width: 200
         }}>{item.title}</p>
-        <p style={{ margin: 0, color: '#666666', fontSize: 12 }}>
-          작성일 : {item.cre_dt}
+        <p style={{ color: '#666666', fontSize: 12, marginLeft: 'auto' }}>
+          {item.cre_dt}
         </p>
       </div>
       <Divider style={{ margin: 0 }} />
@@ -106,14 +106,17 @@ export default function RightMenu() {
       borderColor: '#EAEAEA',
     }}>
       <div>
-        {/* defaultActiveKey={['1']} */}
-        <Collapse bordered={false} style={{ backgroundColor: '#fff' }} expandIconPosition='right'>
-          <Panel header="생일" key="1" style={customPanelStyle}>
+        <Collapse
+          defaultActiveKey={['1', '2', '3', '4']}
+          bordered={false}
+          style={{ backgroundColor: '#fff' }}
+          expandIconPosition='right'>
+          <Panel header="생일" key="1" style={customPanelStyle} >
             <div>
               <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 생일만 표시됩니다.</p>
               <div className='mt-1' />
               {state.postAnniveraryResponse &&
-                bday.map((item, index) => (
+                bday.map(item => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
                 ))
               }
@@ -124,28 +127,28 @@ export default function RightMenu() {
               <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 결혼 기념일만 표시됩니다.</p>
               <div className='mt-1' />
               {state.postAnniveraryResponse &&
-                mday.map((item, index) => (
+                mday.map(item => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
                 ))
               }
             </div>
           </Panel>
-          <Panel header="시스템 공지사항" key="3" style={customPanelStyle}>
+          <Panel header="워크그룹 공지사항" key="3" style={customPanelStyle}>
             <div>
               {noticeDesc}
-              {state.postSysResponse &&
-                sysNotice.map((item, index) => (
-                  <NoticeItem key={item.accm_idx} item={item} onClick={() => handleSysNotice(item)} />
+              {state.postWGResponse &&
+                wgNotice.map(item => (
+                  <NoticeItem key={item.b_idx} item={item} onClick={() => handleWgNotice(item)} />
                 ))
               }
             </div>
           </Panel>
-          <Panel header="워크그룹 공지사항" key="4" style={customPanelStyle}>
+          <Panel header="시스템 공지사항" key="4" style={customPanelStyle}>
             <div>
               {noticeDesc}
-              {state.postWGResponse &&
-                wgNotice.map((item, index) => (
-                  <NoticeItem key={item.b_idx} item={item} onClick={() => handleWgNotice(item)} />
+              {state.postSysResponse &&
+                sysNotice.map(item => (
+                  <NoticeItem key={item.accm_idx} item={item} onClick={() => handleSysNotice(item)} />
                 ))
               }
             </div>
