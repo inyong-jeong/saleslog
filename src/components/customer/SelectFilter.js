@@ -16,24 +16,17 @@ const SelectFilter = ({
   setPage,
 }) => {
 
-  const [selectedUser, setSelectedUser] = useState(inputs.users ? inputs.users : null)
-  const [selectedSortyType, setSelectedSortType] = useState(inputs.order ? inputs.order : null)
-  const [selectedGradeType, setSelectedGradeType] = useState(inputs.gradeType ? inputs.gradeType : null)
-
   const onChangeSortType = (value) => {
     setInputs({ ...inputs, order: value })
     setPage(1)
-    setSelectedSortType(value)
   }
   const onChangeGradeType = (value) => {
     setInputs({ ...inputs, score: value })
     setPage(1)
-    setSelectedGradeType(value)
   }
   const onChangeUsers = (value) => {
     setInputs({ ...inputs, users: value })
     setPage(1)
-    setSelectedUser(value)
   }
 
   const options = []
@@ -44,7 +37,7 @@ const SelectFilter = ({
   const userNames = []
   if (users) {
     users.map(user => {
-      userNames.push(<Option key={user.login_idx}>{user.user_name}</Option>)
+      userNames.push(<Option key={user.login_idx} value={user.user_name}>{user.user_name}</Option>)
     })
   }
 
@@ -55,7 +48,7 @@ const SelectFilter = ({
         showArrow
         showSearch={false}
         disabled={disabled}
-        value={selectedGradeType}
+        value={inputs.gradeType ? inputs.gradeType : null}
         style={eachSelectStyle}
         placeholder="등급/단계"
         onChange={onChangeGradeType}
@@ -66,15 +59,19 @@ const SelectFilter = ({
       <StyledSelect
         style={eachSelectStyle}
         showSearch
-        value={selectedUser}
+        value={inputs.users ? inputs.users : null}
         placeholder="담당 사원"
-        onChange={onChangeUsers} >
+        onChange={onChangeUsers}
+        filterOption={(input, option) =>
+          option.children.includes(input.trim())
+        }
+      >
         <Option key={''}>전체</Option>)
         {userNames}
       </StyledSelect>
 
       <StyledSelect
-        value={selectedSortyType}
+        value={inputs.order ? inputs.order : null}
         style={eachSelectStyle}
         placeholder="최근 등록순"
         onChange={onChangeSortType}>

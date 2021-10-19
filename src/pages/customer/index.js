@@ -14,6 +14,7 @@ import CustomUp from "../../components/styledcomponent/CustomUpButton";
 
 const { TabPane } = FullTabs;
 const { Search } = Input;
+
 const CustomerShow = () => {
 
   const history = useHistory()
@@ -32,7 +33,7 @@ const CustomerShow = () => {
     order: '',
     sales_gb: '',
     score: '',
-    users: '',
+    users: users,
     pageno: page,
   })
 
