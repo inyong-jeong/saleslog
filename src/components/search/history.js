@@ -1,12 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 import { convertTimeToFormat } from 'helpers/timeUtils'
+import { ReactComponent as SearchIcon } from 'assets/icons/log/search.svg'
+
 
 const HistoryContainer = styled.div`
 
-  padding: 18px;
-  height: 200px;
+  padding: 16px;
+  height: 150px;
+  width:100%;
   overflow: auto;
+  border-right: 1px solid grey;
+  border-left: 1px solid grey;
+  border-bottom: 1px solid grey;
+  botder-top: none;
+  z-index : 1;
+  position: absolute;
+  background-color: white;
 
 `
 const HeaderContainer = styled.div`
@@ -24,6 +34,7 @@ const RemoveText = styled.span`
 
 const ListContainer = styled.ul`
   margin: 10px 0;
+  
 `
 
 const KeywordContainer = styled.li`
@@ -72,6 +83,7 @@ function History({ keywords, onRemoveKeyword, onClearKeywords, historyKeyword })
           return (
             <KeywordContainer key={id} className='search_history'>
               {/* <span className='search_history'> */}
+              <SearchIcon /><span>&nbsp;</span>
               <Keyword onClick={() => setHistorySearch(text)}>{text}</Keyword>
               {/* </span> */}
               <RemoveButton

@@ -114,7 +114,8 @@ const SalesLogFilter = (props, { firsttime }) => {
     if (organlistResponse && (selId === props.id) && getUserInfo().permission !== '9') {
       setTreedata(getTreeData(props.organizationlist))
       setSelId();
-      props.setData({ ...props.data, 'dept_idx': '', 'pageno': 1 })
+      state2.StoredData ? props.setData({ ...props.data, 'dept_idx': state2.StoredData.data.dept_idx, 'pageno': 1 })
+        : props.setData({ ...props.data, 'dept_idx': '', 'pageno': 1 })
       organlistResponse = false;
     }
   }, [organlistResponse])

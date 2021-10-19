@@ -4,7 +4,7 @@ const { Search } = Input;
 
 
 
-function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEnter, clearKeyword, word }) {
+function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEnter, clearKeyword, word, Focus, focused }) {
 
   const [keyword, setKeyword] = useState('')
 
@@ -13,7 +13,7 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
   }, [])
 
   const handleKeyword = (e) => {
-
+    console.log(e)
     setKeyword(e.target.value)
     SearchChange(e.target.value)
   }
@@ -51,45 +51,43 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
     }
   }, [searchStr])
 
+  // useEffect(() => {
+  //   const searchbar = document.getElementById('searchbar');
+  //   searchbar.addEventListener('click', (e) => {
+  //     Focus(!focused)
+  //   })
+
+
+  // }, [])
 
   // const handleClearKeyword = () => {
   //   setKeyword('')
   // }
   // const hasKeyword = !!keyword
-
   // const ref = useRef();
   const handleOnClick = (e) => {
     console.log(e.type)
+    if (e.type === 'click') {
+      Focus(!focused)
+    }
   }
   return (
     <>
       <div>
-        {/* <Input
-          placeholder="검색어를 입력해주세요"
-          type='text'
-          active={hasKeyword}
-          value={keyword}
-          onChange={handleKeyword}
-          onKeyDown={handleEnter}
-        /> */}
+
         <Search
-          // ref={ref}
+          id='searchbar'
+          // allowClear
           onClick={handleOnClick}
           placeholder="검색어(고객명, 고객 담당자명, 장소명, 일지내용)"
           value={keyword}
           onChange={handleKeyword}
-          // enterButton={handleEnter}
           onSearch={handleEnter}
-          // searchKeyWord={keyword}
-          // setsearchKeyWord={setKeyword}
           style={{
             width: '100%',
-            marginBottom: 10,
             marginTop: 10,
           }} />
-        {/* {keyword && <RemoveIcon onClick={handleClearKeyword} />} */}
       </div>
-      {/* <SearchIcon onClick={handleEnter} style={{ cursor: 'pointer' }} /> */}
     </>
   )
 }

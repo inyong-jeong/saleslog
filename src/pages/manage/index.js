@@ -89,7 +89,7 @@ function SalesLogList(props) {
 
   useEffect(() => {
     if (!firsttime) {
-
+      console.log(2222222222222)
       props.getLogLists(data)
     }
   }, [data])
@@ -204,7 +204,12 @@ function SalesLogList(props) {
     setSearchStr(v)
   }
   //페이지 넘길때 데이터 저장
-
+  // useEffect(() => {
+  //   const searchbar = document.getElementById('searchbar');
+  //   searchbar.addEventListener('focus', (e) => {
+  //     setFocus(true);
+  //   })
+  // }, [])
 
   return (
     <>
@@ -213,19 +218,27 @@ function SalesLogList(props) {
       <div className='content_body'>
         {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
-        <SearchBar searchStr={searchStr}
-          word={state.StoredData && state.StoredData.data.srch}
-          onAddKeyword={handleAddKeyword}
-          SearchChange={onSearch}
-          SearchEnter={onEnter}
-          BlankEnter={onBlankEnter}
-          clearKeyword={clearKeyword} />
-        {focus && <History
-          historyKeyword={setKeyword}
-          keywords={keywords}
-          onClearKeywords={handleClearKeywords}
-          onRemoveKeyword={handleRemoveKeyword}
-        />}
+        <Row>
+          <Col sm={24} xs={24} md={24} lg={24}>
+            <SearchBar searchStr={searchStr}
+              word={state.StoredData && state.StoredData.data.srch}
+              onAddKeyword={handleAddKeyword}
+              SearchChange={onSearch}
+              SearchEnter={onEnter}
+              BlankEnter={onBlankEnter}
+              clearKeyword={clearKeyword}
+              Focus={setFocus}
+              focused={focus}
+            />
+            {focus && <History
+              historyKeyword={setKeyword}
+              keywords={keywords}
+              onClearKeywords={handleClearKeywords}
+              onRemoveKeyword={handleRemoveKeyword}
+            />}
+          </Col>
+        </Row>
+
 
         <Row>
           <Col sm={24} xs={24} md={24} lg={24} >
