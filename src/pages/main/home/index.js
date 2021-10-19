@@ -46,7 +46,7 @@ const DashBoardPage = () => {
   const [salesStat, setSalesStat] = useState();
   const [leadStat, setLeadStat] = useState();
   const [bday, setBday] = useState([])
-
+  const [firstTime, setFirstTime] = useState(true)
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
@@ -160,6 +160,7 @@ const DashBoardPage = () => {
     to_dt: moment().format('YYYY-MM-DD'),
     sales_man: '',
     sales_goal: '',
+    dept_idx:'',
   })
   //SALESLOG LEAD
   const [bodyLogRd, setBodyLogRd] = useState({
@@ -168,12 +169,14 @@ const DashBoardPage = () => {
     to_dt: moment().format('YYYY-MM-DD'),
     sales_man: '',
     sales_lead_gb: '',
+    dept_idx:'',
   })
 
   useEffect(() => {
     dispatch(getProfileInfo.call())
     dispatch(postAnniversary.call())
     setUserPermission(myInfo.permission)
+    setFirstTime(false)
   }, [])
 
   useEffect(() => {
@@ -183,18 +186,28 @@ const DashBoardPage = () => {
   }, [etcState.loading])
 
   useEffect(() => {
-    if (userPermission != 9) {
-      orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
-      return
+    // if (userPermission != 9) {
+    //   orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
+    //   return
+    // }
+
+    if (firstTime) {
+      return;
     }
+
     dispatch(getsaleslogstat.call(bodyLog))
   }, [bodyLog])
 
   useEffect(() => {
-    if (userPermission != 9) {
-      orgState.organizationDashRes && dispatch(getleadlogstat.call(bodyLogRd))
-      return
+    // if (userPermission != 9) {
+    //   orgState.organizationDashRes && dispatch(getleadlogstat.call(bodyLogRd))
+    //   return
+    // }
+
+    if (firstTime) {
+      return;
     }
+
     dispatch(getleadlogstat.call(bodyLogRd))
   }, [bodyLogRd])
 

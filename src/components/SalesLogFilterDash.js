@@ -20,13 +20,13 @@ const SalesLogFilterDash = (props) => {
   //부서별 사용자 조회
   const [data, setData] = useState({
     dept_idx: 0,
-    typ: 'tree'
+    typ: 'mine'
   })
 
   //마운트 될 때 
   useEffect(() => {
     //부서 정보 가져오기
-    props.getorganizationDash({ dept_idx: 0, typ: 'tree' })
+    props.getorganizationDash({ dept_idx: 0, typ: 'mine' })
 
   }, [])
 
@@ -40,7 +40,7 @@ const SalesLogFilterDash = (props) => {
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
 
       setFilteredOptions(optList);
-      props.setData({ ...props.data, sales_man: userlist })
+      //props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
       setSelIdUser()
     }
@@ -58,8 +58,11 @@ const SalesLogFilterDash = (props) => {
 
   // 멤버 선택
   useEffect(() => {
+    
     if (selectedOrganizationuser) {
-      props.setData({ ...props.data, 'sales_man': selectedOrganizationuser, 'pageno': 1 })
+      props.setData({ ...props.data, sales_man: selectedOrganizationuser, pageno: 1 })
+    } else {
+      props.setData({ ...props.data, sales_man: '', pageno: 1 })
     }
   }, [selectedOrganizationuser])
 
@@ -67,6 +70,29 @@ const SalesLogFilterDash = (props) => {
   useEffect(() => {
     props.getorganizationusersDash(data)
   }, [data])
+
+
+  //부서 선택
+  const onDepartmentChange = (departmentId, departmentLabel, extra) => {
+    if (departmentId) {
+      setSelId(extra.allCheckedNodes[0].node.props.id);
+      setSelIdUser(extra.allCheckedNodes[0].node.props.id);
+      //부서별 사용자
+      props.getorganizationusersDash({ dept_idx: departmentId, typ: 'tree' })
+      
+      props.setData({ ...props.data, dept_idx: departmentId, pageno: 1 })
+
+    } else {
+
+      setSelIdUser(props.id);
+      setSelId(props.id);
+      //부서별 사용자
+      props.getorganizationusersDash({ dept_idx: 0, typ: 'mine' })
+
+      props.setData({ ...props.data, dept_idx: '', pageno: 1 })
+    }
+  }
+
 
   const selectStyle = { width: '100%' }
 
@@ -77,6 +103,7 @@ const SalesLogFilterDash = (props) => {
       return null;
     }
 
+    console.log('getTreeData', array);
     var map = {};
     for (var i = 0; i < array.length; i++) {
       var obj = { "value": array[i]['dept_idx'], "title": array[i]['dept_name'], "id": props.id };
@@ -96,22 +123,6 @@ const SalesLogFilterDash = (props) => {
 
   }
 
-
-  //부서 선택
-  const onDepartmentChange = (departmentId, departmentLabel, extra) => {
-    if (departmentId) {
-      setSelId(extra.allCheckedNodes[0].node.props.id);
-      setSelIdUser(extra.allCheckedNodes[0].node.props.id);
-
-      props.getorganizationusersDash({ dept_idx: departmentId, typ: 'tree' })
-    } else {
-
-      setSelIdUser(props.id);
-      setSelId(props.id);
-      props.getorganizationusersDash({ dept_idx: 0, typ: 'tree' })
-    }
-  }
-
   function filterList(label) {
     let list = []
     for (let i = 0; i < props.organizationuserDashRes.length; i++) {
@@ -128,10 +139,10 @@ const SalesLogFilterDash = (props) => {
 
   //맴버 선택
   const onOrganizationUserSelectChange = (selectedMembers) => {
-
+    console.log('맴버 선택', selectedMembers)
     if (!selectedMembers.length > 0) {
       let array = props.organizationuserDashRes.map(v => v.login_idx);
-      setSelectedOrganizationUser(array)
+      setSelectedOrganizationUser('')
       setSelectedItems([])
 
     } else {
