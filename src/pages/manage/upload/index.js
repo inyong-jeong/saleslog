@@ -396,7 +396,7 @@ function UploadSalesLog(props) {
   }, [lists])
 
   const handleOnBack = () => {
-    props.history.push('/main/manage');
+    props.history.goBack()
   };
 
   // 일지 작성
@@ -715,7 +715,7 @@ function UploadSalesLog(props) {
         <div className="input-group">
           <TextArea className="form-control"
             placeholder='내용을 입력해주세요'
-            style={{ height: '391px', border: '1px solid #AAAAAA' }}
+            style={{ height: '391px', border: '1px solid #AAAAAA', whiteSpace: 'pre' }}
             value={fromData.log}
             onChange={onChangeContent}
           />
