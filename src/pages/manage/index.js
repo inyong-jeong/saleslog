@@ -66,6 +66,7 @@ function SalesLogList(props) {
     pageno: 1,
     srch: '',
     need_cod: '',
+    dept_idx: ''
     // extra: ''
   })
 
