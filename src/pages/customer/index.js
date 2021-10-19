@@ -22,6 +22,21 @@ const CustomerShow = () => {
   })
   const dispatch = useDispatch()
   const state = useSelector(state => state.Customer)
+  const [users, setUsers] = useState([])
+  const scoreType = [{ '전체': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
+  const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
+  const emptyType = []
+  const [page, setPage] = useState(1)
+  const [inputs, setInputs] = useState(state.customerStoredData ? state.customerStoredData.body : {
+    srch: '',
+    order: '',
+    sales_gb: '',
+    score: '',
+    users: '',
+    pageno: page,
+  })
+
+  const [tabkey, setTabKey] = useState('1')
 
   useEffect(() => {
     dispatch(getUsers.call({ srch: '' }))
@@ -33,23 +48,17 @@ const CustomerShow = () => {
   }, [])
 
   useEffect(() => {
+
+    if (state.customerStoredData) {
+      if (state.customerStoredData.body.sales_gb === '0010001') return setTabKey('2')
+      if (state.customerStoredData.body.sales_gb === '0010002') return setTabKey('3')
+      return setTabKey('1')
+    }
+  }, [state.customerStoredData])
+
+  useEffect(() => {
     setUsers(state.userLists)
   }, [state.userListsResponse])
-
-  const [users, setUsers] = useState([])
-  const scoreType = [{ '전체': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
-  const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
-  const emptyType = []
-
-  const [page, setPage] = useState(1)
-  const [inputs, setInputs] = useState({
-    srch: '',
-    order: '',
-    sales_gb: '',
-    score: '',
-    users: '',
-    pageno: page,
-  })
 
   const onTabChange = (key) => {
     switch (key) {
@@ -86,7 +95,7 @@ const CustomerShow = () => {
             marginTop: 10,
           }} />
 
-        <FullTabs defaultActiveKey="1" onChange={onTabChange} >
+        <FullTabs defaultActiveKey={tabkey} onChange={onTabChange} activeKey={tabkey} >
           <TabPane tab="전체" key="1" >
             <SelectFilter
               users={users}
