@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StyledSelect from '../styledcomponent/StyledSelect';
 
 const { Option } = StyledSelect
@@ -25,6 +25,8 @@ const SelectFilter = ({
     setPage(1)
   }
   const onChangeUsers = (value) => {
+
+    //console.log('change users', value)
     setInputs({ ...inputs, users: value })
     setPage(1)
   }
@@ -34,10 +36,11 @@ const SelectFilter = ({
     options.push(<Option key={Object.values(result)}> {Object.keys(result)}</Option>)
   }
 
-  const userNames = []
+  let userNames = []
+
   if (users) {
     users.map(user => {
-      userNames.push(<Option key={user.login_idx} value={user.user_name}>{user.user_name}</Option>)
+      userNames.push(<Option key={user.login_idx} value={user.login_idx}>{user.user_name}</Option>)
     })
   }
 
@@ -48,11 +51,10 @@ const SelectFilter = ({
         showArrow
         showSearch={false}
         disabled={disabled}
-        value={inputs.gradeType ? inputs.gradeType : null}
+        value={inputs.score ? inputs.score : null}
         style={eachSelectStyle}
         placeholder="등급/단계"
-        onChange={onChangeGradeType}
-      >
+        onChange={onChangeGradeType}>
         {options}
       </StyledSelect>
 
