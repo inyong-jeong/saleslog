@@ -120,6 +120,8 @@ const EditCustomerManager = () => {
     if (!accountMangerInputs.man_name || !accountMangerInputs.posi) {
       return errorMessage('담당자명과 직급 및 소속은 필수 항목입니다.')
     }
+    if (accountMangerInputs.etc.length || accountMangerInputs.family.length || accountMangerInputs.personality.length ||
+      accountMangerInputs.org_history.length > 100) return errorMessage('기타 정보는 100자 이내로 작성해야 합니다.')
 
     dispatch(postEditManager.call(accountMangerInputs))
 
@@ -286,7 +288,10 @@ const EditCustomerManager = () => {
           </div>
         </div>
         <div>
-          <Typography variant='h6' align='left' className={classes.title}>기타 정보 </Typography>
+
+          <Typography variant='h6' align='left' className={classes.title}>기타 정보
+            <span style={{ fontSize: 11, marginLeft: 2, color: '#6A6C6C' }}>(*100자 이내)</span>
+          </Typography>
           <div style={{ padding: 10 }}>
             <Collapse accordion ghost expandIconPosition='right'>
               <Panel header="인물 메모" key="1" >
