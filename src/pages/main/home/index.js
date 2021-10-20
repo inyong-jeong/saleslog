@@ -160,7 +160,7 @@ const DashBoardPage = () => {
     to_dt: moment().format('YYYY-MM-DD'),
     sales_man: '',
     sales_goal: '',
-    dept_idx:'',
+    dept_idx: '',
   })
   //SALESLOG LEAD
   const [bodyLogRd, setBodyLogRd] = useState({
@@ -169,7 +169,7 @@ const DashBoardPage = () => {
     to_dt: moment().format('YYYY-MM-DD'),
     sales_man: '',
     sales_lead_gb: '',
-    dept_idx:'',
+    dept_idx: '',
   })
 
   useEffect(() => {

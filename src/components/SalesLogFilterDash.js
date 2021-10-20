@@ -58,7 +58,7 @@ const SalesLogFilterDash = (props) => {
 
   // 멤버 선택
   useEffect(() => {
-    
+
     if (selectedOrganizationuser) {
       props.setData({ ...props.data, sales_man: selectedOrganizationuser, pageno: 1 })
     } else {
@@ -79,20 +79,16 @@ const SalesLogFilterDash = (props) => {
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
       //부서별 사용자
       props.getorganizationusersDash({ dept_idx: departmentId, typ: 'tree' })
-      
-      props.setData({ ...props.data, dept_idx: departmentId, pageno: 1 })
-
+      props.setData({ ...props.data, dept_idx: departmentId, pageno: 1, sales_man: '' })
+      setSelectedItems([])
     } else {
-
       setSelIdUser(props.id);
       setSelId(props.id);
       //부서별 사용자
       props.getorganizationusersDash({ dept_idx: 0, typ: 'mine' })
-
-      props.setData({ ...props.data, dept_idx: '', pageno: 1 })
+      props.setData({ ...props.data, dept_idx: '', pageno: 1, sales_man: '' })
     }
   }
-
 
   const selectStyle = { width: '100%' }
 
@@ -174,7 +170,7 @@ const SalesLogFilterDash = (props) => {
             treeData={treedata}
             placeholder={'부서 전체'}
             treeDefaultExpandAll
-            dropdownMatchSelectWidth = {false}
+            dropdownMatchSelectWidth={false}
             allowClear
             id={props.id}
             onChange={onDepartmentChange} />
@@ -183,6 +179,7 @@ const SalesLogFilterDash = (props) => {
           <Select placeholder='멤버 전체'
             mode='multiple'
             style={selectStyle}
+            value={selectedItems}
             onChange={onOrganizationUserSelectChange}
             id={props.id}
             maxTagCount={isMobile ? 1 : 2} >
