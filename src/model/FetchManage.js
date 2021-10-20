@@ -1,7 +1,8 @@
 import { getOauthAccessToken, getOauthRefreshToken, removeAll } from 'helpers/authUtils'
 import { useHistory } from 'react-router';
 import cmm from 'constants/common';
-
+import FileSaver from 'file-saver';
+import moment from 'moment';
 
 
 //토큰 만료 확인 (authUtil 에서 호출)
@@ -83,6 +84,7 @@ const get_fetch = async (url) => {
 const post_fetch = async (url, body) => {
   const token = getOauthAccessToken();
 
+  //console.log('post_fetch:::',url, body)
   let formBody = [];
   for (let property in body) {
     let encodedKey = encodeURIComponent(property)
@@ -99,8 +101,11 @@ const post_fetch = async (url, body) => {
     },
     body: formBody
   })
+
+  
   const result = await response.json()
   const data = await result
+  //console.log('result:::',url, result, data)
   if (data.status !== 200) {
     throw new Error(data.message)
   }
@@ -179,4 +184,44 @@ const post_fetch_files = async (url, data) => {
   return response
 }
 
-export { post_fetch, get_fetch, post_fetch_files, check_fetch, check_token_fetch, post_fetch_no_token }
+
+//post file download
+const post_fetch_download = async (url, body) => {
+  const token = getOauthAccessToken();
+
+  console.log('post_fetch:::',url, body)
+  let formBody = [];
+  for (let property in body) {
+    let encodedKey = encodeURIComponent(property)
+    let encodedValue = encodeURIComponent(body[property])
+    formBody.push(encodedKey + "=" + encodedValue)
+  }
+  formBody = formBody.join("&");
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${token}`
+    },
+    body: formBody
+  })
+
+  if (response.status !== 200) {
+    throw new Error(response.message)
+  }
+
+  const dt = moment().format('YYYYMMDD')
+  FileSaver.saveAs(await response.blob(), '세일즈로그_실적다운로드_'+dt+'.xlsx');
+  //const result = await response.blob();
+  
+  //console.log('result:::',url, result)
+  return true;
+  // if (data.status !== 200) {
+  //   throw new Error(data.message)
+  // }
+
+  // return data
+}
+
+export { post_fetch, get_fetch, post_fetch_files, check_fetch, check_token_fetch, post_fetch_no_token, post_fetch_download }

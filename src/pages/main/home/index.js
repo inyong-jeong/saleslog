@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Divider, Collapse } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import moment from 'moment';
-import { getsaleslogstat, getleadlogstat } from 'redux/dashboard/actions';
+import { getsaleslogstat, getleadlogstat, getlogsdownload } from 'redux/dashboard/actions';
 import { getProfileInfo } from 'redux/workgroup/actions';
 import DashButton from 'components/DashButton'
 import DashButton5 from 'components/DashButton5'
@@ -29,7 +29,7 @@ import styles from '../../../assets/style/Main.module.css'
 import { getUserInfo } from 'helpers/authUtils';
 import StyledButton from 'components/styledcomponent/Button'
 // json & excel
-import XLSX from 'xlsx';
+//import XLSX from 'xlsx';
 
 const SALESLOG_TYPE = 'SALESLOG_TYPE'
 const LEADLOG_TYPE = 'LEADLOG_TYPE'
@@ -385,8 +385,17 @@ const DashBoardPage = () => {
 
   const handleCsvDownload = () => {
     //XLSX
-    // https://github.com/SheetJS/sheetjs/tree/9866dfc010338394e4cfcd33a9fbc15dae017ee5/demos/react
+    console.log('excel download click')
+    dispatch(getlogsdownload.call({dt_typ:bodyLog.dt_typ, from_dt:bodyLog.from_dt, to_dt:bodyLog.to_dt, sales_man:bodyLog.sales_man, dept_idx:bodyLog.dept_idx}));
   }
+
+  useEffect(() => {
+    if (state.getlogsdownloadRes) {
+      console.log('excel::::',      state.getlogsdownloadRes);
+    }
+    
+  }, [state.getlogsdownloadRes])
+
 
   return (
     <>
