@@ -12,6 +12,7 @@ import { deleteCustomer } from '../../../redux/customer/actions';
 import { useSelector } from 'react-redux';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
+import { SET_LAST_TAB } from '../../../constants/actionTypes';
 
 
 const { confirm } = Modal
@@ -27,6 +28,7 @@ const CustomerDetail = () => {
   const [customerId, setCustomerId] = useState(null)
   const [managerId, setManagerId] = useState(null)
   const [managerPermission, setManagerPermission] = useState('N')
+  const [activeTabKey, setactiveTabKey] = useState(state.tabStoreData ? state.tabStoreData : '1')
 
   useEffect(() => {
     dispatch({
@@ -35,8 +37,8 @@ const CustomerDetail = () => {
     })
     setCustomerId(base64Dec(params.accId))
     params.managerId && setManagerId(base64Dec(params.managerId))
-
   }, [])
+
   useEffect(() => {
     if (state.deleteCustomerRepsonse) {
       history.goBack()
@@ -44,7 +46,17 @@ const CustomerDetail = () => {
 
   }, [state.deleteCustomerRepsonse])
 
-  const navigateTo = () => history.goBack()
+  useEffect(() => {
+    dispatch({
+      type: SET_LAST_TAB,
+      payload: activeTabKey
+    })
+  }, [activeTabKey])
+
+  const navigateTo = () => {
+    setactiveTabKey('1')
+    return history.goBack()
+  }
 
   const onEditClick = () => {
     history.push(`/main/customer/edit/${base64Enc(customerId)}/${base64Enc(managerId)}`)
@@ -58,20 +70,16 @@ const CustomerDetail = () => {
       okText: '확인',
       onOk() {
         dispatch(deleteCustomer.call({ acc_idx: customerId }))
-      },
-      onCancel() {
-        //취소
-      },
+      }
     })
-
-
   }
-
-
   const onPermission = (value) => {
     setManagerPermission(value)
   }
 
+  const onTabChange = (key) => {
+    setactiveTabKey(key)
+  }
   return (
     <div>
       <MyAppBar barTitle={'고객 프로필'}
@@ -84,7 +92,7 @@ const CustomerDetail = () => {
       />
 
       <div className='content_body'>
-        <FullTabs defaultActiveKey="1" >
+        <FullTabs activeKey={activeTabKey} onChange={onTabChange}>
           <TabPane tab="프로필" key="1" >
             <CustomerProfilePage customerId={customerId} managerId={managerId} onPermission={onPermission} />
           </TabPane>

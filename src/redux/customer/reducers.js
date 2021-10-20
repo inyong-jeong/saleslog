@@ -29,7 +29,8 @@ import {
   DEL_CUSTOMER_ERROR,
   DEL_CUSTOMER_MANAGER,
   DEL_CUSTOMER_MANAGER_ERROR,
-  DEL_CUSTOMER_MANAGER_SUCCESS
+  DEL_CUSTOMER_MANAGER_SUCCESS,
+  SET_LAST_TAB
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -51,6 +52,7 @@ const initialState = {
   deleteCustomerRepsonse: null,
   deleteCustomerManagerResponse: null,
   customerStoredData: null,
+  tabStoreData: null
 }
 
 const Customer = (state = initialState, action) => {
@@ -98,7 +100,7 @@ const Customer = (state = initialState, action) => {
       return { ...state, loading: false, postCustomerMangerResponse: false }
 
     case GET_CUSTOMER_DETAILS:
-      return { ...state, loading: true, }
+      return { ...state, loading: true }
     case GET_CUSTOMER_DETAILS_SUCCESS:
       return { ...state, loading: false, getCustomerDetailsResponse: true, customerDetails: action.payload.response.message[0] }
     case GET_CUSTOMER_DETAILS_ERROR:
@@ -146,6 +148,10 @@ const Customer = (state = initialState, action) => {
     case DEL_CUSTOMER_MANAGER_ERROR:
       return { ...state, loading: false, deleteCustomerManagerResponse: false }
 
+    case SET_LAST_TAB:
+      return {
+        ...state, tabStoreData: action.payload
+      }
     default:
       return { ...state };
   }

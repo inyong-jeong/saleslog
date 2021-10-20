@@ -17,7 +17,7 @@ const CustomerLogPage = () => {
   const params = useParams()
   const state = useSelector(state => state.SalesLog)
   const loglist = state.loglist
-
+  const [page, setPage] = useState(1)
   const [inputs, setInputs] = useState({
     'accts': base64Dec(params.accId),
     'log_gb': '',
@@ -27,7 +27,7 @@ const CustomerLogPage = () => {
     'sales_activity': '',
     'accts_man': '',
     'srch': '',
-    'pageno': 1,
+    'pageno': page,
     'need_cod': '',
     'dept_idx': '',
   })
@@ -61,7 +61,7 @@ const CustomerLogPage = () => {
       // 다른곳에서 이동하면 그전 기록이 GET_SALESLOG 에 남아있어서 잠깐 보임 여기서 cleanup...? 
       //ref 로 clear 해보기 
     }
-  }, [])
+  }, [inputs])
 
   const handleLogClick = (singleList) => {
     history.push(`/main/manage/saleslog/${singleList.slog_idx}`)
@@ -115,6 +115,7 @@ const CustomerLogPage = () => {
   )
 
   const handleNextPage = () => {
+    if (state.loadLogsDone) setPage(page + 1)
 
   }
 
@@ -126,7 +127,7 @@ const CustomerLogPage = () => {
       <div>
         {
           loglist && state.loglistcount != 0 ?
-            loglist.map((singleList, index) =>
+            loglist.map(singleList =>
               <CustomerLogItem singleList={singleList} key={singleList.slog_idx} />
             ) : <div style={{ fontSize: 14, fontWeight: 500, textAlign: 'center' }}>
               <p>해당 고객사로 등록된 일지가 없습니다.</p>

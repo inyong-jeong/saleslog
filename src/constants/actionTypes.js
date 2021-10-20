@@ -225,7 +225,8 @@ export const POST_EDIT_NAMECARD = 'POST_EDIT_NAMECARD'
 export const POST_EDIT_NAMECARD_SUCCESS = 'POST_EDIT_NAMECARD_SUCCESS'
 export const POST_EDIT_NAMECARD_ERROR = 'POST_EDIT_NAMECARD_ERROR'
 
-
+//고객사 프로필 일지 탭
+export const SET_LAST_TAB = 'SET_LAST_TAB'
 
 //workgroup
 //워크그룹 로고등록
