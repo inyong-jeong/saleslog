@@ -79,7 +79,7 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
           id='searchbar'
           // allowClear
           onClick={handleOnClick}
-          placeholder="검색어(고객명, 고객 담당자명, 장소명, 일지내용)"
+          placeholder="검색어(고객, 고객담당자, 제목, 내용)"
           value={keyword}
           onChange={handleKeyword}
           onSearch={handleEnter}

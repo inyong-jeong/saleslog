@@ -89,7 +89,6 @@ function SalesLogList(props) {
 
   useEffect(() => {
     if (!firsttime) {
-      console.log(2222222222222)
       props.getLogLists(data)
     }
   }, [data])

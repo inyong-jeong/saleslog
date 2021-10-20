@@ -10,9 +10,9 @@ const HistoryContainer = styled.div`
   height: 150px;
   width:100%;
   overflow: auto;
-  border-right: 1px solid grey;
-  border-left: 1px solid grey;
-  border-bottom: 1px solid grey;
+  border-right: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   botder-top: none;
   z-index : 1;
   position: absolute;
