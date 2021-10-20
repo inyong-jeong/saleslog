@@ -102,8 +102,6 @@ const CustomerRegisterInfo = () => {
       type: SET_NAVIBAR_SHOW,
       payload: false
     })
-    // setCustomerId(null)
-    // setEditMode(null)
 
   }, [])
 

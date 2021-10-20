@@ -19,13 +19,6 @@ import { base64Dec } from 'constants/commonFunc';
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
-  FormControl: {
-    minWidth: 120,
-  },
-  outer: {
-    background: '#ececec',
-    marginBottom: 70, //bottom navigation 뒤에 가려짐 
-  },
 
   title: {
     fontSize: 14,
@@ -265,10 +258,6 @@ const CustomerEditPage = () => {
           <FormControl variant="outlined"
             style={{ width: '95%', margin: 10 }}>
             <label className={classes.laebelStyle}>고객사 구분 <span style={{ color: 'red' }}>*</span></label>
-            {/* <Tooltip title={descb1}>
-              <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-            </Tooltip> */}
-
             <StyledSelect
               defaultValue={acc_details.sales_gb ? acc_details.sales_gb : null}
               showArrow
@@ -337,7 +326,7 @@ const CustomerEditPage = () => {
           :
           <div>
             <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
-            {/* <p className={classes.descriptionTag}>고객사 수정시 담당자는 1명만 보입니다. 자세한 담당자는 고객 프로필에서 확인하세요.</p> */}
+
             <div className={classes.innerBox}>
               <label className={classes.laebelStyle}>담당자 이름 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
               <Input

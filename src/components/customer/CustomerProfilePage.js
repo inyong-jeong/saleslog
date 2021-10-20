@@ -166,9 +166,7 @@ const CustomerProfilePage = ({ customerId, managerId, onPermission }) => {
               </p>
             </div>
           </div>
-        </> : <div>
-          {/* loading */}
-        </div>
+        </> : null
       }
     </div>
   )
