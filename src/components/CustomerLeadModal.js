@@ -19,6 +19,7 @@ const CustomerModal = (props) => {
   const handleOnClick = () => {
     setModal(!modal);
   }
+  const [radiocheck, setRadioCheck] = useState('0010001');
   const [combo, setComBo] = useState(1)
   const leadActivityOption =
     [{ label: '발굴', value: '발굴' },
@@ -41,7 +42,7 @@ const CustomerModal = (props) => {
     acc_etc: '',
     tags: '',
     acc_fax: '',
-    sales_gb: '0010001',
+    sales_gb: '0010002',
     acc_url: '',
     man_name: '',
     dept: '',
@@ -66,14 +67,20 @@ const CustomerModal = (props) => {
 
   const handleOnChange = () => {
     if (
-      (accountbody.account_name === '' || accountbody.man_name === '' || accountbody.ceo_name === '' || accountbody.dept === '')) {
+      (accountbody.account_name === '' || accountbody.ceo_name === '' || accountbody.score === '')) {
       return alert('필수항목 누락입니다.')
     }
-
     props.postCustomer(accountbody);
     setModal(!modal)
   }
 
+  const onChange = (e) => {
+    setRadioCheck(e.target.value);
+    setAccountBody({
+      ...accountbody,
+      'sales_gb': e.target.value
+    })
+  };
 
   const onLeadActivity = (option) => {
     console.log(option)
@@ -85,7 +92,9 @@ const CustomerModal = (props) => {
   }
 
 
-
+  useEffect(() => {
+    setComBo(radiocheck)
+  }, [radiocheck])
   return (
     <div>
       <button className='btn btn-dark ml-2' onClick={handleOnClick}>
@@ -111,7 +120,16 @@ const CustomerModal = (props) => {
             <Form.Item
               label={<span >고객구분<span style={{ color: 'red' }}>*</span></span>}
             >
-              <span><strong>거래고객</strong></span>
+              <span><strong>리드타깃</strong></span>
+            </Form.Item>
+            <Form.Item
+              label={<span >리드단계<span style={{ color: 'red' }}>*</span></span>}
+            >
+              <Select
+                options={leadActivityOption}
+                value={leadActivityOption.value}
+                onChange={onLeadActivity}
+              />
             </Form.Item>
             <Form.Item
               label={<span >고객<span style={{ color: 'red' }}>*</span></span>}
@@ -132,7 +150,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label={<span >고객담당자<span style={{ color: 'red' }}>*</span></span>}
+              label={<span >고객담당자</span>}
             >
               <Input
                 name='man_name'
@@ -141,7 +159,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label={<span >담당자부서<span style={{ color: 'red' }}>*</span></span>}
+              label={<span >담당자부서</span>}
             >
               <Input
                 name='dept'

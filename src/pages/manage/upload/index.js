@@ -13,10 +13,13 @@ import StyledSelect from 'components/styledcomponent/StyledSelect';
 import { base64Dec } from "constants/commonFunc";
 
 import Divider from 'components/Divider'
-import { TimePicker, Radio, DatePicker, Input, Tooltip } from 'antd';
+import { TimePicker, Radio, DatePicker, Tooltip } from 'antd';
+import Input from 'components/styledcomponent/Input'
+
 import CouserModal from 'components/CouserModal'
 import UcouserList from 'components/UcouserList';
 import LogListModal from 'components/LogListModal'
+import CustomerLeadModal from 'components/CustomerLeadModal'
 import CustomerModal from 'components/CustomerModal'
 import moment from 'moment';
 import { ReactComponent as Info } from 'assets/icons/info.svg'
@@ -24,6 +27,7 @@ import 'moment/locale/ko';
 import { useIdleTimer } from 'react-idle-timer'
 
 
+const { Option } = StyledSelect;
 const selectStyle = {
   control: (defaultStyle) => ({ ...defaultStyle, border: '1px solid #AAAAAA' }),
   indicatorSeparator: () => { }
@@ -56,6 +60,8 @@ function UploadSalesLog(props) {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state.SalesLog)
+  const state2 = useSelector(state => state.Customer)
+
   let putresponse = state.putlog;
   let postresponse = state.postlog;
   // let deletetempresponse = state.deletetempresponse;
@@ -67,7 +73,7 @@ function UploadSalesLog(props) {
   const [accountsList, setAccountsList] = useState([]);
   const [accountspersonList, setAccountsPersonList] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
-  const [selectedAccountperson, setSelectedAccountPerson] = useState(null);
+  const [selectedAccountperson, setSelectedAccountPerson] = useState([]);
   const [radiocheck, setRadioCheck] = useState('0010001');
   const [activity, setActivity] = useState(null);
   const [leadactivity, setLeadActivity] = useState(null);
@@ -95,6 +101,17 @@ function UploadSalesLog(props) {
     return result;
   }
 
+  // 고객 이름 넣으면 고객 idx 리턴하는 함수.
+  function FilterAccount(label) {
+    let list = [];
+    for (let i = 0; i < accountsList.length; i++) {
+      if (label === accountsList[i].account_name) {
+        list = list.concat(accountsList[i].acc_idx);
+      }
+    }
+    return list;
+  }
+
   //리드 4단계 자동으로 고정시키는 함수
   function getScoreIndex(key) {
     let result = undefined;
@@ -104,6 +121,17 @@ function UploadSalesLog(props) {
       }
     }
     return result
+  }
+
+  //리드 단계에서 score 넣으면 idx 리턴하는 함수
+  function getScoreIdx(label) {
+    let result = undefined;
+    for (let i = 0; i < leadActivityOption.length; i++) {
+      if (leadActivityOption[i].label === label) {
+        result = leadActivityOption[i].value;
+      }
+    }
+    return result;
   }
 
   const handleOnIdle = event => {
@@ -122,6 +150,27 @@ function UploadSalesLog(props) {
     timeout: 20000,
     onIdle: handleOnIdle,
   })
+
+  // 고객사 간편등록 하면 바로 고객검색 란에 fix
+  useEffect(() => {
+    if (state2.postCustomerResponse) {
+      console.log(FilterAccount(state2.accountBody.body.account_name))
+      setSelectedAccount(FilterAccount(state2.accountBody.body.account_name));
+      setFromData({ ...fromData, acc_idx: FilterAccount(state2.accountBody.body.account_name)[0] })
+      setLeadActivity(getScoreIdx(state2.accountBody.body.score))
+      // setSelectedAccountPerson(props.accountpersonlist[0].accm_idx);
+      state2.postCustomerResponse = false;
+    }
+  }, [accountsList])
+
+  // 고객사 간편등록 하면 바로 고객담당자 란에 fix
+  useEffect(() => {
+    if (props.accountpersonlist.length === 1 && selectedAccount !== null) {
+      setSelectedAccountPerson(props.accountpersonlist[0].accm_idx);
+      setFromData({ ...fromData, accm_idx: props.accountpersonlist[0].accm_idx })
+
+    }
+  }, [props.accountpersonlist])
 
   useEffect(() => {
     //고객사 fetch
@@ -249,8 +298,8 @@ function UploadSalesLog(props) {
     }
 
   }, [props.postCustomerResponse])
+  console.log(fromData)
 
-  console.log(fromData);
 
   // 고객 담당자 불러오기
   useEffect(() => {
@@ -564,8 +613,8 @@ function UploadSalesLog(props) {
         <div className="row">
           <div className="col-12" style={{ display: 'flex', alignItems: 'center' }}>
             <label style={labelStyle}> 고객 <span style={{ color: 'red' }}>*</span></label>
-
-            <CustomerModal buttonLabel='고객 간편 등록' />
+            {radiocheck === '0010001' && <CustomerModal buttonLabel='고객 간편 등록' />}
+            {radiocheck === '0010002' && <CustomerLeadModal buttonLabel='고객 간편 등록' />}
           </div>
         </div>
         <div className="mt-2"></div>
@@ -573,17 +622,32 @@ function UploadSalesLog(props) {
           <div className="col-12">
             <StyledSelect
               placeholder="고객 검색"
+              showSearch
+              // mode='multiple'
               value={selectedAccount}
-              options={accountsList && accountsList.map((v, index) => { return { value: v.acc_idx, label: v.account_name, number: index } })}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              // options={accountsList && accountsList.map((v, index) => { return { value: v.acc_idx, label: v.account_name, number: index } })}
               onChange={onAccountSelectChange}
-              styles={selectStyle} />
+              styles={selectStyle} >
+              {accountsList.length > 0 && accountsList.map((item, index) => (
+                <StyledSelect.Option key={index} value={item.acc_idx}>
+                  {item.account_name}
+                </StyledSelect.Option>
+              ))
+              }
+            </StyledSelect>
+
           </div>
         </div>
         <div className="mt-3"></div>
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            <label style={labelStyle}> 담당자 정보 </label>
+            {radiocheck === '0010001' && <label style={labelStyle}> 담당자 정보 <span style={{ color: 'red' }}>*</span></label>}
+            {radiocheck === '0010002' && <label style={labelStyle}> 담당자 정보 </label>}
+
           </div>
         </div>
         <div className="mt-2"></div>
@@ -682,7 +746,7 @@ function UploadSalesLog(props) {
             placeholder="상세주소 입력"
             value={fromData.addr}
             onChange={onChangeLocation}
-            style={InputStyle} />
+          />
         </div>
         <div className="mt-2"></div>
         <Divider />
@@ -698,7 +762,6 @@ function UploadSalesLog(props) {
           <Input type="text"
             className="form-control"
             placeholder="제목을 입력하세요"
-            style={InputStyle}
             value={fromData.title}
             onChange={onChangeTitle} />
         </div>
@@ -715,7 +778,7 @@ function UploadSalesLog(props) {
         <div className="input-group">
           <TextArea className="form-control"
             placeholder='내용을 입력해주세요'
-            style={{ height: '391px', border: '1px solid #AAAAAA', whiteSpace: 'pre' }}
+            style={{ height: '391px', whiteSpace: 'pre' }}
             value={fromData.log}
             onChange={onChangeContent}
           />

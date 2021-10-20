@@ -52,13 +52,14 @@ const initialState = {
   deleteCustomerRepsonse: null,
   deleteCustomerManagerResponse: null,
   customerStoredData: null,
-  tabStoreData: null
+  tabStoreData: null,
+  accountBody: null
 }
 
 const Customer = (state = initialState, action) => {
   switch (String(action.type)) {
     case POST_CUSTOMER:
-      return { ...state, loading: true, postCustomerResponse: false }
+      return { ...state, loading: true, postCustomerResponse: false, accountBody: action.payload }
     case POST_CUSTOMER_SUCCESS:
       return { ...state, loading: false, postCustomerResponse: true }
     case POST_CUSTOMER_ERROR:

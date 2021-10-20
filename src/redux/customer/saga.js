@@ -151,11 +151,15 @@ function* _postCustomer({ payload: { body } }) {
     const response = yield call(post_fetch, BASE_URL + ACC_REGISTER, body)
     yield hideMessage()
     yield put(postCustomer.success(response))
-    yield successMessage('고객사가 등록되었습니다.')
+    yield successMessage('고객이 등록되었습니다.')
 
 
   } catch (error) {
     yield put(postCustomer.error(error))
+    yield errorMessage('같은 이름,대표자명으로 등록된 고객사가 있습니다.')
+    console.log(error);
+
+
   }
 }
 

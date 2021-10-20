@@ -112,6 +112,7 @@ const INIT_STATE = {
   deletecouser: false,
   //임시저장 삭제 response
   deletetempresponse: false,
+  salesgb: '0010001'
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
