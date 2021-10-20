@@ -25,7 +25,7 @@ const CustomerShow = () => {
   const state = useSelector(state => state.Customer)
   const [users, setUsers] = useState([])
   const scoreType = [{ '전체': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
-  const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
+  const stageType = [{ '전체': '' }, { '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
   const emptyType = []
   const [page, setPage] = useState(1)
   const [inputs, setInputs] = useState(state.customerStoredData ? state.customerStoredData.body : {
@@ -65,15 +65,15 @@ const CustomerShow = () => {
   const onTabChange = (key) => {
     switch (key) {
       case '2':
-        setInputs({ ...inputs, sales_gb: '0010001' })
+        setInputs({ ...inputs, sales_gb: '0010001', score: '' })
         setPage(1)
         break
       case '3':
-        setInputs({ ...inputs, sales_gb: '0010002' })
+        setInputs({ ...inputs, sales_gb: '0010002', score: '' })
         setPage(1)
         break
       default:
-        setInputs({ ...inputs, sales_gb: '' })
+        setInputs({ ...inputs, sales_gb: '', score: '' })
         setPage(1)
     }
   }
@@ -105,7 +105,10 @@ const CustomerShow = () => {
             marginTop: 10,
           }} />
 
-        <FullTabs defaultActiveKey={tabkey} onChange={onTabChange} activeKey={tabkey} >
+        <FullTabs
+          defaultActiveKey={tabkey}
+          onChange={onTabChange}
+          activeKey={tabkey} >
           <TabPane tab="전체" key="1" >
             <SelectFilter
               users={users}
