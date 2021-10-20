@@ -110,6 +110,7 @@ const CustomerProfilePage = ({ customerId, managerId, onPermission }) => {
 
               <label className={classes.laebelStyle}>URL</label>
               <p className={classes.showDetails}>{acc_details.acc_url}</p>
+              <h1 style={lineStyle} />
             </div>
           </div>
 

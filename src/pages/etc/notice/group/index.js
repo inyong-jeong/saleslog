@@ -3,26 +3,22 @@ import CustomFab from "components/styledcomponent/CustomFab";
 import styles from 'components/customer/styles/Customer.module.css'
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import { Input } from "antd";
-import FullTabs from "components/styledcomponent/FullTabs";
 import { useHistory } from "react-router-dom";
 import NoticeItems from "components/etc/notice/NoticeItems";
 import { getNoticeGrpList } from "redux/etc/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-import { useLocation } from "react-router";
 import { getUserInfo } from 'helpers/authUtils';
-const { Search } = Input;
 
+const { Search } = Input;
 const GroupNoticePage = () => {
+
   const myInfo = getUserInfo();
   const history = useHistory()
-  const location = useLocation()
   const navigateTo = () => history.push({ pathname: '/main/etc/notice/group/register' })
   const dispatch = useDispatch()
   const state = useSelector(state => state.Etc)
-  //const listCounts = state.listCounts
   const loading = state.loading
-  //let responseLists = state.list
   const [noticeList, setNoticeList] = useState([])
   const [page, setPage] = useState(1)
   const [inputs, setInputs] = useState({
@@ -36,10 +32,7 @@ const GroupNoticePage = () => {
       type: SET_NAVIBAR_SHOW,
       payload: true
     })
-
-    //공지리스트 
     dispatch(getNoticeGrpList.call(inputs))
-
   }, [])
 
   useEffect(() => {
@@ -53,9 +46,8 @@ const GroupNoticePage = () => {
     dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
   }, [page])
 
-  //paging 
+
   useEffect(() => {
-    console.log('state.getNotice:::::::::::::::::::::::', state.getNoticeGrpListRes)
     if (state.getNoticeGrpListRes && loading == false) {
       if (page == 1) {
         return setNoticeList(state.getNoticeGrpListRes)
@@ -66,7 +58,6 @@ const GroupNoticePage = () => {
 
 
   const setData = () => {
-    //공지리스트 
     dispatch(getNoticeGrpList.call(inputs))
   }
 

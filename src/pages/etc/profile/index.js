@@ -146,7 +146,6 @@ const myProfilePage = (props) => {
               padding: 0,
               width: ((isMobile) ? 90 : 120),
               height: ((isMobile) ? 90 : 120),
-              marginLeft: 10
             }}
             height={((isMobile) ? 90 : 120)}
             handleChange={handleChangeFile}

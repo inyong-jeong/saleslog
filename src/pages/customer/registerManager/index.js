@@ -167,7 +167,7 @@ const RegisterManager = () => {
             }}
             handleChange={handleFileChange} />
         </div>
-        {hideText ? <p></p> : <p style={{ textAlign: 'center', marginRight: 36 }}>명함을 등록해주세요.</p>}
+        {hideText ? <p></p> : <p style={{ textAlign: 'center' }}>명함을 등록해주세요.</p>}
         <div>
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
