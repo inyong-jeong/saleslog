@@ -10,6 +10,7 @@ import StyledButton from 'components/styledcomponent/Button';
 import RoundInputField from "components/RoundInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import { useParams } from "react-router";
+import { removeAll } from 'helpers/authUtils';
 
 const SignUpInvite = () => {
 
@@ -45,7 +46,11 @@ const SignUpInvite = () => {
   }, []);
 
   useEffect(() => {
-    if (state.postCheckisRegisteredResponse || state.postInviteRegisteredResponse) return history.push('/signin')
+    if (state.postCheckisRegisteredResponse || state.postInviteRegisteredResponse) {
+      removeAll();
+      return history.push('/signin');
+    }
+
     return setUserEmail(decodeURIComponent(params.inviteEmail))
   }, [state.loading])
 
