@@ -58,7 +58,7 @@ const grpNoticeRegi = () => {
 
   const handleChange = (e) => {
 
-    if (e.target.value.length > 50) {
+    if (e.target.name == 'title' && e.target.value.length > 50) {
       return errorMessage('제목은 50자를 넘을 수 없습니다.')
     }
     setInputs({
