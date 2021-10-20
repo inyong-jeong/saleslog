@@ -27,7 +27,7 @@ import {
   deleteCustomer,
   deleteCustomerManager
 } from './actions'
-import { successMessage, loadingMessage, hideMessage } from '../../constants/commonFunc'
+import { successMessage, loadingMessage, hideMessage, errorMessage } from '../../constants/commonFunc'
 
 //customer api 
 const BASE_URL = 'https://backend.saleslog.co/saleslog/'
@@ -89,6 +89,7 @@ function* _postEditManager({ payload: { body } }) {
 
   } catch (error) {
     yield put(getManagerInfo.error(error))
+    yield successMessage('담당자 수정에 실패했습니다.')
     console.log('담당자 수정 오류 saga :::::::', error)
   }
 }
