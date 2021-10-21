@@ -14,6 +14,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { stat } from 'fs-extra';
 import { useScrollToTop } from '../../../../constants/commonFunc';
+import { ReactComponent as IdCard } from 'assets/icons/customer/idcard.svg'
 
 const { confirm } = Modal
 const { Panel } = Collapse
@@ -105,7 +106,10 @@ const ManagerProfilePage = () => {
                       width: 300,
                       height: 200,
                     }} /> :
-                  <p style={{ color: '#666', fontSize: 12, margin: 0, padding: 0 }}>등록된 명함이 없습니다.</p>}
+                  <div >
+                    <IdCard />
+                  </div>
+                }
               </div>
               <Typography variant='h6' align='left' className={classes.title}>기본 정보</Typography>
               <div className={classes.innerBox}>

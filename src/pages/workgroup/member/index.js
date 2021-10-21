@@ -1,4 +1,3 @@
-
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import List from '@material-ui/core/List';
@@ -14,7 +13,7 @@ import cmm from 'constants/common';
 import { base64Enc } from 'constants/commonFunc';
 import { ReactComponent as MoreIcon } from '../../../assets/icons/workgroup/threeDots.svg'
 import { getUserInfo } from 'helpers/authUtils';
-
+import memberPng from 'assets/icons/workgroup/member.png'
 const { Search } = Input;
 const WgroupMemberPage = () => {
 
@@ -145,8 +144,9 @@ const WgroupMemberPage = () => {
                       style={{ display: 'flex', width: '100%' }} >
                       <div style={{ width: 50, maxWidth: 50, textAlign: 'center' }}>
                         <Avatar
-                          src={(cmm.isEmpty(item.thumb_url)) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + item.thumb_url}
-                          size={40} />
+                          src={(cmm.isEmpty(item.thumb_url)) ? memberPng : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + item.thumb_url}
+                          size={40}
+                        />
                       </div>
                       <div style={{ width: '90%', paddingLeft: 10 }}>
                         <div style={{ fontSize: 14, fontWeight: 500, height: 21, color: '#111111' }}>{user_name}</div>

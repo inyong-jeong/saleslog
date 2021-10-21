@@ -10,7 +10,7 @@ import { Divider, Avatar, Select, TreeSelect } from 'antd';
 import { getGroupMemberDetail, getDeptInfo, postGroupMemberUpd } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { base64Dec } from 'constants/commonFunc';
-
+import memberPng from 'assets/icons/workgroup/member.png'
 const { Option } = Select;
 const WgroupMemberPage = () => {
   const labelTextStyle = {
@@ -144,7 +144,7 @@ const WgroupMemberPage = () => {
       <div className='content_body'>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <Avatar
-            src={(cmm.isEmpty(memberData[0].thumb_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + memberData[0].thumb_url)}
+            src={(cmm.isEmpty(memberData[0].thumb_url) ? memberPng : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + memberData[0].thumb_url)}
             shape='square' size={(isMobile) ? 90 : 120} />
 
           <div style={{ flexGrow: 2, marginLeft: 10, }}>
