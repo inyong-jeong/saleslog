@@ -56,23 +56,12 @@ const CustomerShow = () => {
 
   useEffect(() => {
     dispatch(getAllCustomer.call(inputs, 1))
-    // isMobile && window.scrollTo({
-    //   top: 100,
-    //   left: 100,
-    //   behavior: 'smooth'
-    // });
   }, [])
 
   useEffect(() => {
-    if (page == 1 && loading == false) {
-      dispatch(getAllCustomer.call(inputs, page))
-    }
-  }, [inputs])
-
-  useEffect(() => {
-    if (loading == true) return
+    if (loading) return
     dispatch(getAllCustomer.call(inputs, page))
-  }, [page])
+  }, [inputs, page])
 
 
   useEffect(() => {
@@ -143,6 +132,7 @@ const CustomerShow = () => {
               users={users}
               disabled={true}
               setInputs={setInputs}
+              setPage={setPage}
               inputs={inputs}
               gradeType={emptyType}
             />
@@ -150,7 +140,6 @@ const CustomerShow = () => {
               page={page}
               setPage={setPage}
               setInputs={setInputs}
-              inputs={inputs}
             />
           </TabPane>
 
@@ -159,18 +148,19 @@ const CustomerShow = () => {
               users={users}
               setInputs={setInputs}
               gradeType={scoreType}
+              setPage={setPage}
               inputs={inputs}
             />
             <CustomerItems
               page={page}
               setPage={setPage}
-              setInputs={setInputs}
-              inputs={inputs} />
+              setInputs={setInputs} />
           </TabPane>
 
           <TabPane tab="리드고객" key="3">
             <SelectFilter
               users={users}
+              setPage={setPage}
               setInputs={setInputs}
               gradeType={stageType}
               inputs={inputs}
@@ -178,8 +168,7 @@ const CustomerShow = () => {
             <CustomerItems
               page={page}
               setPage={setPage}
-              setInputs={setInputs}
-              inputs={inputs} />
+              setInputs={setInputs} />
           </TabPane>
         </FullTabs>
 
