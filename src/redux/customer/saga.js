@@ -63,7 +63,7 @@ function* _deleteCustomer({ payload: { body } }) {
     const response = yield call(post_fetch, BASE_URL + ACC_DEL, body)
     yield hideMessage()
     yield put(deleteCustomer.success(response))
-    yield successMessage('해당 고객사가 삭제되었습니다.')
+    yield successMessage('해당 고객이 삭제되었습니다.')
   }
   catch (error) {
     yield put(deleteCustomer.error(error))
@@ -108,13 +108,13 @@ function* _getManagerInfo({ payload: { body } }) {
 function* _postEditCustomer({ payload: { body } }) {
   try {
     const response = yield call(post_fetch, BASE_URL + ACC_EDIT, body)
-    yield successMessage('고객사 수정이 완료되었습니다.')
+    yield successMessage('고객 수정이 완료되었습니다.')
     yield put(postEditCustomer.success(response))
 
 
   } catch (error) {
     yield put(postEditCustomer.error(error))
-    yield successMessage('고객사 수정에 실패했습니다.')
+    yield successMessage('고객 수정에 실패했습니다.')
     console.log('post edit error ::::', error)
   }
 }
@@ -156,7 +156,7 @@ function* _postCustomer({ payload: { body } }) {
 
   } catch (error) {
     yield put(postCustomer.error(error))
-    yield errorMessage('같은 이름,대표자명으로 등록된 고객사가 있습니다.')
+    yield errorMessage('같은 이름,대표자명으로 등록된 고객이 있습니다.')
     console.log(error);
 
 

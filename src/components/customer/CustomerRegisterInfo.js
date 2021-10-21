@@ -20,13 +20,6 @@ import { customerType, gradeTypeTooltip, stageTypeTooltip, managerTooltip, tagTo
 
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
-  FormControl: {
-    minWidth: 120,
-  },
-  outer: {
-    background: '#ececec',
-    marginBottom: 70, //bottom navigation 뒤에 가려짐 
-  },
 
   title: {
     fontSize: 14,
@@ -121,9 +114,8 @@ const CustomerRegisterInfo = () => {
       }
     }
 
-    //사업자 번호 10자리
     if (inputs.reg_num.length > 0) {
-      if (inputs.reg_num.includes("-") || typeof inputs.reg_num != 'number' || inputs.reg_num.length != 10) {
+      if (inputs.reg_num.length != 10 || inputs.reg_num.includes("-")) {
         return errorMessage('사업자 번호는 10자리로 숫자만을 입력해야합니다. *(-)제외')
       }
 
@@ -183,15 +175,6 @@ const CustomerRegisterInfo = () => {
   const settings = {
     'maxTags': 5,
   }
-  const z = (
-    <>
-      <div> hi</div>
-      <div> hi</div>
-      <div> hi</div>
-    </>
-
-  )
-
 
   return (
     <>
@@ -394,11 +377,9 @@ const CustomerRegisterInfo = () => {
               settings={settings}
               placeholder='태그를 입력해주세요'
               onChange={handleChange} />
-            {/* <p className={classes.descriptionTag}>태그당 입력가능 한 글자 수는 10자입니다.</p> */}
             <p className={classes.descriptionTag}>태그는 최대 5개까지 입력할 수 있습니다.</p>
           </div>
         </div>
-        {/* <BlueButton name='등록하기' type="submit" /> */}
         <div style={{ height: '60px' }}></div>
       </div>
 
