@@ -11,6 +11,7 @@ import { getUsers } from "../../redux/customer/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import CustomUp from "../../components/styledcomponent/CustomUpButton";
+import { getAllCustomer } from '../../redux/customer/actions';
 
 const { TabPane } = FullTabs;
 const { Search } = Input;
@@ -48,6 +49,31 @@ const CustomerShow = () => {
     })
 
   }, [])
+
+  //디스패치 말아서 
+
+  const loading = state.loading
+
+  useEffect(() => {
+    dispatch(getAllCustomer.call(inputs, 1))
+    // isMobile && window.scrollTo({
+    //   top: 100,
+    //   left: 100,
+    //   behavior: 'smooth'
+    // });
+  }, [])
+
+  useEffect(() => {
+    if (page == 1 && loading == false) {
+      dispatch(getAllCustomer.call(inputs, page))
+    }
+  }, [inputs])
+
+  useEffect(() => {
+    if (loading == true) return
+    dispatch(getAllCustomer.call(inputs, page))
+  }, [page])
+
 
   useEffect(() => {
 

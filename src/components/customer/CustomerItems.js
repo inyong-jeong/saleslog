@@ -50,26 +50,7 @@ const CustomerItems = ({ inputs, page, setPage }) => {
   const history = useHistory()
   let restCount
 
-  useEffect(() => {
-    dispatch(getAllCustomer.call(inputs, 1))
 
-    // isMobile && window.scrollTo({
-    //   top: 100,
-    //   left: 100,
-    //   behavior: 'smooth'
-    // });
-  }, [])
-
-  useEffect(() => {
-    if (page == 1 && loading == false) {
-      dispatch(getAllCustomer.call(inputs, page))
-    }
-  }, [inputs])
-
-  useEffect(() => {
-    if (loading == true) return
-    dispatch(getAllCustomer.call(inputs, page))
-  }, [page])
 
   useEffect(() => {
     if (responseLists && loading == false) {
