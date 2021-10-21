@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tabs, Row, Col, Divider } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_NAVIBAR_SHOW, STORE_DATA } from 'constants/actionTypes';
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
@@ -17,18 +17,15 @@ import {
 } from 'redux/actions';
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import CustomFab from '../../components/styledcomponent/CustomFab';
-import { useHistory, useLocation } from 'react-router-dom';
-import { getUserInfo, getpersist } from 'helpers/authUtils';
+import { useHistory } from 'react-router-dom';
+import { getUserInfo } from 'helpers/authUtils';
 
 
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
   const state = useSelector(state => state.SalesLog)
-  const Ostate = useSelector(state => state.Organization)
 
-  // let StoredData = state.StoredData;
-  // let StoredData = state.StoredData;
 
   const dispatch = useDispatch()
 
@@ -41,7 +38,6 @@ function SalesLogList(props) {
   }, [])
 
   const history = useHistory();
-  const location = useLocation();
 
   console.log(history);
   console.log(props);
@@ -53,7 +49,6 @@ function SalesLogList(props) {
   const [loglists, setLogLists] = useState([]);
   const [tabkey, setTabKey] = useState('0010001');
   const [firsttime, setFirsttime] = useState(true);
-  const [Secondtime, setSecondtime] = useState(false);
 
   const [data, setData] = useState(state.StoredData ? state.StoredData.data : {
     log_gb: tabkey,
@@ -67,7 +62,6 @@ function SalesLogList(props) {
     srch: '',
     need_cod: '',
     dept_idx: ''
-    // extra: ''
   }
   )
 
@@ -192,7 +186,7 @@ function SalesLogList(props) {
       setData({ ...data, srch: '', pageno: 1 })
     }
   }
-
+  console.log(word);
   const clearKeyword = () => {
     console.log('clear Keyword:::::::::::::')
     setSearchStr('')
@@ -202,13 +196,6 @@ function SalesLogList(props) {
     console.log('click:::::::::::::', v)
     setSearchStr(v)
   }
-  //페이지 넘길때 데이터 저장
-  // useEffect(() => {
-  //   const searchbar = document.getElementById('searchbar');
-  //   searchbar.addEventListener('focus', (e) => {
-  //     setFocus(true);
-  //   })
-  // }, [])
 
   return (
     <>
@@ -230,6 +217,8 @@ function SalesLogList(props) {
               focused={focus}
             />
             {focus && <History
+              changefunction={onSearch}
+              keyword={word}
               historyKeyword={setKeyword}
               keywords={keywords}
               onClearKeywords={handleClearKeywords}
@@ -250,7 +239,7 @@ function SalesLogList(props) {
                 </div>
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
 
-                {loglists.length > 0 && loglists.map((v) => (
+                {loglists.length > 0 ? loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     data={data}
                     loglist={v}
@@ -258,6 +247,10 @@ function SalesLogList(props) {
                     handleNextPage={handleNextPage}
                     loglists={loglists} />
                 ))
+                  :
+                  <>
+                    <p>작성된 일지가 없습니다. </p>
+                  </>
                 }
               </TabPane>
               <TabPane tab="리드일지" key="0010002">
@@ -266,7 +259,7 @@ function SalesLogList(props) {
                   <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
-                {loglists.length && loglists.map((v) => (
+                {loglists.length > 0 ? loglists.map((v) => (
                   <LogList key={v.slog_idx}
                     data={data}
                     loglist={v}
@@ -274,6 +267,10 @@ function SalesLogList(props) {
                     handleNextPage={handleNextPage}
                     loglists={loglists} />
                 ))
+                  :
+                  <>
+                    <p>작성된 일지가 없습니다. </p>
+                  </>
                 }
               </TabPane>
             </FullTabs>
@@ -292,7 +289,6 @@ function SalesLogList(props) {
 
 const mapStateToProps = (state) => {
   const { loglist, loadLogsLoading, searchloglist, loadSearchsLoading, loglistcount } = state.SalesLog;
-  // const { organlistResponse, organuserResponse } = state.Organization;
   return { loglist, loadLogsLoading, searchloglist, loadSearchsLoading, loglistcount };
 };
 

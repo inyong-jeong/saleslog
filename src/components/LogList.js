@@ -94,7 +94,9 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
           </div>
           <div style={{ flexGrow: 2 }}>
             <span style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></span><span>&nbsp;</span>
+            <div className='mt-1'></div>
             <span style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname}</span>
+            <div className='mt-1'></div>
             {(tabkey === '0010001') ?
               <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /><span style={bluebox}> {loglist.needs_cods}</span></p>
               : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.score}</span><Dot /><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /> <span style={bluebox}>{loglist.needs_cods}</span></p>}
@@ -103,6 +105,9 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
           <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{loglist.meeting_date} {loglist.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
+        <div className='mt-1'></div>
+
+
         <div style={grayTextStyles}><span style={greenbox}>{loglist.account_name}</span> <Dot /><span style={greenbox}> {loglist.man_name} {loglist.man_posi}</span> </div>
 
         <div style={{ fontSize: 14, fontWeight: 500 }}><strong>{loglist.title}</strong></div>

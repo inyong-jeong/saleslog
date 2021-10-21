@@ -123,6 +123,8 @@ const WgroupMemberPage = () => {
     setInputs({ ...inputs, permission: value })
   }
 
+  console.log(ivList);
+
 
   return (
     <div>
@@ -192,7 +194,7 @@ const WgroupMemberPage = () => {
               dataLength={ivList.length} >
 
               <List style={{ width: '98%' }}>
-                {(state.postInviteDelRes ? ivList.map((item, index) => {
+                {(ivList.length > 0 ? ivList.map((item, index) => {
                   const {
                     iv_idx,
                     login_idx,

@@ -1,12 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Input } from "antd";
+import { SET_KEYWORD } from 'constants/actionTypes';
+import { useDispatch } from 'react-redux';
 const { Search } = Input;
 
 
 
 function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEnter, clearKeyword, word, Focus, focused }) {
 
+  const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('')
+
+  // const array = ['삼성', '기아', '현대', '애플'];
+  // console.log(keyword);
+  // array.map((option) => option.children.toLowerCase().indexOf(keyword.toLowerCase()))
+  // console.log(keyword && array.mapchildren.toLowerCase().indexOf(keyword.toLowerCase()));
+
+  useEffect(() => {
+    dispatch({
+      type: SET_KEYWORD,
+      payload: keyword
+    })
+  }, [keyword]);
 
   useEffect(() => {
     setKeyword(word)

@@ -62,6 +62,7 @@ import {
   DELETE_COUSER,
   DELETE_COUSER_SUCCESS,
   DELETE_COUSER_ERROR,
+  SET_KEYWORD
 } from '../../constants/actionTypes';
 
 const INIT_STATE = {
@@ -112,11 +113,14 @@ const INIT_STATE = {
   deletecouser: false,
   //임시저장 삭제 response
   deletetempresponse: false,
-  salesgb: '0010001'
+  salesgb: '0010001',
+  keyword: ''
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
   switch (String(action.type)) {
+    case SET_KEYWORD:
+      return { ...state, keyword: action.payload };
     case CLEAR_SALESLOG:
       return { ...state, log: null };
     case CLEAR_TEMP_LOG:

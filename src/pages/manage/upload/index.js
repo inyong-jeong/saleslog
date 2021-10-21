@@ -603,7 +603,9 @@ function UploadSalesLog(props) {
               <Radio onClick={getSalesAccount} value={'0010001'}>영업일지</Radio>
               <Radio onClick={getLeadAccount} value={'0010002'}>리드일지</Radio>
             </Radio.Group>
-            <div>* 일지구분을 선택하면 고객 리스트가 조회됩니다.</div>
+            {radiocheck === '0010001' && <div>* 거래고객 조회</div>}
+            {radiocheck === '0010002' && <div>* 리드타깃 조회</div>}
+
           </div>
         </div>
         <div className='mt-2'></div>

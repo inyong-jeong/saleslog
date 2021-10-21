@@ -173,7 +173,7 @@ const myProfilePage = (props) => {
             onChange={handleChange}
             value={inputs.phone_number}
             required
-            placeholder="휴대폰 번호를 입력해주세요."
+            placeholder="휴대폰 번호를 입력해주세요.(-포함)"
             margin="normal"
           />
           <Divider />
