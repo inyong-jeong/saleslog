@@ -148,7 +148,7 @@ export default function RightMenu() {
               {noticeDesc}
               {state.postSysResponse &&
                 sysNotice.map(item => (
-                  <NoticeItem key={item.accm_idx} item={item} onClick={() => handleSysNotice(item)} />
+                  <NoticeItem key={item.b_idx} item={item} onClick={() => handleSysNotice(item)} />
                 ))
               }
             </div>
