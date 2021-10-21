@@ -20,11 +20,14 @@ import { ReactComponent as SquaresIcon } from 'assets/icons/log/fourSquares.svg'
 import { ReactComponent as LocationIcon } from 'assets/icons/log/location.svg'
 import { ReactComponent as TimeIcon } from 'assets/icons/log/time.svg'
 import { ReactComponent as BuildingIcon } from 'assets/icons/log/building.svg'
-
+import { useScrollToTop } from '../../../constants/commonFunc';
 const { confirm } = Modal;
 
 
 function SalesLog(props) {
+
+  useScrollToTop();
+
   const dispatch = useDispatch();
 
 
