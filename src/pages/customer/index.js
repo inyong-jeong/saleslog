@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CustomFab from "../../components/styledcomponent/CustomFab";
 import styles from '../../components/customer/styles/Customer.module.css'
 import MyAppBar from "../../components/styledcomponent/MyAppBar";
@@ -39,7 +39,7 @@ const CustomerShow = () => {
 
   const [tabkey, setTabKey] = useState('1')
   const [searchKeyword, setSearchKeyword] = useState(inputs.srch ? inputs.srch : '')
-
+  const searchInput = useRef()
   useEffect(() => {
     dispatch(getUsers.call({ srch: '' }))
     dispatch({
@@ -67,14 +67,17 @@ const CustomerShow = () => {
       case '2':
         setInputs({ ...inputs, sales_gb: '0010001', score: '' })
         setPage(1)
+
         break
       case '3':
         setInputs({ ...inputs, sales_gb: '0010002', score: '' })
         setPage(1)
+
         break
       default:
         setInputs({ ...inputs, sales_gb: '', score: '' })
         setPage(1)
+
     }
   }
 
@@ -82,8 +85,8 @@ const CustomerShow = () => {
     keyword = keyword.trim()
     setInputs({ ...inputs, srch: keyword })
     setSearchKeyword(keyword)
+    searchInput.current.blur()
     setPage(1)
-
   }
 
   const hadleChangeKeyword = (e) => {
@@ -95,6 +98,7 @@ const CustomerShow = () => {
       <MyAppBar barTitle={'고객'} />
       <div className='content_body'>
         <Search
+          ref={searchInput}
           placeholder="고객 검색"
           allowClear
           onChange={hadleChangeKeyword}
@@ -106,13 +110,11 @@ const CustomerShow = () => {
           }} />
 
         <FullTabs
-          defaultActiveKey={tabkey}
           onChange={onTabChange}
           activeKey={tabkey} >
           <TabPane tab="전체" key="1" >
             <SelectFilter
               users={users}
-              setPage={setPage}
               disabled={true}
               setInputs={setInputs}
               inputs={inputs}
@@ -129,7 +131,6 @@ const CustomerShow = () => {
           <TabPane tab="거래고객" key="2">
             <SelectFilter
               users={users}
-              setPage={setPage}
               setInputs={setInputs}
               gradeType={scoreType}
               inputs={inputs}
@@ -144,7 +145,6 @@ const CustomerShow = () => {
           <TabPane tab="리드고객" key="3">
             <SelectFilter
               users={users}
-              setPage={setPage}
               setInputs={setInputs}
               gradeType={stageType}
               inputs={inputs}
