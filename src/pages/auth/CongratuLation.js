@@ -101,7 +101,7 @@ function CongratuLation(props) {
                 </div>
                 <form>
                   <div className='mb-3'>
-                    <h4><strong>세일즈로그에 가입하신 것을 축하합니다!</strong></h4>
+                    <strong>세일즈로그에 가입하신 것을 축하합니다!</strong>
                   </div>
                   <div className='mt-3'></div>
                   <div className="form-group mt-3">

@@ -31,6 +31,7 @@ const SignUpInvite = () => {
   const [usernameerror, setUsernameerror] = useState()
 
   useEffect(() => {
+    removeAll();
     window.addEventListener("resize", updateWindowDimensions);
 
     dispatch(postCheckIsRegistered.call(
@@ -45,14 +46,37 @@ const SignUpInvite = () => {
 
   }, []);
 
+
   useEffect(() => {
-    if (state.postCheckisRegisteredResponse || state.postInviteRegisteredResponse) {
+    console.log('state.postCheckisRegisteredResponse ',state.postCheckisRegisteredResponse )
+    if (state.postCheckisRegisteredResponse ) {
+      state.postCheckisRegisteredResponse = undefined;
       removeAll();
       return history.push('/signin');
     }
-
     return setUserEmail(decodeURIComponent(params.inviteEmail))
-  }, [state.loading])
+  }, [state.postCheckisRegisteredResponse])
+
+  useEffect(() => {
+    if (state.postInviteRegisteredResponse) {
+      state.postInviteRegisteredResponse = null;      
+      return history.push('/congratulation');
+    }
+
+    //return setUserEmail(decodeURIComponent(params.inviteEmail))
+  }, [state.postInviteRegisteredResponse])
+
+
+
+
+  // useEffect(() => {
+  //   if (state.postCheckisRegisteredResponse || state.postInviteRegisteredResponse) {
+  //     removeAll();
+  //     return history.push('/signin');
+  //   }
+
+  //   return setUserEmail(decodeURIComponent(params.inviteEmail))
+  // }, [state.loading])
 
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);

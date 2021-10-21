@@ -48,7 +48,7 @@ const AuthenticatingLayout = (props) => {
     if (props.accesstokenResponse) {
       //console.log('authing:::',props.accesstokenResponse)
       if (props.accesstokenResponse == 'invalid_grant') {
-        errorMessage('인증코드 오류입니다. 다시 로그인 해 주세요')
+        //errorMessage('인증코드 오류입니다. 다시 로그인 해 주세요')
         props.history.push('/signin');
       }
     }

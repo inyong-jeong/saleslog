@@ -176,7 +176,8 @@ const DashBoardPage = () => {
     dispatch(getProfileInfo.call())
     dispatch(postAnniversary.call())
     setUserPermission(myInfo.permission)
-    setFirstTime(false)
+    // setFirstTime(false)
+    console.log('111',firstTime)
   }, [])
 
   useEffect(() => {
@@ -191,10 +192,10 @@ const DashBoardPage = () => {
     //   return
     // }
 
-    if (firstTime) {
-      return;
-    }
-
+    // if (firstTime) {
+    //   return;
+    // }
+    console.log('222')
     dispatch(getsaleslogstat.call(bodyLog))
   }, [bodyLog])
 
@@ -204,9 +205,9 @@ const DashBoardPage = () => {
     //   return
     // }
 
-    if (firstTime) {
-      return;
-    }
+    // if (firstTime) {
+    //   return;
+    // }
 
     dispatch(getleadlogstat.call(bodyLogRd))
   }, [bodyLogRd])
@@ -383,10 +384,18 @@ const DashBoardPage = () => {
     </p>
   )
 
+  //영업일지 실적다운로드
   const handleCsvDownload = () => {
     //XLSX
     console.log('excel download click')
-    dispatch(getlogsdownload.call({dt_typ:bodyLog.dt_typ, from_dt:bodyLog.from_dt, to_dt:bodyLog.to_dt, sales_man:bodyLog.sales_man, dept_idx:bodyLog.dept_idx}));
+    dispatch(getlogsdownload.call({dt_typ:bodyLog.dt_typ, from_dt:bodyLog.from_dt, to_dt:bodyLog.to_dt, sales_man:bodyLog.sales_man, dept_idx:bodyLog.dept_idx, sales_gb:'0010001'}));
+  }
+
+  //리드일지 실적다운로드
+  const handleCsvDownloadRd= () => {
+    //XLSX
+    console.log('excel download click')
+    dispatch(getlogsdownload.call({dt_typ:bodyLogRd.dt_typ, from_dt:bodyLogRd.from_dt, to_dt:bodyLogRd.to_dt, sales_man:bodyLogRd.sales_man, dept_idx:bodyLogRd.dept_idx, sales_gb:'0010002'}));
   }
 
   useEffect(() => {
@@ -486,6 +495,11 @@ const DashBoardPage = () => {
             <div className='mt-5' />
           </>
         }
+        <Row justify='center'>
+          <Col sm={12} xs={12} md={12} lg={12}>
+            <StyledButton onClick={handleCsvDownload}>영업일지 실적 다운로드</StyledButton>
+          </Col>
+        </Row>
         <Divider style={{ borderColor: '#dfdfdf' }} />
 
         <Row>
@@ -627,7 +641,7 @@ const DashBoardPage = () => {
         }
         <Row justify='center'>
           <Col sm={12} xs={12} md={12} lg={12}>
-            <StyledButton onClick={handleCsvDownload}>실적 다운로드</StyledButton>
+            <StyledButton onClick={handleCsvDownloadRd}>리드일지 실적 다운로드</StyledButton>
           </Col>
         </Row>
         <div className='mt-5' />
