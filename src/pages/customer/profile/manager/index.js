@@ -13,6 +13,7 @@ import { base64Dec } from 'constants/commonFunc';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { stat } from 'fs-extra';
+import { useScrollToTop } from '../../../../constants/commonFunc';
 
 const { confirm } = Modal
 const { Panel } = Collapse
@@ -32,6 +33,8 @@ const ManagerProfilePage = () => {
   const state = useSelector(state => state.Customer)
 
   const managerDetails = state.managerDetails
+
+  useScrollToTop()
 
   useEffect(() => {
     dispatch(getManagerInfo.call({ acc_idx: base64Dec(params.accId), accm_idx: base64Dec(params.singleId) }))

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { SET_LAST_TAB } from '../../../constants/actionTypes';
+import { useScrollToTop } from '../../../constants/commonFunc';
 
 
 const { confirm } = Modal
@@ -30,6 +31,7 @@ const CustomerDetail = () => {
   const [managerPermission, setManagerPermission] = useState('N')
   const [activeTabKey, setactiveTabKey] = useState(state.tabStoreData ? state.tabStoreData : '1')
 
+  useScrollToTop()
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
