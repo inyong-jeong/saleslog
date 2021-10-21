@@ -111,7 +111,7 @@ const WgroupManagePage = () => {
           <Divider style={marginStyle} />
 
           {
-            myInfo.permission == 0 ?
+            myInfo.permission == 0 || -1000 ?
               <>
                 <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
                 <Divider style={marginStyle} />
