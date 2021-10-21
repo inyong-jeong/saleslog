@@ -65,38 +65,28 @@ const WgroupMemberPage = () => {
 
 
   useEffect(() => {
-    // 하단 네비 설정 
     dispatch({
       type: SET_NAVIBAR_SHOW,
-      payload: true
+      payload: false
     }
     )
     setInputs({ ...inputs, login_idx: base64Dec(params.memberId) })
-    //setMemberId(base64Dec(params.memberId))
-
-    //워크그룹 맴버 정보 
     dispatch(getGroupMemberDetail.call({ login_idx: base64Dec(params.memberId) }))
-
-    //부서 정보 가져오기
     dispatch(getDeptInfo.call({ dept_idx: 0, typ: 'tree' }))
 
   }, [])
 
-
-  //맴버정보 fetch 후
   useEffect(() => {
     if (!cmm.isEmpty(state.getGroupMemberDetailRes)) {
       setMemberData(state.getGroupMemberDetailRes)
-      console.log('select permission::::::::::::::::::::::::', state.getGroupMemberDetailRes[0].permissions)
       setInputs({ ...inputs, permissions: state.getGroupMemberDetailRes[0].permissions, dept_idx: state.getGroupMemberDetailRes[0].dept_idx });
     }
   }, [state.getGroupMemberDetailRes])
 
-  //부서리스트 fetch 후
   useEffect(() => {
 
     if (!cmm.isEmpty(state.getDeptInfoRes)) {
-      console.log('treedata:::::::::::::::::::::', getTreeData(state.getDeptInfoRes))
+
       setTreedata(getTreeData(state.getDeptInfoRes))
     }
   }, [state.getDeptInfoRes])

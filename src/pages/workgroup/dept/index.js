@@ -15,7 +15,7 @@ import { ReactComponent as Info } from '../../../assets/icons/info.svg'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 
-const WgroupDeptPage = (props) => {
+const WgroupDeptPage = () => {
 
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
@@ -113,14 +113,14 @@ const WgroupDeptPage = (props) => {
         //취소
       },
     })
-    
+
   }
 
   useEffect(() => {
     // 하단 네비 설정   
     dispatch({
       type: SET_NAVIBAR_SHOW,
-      payload: true
+      payload: false
     }
     )
 
@@ -243,20 +243,20 @@ const WgroupDeptPage = (props) => {
 
   // tree 수정시 treeData 적용
   const setTreeData = (data) => {
-    let arr = inputs.treedata;    
+    let arr = inputs.treedata;
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].dept_idx == data.idx) {
         arr[i].title = data.title;
         break;
       } else if (arr[i].children) {
         let child = arr[i].children;
-        for (let j = 0; j < child.length; j++) {          
+        for (let j = 0; j < child.length; j++) {
           if (child[j].dept_idx == data.idx) {
             child[j].title = data.title;
             break;
-          } else if (child[j].children) {            
+          } else if (child[j].children) {
             let child2 = child[j].children;
-            for (let k = 0; k < child2.length; k++) {              
+            for (let k = 0; k < child2.length; k++) {
               if (child2[k].dept_idx == data.idx) {
                 child2[k].title = data.title;
                 break;
@@ -291,7 +291,7 @@ const WgroupDeptPage = (props) => {
 
 
   // tree onChange
-  const updateTreeData = (treedata) => {    
+  const updateTreeData = (treedata) => {
     setInputs({ ...inputs, treedata: treedata })
   }
 
@@ -389,7 +389,7 @@ const WgroupDeptPage = (props) => {
                       marginLeft: 10,
                     }}
 
-                    onClick={(e) => {  
+                    onClick={(e) => {
                       //console.log('onclick::',node, inputs.treedata);                    
                       updDept({ dept_idx: node.dept_idx, dept_name: node.title })
                     }}
