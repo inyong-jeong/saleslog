@@ -146,7 +146,7 @@ function SalesLogList(props) {
   const handleAddKeyword = (text, focus) => {
     const newKeyword = {
       id: Date.now(),
-      text: text,
+      text: text.toLowerCase(),
     }
     setKeywords([newKeyword, ...keywords])
     setData({ ...data, srch: text, pageno: 1 })

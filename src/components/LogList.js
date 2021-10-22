@@ -74,23 +74,18 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
   }
 
 
-  const handleLogClick = (loglist, loglists, data) => {
+  const handleLogClick = (loglist) => {
     history.push({
-      pathname: `/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`,
-      state: {
-        loglists: loglists,
-        data: data
-      }
+      pathname: `/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`
     })
   }
-  const SalesLogItem = ({ loglist, tabkey, loglists, data }) => (
-
+  const SalesLogItem = ({ loglist, tabkey }) => (
 
     <>
-      <div className={styles.logWrapper} onClick={() => handleLogClick(loglist, loglists, data)} style={{ position: 'relative' }}>
+      <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
-            <Avatar src={loglist.thumb_url && cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url} />
+            <Avatar src={loglist.thumb_url ? (cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url) : null} />
           </div>
           <div style={{ flexGrow: 2 }}>
             <span style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></span><span>&nbsp;</span>
@@ -100,8 +95,10 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
             {(tabkey === '0010001') ?
               <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /><span style={bluebox}> {loglist.needs_cods}</span></p>
               : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.score}</span><Dot /><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /> <span style={bluebox}>{loglist.needs_cods}</span></p>}
+            <div className='mt-1'></div>
 
           </div>
+
           <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{loglist.meeting_date} {loglist.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
@@ -150,7 +147,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
         next={handleNextPage}>
         <div>
           {
-            <SalesLogItem loglist={loglist} tabkey={tabkey} loglists={loglists} data={data} />
+            <SalesLogItem loglist={loglist} tabkey={tabkey} />
           }
         </div>
       </InfiniteScroll>
