@@ -19,7 +19,7 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
   useEffect(() => {
     dispatch({
       type: SET_KEYWORD,
-      payload: keyword
+      payload: keyword && keyword.toLowerCase()
     })
   }, [keyword]);
 

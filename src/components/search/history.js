@@ -95,16 +95,13 @@ function History({ keywords, onRemoveKeyword, onClearKeywords, historyKeyword })
     let result = []
     for (let i = 0; i < array.length; i++) {
       for (let j = 0; j < keywords.length; j++) {
-        if (keywords[j].text.toLowerCase() === array[i].toLowerCase()) {
+        if (keywords[j].text === array[i]) {
           result = result.concat(keywords[j]);
         }
       }
     }
     return result;
   }
-
-  // console.log(filterList)
-  // console.log(sortSameLabel(filterList))
 
   if (keywords.length === 0) {
     return <HistoryContainer>최근 검색된 기록이 없습니다.</HistoryContainer>
