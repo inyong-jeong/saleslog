@@ -73,3 +73,9 @@ export const base64Dec = (str) => {
   return decodeURIComponent(window.atob(str));
 }
 
+export const ConvertDate = (date) => {
+  const result = date.replaceAll('-', '.');
+  return result;
+}
+
+

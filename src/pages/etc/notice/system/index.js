@@ -10,6 +10,7 @@ import { getNoticeSysList } from "redux/etc/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useLocation } from "react-router";
+import { getUserInfo } from 'helpers/authUtils';
 
 const { TabPane } = FullTabs;
 const { Search } = Input;
@@ -29,6 +30,7 @@ const SystemNoticePage = () => {
     srch: '',
     pageno: page,
   })
+  const myInfo = getUserInfo();
 
 
   useEffect(() => {
@@ -100,7 +102,12 @@ const SystemNoticePage = () => {
         {/* 우리가 등록하는 공지 */}
         {/* <div className={styles.Wrapper}>
         <CustomFab navigateTo={navigateTo} />
-      </div> */}
+      </div>  */}
+        {myInfo.permission === -1000 ?
+          <div className={styles.Wrapper}>
+            <CustomFab navigateTo={navigateTo} />
+          </div>
+          : null}
       </div>
     </div>
   );

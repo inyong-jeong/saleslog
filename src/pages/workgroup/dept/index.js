@@ -341,7 +341,20 @@ const WgroupDeptPage = () => {
 
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <p style={{ color: '#333', fontSize: 14 }}> 조직도 분류 &nbsp;
-            <Tooltip title={'tooltip'}>
+            <Tooltip title={<>
+              <span style={{ color: 'red' }}>- '대분류 추가' 아이콘으로 첫 분류가 시작되는 조직을 추가할 수 있습니다.</span>
+              <br />
+              <br />
+
+              <span>- '+' 아이콘으로 하위 조직을 생성할 수 있습니다.</span>
+              <br />
+              <br />
+
+              <span>- '-' 아이콘은 조직 삭제를 위한 것입니다. 기존 멤버는 무소속으로 변경됩니다.</span>
+            </>
+            }
+
+            >
               <Info />
             </Tooltip>
           </p>

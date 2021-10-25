@@ -25,8 +25,8 @@ const CustomerShow = () => {
   const dispatch = useDispatch()
   const state = useSelector(state => state.Customer)
   const [users, setUsers] = useState([])
-  const scoreType = [{ '전체': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
-  const stageType = [{ '전체': '' }, { '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
+  const scoreType = [{ '전체 등급/단계': '' }, { 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
+  const stageType = [{ '전체 멤버': '' }, { '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
   const emptyType = []
   const [page, setPage] = useState(1)
   const [inputs, setInputs] = useState(state.customerStoredData ? state.customerStoredData.body : {

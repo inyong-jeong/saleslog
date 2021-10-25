@@ -66,9 +66,13 @@ const initialState = {
   postNoticeSysRegiRes: null,
   loading: null,
   //right menu reponse 
-  postAnniveraryResponse: null,
+  postAnniveraryResponse: [],
   postWGResponse: null,
   postSysResponse: null,
+  //워크그룹 삭제 response
+  workDeleteRes: false,
+  sysDeleteRes: false
+
 
 }
 
@@ -112,11 +116,11 @@ const Etc = (state = initialState, action) => {
     case POST_NOTICE_GRP_UPD_ERROR:
       return { ...state, loading: false, postNoticeGrpUpdRes: { state: false, message: action.payload.error } }
     case POST_NOTICE_GRP_DEL:
-      return { ...state, loading: true }
+      return { ...state, loading: true, workDeleteRes: false }
     case POST_NOTICE_GRP_DEL_SUCCESS:
-      return { ...state, loading: false, postNoticeGrpDelRes: action.payload.response.message }
+      return { ...state, loading: false, postNoticeGrpDelRes: action.payload.response.message, workDeleteRes: true }
     case POST_NOTICE_GRP_DEL_ERROR:
-      return { ...state, loading: false, postNoticeGrpDelRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postNoticeGrpDelRes: { state: false, message: action.payload.error }, workDeleteRes: false }
     case POST_NOTICE_GRP_REGI:
       return { ...state, loading: true }
     case POST_NOTICE_GRP_REGI_SUCCESS:
@@ -142,11 +146,11 @@ const Etc = (state = initialState, action) => {
     case POST_NOTICE_SYS_UPD_ERROR:
       return { ...state, loading: false, postNoticeSysUpdRes: { state: false, message: action.payload.error } }
     case POST_NOTICE_SYS_DEL:
-      return { ...state, loading: true }
+      return { ...state, loading: true, sysDeleteRes: false }
     case POST_NOTICE_SYS_DEL_SUCCESS:
-      return { ...state, loading: false, postNoticeSysDelRes: action.payload.response.message }
+      return { ...state, loading: false, postNoticeSysDelRes: action.payload.response.message, sysDeleteRes: true }
     case POST_NOTICE_SYS_DEL_ERROR:
-      return { ...state, loading: false, postNoticeSysDelRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postNoticeSysDelRes: { state: false, message: action.payload.error }, sysDeleteRes: false }
     case POST_NOTICE_SYS_REGI:
       return { ...state, loading: true }
     case POST_NOTICE_SYS_REGI_SUCCESS:

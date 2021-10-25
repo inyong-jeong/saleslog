@@ -62,7 +62,7 @@ const SelectFilter = ({
         style={eachSelectStyle}
         showSearch
         value={inputs.users ? inputs.users : null}
-        placeholder="담당 사원"
+        placeholder="담당 멤버"
         onChange={onChangeUsers}
         filterOption={(input, option) =>
           option.children.includes(input.trim())

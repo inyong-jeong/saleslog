@@ -46,6 +46,8 @@ const DashBoardPage = () => {
   const [salesStat, setSalesStat] = useState();
   const [leadStat, setLeadStat] = useState();
   const [bday, setBday] = useState([])
+  const [birthday, setBirthDay] = useState();
+  const [birthdaylist, setBirthDayList] = useState([]);
   const [firstTime, setFirstTime] = useState(true)
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -177,11 +179,11 @@ const DashBoardPage = () => {
     dispatch(postAnniversary.call())
     setUserPermission(myInfo.permission)
     // setFirstTime(false)
-    console.log('111',firstTime)
+    console.log('111', firstTime)
   }, [])
 
   useEffect(() => {
-    if (etcState.postAnniveraryResponse) {
+    if (etcState.postAnniveraryResponse.length > 0) {
       setBday(etcState.postAnniveraryResponse[0])
     }
   }, [etcState.loading])
@@ -388,24 +390,47 @@ const DashBoardPage = () => {
   const handleCsvDownload = () => {
     //XLSX
     console.log('excel download click')
-    dispatch(getlogsdownload.call({dt_typ:bodyLog.dt_typ, from_dt:bodyLog.from_dt, to_dt:bodyLog.to_dt, sales_man:bodyLog.sales_man, dept_idx:bodyLog.dept_idx, sales_gb:'0010001'}));
+    dispatch(getlogsdownload.call({ dt_typ: bodyLog.dt_typ, from_dt: bodyLog.from_dt, to_dt: bodyLog.to_dt, sales_man: bodyLog.sales_man, dept_idx: bodyLog.dept_idx, sales_gb: '0010001' }));
   }
 
   //리드일지 실적다운로드
-  const handleCsvDownloadRd= () => {
+  const handleCsvDownloadRd = () => {
     //XLSX
     console.log('excel download click')
-    dispatch(getlogsdownload.call({dt_typ:bodyLogRd.dt_typ, from_dt:bodyLogRd.from_dt, to_dt:bodyLogRd.to_dt, sales_man:bodyLogRd.sales_man, dept_idx:bodyLogRd.dept_idx, sales_gb:'0010002'}));
+    dispatch(getlogsdownload.call({ dt_typ: bodyLogRd.dt_typ, from_dt: bodyLogRd.from_dt, to_dt: bodyLogRd.to_dt, sales_man: bodyLogRd.sales_man, dept_idx: bodyLogRd.dept_idx, sales_gb: '0010002' }));
   }
 
   useEffect(() => {
     if (state.getlogsdownloadRes) {
-      console.log('excel::::',      state.getlogsdownloadRes);
+      console.log('excel::::', state.getlogsdownloadRes);
     }
-    
+
   }, [state.getlogsdownloadRes])
 
+  function getBirthDayList(List) {
+    let result = [];
+    for (let i = 0; i < List.length; i++) {
+      if (bday[i].today === 'today') {
+        result = result.concat(bday[i])
+      }
+    }
+    return result
+  }
 
+  useEffect(() => {
+    if (bday.length > 0) {
+      const today = 'today';
+      const List = bday.map(v => v.today);
+      if (List.indexOf(today) >= 0) {
+        setBirthDay(true);
+        setBirthDayList(getBirthDayList(bday))
+      }
+    }
+  }, [bday.length])
+
+  const handleCommingAnn = () => {
+    history.push(`/main/etc/notice/anniversary`)
+  }
   return (
     <>
       <MyAppBar
@@ -416,13 +441,16 @@ const DashBoardPage = () => {
             <Collapse bordered={false} style={{ backgroundColor: '#fff' }} expandIconPosition='right'>
               <Panel header="생일" key="1" style={customPanelStyle}>
                 <div>
-                  <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 생일만 표시됩니다.</p>
-                  <div className='mt-1' />
-                  {
-                    bday.map((item, index) => (
-                      <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
-                    ))
+                  {birthday ?
+                    <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다.`} </p>
+                    :
+                    <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요.</p>
                   }
+                  <div className='mt-1' />
+                  {birthday &&
+                    birthdaylist.map(item => (
+                      <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
+                    ))}
                 </div>
               </Panel>
             </Collapse>
@@ -496,7 +524,7 @@ const DashBoardPage = () => {
           </>
         }
         <Row justify='center'>
-          <Col sm={12} xs={12} md={12} lg={12}>
+          <Col sm={8} xs={8} md={8} lg={8}>
             <StyledButton onClick={handleCsvDownload}>영업일지 실적 다운로드</StyledButton>
           </Col>
         </Row>
@@ -640,7 +668,7 @@ const DashBoardPage = () => {
           </>
         }
         <Row justify='center'>
-          <Col sm={12} xs={12} md={12} lg={12}>
+          <Col sm={8} xs={8} md={8} lg={8}>
             <StyledButton onClick={handleCsvDownloadRd}>리드일지 실적 다운로드</StyledButton>
           </Col>
         </Row>

@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import { useHistory, useParams } from 'react-router';
 import { Divider } from 'antd';
-import { getNoticeGrpDetail } from 'redux/etc/actions';
+import { getNoticeGrpDetail, postNoticeGrpDel } from 'redux/etc/actions';
 import { base64Dec } from 'constants/commonFunc';
 import { useStyles } from '../../../../customer/registerManager'
 import Typography from '@material-ui/core/Typography';
@@ -43,6 +43,20 @@ const grpNoticeRegi = () => {
     }
   }, [state.getNoticeGrpDetailRes])
 
+  //워크그룹 삭제 후 
+  useEffect(() => {
+    if (state.workDeleteRes) {
+      history.push({ pathname: `/main/etc/notice/group` })
+      state.workDeleteRes = false;
+    }
+  }, [state.workDeleteRes])
+
+  // 워크그룹 삭제
+
+  const onDeleteClick = () => {
+    dispatch(postNoticeGrpDel.call({ b_idx: base64Dec(params.noticeId) }))
+  }
+
   return (
     (noticeData && noticeData.length > 0) ?
       <div >
@@ -50,7 +64,8 @@ const grpNoticeRegi = () => {
           barTitle={'워크그룹 공지'}
           showBackButton
           navigateTo={navigateTo}
-          onEditClick={onEditClick}
+          onWorkGroupEdit={onEditClick}
+          onWorkGroupDelete={onDeleteClick}
         />
         <div className='content_body'>
           <div style={{ marginTop: 10 }}>
@@ -62,7 +77,7 @@ const grpNoticeRegi = () => {
           </div>
 
           <Typography variant='h6' align='left' className={classes.title}>공지 내용</Typography>
-          <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10 }}>
+          <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10, whiteSpace: 'pre-wrap' }}>
             <label className={classes.showDetails}>{noticeData[0].content}</label>
           </div>
           <Divider />

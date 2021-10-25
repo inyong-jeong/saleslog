@@ -58,7 +58,9 @@ const MyAppBar = ({
   badgeContent,
   paramId,
   Dbutton,
-  Ubutton
+  Ubutton,
+  onWorkGroupEdit,
+  onWorkGroupDelete
 }) => {
 
 
@@ -203,6 +205,22 @@ const MyAppBar = ({
               (Dbutton === 'Y' && onDeleteClick) &&
               <div className={classes.textButtonStyle}>
                 <Button size="small" onClick={onDeleteClick} >
+                  삭제
+                </Button>
+              </div>
+            }
+            {
+              (onWorkGroupEdit) &&
+              <div className={classes.tempButtonStyle}>
+                <Button size="small" onClick={onWorkGroupEdit} >
+                  수정
+                </Button>
+              </div>
+            }
+            {
+              (onWorkGroupDelete) &&
+              <div className={classes.textButtonStyle}>
+                <Button size="small" onClick={onWorkGroupDelete} >
                   삭제
                 </Button>
               </div>

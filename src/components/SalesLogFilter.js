@@ -192,7 +192,8 @@ const SalesLogFilter = (props, { firsttime }) => {
     setActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_goal': option
+      'sales_goal': option,
+      'pageno': 1
     })
   };
 
@@ -200,7 +201,8 @@ const SalesLogFilter = (props, { firsttime }) => {
     setChannel(option.value);
     props.setData({
       ...props.data,
-      'sales_activity': option
+      'sales_activity': option,
+      'pageno': 1
     })
   };
 
@@ -210,7 +212,8 @@ const SalesLogFilter = (props, { firsttime }) => {
     setChannel(option.value);
     props.setData({
       ...props.data,
-      'need_cod': option
+      'need_cod': option,
+      'pageno': 1
     })
   };
 
@@ -226,7 +229,7 @@ const SalesLogFilter = (props, { firsttime }) => {
               treeLine={true}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={treedata}
-              placeholder={'부서 전체'}
+              placeholder={'조직 전체'}
               treeDefaultExpandAll
               allowClear
               onChange={handeltreeOnChange}

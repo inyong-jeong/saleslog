@@ -208,7 +208,8 @@ const LeadLogFilter = (props) => {
     setLeadActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_lead_gb': option
+      'sales_lead_gb': option,
+      'pageno': 1
     })
   }
 
@@ -217,7 +218,8 @@ const LeadLogFilter = (props) => {
     setActivity(option.value);
     props.setData({
       ...props.data,
-      'sales_goal': option
+      'sales_goal': option,
+      'pageno': 1
     })
   };
 
@@ -226,7 +228,8 @@ const LeadLogFilter = (props) => {
     setChannel(option.value);
     props.setData({
       ...props.data,
-      'sales_activity': option
+      'sales_activity': option,
+      'pageno': 1
     })
   };
 
@@ -237,7 +240,8 @@ const LeadLogFilter = (props) => {
     setChannel(option.value);
     props.setData({
       ...props.data,
-      'need_cod': option
+      'need_cod': option,
+      'pageno': 1
     })
   };
 

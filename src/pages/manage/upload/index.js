@@ -25,6 +25,8 @@ import moment from 'moment';
 import { ReactComponent as Info } from 'assets/icons/info.svg'
 import 'moment/locale/ko';
 import { useIdleTimer } from 'react-idle-timer'
+import { useScrollToTop } from '../../../constants/commonFunc';
+
 
 
 const { Option } = StyledSelect;
@@ -57,6 +59,9 @@ const leadActivityOption =
 
 
 function UploadSalesLog(props) {
+
+  // 처음 마운트 될 때 일지 최상단으로 
+  useScrollToTop();
 
   const dispatch = useDispatch()
   const state = useSelector(state => state.SalesLog)
@@ -190,7 +195,7 @@ function UploadSalesLog(props) {
       setRadioCheck(props.log.sales_gb)
       setSelectedAccount(props.log.acc_idx)
       setSelectedAccountPerson(props.log.accm_idx)
-      setLeadActivity(props.log.sales_lead_gb)
+      setLeadActivity(props.log.score)
       setActivity(props.log.sales_goal)
       setChannel(props.log.sales_activity)
       setDateString(moment(new Date(props.log.meeting_date)));
@@ -204,7 +209,7 @@ function UploadSalesLog(props) {
         log: props.log.log,
         addr: props.log.addr,
         sales_gb: props.log.sales_gb,
-        sales_lead_gb: props.log.sales_lead_gb,
+        sales_lead_gb: props.log.score,
         sales_goal: props.log.sales_goal,
         sales_activity: props.log.sales_activity,
         meeting_date: props.log.meeting_date,
@@ -223,7 +228,7 @@ function UploadSalesLog(props) {
       setRadioCheck(props.temporaryLoglist.sales_gb);
       setSelectedAccount(props.temporaryLoglist.acc_idx === 0 ? null : props.temporaryLoglist.acc_idx)
       setSelectedAccountPerson(props.temporaryLoglist.accm_idx === 0 ? null : props.temporaryLoglist.accm_idx)
-      setLeadActivity(props.temporaryLoglist.sales_lead_gb === 'null' ? null : props.temporaryLoglist.sales_lead_gb)
+      setLeadActivity(props.temporaryLoglist.score)
       setActivity(props.temporaryLoglist.sales_goal === 'null' ? null : props.temporaryLoglist.sales_goal)
       setChannel(props.temporaryLoglist.sales_activity === 'null' ? null : props.temporaryLoglist.sales_activity)
       setDateString(moment(new Date(props.temporaryLoglist.meeting_date)));
@@ -236,7 +241,7 @@ function UploadSalesLog(props) {
         log: props.temporaryLoglist.log,
         addr: props.temporaryLoglist.addr,
         sales_gb: props.temporaryLoglist.sales_gb,
-        sales_lead_gb: props.temporaryLoglist.sales_lead_gb === 'null' ? null : props.temporaryLoglist.sales_lead_gb,
+        sales_lead_gb: props.temporaryLoglist.score,
         sales_goal: props.temporaryLoglist.sales_goal === 'null' ? null : props.temporaryLoglist.sales_goal,
         sales_activity: props.temporaryLoglist.sales_activity === 'null' ? null : props.temporaryLoglist.sales_activity,
         meeting_date: props.temporaryLoglist.meeting_date,
@@ -745,7 +750,7 @@ function UploadSalesLog(props) {
         <div className="input-group">
           <Input type="text"
             className="form-control"
-            placeholder="상세주소 입력"
+            placeholder="주소를 입력해주세요."
             value={fromData.addr}
             onChange={onChangeLocation}
           />

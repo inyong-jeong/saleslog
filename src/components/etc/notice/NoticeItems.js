@@ -2,7 +2,7 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import { Divider } from 'antd';
 import Typography from '@material-ui/core/Typography';
-import { base64Enc } from 'constants/commonFunc';
+import { base64Enc, ConvertDate } from 'constants/commonFunc';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
 
@@ -34,7 +34,7 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType }) => {
                 key={singleList.b_idx} >
                 <div style={{ height: 50, cursor: 'pointer' }}>
                   <p style={{ color: '#333', fontSize: 14 }}>{singleList.title}</p>
-                  <p style={{ textAlign: 'right', color: '#666', fontSize: 12 }}>{singleList.cre_dt}</p>
+                  <p style={{ textAlign: 'right', color: '#666', fontSize: 12 }}>{ConvertDate(singleList.cre_dt)}</p>
                   <Divider style={{ margin: 0 }} />
                 </div>
               </div>

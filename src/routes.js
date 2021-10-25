@@ -49,7 +49,7 @@ const WorkgroupOut = React.lazy(() => import('./pages/workgroup/outwgroup'))
 const WorkgroupDel = React.lazy(() => import('./pages/workgroup/delwgroup'))
 const WorkgroupChg = React.lazy(() => import('./pages/workgroup/chgwgroup'))
 
-//프로필 , 공지사항
+//프로필 , 공지사항, 기념일
 const myProfile = React.lazy(() => import('./pages/etc/profile'))
 const wgroupNotice = React.lazy(() => import('./pages/etc/notice/group'))
 const wgroupNoticeRegi = React.lazy(() => import('./pages/etc/notice/group/register'))
@@ -59,6 +59,7 @@ const systemNotice = React.lazy(() => import('./pages/etc/notice/system'))
 const systemNoticeRegi = React.lazy(() => import('./pages/etc/notice/system/register'))
 const systemNoticeDetail = React.lazy(() => import('./pages/etc/notice/system/detail'))
 const systemNoticeUpd = React.lazy(() => import('./pages/etc/notice/system/update'))
+const anniversary = React.lazy(() => import('./pages/etc/notice/anniversary'))
 
 
 //const systemNoticeList = React.lazy(() => import('./pages/etc/notice/system/list'))
@@ -162,6 +163,7 @@ const routes = [
   { path: '/main/etc/notice/system/register', name: 'systemNoticeRegi', component: systemNoticeRegi, route: MainRoute, exact: true },
   { path: '/main/etc/notice/system/detail/:noticeId', name: 'systemNoticeDetail', component: systemNoticeDetail, route: MainRoute, exact: true },
   { path: '/main/etc/notice/system/update/:noticeId', name: 'systemNoticeUpd', component: systemNoticeUpd, route: MainRoute, exact: true },
+  { path: '/main/etc/notice/anniversary', name: 'anniversary', component: anniversary, route: MainRoute, exact: true },
 
 
   //프로필 및 설정 등

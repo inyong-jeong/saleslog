@@ -53,14 +53,16 @@ import {
   post_fetch_files
 } from 'model/FetchManage'
 
-import { successMessage, errorMessage } from '../../constants/commonFunc'
+import { successMessage, errorMessage, loadingMessage, hideMessage } from '../../constants/commonFunc'
 
 
 //일지작성 관련
 
 function* _postSalesLog({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch_files, 'https://backend.saleslog.co/saleslog/regi_saleslog', data);
+    yield hideMessage()
     yield put(postSalesLog.success(response));
     yield successMessage('일지가 등록되었습니다.')
   } catch (error) {
@@ -72,7 +74,9 @@ function* _postSalesLog({ payload: { data } }) {
 
 function* _deleteSalesLog({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog', data);
+    yield hideMessage()
     yield put(deleteSalesLog.success(response));
     yield successMessage('일지가 삭제되었습니다.')
   } catch (error) {
@@ -85,7 +89,9 @@ function* _deleteSalesLog({ payload: { data } }) {
 
 function* _postTemporarySalesLog({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_saleslog_temp', data);
+    yield hideMessage()
     yield put(postTemporarySalesLog.success(response));
     yield successMessage('일지가 임시저장 되었습니다.')
 
@@ -147,7 +153,9 @@ function* _deleteTemporaryLogList({ payload: { data } }) {
 //영업일지 관련
 function* _getLogLists({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/list_saleslog', data);
+    yield hideMessage()
     yield put(getLogLists.success(response));
   } catch (error) {
     yield put(getLogLists.error(error));
@@ -156,7 +164,9 @@ function* _getLogLists({ payload: { data } }) {
 
 function* _getLogList({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/detail_saleslog', data);
+    yield hideMessage()
     yield put(getLogList.success(response));
   } catch (error) {
     yield put(getLogList.error(error));
@@ -165,8 +175,9 @@ function* _getLogList({ payload: { data } }) {
 
 function* _searchLogList({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/search_saleslog', data);
-    console.log(response)
+    yield hideMessage()
     yield put(searchLogList.success(response));
   } catch (error) {
     yield put(searchLogList.error(error));
@@ -175,7 +186,9 @@ function* _searchLogList({ payload: { data } }) {
 
 function* _putSalesLog({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_saleslog', data);
+    yield hideMessage()
     yield put(putSalesLog.success(response));
     yield successMessage('일지가 수정되었습니다.')
 
@@ -188,9 +201,9 @@ function* _putSalesLog({ payload: { data } }) {
 
 function* _putFile({ payload: { data } }) {
   try {
-
-    console.log(1111)
+    yield loadingMessage()
     const response = yield call(post_fetch_files, 'https://backend.saleslog.co/saleslog/upd_saleslog_file', data);
+    yield hideMessage()
     yield put(putFile.success(response));
     yield successMessage(response.message)
 
@@ -204,8 +217,10 @@ function* _putFile({ payload: { data } }) {
 
 function* _deleteFile({ payload: { data } }) {
   try {
-    console.log(22222)
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog_file', data);
+    yield hideMessage()
+
     yield put(deleteFile.success(response));
   } catch (error) {
     yield put(deleteFile.error(error));
@@ -216,7 +231,9 @@ function* _deleteFile({ payload: { data } }) {
 
 function* _postComment({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_feedback', data);
+    yield hideMessage()
     yield put(postComment.success(response));
   } catch (error) {
     yield put(postComment.error(error));
@@ -224,7 +241,9 @@ function* _postComment({ payload: { data } }) {
 }
 function* _putComment({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/upd_feedback', data);
+    yield hideMessage()
     yield put(putComment.success(response));
   } catch (error) {
     yield put(putComment.error(error));
@@ -232,7 +251,9 @@ function* _putComment({ payload: { data } }) {
 }
 function* _deleteComment({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_feedback', data);
+    yield hideMessage()
     yield put(deleteComment.success(response));
   } catch (error) {
     yield put(deleteComment.error(error));
@@ -250,7 +271,9 @@ function* _getCommentLists({ payload: { data } }) {
 //공동작성자 관련
 function* _putCouser({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/regi_saleslog_cousers', data);
+    yield hideMessage()
     yield put(putCouser.success(response));
   } catch (error) {
     yield put(putCouser.error(error));
@@ -258,7 +281,9 @@ function* _putCouser({ payload: { data } }) {
 }
 function* _deleteCouser({ payload: { data } }) {
   try {
+    yield loadingMessage()
     const response = yield call(post_fetch, 'https://backend.saleslog.co/saleslog/del_saleslog_cousers', data);
+    yield hideMessage()
     yield put(deleteCouser.success(response));
   } catch (error) {
     yield put(deleteCouser.error(error));
