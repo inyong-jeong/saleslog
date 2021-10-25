@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Divider, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import cmm from 'constants/common';
@@ -7,9 +8,12 @@ import { ReactComponent as Dot } from '../assets/icons/main/dot.svg'
 import { ReactComponent as Feedback } from '../assets/icons/main/feedback.svg'
 import { useHistory } from 'react-router';
 import { base64Enc } from "constants/commonFunc";
+import memberPng from 'assets/icons/workgroup/member.png'
+import Highlighter from "react-highlight-words";
 
 // import useResizeObserver from 'components/useResizeObserver';
 function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
+  const state = useSelector(state => state.SalesLog);
 
   const history = useHistory()
   const grayTextStyles = {
@@ -24,7 +28,6 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
     fontWeight: 300
   }
   //글자수 제한 더보기 
-  const contentRef = useRef(null);
   // const [isShowReadMore, setIsShowReadMore] = useState(false);
   // const observeCallback = (entries) => {
   //   for (let entry of entries) {
@@ -63,6 +66,16 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
     borderRadius: '3px'
   }
 
+  const orangebox = {
+    fontSize: 12,
+    backgroundColor: '#F6F6F6',
+    // marginLeft: 6,
+    color: '#F09A32',
+    fontWeight: 400,
+    padding: 4,
+    borderRadius: '3px'
+  }
+
   const greenbox = {
     fontSize: 12,
     backgroundColor: '#F6F6F6',
@@ -85,7 +98,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
       <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
-            <Avatar src={loglist.thumb_url ? (cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url) : null} />
+            <Avatar src={cmm.isEmpty(loglist.thumb_url) ? memberPng : (cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + loglist.thumb_url)} />
           </div>
           <div style={{ flexGrow: 2 }}>
             <span style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{loglist.user_name}</strong></span><span>&nbsp;</span>
@@ -93,8 +106,8 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
             <span style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname}</span>
             <div className='mt-1'></div>
             {(tabkey === '0010001') ?
-              <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /><span style={bluebox}> {loglist.needs_cods}</span></p>
-              : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.score}</span><Dot /><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> <Dot /> <span style={bluebox}>{loglist.needs_cods}</span></p>}
+              <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> {loglist.needs_cods && <><Dot /><span style={orangebox}> {loglist.needs_cods}</span></>}</p>
+              : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> {loglist.needs_cods && <><Dot /><span style={orangebox}> {loglist.needs_cods}</span></>}</p>}
             <div className='mt-1'></div>
 
           </div>
@@ -103,16 +116,62 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
         <div className='mt-1'></div>
+        {(tabkey === '0010001') ?
+          <div style={grayTextStyles}><span style={greenbox}>
+            <Highlighter
+              highlightClassName="Account_name"
+              searchWords={[state.keyword]}
+              autoEscape={true}
+              textToHighlight={loglist.account_name}
+            />
+          </span> <Dot /><span style={greenbox}>
+              <Highlighter
+                highlightClassName="man_name"
+                searchWords={[state.keyword]}
+                autoEscape={true}
+                textToHighlight={loglist.man_name}
+              />
+              <span>&nbsp;</span>
 
-
-        <div style={grayTextStyles}><span style={greenbox}>{loglist.account_name}</span> <Dot /><span style={greenbox}> {loglist.man_name} {loglist.man_posi}</span> </div>
-
-        <div style={{ fontSize: 14, fontWeight: 500 }}><strong>{loglist.title}</strong></div>
+              {loglist.man_posi}
+            </span>
+          </div>
+          :
+          <div style={grayTextStyles}><span style={greenbox}>
+            <Highlighter
+              highlightClassName="Account_name2"
+              searchWords={[state.keyword]}
+              autoEscape={true}
+              textToHighlight={loglist.account_name}
+            />
+          </span> <Dot /><span style={greenbox}>
+              <Highlighter
+                highlightClassName="man_name2"
+                searchWords={[state.keyword]}
+                autoEscape={true}
+                textToHighlight={loglist.man_name}
+              />
+              <span>&nbsp;</span>
+              {loglist.man_posi}
+            </span><Dot /> <span style={bluebox}>{loglist.score}</span></div>
+        }
+        <div style={{ fontSize: 14, fontWeight: 500 }}><strong>
+          <Highlighter
+            highlightClassName="Title"
+            searchWords={[state.keyword]}
+            autoEscape={true}
+            textToHighlight={loglist.title}
+          />
+        </strong></div>
         <div className='mt-1'></div>
-        {/* <div style={grayTextStyles}>{loglist.log} </div>
-         */}
         <div>
-          <div style={contentstyles} ref={contentRef}>{loglist.log}</div>
+          <Highlighter
+            style={contentstyles}
+            highlightClassName="Log"
+            searchWords={[state.keyword]}
+            autoEscape={true}
+            textToHighlight={loglist.log}
+          />
         </div>
 
         <div className='mt-1'></div>
