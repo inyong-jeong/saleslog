@@ -41,7 +41,8 @@ function SalesLog(props) {
   const [CommentLists, setCommentLists] = useState([])
   const [filelist, setFileList] = useState([])
   const [logneedslist, setLogNeedsList] = useState([])
-
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [source, setSource] = useState();
   const body = {
     slog_idx: base64Dec(props.match.params.id)
   }
@@ -88,6 +89,14 @@ function SalesLog(props) {
         type: SET_SALES_GB,
         payload: salesgb
       })
+
+      return () => {
+        dispatch({
+          type: SET_SALES_GB,
+          payload: '0010001'
+        })
+      }
+
     }
   }, [salesgb])
 
@@ -196,7 +205,13 @@ function SalesLog(props) {
   //   fileup: null
   // })
 
-
+  function fileUploadCheck(fileVal) {
+    let fileLength = fileVal.length;
+    let fileDot = fileVal.lastIndexOf('.');
+    let fileType = fileVal.substring(fileDot + 1, fileLength).toLowerCase()
+    console.log(fileType);
+    return fileType;
+  }
   function download(dataurl, filename) {
     let a = document.createElement("a");
     a.href = dataurl;
@@ -206,8 +221,14 @@ function SalesLog(props) {
   }
 
   const handlePreview = (file) => {
-    console.log(file)
-    download(file.url, 'filename');
+    const fileType = fileUploadCheck(file.url)
+    if (fileType === 'png' || fileType === 'jpg' || fileType === 'gif') {
+      setPreviewVisible(true);
+      setSource(file);
+    }
+    else {
+      download(file.url, 'filename');
+    }
   }
 
   const uploadButton = (
@@ -330,6 +351,11 @@ function SalesLog(props) {
   //   })
   // }, [])
 
+  console.log(filelist)
+
+  const handleOnCancle = () => {
+    setPreviewVisible(false);
+  }
 
   return (
     <>
@@ -417,6 +443,14 @@ function SalesLog(props) {
                 >
                   {filelist.length >= 5 ? null : uploadButton}
                 </Upload>
+                {source && <Modal
+                  visible={previewVisible}
+                  title={source.uid}
+                  footer={null}
+                  onCancel={handleOnCancle}
+                >
+                  <img alt="image" style={{ width: '100%' }} src={source.url} />
+                </Modal>}
               </div>
             </StyledCard>}
           </Col>
