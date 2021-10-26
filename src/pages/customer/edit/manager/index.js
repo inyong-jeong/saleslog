@@ -179,11 +179,11 @@ const EditCustomerManager = () => {
             <AvatarUp
               iconShape='square'
               imgsrc={preview ? preview : null}
-              height={200}
+              height={100}
               style={{
                 padding: 0,
-                width: 300,
-                height: 200,
+                width: 150,
+                height: 100,
               }}
               handleChange={handleFileChange} />
           </div>
@@ -274,14 +274,17 @@ const EditCustomerManager = () => {
           <div className={classes.innerBox}>
             <label className={classes.laebelStyle}>생일 </label>
             <br />
-            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday' value={
+            <DatePicker onChange={onChangeBirthday} format={'YYYY.MM.DD'} locale={locale} style={{ width: '100%' }} name='birthday' value={
               accountMangerInputs.birthday !== "" ?
                 moment(accountMangerInputs.birthday) :
-                null} />
+                null}
+
+
+            />
             <br />
             <label className={classes.laebelStyle}>결혼기념일 </label>
             <br />
-            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday' value={
+            <DatePicker onChange={onChangeMarryDay} format={'YYYY.MM.DD'} locale={locale} style={{ width: '100%' }} name='merryday' value={
               accountMangerInputs.merryday !== "" ?
                 moment(accountMangerInputs.merryday) :
                 null} />

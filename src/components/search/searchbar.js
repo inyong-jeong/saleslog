@@ -10,6 +10,8 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
 
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('')
+  const searchInput = useRef()
+
 
   // const array = ['삼성', '기아', '현대', '애플'];
   // console.log(keyword);
@@ -49,6 +51,8 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
     console.log('searchEnter:::::::::::::::::::', v)
     if (v || v === '') {
       onAddKeyword(v)
+      searchInput.current.blur()
+
       // setKeyword('')
       SearchEnter(false)
       BlankEnter(v)
@@ -92,10 +96,13 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
 
         <Search
           id='searchbar'
+          ref={searchInput}
+
           // allowClear
           onClick={handleOnClick}
           placeholder="검색어(고객, 고객담당자, 제목, 내용)"
           value={keyword}
+          size='large'
           onChange={handleKeyword}
           onSearch={handleEnter}
           style={{

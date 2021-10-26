@@ -40,6 +40,7 @@ export const hideMessage = () => {
 
 export const successMessage = (msg) => {
   message.success({
+
     content: msg,
     duration: 0.8,
     style: {
@@ -50,6 +51,7 @@ export const successMessage = (msg) => {
 
 export const errorMessage = (msg) => {
   message.error({
+
     content: msg,
     duration: 0.8,
     style: {

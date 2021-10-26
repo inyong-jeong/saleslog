@@ -13,6 +13,7 @@ import TreeInput from 'components/TreeInput';
 import { PlusSquareOutlined, CheckOutlined, MinusSquareOutlined, MinusOutlined } from '@ant-design/icons';
 import { ReactComponent as Info } from '../../../assets/icons/info.svg'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { copySync } from 'fs-extra';
 const { confirm } = Modal;
 
 const WgroupDeptPage = () => {
@@ -50,6 +51,7 @@ const WgroupDeptPage = () => {
     }
   )
   const [treeExpanded, setTreeExpanded] = useState([])
+  const [focusId, setFocusId] = useState();
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -322,14 +324,17 @@ const WgroupDeptPage = () => {
     })
   }
 
-  const handleInputFocus = (data) => {
-    setInputs({
-      ...inputs,
-      isBtnShow: data,
-    })
+  const handleInputFocus = (data, dept_idx) => {
+    if (data) {
+      setFocusId(dept_idx)
+    } else {
+      setFocusId(data)
+    }
   }
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
+
+
   return (
     <>
       <MyAppBar
@@ -393,7 +398,7 @@ const WgroupDeptPage = () => {
                   />
                 ),
                 buttons: [
-                  <CheckOutlined
+                  <>{node.dept_idx === focusId && <CheckOutlined
                     style={{
                       position: 'relative',
                       fontSize: 16,
@@ -406,7 +411,7 @@ const WgroupDeptPage = () => {
                       //console.log('onclick::',node, inputs.treedata);                    
                       updDept({ dept_idx: node.dept_idx, dept_name: node.title })
                     }}
-                  />,
+                  />}</>,
                   (node.lvl !== 5) &&
                   <PlusSquareOutlined
                     style={{

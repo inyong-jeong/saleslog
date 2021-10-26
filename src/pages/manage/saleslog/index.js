@@ -9,8 +9,8 @@ import cmm from 'constants/common';
 import { PlusOutlined } from '@ant-design/icons';
 import { ResponsivePie } from '@nivo/pie';
 import NeedsCard from 'components/NeedsCard'
-import { SET_NAVIBAR_SHOW, SET_SALES_GB, STORE_DATA } from 'constants/actionTypes';
-import { base64Dec, base64Enc } from "constants/commonFunc";
+import { SET_NAVIBAR_SHOW, SET_SALES_GB } from 'constants/actionTypes';
+import { base64Dec, ConvertDate } from "constants/commonFunc";
 import { useDispatch, useSelector } from 'react-redux'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import CouserModal from 'components/CouserModal'
@@ -369,7 +369,7 @@ function SalesLog(props) {
       <div className='content_body'>
         <Row>
           <Col>
-            {Log && <p style={{ fontSize: 14, fontWeight: 500, color: '#111' }}>{Log.title}</p>}
+            {Log && <p style={{ fontSize: 18, fontWeight: 500, color: '#111' }}>{Log.title}</p>}
           </Col>
         </Row>
         <div className='mt-1'></div>
@@ -379,7 +379,7 @@ function SalesLog(props) {
               <ul >
                 <li key={1} id={1} style={{ display: 'flex' }}>
                   <CalIcon />
-                  <div className='ml-1'>{Log.meeting_date}</div>
+                  <div className='ml-1'>{ConvertDate(Log.meeting_date)}</div>
                 </li>
                 <li key={2} id={2} style={{ display: 'flex' }}>
                   <TimeIcon />
@@ -445,7 +445,7 @@ function SalesLog(props) {
                 </Upload>
                 {source && <Modal
                   visible={previewVisible}
-                  title={source.uid}
+                  title={' '}
                   footer={null}
                   onCancel={handleOnCancle}
                 >

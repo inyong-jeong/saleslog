@@ -37,10 +37,10 @@ const MyNavigation = () => {
 
       }}
       showLabels>
-      <BottomNavigationAction label="홈" icon={<Home />} value='/main' style={{ color: '#666666' }} />
-      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' style={{ color: '#666666' }} />
-      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' style={{ color: '#666666' }} />
-      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' style={{ color: '#666666' }} />
+      <BottomNavigationAction label="홈" icon={<Home />} value='/main' style={{ color: '#666666', fontSize: '14px' }} />
+      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' style={{ color: '#666666', fontSize: '14px' }} />
+      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' style={{ color: '#666666', fontSize: '14px' }} />
+      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' style={{ color: '#666666', fontSize: '14px' }} />
 
     </BottomNavigation>
 

@@ -7,7 +7,7 @@ import styles from '../assets/style/Main.module.css'
 import { ReactComponent as Dot } from '../assets/icons/main/dot.svg'
 import { ReactComponent as Feedback } from '../assets/icons/main/feedback.svg'
 import { useHistory } from 'react-router';
-import { base64Enc } from "constants/commonFunc";
+import { base64Enc, ConvertDate } from "constants/commonFunc";
 import memberPng from 'assets/icons/workgroup/member.png'
 import Highlighter from "react-highlight-words";
 
@@ -47,7 +47,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
   const contentstyles = {
     position: 'relative',
     display: '-webkit-box',
-    lineHeight: '',
+    lineHeight: '2',
     overflow: 'hidden',
     WebkitBoxOrient: 'vertical',
     WebkitLineClamp: 5,
@@ -112,7 +112,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
 
           </div>
 
-          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{loglist.meeting_date} {loglist.meeting_stime}</div>
+          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{ConvertDate(loglist.meeting_date)} {loglist.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
         <div className='mt-1'></div>
@@ -155,7 +155,9 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
               {loglist.man_posi}
             </span><Dot /> <span style={bluebox}>{loglist.score}</span></div>
         }
-        <div style={{ fontSize: 14, fontWeight: 500 }}><strong>
+        <div className='mt-1'></div>
+
+        <div style={{ fontSize: 16, fontWeight: 500 }}><strong>
           <Highlighter
             highlightClassName="Title"
             searchWords={[state.keyword]}

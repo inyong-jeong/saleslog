@@ -96,7 +96,7 @@ function SingleComment(props) {
               {props.comment.note}
             </p>
         }
-        datetime={moment(props.comment.cre_dt).format('YYYY-MM-DD HH:mm')}
+        datetime={moment(props.comment.cre_dt).format('YYYY.MM.DD HH:mm')}
       ></Comment>
 
 

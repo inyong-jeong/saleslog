@@ -271,7 +271,7 @@ const MyAppBar = ({
 
 
             <Typography variant="h6"
-              style={{ fontSize: 14, fontWeight: 'normal' }}>
+              style={{ fontSize: 20, fontWeight: 'bold' }}>
               {barTitle}
             </Typography>
 

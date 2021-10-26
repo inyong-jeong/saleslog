@@ -9,12 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Collapse } from 'antd';
 import cmm from 'constants/common';
 import AvatarUp from '../../../../components/AvatarUp';
-import { base64Dec } from 'constants/commonFunc';
+import { base64Dec, ConvertDate } from 'constants/commonFunc';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { stat } from 'fs-extra';
 import { useScrollToTop } from '../../../../constants/commonFunc';
 import { ReactComponent as IdCard } from 'assets/icons/customer/idcard.svg'
+
 
 const { confirm } = Modal
 const { Panel } = Collapse
@@ -148,11 +149,11 @@ const ManagerProfilePage = () => {
               <Typography variant='h6' align='left' className={classes.title}>기념일</Typography>
               <div className={classes.innerBox}>
                 <label className={classes.laebelStyle}>생일 </label>
-                <p className={classes.showDetails}>{managerDetails.birthday}</p>
+                <p className={classes.showDetails}>{ConvertDate(managerDetails.birthday)}</p>
                 <h1 style={lineStyle} />
 
                 <label className={classes.laebelStyle}>결혼기념일</label>
-                <p className={classes.showDetails}>{managerDetails.merryday}</p>
+                <p className={classes.showDetails}>{ConvertDate(managerDetails.merryday)}</p>
                 <h1 style={lineStyle} />
               </div>
 

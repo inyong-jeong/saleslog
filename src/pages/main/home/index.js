@@ -54,8 +54,8 @@ const DashBoardPage = () => {
   });
 
   const mainGrayTitleStyle = {
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: 16,
+    fontWeight: 700,
     color: '#111111',
     margin: 0
   }
@@ -90,6 +90,9 @@ const DashBoardPage = () => {
     marginBottom: 24,
     border: 0,
     overflow: 'hidden',
+    fontSize: 16,
+    fontWeight: 700
+
   };
 
 
@@ -97,15 +100,12 @@ const DashBoardPage = () => {
     display: 'flex',
     gridGap: '10px',
     flexDirection: 'row',
-    gridGap: 10,
   }
 
   const mobileCardContainerStyle = {
     display: 'flex',
     gridGap: '10px',
     flexDirection: 'column',
-    gridGap: 10,
-
   }
 
   const tabs = [{
@@ -444,7 +444,7 @@ const DashBoardPage = () => {
                   {birthday ?
                     <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다.`} </p>
                     :
-                    <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요.</p>
+                    <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
                   }
                   <div className='mt-1' />
                   {birthday &&
@@ -456,6 +456,8 @@ const DashBoardPage = () => {
             </Collapse>
             : null
         }
+        <div className='mt-5' />
+
         {sectionTitle("영업일지 현황", <Calendar />)}
         <div className='mt-1' />
         <DashButton
@@ -513,7 +515,7 @@ const DashBoardPage = () => {
             <NivoBarChart key={'bar_1'} data={barChartData(salesStat[1])} labels={Baroption.xaxis.categories}
               margin={{ top: 50, right: 50, bottom: 50, left: 80 }} hideAxisBottom />
 
-            <div className='mt-5' />
+            <div className='mt-2' />
             <Row >
               {sectionTitle("영업 니즈 현황", <Analysis />)}
               <Col sm={24} xs={24} md={24} lg={24}>
@@ -524,11 +526,12 @@ const DashBoardPage = () => {
           </>
         }
         <Row justify='center'>
-          <Col sm={8} xs={8} md={8} lg={8}>
+          <Col sm={12} xs={12} md={12} lg={12}>
             <StyledButton onClick={handleCsvDownload}>영업일지 실적 다운로드</StyledButton>
           </Col>
         </Row>
         <Divider style={{ borderColor: '#dfdfdf' }} />
+        <div className='mt-5' />
 
         <Row>
           {sectionTitle("리드관리 현황", <Paper />)}
@@ -654,7 +657,7 @@ const DashBoardPage = () => {
                 hideAxisBottom
               />
             </Row>
-            <div className='mt-5'></div>
+            <div className='mt-2'></div>
 
             <Row>
               {sectionTitle("리드 니즈 현황", <Analysis />)}
@@ -668,7 +671,7 @@ const DashBoardPage = () => {
           </>
         }
         <Row justify='center'>
-          <Col sm={8} xs={8} md={8} lg={8}>
+          <Col sm={12} xs={12} md={12} lg={12}>
             <StyledButton onClick={handleCsvDownloadRd}>리드일지 실적 다운로드</StyledButton>
           </Col>
         </Row>

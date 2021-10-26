@@ -317,7 +317,6 @@ function UploadSalesLog(props) {
   }, [selectedAccount])
 
   const onDatePickerChange = (date) => {
-    console.log(date)
     setDateString(date)
     const convertdate = moment(date).format('YYYY-MM-DD');
     setFromData({
@@ -344,7 +343,6 @@ function UploadSalesLog(props) {
   }
 
   const onChange = (e) => {
-    console.log(e.target.value);
     setSelectedAccount(null);
     setSelectedAccountPerson(null);
     setLeadActivity(null);
@@ -426,7 +424,6 @@ function UploadSalesLog(props) {
 
   //공동작성자 추가
   const handleonInsert = (name, login_idx, thumb_url) => {
-    console.log(login_idx);
     const list = {
       id: login_idx,
       name,
@@ -437,7 +434,6 @@ function UploadSalesLog(props) {
 
   //공동작성자 삭제
   const handleonRemove = (id) => {
-    console.log(id);
     setLists(lists.filter(list => list.id !== id));
   }
 
@@ -519,7 +515,6 @@ function UploadSalesLog(props) {
   }
 
   const onAccountSelectChange = (v, actiontype) => {
-    console.log(v);
     setLeadActivity(accountsList[getScoreIndex(v)].score)
     setSelectedAccountPerson(null);
     setSelectedAccount(v);
@@ -576,7 +571,7 @@ function UploadSalesLog(props) {
         <DatePicker className='col-12'
           inputReadOnly={true}
           defaultValue={moment}
-          format={'YYYY-MM-DD'}
+          format={'YYYY.MM.DD'}
           value={dateString}
           onChange={onDatePickerChange} />
         <div className='mt-2'></div>
@@ -586,13 +581,20 @@ function UploadSalesLog(props) {
           defaultValue={moment}
           value={start}
           onChange={onChangesSartValue}
+          onSelect={(value) => {
+            setStart(value);
+          }}
         />
         <TimePicker className='col-6'
+          // getPopupContainer={trigger => console.log(trigger.parentElement)}
           inputReadOnly={true}
           format={'HH:mm'}
           defaultValue={moment}
           value={end}
           onChange={onChangeEndValue}
+          onSelect={(value) => {
+            setEnd(value);
+          }}
         />
         <div className='mt-2'></div>
         <div className="row">
