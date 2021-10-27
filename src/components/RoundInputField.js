@@ -16,7 +16,9 @@ function RoundInputField(props) {
   return (
     <React.Fragment>
       {/* <label className="tk-form-label" htmlFor={props.id} value={props.value}>{props.title}</label> */}
-      <input style={Styles}
+      <input
+        onKeyPress={props.onKeyPress}
+        style={Styles}
         type={props.type}
         name={props.name}
         value={props.value}
