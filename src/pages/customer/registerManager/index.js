@@ -15,6 +15,7 @@ import locale from 'antd/es/date-picker/locale/ko_KR';
 import AvatarUp from "../../../components/AvatarUp";
 import { base64Dec } from 'constants/commonFunc';
 import { alertMessage, errorMessage } from "../../../constants/commonFunc";
+import { useScrollToTop } from "constants/commonFunc";
 
 const { Panel } = Collapse
 export const useStyles = makeStyles({
@@ -66,6 +67,7 @@ const RegisterManager = () => {
   const history = useHistory()
   const params = useParams()
 
+  useScrollToTop()
   useEffect(() => {
     setAccoutManagerInputs({ ...accountMangerInputs, 'acc_idx': base64Dec(params.accId) })
   }, [])

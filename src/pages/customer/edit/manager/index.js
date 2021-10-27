@@ -19,6 +19,7 @@ import AvatarUp from '../../../../components/AvatarUp';
 import cmm from 'constants/common';
 import { base64Dec } from 'constants/commonFunc';
 import { alertMessage } from '../../../../constants/commonFunc';
+import { useScrollToTop } from "constants/commonFunc";
 
 const { Panel } = Collapse
 const EditCustomerManager = () => {
@@ -32,6 +33,7 @@ const EditCustomerManager = () => {
   const [preview, setPreview] = useState(null)
   const [chagnedPhoto, setChagnedPhoto] = useState(null)
 
+  useScrollToTop()
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
@@ -179,11 +181,11 @@ const EditCustomerManager = () => {
             <AvatarUp
               iconShape='square'
               imgsrc={preview ? preview : null}
-              height={100}
+              height={200}
               style={{
                 padding: 0,
-                width: 150,
-                height: 100,
+                width: 300,
+                height: 200,
               }}
               handleChange={handleFileChange} />
           </div>
