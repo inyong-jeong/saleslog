@@ -108,11 +108,11 @@ const CustomerRegisterInfo = () => {
     if (!inputs.sales_gb || !inputs.score) {
       return errorMessage('고객사 구분 및 등급/단계 선택은 필수 항목입니다.')
     }
-    if (inputs.sales_gb === '0010001') { //거래고객시 담당자명 및 부서는 필수 
-      if (!inputs.man_name || !inputs.dept) {
-        return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
-      }
-    }
+    // if (inputs.sales_gb === '0010001') { //거래고객시 담당자명 및 부서는 필수 
+    //   if (!inputs.man_name || !inputs.dept) {
+    //     return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
+    //   }
+    // }
 
     if (inputs.reg_num.length > 0) {
       if (inputs.reg_num.length != 10 || inputs.reg_num.includes("-")) {
@@ -314,7 +314,7 @@ const CustomerRegisterInfo = () => {
             </div>
           </Typography>
           <div className={classes.innerBox}>
-            <label className={classes.laebelStyle}>담당자 이름 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
+            <label className={classes.laebelStyle}>담당자 이름 </label>
             <Input
               name='man_name'
               onChange={handleChange}
@@ -322,7 +322,7 @@ const CustomerRegisterInfo = () => {
               placeholder="담당자 이름을 입력해주세요."
               margin="normal"
             />
-            <label className={classes.laebelStyle}>담당자 부서 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
+            <label className={classes.laebelStyle}>담당자 부서</label>
             <Input
               name='dept'
               onChange={handleChange}

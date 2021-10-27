@@ -60,11 +60,9 @@ const myProfilePage = (props) => {
     // 하단 네비 설정 
     dispatch({
       type: SET_NAVIBAR_SHOW,
-      payload: true
+      payload: false
     }
     )
-    console.log('state::::::::::::::::::::', state)
-    //setInputs({...inputs, login_idx:base64Dec(params.memberId)})
 
     //내 프로필 정보 
     dispatch(getProfileDetail.call())

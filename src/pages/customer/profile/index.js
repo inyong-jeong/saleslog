@@ -15,7 +15,6 @@ import { Modal } from 'antd';
 import { SET_LAST_TAB } from '../../../constants/actionTypes';
 import { useScrollToTop } from '../../../constants/commonFunc';
 
-
 const { confirm } = Modal
 const { TabPane } = FullTabs;
 

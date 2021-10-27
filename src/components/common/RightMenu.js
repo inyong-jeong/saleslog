@@ -152,7 +152,7 @@ export default function RightMenu() {
           <Panel header="생일" key="1" style={customPanelStyle} >
             <div>
               {(birthday && bday.length > 0) ?
-                <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다`} </p>
+                <p style={{ fontSize: 14, color: '#666666' }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다`} </p>
                 :
                 <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
               }
@@ -194,7 +194,7 @@ export default function RightMenu() {
                   <NoticeItem key={item.b_idx} item={item} onClick={() => handleWgNotice(item)} />
                 ))
               }
-              <div className='mt-1' style={{ float: 'right', cursor: 'pointer' }} onClick={() => handleOnGroup()}>더보기</div>
+              <div className='mt-1' style={{ float: 'right', cursor: 'pointer', color: '#398FFF', fontWeight: 600 }} onClick={() => handleOnGroup()}>더보기</div>
             </div>
           </Panel>
           <Panel header={<>
@@ -212,7 +212,7 @@ export default function RightMenu() {
                   <NoticeItem key={item.b_idx} item={item} onClick={() => handleSysNotice(item)} />
                 ))
               }
-              <div className='mt-1' style={{ float: 'right', cursor: 'pointer' }} onClick={() => handleOnSystem()}>더보기</div>
+              <div className='mt-1' style={{ float: 'right', cursor: 'pointer', color: '#398FFF', fontWeight: 600 }} onClick={() => handleOnSystem()}>더보기</div>
 
             </div>
           </Panel>

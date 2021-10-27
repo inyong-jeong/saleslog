@@ -5,11 +5,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory, useParams } from 'react-router';
 import { getLogLists } from '../../redux/saleslog/actions';
 import { ReactComponent as Dot } from '../../assets/icons/main/dot.svg'
-import { base64Dec } from '../../constants/commonFunc';
+import { base64Dec, base64Enc } from '../../constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
 import cmm from 'constants/common';
 import { ReactComponent as Feedback } from '../.././assets/icons/main/feedback.svg'
-
+import CustomFab from '../styledcomponent/CustomFab';
 const CustomerLogPage = () => {
 
   const dispatch = useDispatch()
@@ -64,7 +64,7 @@ const CustomerLogPage = () => {
   }, [inputs])
 
   const handleLogClick = (singleList) => {
-    history.push(`/main/manage/saleslog/${singleList.slog_idx}`)
+    history.push(`/main/manage/saleslog/${base64Enc(singleList.slog_idx)}`)
   }
 
   const CustomerLogItem = ({ singleList }) => (
@@ -119,6 +119,8 @@ const CustomerLogPage = () => {
 
   }
 
+  const navigateTo = () => history.push('/main/upload')
+
   return (
     <InfiniteScroll
       hasMore={true}
@@ -137,6 +139,8 @@ const CustomerLogPage = () => {
         }
 
       </div>
+      <CustomFab navigateTo={navigateTo} />
+
     </InfiniteScroll>
   );
 }

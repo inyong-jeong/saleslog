@@ -443,9 +443,9 @@ const DashBoardPage = () => {
               <Panel header="생일" key="1" style={customPanelStyle}>
                 <div>
                   {birthday ?
-                    <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다.`} </p>
+                    <p style={{ fontSize: 14, color: '#666666', fontWeight: 500 }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다.`} </p>
                     :
-                    <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
+                    <p onClick={handleCommingAnn} style={{ fontSize: 14, color: '#666666', cursor: 'pointer', fontWeight: 500 }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
                   }
                   <div className='mt-1' />
                   {birthday &&
