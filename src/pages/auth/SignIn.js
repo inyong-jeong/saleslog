@@ -216,6 +216,9 @@ const SignIn = (props) => {
 
     })
   }
+  const onKeyPress = (e) => {
+    if (e.key == 'Enter') handleOnLogin()
+  }
 
   return (
     <>
@@ -243,6 +246,7 @@ const SignIn = (props) => {
                     />
                   </div>
                   <RoundInputField
+                    onKeyPress={onKeyPress}
                     id="password"
                     title="비밀번호"
                     placeholder="비밀번호 입력 (영문,숫자 포함 8자리)"
