@@ -9,7 +9,7 @@ import { base64Dec } from '../../constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
 import cmm from 'constants/common';
 import { ReactComponent as Feedback } from '../.././assets/icons/main/feedback.svg'
-
+import CustomFab from '../styledcomponent/CustomFab';
 const CustomerLogPage = () => {
 
   const dispatch = useDispatch()
@@ -119,6 +119,8 @@ const CustomerLogPage = () => {
 
   }
 
+  const navigateTo = () => history.push('/main/upload')
+
   return (
     <InfiniteScroll
       hasMore={true}
@@ -137,6 +139,8 @@ const CustomerLogPage = () => {
         }
 
       </div>
+      <CustomFab navigateTo={navigateTo} />
+
     </InfiniteScroll>
   );
 }
