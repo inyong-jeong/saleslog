@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Divider, Collapse } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
+import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import moment from 'moment';
 import { getsaleslogstat, getleadlogstat, getlogsdownload } from 'redux/dashboard/actions';
 import { getProfileInfo } from 'redux/workgroup/actions';
@@ -175,6 +176,11 @@ const DashBoardPage = () => {
   })
 
   useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: true
+    })
+
     dispatch(getProfileInfo.call())
     dispatch(postAnniversary.call())
     setUserPermission(myInfo.permission)
