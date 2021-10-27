@@ -17,7 +17,7 @@ import { alertMessage, errorMessage } from "../../constants/commonFunc";
 import { Tooltip } from "antd";
 import { ReactComponent as Info } from '../../assets/icons/info.svg'
 import { customerType, gradeTypeTooltip, stageTypeTooltip, managerTooltip, tagToolTip } from './toolTipText'
-
+import { useScrollToTop } from "../../constants/commonFunc";
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
 
@@ -89,7 +89,7 @@ const CustomerRegisterInfo = () => {
       tel: '',
     }
   )
-
+  useScrollToTop()
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,

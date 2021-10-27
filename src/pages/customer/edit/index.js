@@ -16,7 +16,7 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useParams } from "react-router";
 import { errorMessage } from "../../../constants/commonFunc";
 import { base64Dec } from 'constants/commonFunc';
-
+import { useScrollToTop } from "constants/commonFunc";
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
 
@@ -61,6 +61,7 @@ const CustomerEditPage = () => {
   const state = useSelector(state => state.Customer)
   const acc_details = state.customerDetails
 
+  useScrollToTop()
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
