@@ -1,14 +1,13 @@
 import {
   Badge, Toolbar, Typography,
   IconButton,
-
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useMediaQuery } from "react-responsive";
-import { Divider } from 'antd';
+import { Divider, Avatar } from 'antd';
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Info } from '../.././assets/icons/info.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
@@ -26,6 +25,10 @@ import { useHistory } from 'react-router';
 import { removeAll } from 'helpers/authUtils';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import cmm from '../../constants/common';
+import { getProfileDetail } from '../../redux/etc/actions';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const { confirm } = Modal;
 const useStyles = makeStyles({
@@ -64,7 +67,27 @@ const MyAppBar = ({
   onWorkGroupDelete
 }) => {
 
+  const dispatch = useDispatch()
   const history = useHistory()
+  const state = useSelector(state => state.Etc)
+  const [profileImage, setProfileImage] = useState(null)
+
+  useEffect(() => {
+    dispatch(getProfileDetail.call())
+  }, [])
+
+  useEffect(() => {
+    if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
+
+      setProfileImage(
+        cmm.isEmpty(state.getProfileDetailRes[0].thumb_url)
+          ? null
+          : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+      )
+
+    }
+  }, [state.getProfileDetailRes])
+
   const classes = useStyles()
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -136,7 +159,8 @@ const MyAppBar = ({
           <Info /> 정보</Link>
       </Menu.Item>
     </Menu>
-  );
+  )
+
   return (
     <div
       style={{
@@ -182,7 +206,14 @@ const MyAppBar = ({
                   trigger="click"
                   overlay={menu}>
                   <IconButton color="inherit">
-                    <Person stroke='#333333' />
+                    {profileImage ?
+                      <Avatar
+                        src={profileImage}
+                        size={30}
+                      />
+                      :
+                      <Person stroke='#333333' />
+                    }
                   </IconButton>
                 </Dropdown>
               </div>

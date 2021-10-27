@@ -12,15 +12,38 @@ import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_w
 import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
 import { removeAll } from 'helpers/authUtils';
 import { useHistory } from 'react-router';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import cmm from 'constants/common';
+import { getProfileDetail } from '../../redux/etc/actions';
+import { useSelector, useDispatch } from 'react-redux';
 
 const { confirm } = Modal;
 export default function TopMenu({ badgeContent }) {
 
+  const dispatch = useDispatch()
   const history = useHistory()
+  const state = useSelector(state => state.Etc)
+  const [profileImage, setProfileImage] = useState(null)
+
+  useEffect(() => {
+    dispatch(getProfileDetail.call())
+  }, [])
+
+  useEffect(() => {
+    if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
+
+      setProfileImage(
+        cmm.isEmpty(state.getProfileDetailRes[0].thumb_url)
+          ? null
+          : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+      )
+
+    }
+  }, [state.getProfileDetailRes])
+
   const onLogoutClick = () => {
     confirm({
       title: '정말 로그아웃 하시겠습니까?',
@@ -128,7 +151,14 @@ export default function TopMenu({ badgeContent }) {
             <div>
               <Dropdown overlay={menu}>
                 <IconButton>
-                  <Person stroke='white' />
+                  {profileImage ?
+                    <Avatar
+                      src={profileImage}
+                      size={20}
+                    />
+                    :
+                    <Person stroke='white' />
+                  }
                 </IconButton>
               </Dropdown>
             </div>
