@@ -183,16 +183,16 @@ export const isAccessToken = async () => {
   //console.log('isUserAuthticated::: 엑세스 토큰 체크완료...',await res);
   const result = await res;
 
-  if (await result.success) {
+  if (result.success) {
     //console.log('result::::::::::::::::',result);
-    if (await result.message.org_idx == '') {
+    if (result.message.org_idx == '') {
       //워크그룹이 없는 경우
       return 'NoWorkgroup';
     } else {
       return 'OkToken';
     }
 
-  } else if (await result.message == '토큰만료') {
+  } else if (result.message == '토큰만료') {
     // 엑세스 토큰 재발행(refresh token)
     const reToken = localStorage.getItem('oauth-refresh-token');
     //console.log('reToken:::',reToken);
@@ -215,7 +215,7 @@ export const isAccessToken = async () => {
       return 'ReToken';
     }
 
-  } else if (await result.message.auth_ok == true && await result.message.org_idx == '') {
+  } else if (result.message.auth_ok == true && result.message.org_idx == '') {
     //워크그룹이 없는 경우
     return 'NoWorkgroup';
 
