@@ -24,7 +24,7 @@ const check_token_fetch = async (url, token) => {
     //   //throw new Error(data.message)
     // }
 
-    return data
+    return await data
   } catch (error) {
     return null;
     //throw new Error(error)
@@ -54,11 +54,11 @@ const check_fetch = async (url) => {
   const result = await response.json()
   const data = await result
 
-  if (data.success !== true) {
-    throw new Error(data.message)
+  if (await data.success !== true) {
+    throw new Error(await data.message)
   }
 
-  return data
+  return await data
 }
 
 
@@ -74,10 +74,10 @@ const get_fetch = async (url) => {
   })
   const result = await response.json()
   const data = await result
-  if (data.status !== 200) {
-    throw new Error(data.message)
+  if (await data.status !== 200) {
+    throw new Error(await data.message)
   }
-  return data
+  return await data
 }
 
 
@@ -107,11 +107,11 @@ const post_fetch = async (url, body) => {
   const result = await response.json()
   const data = await result
   //console.log('result:::',url, result, data)
-  if (data.status !== 200) {
-    throw new Error(data.message)
+  if (await data.status !== 200) {
+    throw new Error(await data.message)
   }
 
-  return data
+  return await data
 }
 
 //post - no token
@@ -135,11 +135,11 @@ const post_fetch_no_token = async (url, body) => {
   })
   const result = await response.json()
   const data = await result
-  if (data.status !== 200) {
-    throw new Error(data.message)
+  if (await data.status !== 200) {
+    throw new Error(await data.message)
   }
 
-  return data
+  return await data
 }
 
 
