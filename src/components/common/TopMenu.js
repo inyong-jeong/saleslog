@@ -3,6 +3,7 @@ import { Badge, IconButton } from '@material-ui/core';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
+import { ReactComponent as SmallPerson } from '../.././assets/icons/log/person.svg'
 import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
 import { ReactComponent as Info } from '../.././assets/icons/info.svg'
 import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
@@ -44,9 +45,12 @@ export default function TopMenu({ badgeContent }) {
   //profile menu 
   const menu = (
     <Menu onClick={onProfileClick}>
-      <Link to={'/main/etc/profile'}>
-        <Menu.Item key="1">내 프로필 </Menu.Item>
-      </Link>
+
+      <Menu.Item key="1">
+        <Link to={'/main/etc/profile'}>
+          <SmallPerson stroke='#333' />내 프로필
+        </Link>
+      </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="2">
         <Link to={'/main/etc/notice/group'}>

@@ -12,6 +12,7 @@ import { Divider } from 'antd';
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as Info } from '../.././assets/icons/info.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
+import { ReactComponent as SmallPerson } from '../.././assets/icons/log/person.svg'
 import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
 import { ReactComponent as BackIcon } from '../.././assets/icons/back.svg'
 import { ReactComponent as AddIcon } from '../.././assets/icons/plus.svg'
@@ -63,26 +64,15 @@ const MyAppBar = ({
   onWorkGroupDelete
 }) => {
 
-
   const history = useHistory()
   const classes = useStyles()
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
 
-  // const [anchorEl, setAnchorEl] = useState(null)
-  // const open = Boolean(open)
-
   const onProfileClick = (e) => {
     console.log('프로필 클릭 ', e)
-    // setAnchorEl(e.currentTarget)
   }
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   const onLogoutClick = () => {
     confirm({
@@ -106,9 +96,13 @@ const MyAppBar = ({
   // 안에 키값으로 이동하는 걸로 바꿔야됨 
   const menu = (
     <Menu onClick={onProfileClick} >
-      <Link to={'/main/etc/profile'}>
-        <Menu.Item key="1"> 내 프로필 </Menu.Item>
-      </Link>
+
+      <Menu.Item key="1">
+        <Link to={'/main/etc/profile'}>
+          <SmallPerson stroke='#333' /> 내 프로필
+        </Link>
+      </Menu.Item>
+
       <Menu.Divider />
       <Menu.Item key="2">
         <Link to={'/main/etc/notice/group'}>
@@ -149,8 +143,16 @@ const MyAppBar = ({
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        backgroundColor: '#fff'
-      }}>
+        backgroudColor: '#fff'
+      }
+        // isMobile ? {
+        //   backgroundColor: '#000',
+        // } : {
+        //   backgroundColor: '#fff'
+        // }
+
+      }
+    >
       <div>
         <div
           style={{

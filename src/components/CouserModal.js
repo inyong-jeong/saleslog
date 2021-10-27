@@ -61,7 +61,7 @@ const CouserModal = (props) => {
   return (
     <>
       <label color="primary" onClick={handleOnClick} style={{ cursor: 'pointer' }}>
-        <PersonIcon />
+        <PersonIcon stroke='#aaa' />
 
       </label>
       <div style={{ display: 'inline-block', verticalAlign: '-3px', marginLeft: '3px' }}>공동작성자</div>
