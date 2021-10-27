@@ -9,7 +9,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useMediaQuery } from "react-responsive";
 import { Divider, Avatar } from 'antd';
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
-import { ReactComponent as Info } from '../.././assets/icons/info.svg'
+import { ReactComponent as Info } from '../.././assets/icons/info_black.svg'
 import { ReactComponent as Person } from '../.././assets/icons/person.svg'
 import { ReactComponent as SmallPerson } from '../.././assets/icons/log/person.svg'
 import { ReactComponent as Logout } from '../.././assets/icons/main/logout.svg'
