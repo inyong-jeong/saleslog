@@ -143,7 +143,7 @@ const MyAppBar = ({
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        backgroudColor: '#fff'
+        backgroundColor: '#fff'
       }
         // isMobile ? {
         //   backgroundColor: '#000',
