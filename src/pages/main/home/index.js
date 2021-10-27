@@ -389,7 +389,7 @@ const DashBoardPage = () => {
   //영업일지 실적다운로드
   const handleCsvDownload = () => {
     //XLSX
-    console.log('excel download click')
+    console.log('excel download click:::')
     dispatch(getlogsdownload.call({ dt_typ: bodyLog.dt_typ, from_dt: bodyLog.from_dt, to_dt: bodyLog.to_dt, sales_man: bodyLog.sales_man, dept_idx: bodyLog.dept_idx, sales_gb: '0010001' }));
   }
 
@@ -401,6 +401,7 @@ const DashBoardPage = () => {
   }
 
   useEffect(() => {
+    //console.log('excel::111::', state.getlogsdownloadRes);
     if (state.getlogsdownloadRes) {
       console.log('excel::::', state.getlogsdownloadRes);
     }
@@ -481,6 +482,8 @@ const DashBoardPage = () => {
         {salesStat &&
           <>
             <div>
+            <a href="https://backend.saleslog.co/files/tmpfile.xlsx" >다운로드</a>&nbsp;&nbsp;&nbsp;
+            <a href="https://backend.saleslog.co/files/tmpfile.xlsx" target='_blank' >다운로드</a>
               {sectionTitle("영업 목적", <ChartIcon />)}
               <div className='mt-1' />
               <div style={isMobile ? mobileCardContainerStyle : cardContainerStyle}>

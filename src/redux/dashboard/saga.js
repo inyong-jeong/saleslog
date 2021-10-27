@@ -54,6 +54,7 @@ function* _getLogsExcelDownload({ payload: { body } }) {
     yield console.log('getLogsExcelDownload::: ', body)
     const response = yield call(post_fetch_download, cmm.SERVER_API_URL + LOGS_EXCEL_DOWNLOAD, body)
     yield hideMessage()
+    yield console.log('saga ::::',response)
     yield put(getlogsdownload.success(response))
   } catch (error) {
     yield put(getlogsdownload.error(error))
