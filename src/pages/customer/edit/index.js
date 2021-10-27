@@ -153,11 +153,11 @@ const CustomerEditPage = () => {
         return errorMessage('거래고객 선택시 등급을 선택해야 합니다.')
       }
 
-      if (!acc_details.man_names) {
-        if (!inputs.man_name || !inputs.dept) {
-          return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
-        }
-      }
+      // if (!acc_details.man_names) {
+      //   if (!inputs.man_name || !inputs.dept) {
+      //     return errorMessage('거래고객 선택시 담당자명, 담당자 부서는 필수 항목입니다.')
+      //   }
+      // }
 
     } else {
       if (scoreTypeArray.includes(inputs.score)) {
@@ -329,7 +329,8 @@ const CustomerEditPage = () => {
             <Typography variant='h6' align='left' className={classes.title}>담당자 정보</Typography>
 
             <div className={classes.innerBox}>
-              <label className={classes.laebelStyle}>담당자 이름 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
+              <label className={classes.laebelStyle}>담당자 이름 </label>
+              {/* <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span> */}
               <Input
                 name='man_name'
                 onChange={handleChange}
@@ -337,7 +338,7 @@ const CustomerEditPage = () => {
                 placeholder="담당자 이름을 입력해주세요."
                 margin="normal"
               />
-              <label className={classes.laebelStyle}>담당자 부서 <span style={{ fontSize: 12, color: 'red' }}>(* 거래고객 필수항목)</span></label>
+              <label className={classes.laebelStyle}>담당자 부서</label>
               <Input
                 name='dept'
                 onChange={handleChange}
