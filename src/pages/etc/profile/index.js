@@ -60,7 +60,7 @@ const myProfilePage = (props) => {
     // 하단 네비 설정 
     dispatch({
       type: SET_NAVIBAR_SHOW,
-      payload: true
+      payload: false
     }
     )
 

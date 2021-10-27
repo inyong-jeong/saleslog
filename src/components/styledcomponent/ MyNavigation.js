@@ -22,7 +22,7 @@ const MyNavigation = () => {
     <BottomNavigation
       style={{
         borderTop: 'solid',
-        borderColor: '#f0f0f0',
+        borderColor: '#F6F6F6',
         borderWidth: 1,
         position: 'fixed',
         bottom: 0,
@@ -36,11 +36,13 @@ const MyNavigation = () => {
         setValue(newValue)
 
       }}
-      showLabels>
-      <BottomNavigationAction label="홈" icon={<Home />} value='/main' style={{ color: '#666666', fontSize: '14px' }} />
-      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' style={{ color: '#666666', fontSize: '14px' }} />
-      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' style={{ color: '#666666', fontSize: '14px' }} />
-      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' style={{ color: '#666666', fontSize: '14px' }} />
+    //showLabels
+    >
+
+      <BottomNavigationAction label="홈" icon={<Home />} value='/main' />
+      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' />
+      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' />
+      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' />
 
     </BottomNavigation>
 

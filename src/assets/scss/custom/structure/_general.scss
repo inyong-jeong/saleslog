@@ -123,8 +123,8 @@ hr {
 //피드백 마우스 오버
 
 .feedback:hover {
-background-color: #F6F6F6;
-transition: 400ms ease-in-out;
+  background-color: #F6F6F6;
+  transition: 400ms ease-in-out;
 }
 
 // .comment_submit:hover{
@@ -168,4 +168,10 @@ ant-btn {
 
 .ant-switch-checked {
   background-color: #000;
+}
+
+
+.Mui-selected {
+  // background-color: #F6F6F6;
+  color: #666
 }
