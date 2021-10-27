@@ -63,8 +63,6 @@ const myProfilePage = (props) => {
       payload: true
     }
     )
-    console.log('state::::::::::::::::::::', state)
-    //setInputs({...inputs, login_idx:base64Dec(params.memberId)})
 
     //내 프로필 정보 
     dispatch(getProfileDetail.call())

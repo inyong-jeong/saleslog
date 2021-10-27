@@ -25,7 +25,7 @@ const bluebox = {
   fontSize: 12,
   backgroundColor: '#F6F6F6',
   marginLeft: 6,
-  color: '#000fff',
+  color: '#398FFF',
   fontWeight: 400,
   padding: 4,
   borderRadius: '3px'
@@ -73,7 +73,7 @@ const CustomerItems = ({ page, setPage }) => {
   return (
 
     <List>
-      <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{listCounts ? listCounts : 0}</span> 개의 고객</Text>
+      <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#398FFF' }}>{listCounts ? listCounts : 0}</span> 개의 고객</Text>
       <Divider style={{ margin: 0 }} />
       {customerList ?
         customerList.map((singleList) => {

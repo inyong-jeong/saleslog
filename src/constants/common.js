@@ -96,6 +96,7 @@ cmm.permission = (data) => {
   }
 }
 
-cmm.dashboardChartColors = ['#f09a31', '#ff8052', '#fe6d75', '#ec6597', '#cb69b1', '#9e70c1', '#6776c3', '#1e78b8']
+cmm.dashboardChartColors = ['#398FFF']
+//['#f09a31', '#ff8052', '#fe6d75', '#ec6597', '#cb69b1', '#9e70c1', '#6776c3', '#1e78b8']
 
 module.exports = cmm;
