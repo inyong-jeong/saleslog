@@ -11,8 +11,6 @@ import { getGroupMemberDetail, getDeptInfo, postGroupMemberUpd } from 'redux/wor
 import cmm from 'constants/common';
 import { base64Dec } from 'constants/commonFunc';
 import memberPng from 'assets/icons/workgroup/member.png'
-import { useScrollToTop } from '../../../../constants/commonFunc';
-
 const { Option } = Select;
 const WgroupMemberPage = () => {
   const labelTextStyle = {
@@ -44,7 +42,7 @@ const WgroupMemberPage = () => {
   const [treedata, setTreedata] = useState([])
   const [inputs, setInputs] = useState(
     {
-      login_idx: base64Dec(params.memberId),
+      login_idx: '',
       permissions: 9,
       dept_idx: '',
     }
@@ -65,13 +63,14 @@ const WgroupMemberPage = () => {
     setInputs({ ...inputs, dept_idx: value });
   }
 
-  useScrollToTop()
+
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: false
     }
     )
+    setInputs({ ...inputs, login_idx: base64Dec(params.memberId) })
     dispatch(getGroupMemberDetail.call({ login_idx: base64Dec(params.memberId) }))
     dispatch(getDeptInfo.call({ dept_idx: 0, typ: 'tree' }))
 
@@ -181,7 +180,7 @@ const WgroupMemberPage = () => {
           <label style={labelTextStyle}>소속</label><br />
           <TreeSelect
             style={{ width: '100%' }}
-            value={inputs.dept_idx == 0 ? '소속 없음' : inputs.dept_idx}
+            value={inputs.dept_idx}
             treeLine={true}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             treeData={treedata}
