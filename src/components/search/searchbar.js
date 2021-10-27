@@ -107,6 +107,7 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
           onSearch={handleEnter}
           style={{
             width: '100%',
+            marginBottom: 10,
             marginTop: 10,
           }} />
       </div>

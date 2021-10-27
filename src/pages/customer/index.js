@@ -113,6 +113,7 @@ const CustomerShow = () => {
       <MyAppBar barTitle={'고객'} />
       <div className='content_body'>
         <Search
+          size='large'
           ref={searchInput}
           placeholder="고객 검색"
           allowClear
