@@ -80,7 +80,7 @@ export const barseries = [{
 
 // 도넛 니즈 분석 관련
 export const dountOption = {
-  labels: ['전략니즈', '상품니즈', '운영니즈', '개인니즈']
+  labels: ['전략니즈', '제품니즈', '운영니즈', '개인니즈']
 }
 export const dountseries = [1, 1, 1, 1]
 
