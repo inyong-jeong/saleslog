@@ -228,6 +228,9 @@ export const POST_EDIT_NAMECARD_ERROR = 'POST_EDIT_NAMECARD_ERROR'
 //고객사 프로필 일지 탭
 export const SET_LAST_TAB = 'SET_LAST_TAB'
 
+//고객 리스트 전체, 거래고객, 리드고객 탭
+export const SET_ACCOUNT_TAB = 'SET_ACCOUNT_TAB'
+
 //workgroup
 //워크그룹 로고등록
 export const POST_WORKGROUP_LOGO = 'POST_WORKGROUP_LOGO'

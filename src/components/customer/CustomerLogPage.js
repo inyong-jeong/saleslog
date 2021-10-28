@@ -16,21 +16,38 @@ const CustomerLogPage = () => {
   const history = useHistory()
   const params = useParams()
   const state = useSelector(state => state.SalesLog)
+  const stateAccount = useSelector(state => state.Customer)
+
   const loglist = state.loglist
   const [page, setPage] = useState(1)
-  const [inputs, setInputs] = useState({
-    'accts': base64Dec(params.accId),
-    'log_gb': '',
-    'sales_man': '',
-    'sales_lead_gb': '',
-    'sales_goal': '',
-    'sales_activity': '',
-    'accts_man': '',
-    'srch': '',
-    'pageno': page,
-    'need_cod': '',
-    'dept_idx': '',
-  })
+  const [inputs, setInputs] = useState(stateAccount.accountKey ?
+    {
+      'accts': base64Dec(params.accId),
+      'log_gb': stateAccount.accountKey,
+      'sales_man': '',
+      'sales_lead_gb': '',
+      'sales_goal': '',
+      'sales_activity': '',
+      'accts_man': '',
+      'srch': '',
+      'pageno': page,
+      'need_cod': '',
+      'dept_idx': '',
+    }
+    :
+    {
+      'accts': base64Dec(params.accId),
+      'log_gb': '',
+      'sales_man': '',
+      'sales_lead_gb': '',
+      'sales_goal': '',
+      'sales_activity': '',
+      'accts_man': '',
+      'srch': '',
+      'pageno': page,
+      'need_cod': '',
+      'dept_idx': '',
+    })
 
   const grayTextStyles = {
     fontSize: 12,
@@ -54,14 +71,37 @@ const CustomerLogPage = () => {
     textOverflow: 'ellipsis',
   }
 
+  // useEffect(() => {
+  //   if (stateAccount.accountKey === '1') {
+  //     setInputs({ ...inputs, log_gb: '' })
+
+  //   } else if (stateAccount.accountKey === '2') {
+  //     setInputs({ ...inputs, log_gb: '0010001' })
+
+  //   } else {
+  //     setInputs({ ...inputs, log_gb: '0010002' })
+
+  //   }
+  // }, [])
+
   useEffect(() => {
     dispatch(getLogLists.call(inputs))
 
     return () => {
       // 다른곳에서 이동하면 그전 기록이 GET_SALESLOG 에 남아있어서 잠깐 보임 여기서 cleanup...? 
       //ref 로 clear 해보기 
+
     }
   }, [inputs])
+
+  useEffect(() => {
+    if (state.loadLogsDone) {
+      state.StoredData.data.log_gb = '0010001';
+      state.StoredData.data.accts = '';
+      state.loadLogsDone = false;
+    }
+  }
+    , [state.loadLogsDone])
 
   const handleLogClick = (singleList) => {
     history.push(`/main/manage/saleslog/${base64Enc(singleList.slog_idx)}`)

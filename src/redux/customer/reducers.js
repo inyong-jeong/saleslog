@@ -30,7 +30,8 @@ import {
   DEL_CUSTOMER_MANAGER,
   DEL_CUSTOMER_MANAGER_ERROR,
   DEL_CUSTOMER_MANAGER_SUCCESS,
-  SET_LAST_TAB
+  SET_LAST_TAB,
+  SET_ACCOUNT_TAB
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -152,6 +153,10 @@ const Customer = (state = initialState, action) => {
     case SET_LAST_TAB:
       return {
         ...state, tabStoreData: action.payload
+      }
+    case SET_ACCOUNT_TAB:
+      return {
+        ...state, accountKey: action.payload
       }
     default:
       return { ...state };

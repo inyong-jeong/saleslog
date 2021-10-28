@@ -187,7 +187,7 @@ const SalesLog = (state = INIT_STATE, action) => {
     case GET_SALESLOGS_SUCCESS:
       return { ...state, loadLogsLoading: false, loadLogsDone: true, loglist: action.payload.response.message[0], loglistcount: action.payload.response.message[1][0].totalCnt };
     case GET_SALESLOGS_ERROR:
-      return { ...state, loadLogsLoading: false, logresponse: false };
+      return { ...state, loadLogsLoading: false, logresponse: false, loadLogsDone: false };
     case SEARCH_SALESLOG_LIST:
       return { ...state, loadLogsLoading: true, loadLogsDone: false };
     case SEARCH_SALESLOG_LIST_SUCCESS:

@@ -30,7 +30,7 @@ const bluebox = {
   padding: 4,
   borderRadius: '3px'
 }
-const CustomerItems = ({ page, setPage }) => {
+const CustomerItems = ({ page, setPage, tabkey }) => {
 
   const classes = useStyles()
   const [customerList, setCustomerList] = useState([])

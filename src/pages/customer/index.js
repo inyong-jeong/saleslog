@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import CustomerItems from "../../components/customer/CustomerItems";
 import { getUsers } from "../../redux/customer/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
+import { SET_NAVIBAR_SHOW, SET_ACCOUNT_TAB } from 'constants/actionTypes';
 import CustomUp from "../../components/styledcomponent/CustomUpButton";
 import { getAllCustomer } from '../../redux/customer/actions';
 
@@ -38,7 +38,7 @@ const CustomerShow = () => {
     pageno: page,
   })
 
-  const [tabkey, setTabKey] = useState('1')
+  const [tabkey, setTabKey] = useState('')
   const [searchKeyword, setSearchKeyword] = useState(inputs.srch ? inputs.srch : '')
   const searchInput = useRef()
   useEffect(() => {
@@ -59,6 +59,14 @@ const CustomerShow = () => {
   }, [])
 
   useEffect(() => {
+    dispatch({
+      type: SET_ACCOUNT_TAB,
+      payload: tabkey
+    })
+  }
+    , [tabkey])
+
+  useEffect(() => {
     if (loading) return
     dispatch(getAllCustomer.call(inputs, page))
   }, [inputs, page])
@@ -67,9 +75,9 @@ const CustomerShow = () => {
   useEffect(() => {
 
     if (state.customerStoredData) {
-      if (state.customerStoredData.body.sales_gb === '0010001') return setTabKey('2')
-      if (state.customerStoredData.body.sales_gb === '0010002') return setTabKey('3')
-      return setTabKey('1')
+      if (state.customerStoredData.body.sales_gb === '0010001') return setTabKey('0010001')
+      if (state.customerStoredData.body.sales_gb === '0010002') return setTabKey('0010002')
+      return setTabKey('')
     }
   }, [state.customerStoredData])
 
@@ -79,12 +87,12 @@ const CustomerShow = () => {
 
   const onTabChange = (key) => {
     switch (key) {
-      case '2':
+      case '0010001':
         setInputs({ ...inputs, sales_gb: '0010001', score: '' })
         setPage(1)
 
         break
-      case '3':
+      case '0010002':
         setInputs({ ...inputs, sales_gb: '0010002', score: '' })
         setPage(1)
 
@@ -128,7 +136,7 @@ const CustomerShow = () => {
         <FullTabs
           onChange={onTabChange}
           activeKey={tabkey} >
-          <TabPane tab="전체" key="1" >
+          <TabPane tab="전체" key="" >
             <SelectFilter
               users={users}
               disabled={true}
@@ -141,10 +149,11 @@ const CustomerShow = () => {
               page={page}
               setPage={setPage}
               setInputs={setInputs}
+
             />
           </TabPane>
 
-          <TabPane tab="거래고객" key="2">
+          <TabPane tab="거래고객" key="0010001">
             <SelectFilter
               users={users}
               setInputs={setInputs}
@@ -155,10 +164,11 @@ const CustomerShow = () => {
             <CustomerItems
               page={page}
               setPage={setPage}
-              setInputs={setInputs} />
+              setInputs={setInputs}
+            />
           </TabPane>
 
-          <TabPane tab="리드고객" key="3">
+          <TabPane tab="리드고객" key="0010002">
             <SelectFilter
               users={users}
               setPage={setPage}
@@ -169,7 +179,8 @@ const CustomerShow = () => {
             <CustomerItems
               page={page}
               setPage={setPage}
-              setInputs={setInputs} />
+              setInputs={setInputs}
+            />
           </TabPane>
         </FullTabs>
 
