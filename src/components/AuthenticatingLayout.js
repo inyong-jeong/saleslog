@@ -29,6 +29,7 @@ const AuthenticatingLayout = (props) => {
     if (isUserAuthorized() === true) {
       handletoken();
     } else if (isUserAuthorized() === false) {
+      console.log('LOGIN PUSH :: AuthenticatingLayout isUserAuthorized ', isUserAuthorized())
       removeAll();
       props.history.push('/signin')
     }
@@ -49,6 +50,9 @@ const AuthenticatingLayout = (props) => {
       //console.log('authing:::',props.accesstokenResponse)
       if (props.accesstokenResponse == 'invalid_grant') {
         //errorMessage('인증코드 오류입니다. 다시 로그인 해 주세요')
+        
+        console.log('LOGIN PUSH :: props.accesstokenResponse invalid_grant ', props.accesstokenResponse)
+        removeAll();
         props.history.push('/signin');
       }
     }

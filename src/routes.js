@@ -75,7 +75,7 @@ const MyInquiryDetails = React.lazy(() => import('./pages/support/detail'))
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
-    console.log('LandingRoute::::::::::::', isTokenValid)
+    //console.log('LandingRoute::::::::::::', isTokenValid)
     if (props.match.path === '/' && isTokenValid) {
       // redirect to main
       return <Redirect to={{ pathname: '/main', state: { from: props.location } }} />
@@ -91,6 +91,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
       //토큰 만료 확인 및 갱신 
       let isTokenOK = isAccessToken().then((res) => {
         if (res == 'NoToken') {
+          console.log('LOGIN PUSH :: MainRoute NoToken ', res)
           removeAll();
           props.history.push('/signin')
 
@@ -100,7 +101,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
         } else if (res == 'NoWorkgroup') {
           if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
             props.history.location.pathname != '/main/workgroup/register') {
-            console.log('test')
+            //console.log('test')
             props.history.push('/main/workgroup/chgwgroup')
           }
         }
@@ -108,6 +109,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
       return <Component {...props} />
 
     } else {
+      console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
       removeAll();
       props.history.push('/signin')
       //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
