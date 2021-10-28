@@ -86,8 +86,8 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 
 const MainRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
-    const isTokenValid = isUserAuthenticated();
-    if (isTokenValid) {
+    //const isTokenValid = isUserAuthenticated();
+    //if (isTokenValid) {
       //토큰 만료 확인 및 갱신 
       let isTokenOK = isAccessToken().then((res) => {
         if (res == 'NoToken') {
@@ -108,12 +108,12 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
       })
       return <Component {...props} />
 
-    } else {
-      console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
-      removeAll();
-      props.history.push('/signin')
-      //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-    }
+    // } else {
+    //   console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
+    //   removeAll();
+    //   props.history.push('/signin')
+    //   //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
+    // }
 
 
     // if (props.match.path.startsWith('/main') && !isTokenValid) {
