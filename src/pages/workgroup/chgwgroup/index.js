@@ -88,9 +88,9 @@ const WgroupManagePage = () => {
   }
 
   const handleChangeWorkGroup = (idx) => {
-    if (idx === myOrgId) return alertMessage('현재 워크그룹입니다.')
+ 
     confirm({
-      title: '워크그룹 선택시 로그아웃 됩니다.',
+      title: '워크그룹 선택시 재로그인이 필요합니다.',
       icon: <ExclamationCircleOutlined />,
       cancelText: '취소',
       okText: '확인',

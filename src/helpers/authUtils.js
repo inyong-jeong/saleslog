@@ -188,8 +188,8 @@ export const isAccessToken = async () => {
   }
 
   if (await result.success) {
-    //console.log('result::::::::::::::::',result);
-    if (await result.message.org_idx == '') {
+    console.log('result::::::::::::::::',await result);
+    if (await result.message.org_idx == '' || await result.message.org_idx == '0' || await result.message.org_idx == 'GO6rfQ+FQ77EyUfC0Vfo4w==') {
       //워크그룹이 없는 경우
       return 'NoWorkgroup';
     } else {
@@ -219,7 +219,7 @@ export const isAccessToken = async () => {
       return 'ReToken';
     }
 
-  } else if (await result.message.auth_ok == true && await result.message.org_idx == '') {
+  } else if (await result.message.auth_ok == true && (await result.message.org_idx == '' || await result.message.org_idx == '0' || await result.message.org_idx == 'GO6rfQ+FQ77EyUfC0Vfo4w==')) {
     //워크그룹이 없는 경우
     return 'NoWorkgroup';
 
