@@ -257,11 +257,14 @@ const RegisterManager = () => {
           <div className={classes.innerBox}>
             <label className={classes.laebelStyle}>생일 </label>
             <br />
-            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday' />
+            <DatePicker onChange={onChangeBirthday} locale={locale} style={{ width: '100%' }} name='birthday'
+              format={'YYYY.MM.DD'}
+            />
             <br />
             <label className={classes.laebelStyle}>결혼기념일 </label>
             <br />
-            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday' />
+            <DatePicker onChange={onChangeMarryDay} locale={locale} style={{ width: '100%' }} name='merryday'
+              format={'YYYY.MM.DD'} />
           </div>
         </div>
         <div>

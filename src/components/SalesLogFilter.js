@@ -63,7 +63,7 @@ const SalesLogFilter = (props, { firsttime }) => {
     { label: '전략니즈', value: '전략' },
     { label: '제품니즈', value: '제품' },
     { label: '개인니즈', value: '개인' },
-    { label: '상품니즈', value: '상품' }];
+    { label: '운영니즈', value: '운영' }];
 
 
   //부서별 사용자 조회

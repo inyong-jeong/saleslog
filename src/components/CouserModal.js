@@ -64,7 +64,7 @@ const CouserModal = (props) => {
         <PersonIcon stroke='#aaa' />
 
       </label>
-      <div style={{ display: 'inline-block', verticalAlign: '-3px', marginLeft: '3px' }}>공동작성자</div>
+      <div style={{ display: 'inline-block', verticalAlign: '-3px', marginLeft: '3px', fontSize: 16 }}>공동작성자</div>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>공동작성자 추가</ModalHeader>
         <ModalBody>

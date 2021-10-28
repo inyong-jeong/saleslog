@@ -76,7 +76,7 @@ const LogListModal = (props) => {
       </button>
 
       <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>임시저장 함</ModalHeader>
+        <ModalHeader toggle={toggle}>임시저장함</ModalHeader>
         <ModalBody>
           {(editbutton === false) &&
             props.temporaryLoglists &&

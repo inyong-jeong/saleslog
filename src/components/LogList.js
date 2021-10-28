@@ -190,7 +190,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
         </div>
 
         <div className='mt-1'></div>
-        {/* <FileList /> */}
+        <FileList />
         {/* <div style={{ display: 'flex' }}>
           {(loglist.file1 !== '') && <Avatar size={60} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file1} />}
           {(loglist.file2 !== '') && <Avatar size={60} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file2} />}

@@ -41,28 +41,30 @@ export const hideMessage = () => {
 
 
 export const successMessage = (msg) => {
-  setTimeout(() => {
-    message.success({
-      content: msg,
-      key,
-      duration: 1.5,
-      style: {
-        marginTop: 100,
-      }
-    }, 1000)
 
-  });
+  message.success({
+    content: msg,
+    key,
+    duration: 1.5,
+    style: {
+      marginTop: 100,
+    }
+  })
 }
 
 export const errorMessage = (msg) => {
+
   message.error({
 
     content: msg,
+    key,
     duration: 0.8,
     style: {
       marginTop: 100,
     },
   });
+
+
 }
 
 export const alertMessage = (msg) => {

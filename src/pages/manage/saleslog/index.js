@@ -371,27 +371,27 @@ function SalesLog(props) {
           </Col>
         </Row>
         <div className='mt-1'></div>
-        <Row gutter={[4, 4]}>
+        <Row gutter={[8, 8]}>
           <Col sm={24} xs={24} md={24} lg={24}>
             {Log && <StyledCard>
               <ul >
-                <li key={1} id={1} style={{ display: 'flex' }}>
+                <li key={1} id={1} style={{ display: 'flex', fontSize: 16 }}>
                   <CalIcon />
                   <div className='ml-1'>{ConvertDate(Log.meeting_date)}</div>
                 </li>
-                <li key={2} id={2} style={{ display: 'flex' }}>
+                <li key={2} id={2} style={{ display: 'flex', fontSize: 16 }}>
                   <TimeIcon />
                   <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
                 </li>
-                <li key={3} id={3} style={{ display: 'flex' }}>
+                <li key={3} id={3} style={{ display: 'flex', fontSize: 16 }}>
                   <LocationIcon />
                   <div className='ml-1'>{Log.addr}</div>
                 </li>
-                <li key={4} id={4} style={{ display: 'flex' }}>
+                <li key={4} id={4} style={{ display: 'flex', fontSize: 16 }}>
                   <SquaresIcon />
                   <div className='ml-1'>{Log.sales_goal_t} <span>&#183;</span> {Log.sales_activity_t}</div>
                 </li>
-                <li key={5} id={5} style={{ display: 'flex' }}>
+                <li key={5} id={5} style={{ display: 'flex', fontSize: 16 }}>
                   <BuildingIcon />
                   <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
                 </li>
