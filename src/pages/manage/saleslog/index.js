@@ -282,12 +282,17 @@ function SalesLog(props) {
       // setFile({ ...file, fileup: arrFiles })
       props.putFile(data)
     } else if (info.file.status === 'removed') {
-      const data = {
-        slog_idx: base64Dec(props.match.params.id),
-        f_idx: info.file.uid
+      if (Log.upd_yn === 'Y') {
+        const data = {
+          slog_idx: base64Dec(props.match.params.id),
+          f_idx: info.file.uid
+        }
+        props.deleteFile(data)
+        return
+      } else {
+        return;
       }
-      props.deleteFile(data)
-      return
+
     }
   }
 
@@ -354,6 +359,7 @@ function SalesLog(props) {
   const handleOnCancle = () => {
     setPreviewVisible(false);
   }
+  console.log(Log)
 
   return (
     <>
@@ -404,10 +410,10 @@ function SalesLog(props) {
                     <p style={{ marginTop: '2px' }}>공동 작성자 현황</p>
                   </div> */}
                   <div>
-                    <CouserModal handleonInsert={handleonInsert} />
+                    <CouserModal handleonInsert={handleonInsert} update={Log && Log.upd_yn} />
                   </div>
                   <div>
-                    <CouserList lists={lists} handleonRemove={handleonRemove} />
+                    <CouserList lists={lists} handleonRemove={handleonRemove} revise={Log && Log.del_yn} />
                   </div>
                   {/* {props.logcouser && props.logcouser.map(v => {
                     return (
@@ -439,7 +445,7 @@ function SalesLog(props) {
                   maxCount={5}
                   accept='.xlsx, .ppt, .pdf, .doc, .txt, .png, .jpg, .gif '
                 >
-                  {filelist.length >= 5 ? null : uploadButton}
+                  {(filelist.length >= 5 || Log.upd_yn === 'N') ? null : uploadButton}
                 </Upload>
                 {source && <Modal
                   visible={previewVisible}

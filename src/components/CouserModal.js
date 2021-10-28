@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { putSalesLogCoUser, getUserList } from 'redux/actions';
 import { errorMessage, successMessage } from "constants/commonFunc";
 import { ReactComponent as PersonIcon } from 'assets/icons/log/person.svg'
+import { KeyboardReturnOutlined } from '@material-ui/icons';
 
 
 const CouserModal = (props) => {
@@ -22,7 +23,11 @@ const CouserModal = (props) => {
   const options = props.userlist ? props.userlist.map((v) => ({ label: v.user_name + ' ' + v.title + ' ' + v.dept_name + ' (' + v.email + ')', value: v.login_idx, url: v.thumb_url })) : undefined
   const toggle = () => setModal(!modal);
   const handleOnClick = () => {
-    setModal(!modal);
+    if (props.update === 'Y') {
+      setModal(!modal);
+    } else {
+      return;
+    }
   }
 
   const AddCoUser = (e) => {
