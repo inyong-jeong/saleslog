@@ -105,73 +105,73 @@ const Workgroup = (state = initialState, action) => {
     case POST_WORKGROUP_UPD_SUCCESS:
       return { ...state, loading: false, postWorkGroupUpdRes: action.payload.response }
     case POST_WORKGROUP_UPD_ERROR:
-      return { ...state, loading: false, postWorkGroupUpdRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postWorkGroupUpdRes: false }
     case POST_WORKGROUP_REGI:
       return { ...state, loading: true }
     case POST_WORKGROUP_REGI_SUCCESS:
       return { ...state, loading: false, postWorkGroupRegiRes: action.payload.response }
     case POST_WORKGROUP_REGI_ERROR:
-      return { ...state, loading: false, postWorkGroupRegiRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postWorkGroupRegiRes: false }
     case GET_WORKGROUP_LIST:
       return { ...state, loading: true }
     case GET_WORKGROUP_LIST_SUCCESS:
       return { ...state, loading: false, getWorkGroupListRes: action.payload.response.message }
     case GET_WORKGROUP_LIST_ERROR:
-      return { ...state, loading: false, getWorkGroupListRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, getWorkGroupListRes: false }
     case POST_WORKGROUP_CHANGE:
       return { ...state, loading: true, postWorkGroupChangeRes: false }
     case POST_WORKGROUP_CHANGE_SUCCESS:
       return { ...state, loading: false, postWorkGroupChangeRes: action.payload.response }
     case POST_WORKGROUP_CHANGE_ERROR:
-      return { ...state, loading: false, postWorkGroupChangeRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postWorkGroupChangeRes: false }
     case POST_WORKGROUP_OUT:
       return { ...state, loading: true, postWorkGroupOutRes: false }
     case POST_WORKGROUP_OUT_SUCCESS:
       return { ...state, loading: false, postWorkGroupOutRes: action.payload.response }
     case POST_WORKGROUP_OUT_ERROR:
-      return { ...state, loading: false, postWorkGroupOutRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postWorkGroupOutRes: false }
     case POST_WORKGROUP_DEL:
       return { ...state, loading: true, postWorkGroupDelRes: false }
     case POST_WORKGROUP_DEL_SUCCESS:
       return { ...state, loading: false, postWorkGroupDelRes: action.payload.response }
     case POST_WORKGROUP_DEL_ERROR:
-      return { ...state, loading: false, postWorkGroupDelRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postWorkGroupDelRes: false }
     case GET_GROUP_MEMBER_LIST:
       return { ...state, loading: true, getGroupMemberListRes: false }
     case GET_GROUP_MEMBER_LIST_SUCCESS:
       return { ...state, loading: false, getGroupMemberListRes: action.payload.response.message }
     case GET_GROUP_MEMBER_LIST_ERROR:
-      return { ...state, loading: false, getGroupMemberListRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, getGroupMemberListRes: false }
     case GET_GROUP_MEMBER_DETAIL:
       return { ...state, loading: true }
     case GET_GROUP_MEMBER_DETAIL_SUCCESS:
       return { ...state, loading: false, getGroupMemberDetailRes: action.payload.response.message }
     case GET_GROUP_MEMBER_DETAIL_ERROR:
-      return { ...state, loading: false, getGroupMemberDetailRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, getGroupMemberDetailRes: false }
     case POST_GROUP_MEMBER_UPD:
       return { ...state, loading: true }
     case POST_GROUP_MEMBER_UPD_SUCCESS:
       return { ...state, loading: false, postGroupMemberUpdRes: action.payload.response.message }
     case POST_GROUP_MEMBER_UPD_ERROR:
-      return { ...state, loading: false, postGroupMemberUpdRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postGroupMemberUpdRes: false }
     case POST_GROUP_MEMBER_OUT:
       return { ...state, loading: true }
     case POST_GROUP_MEMBER_OUT_SUCCESS:
       return { ...state, loading: false, postGroupMemberOutRes: action.payload.response.message }
     case POST_GROUP_MEMBER_OUT_ERROR:
-      return { ...state, loading: false, postGroupMemberOutRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postGroupMemberOutRes: false }
     case GET_PROFILE_INFO:
       return { ...state, loading: true }
     case GET_PROFILE_INFO_SUCCESS:
       return { ...state, loading: false, getProfileInfoRes: action.payload.response.message }
     case GET_PROFILE_INFO_ERROR:
-      return { ...state, loading: false, getProfileInfoRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, getProfileInfoRes: false }
     case POST_GROUP_INVITE:
       return { ...state, loading: true }
     case POST_GROUP_INVITE_SUCCESS:
       return { ...state, loading: false, postGroupInviteRes: action.payload.response.message }
     case POST_GROUP_INVITE_ERROR:
-      return { ...state, loading: false, postGroupInviteRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postGroupInviteRes: false }
     case GET_INVITE_LIST:
       return { ...state, loading: true }
     case GET_INVITE_LIST_SUCCESS:
@@ -183,7 +183,7 @@ const Workgroup = (state = initialState, action) => {
     case POST_INVITE_DEL_SUCCESS:
       return { ...state, loading: false, postInviteDelRes: action.payload.response.message }
     case POST_INVITE_DEL_ERROR:
-      return { ...state, loading: false, postInviteDelRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postInviteDelRes: false }
     case GET_DEPT_INFO:
       return { ...state, loading: true }
     case GET_DEPT_INFO_SUCCESS:
@@ -195,19 +195,19 @@ const Workgroup = (state = initialState, action) => {
     case POST_DEPT_REGI_SUCCESS:
       return { ...state, loading: false, postDeptRegiRes: true }
     case POST_DEPT_REGI_ERROR:
-      return { ...state, loading: false, postDeptRegiRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postDeptRegiRes: false }
     case POST_DEPT_UPD:
       return { ...state, loading: true, postDeptUpdRes: false }
     case POST_DEPT_UPD_SUCCESS:
       return { ...state, loading: false, postDeptUpdRes: true }
     case POST_DEPT_UPD_ERROR:
-      return { ...state, loading: false, postDeptUpdRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postDeptUpdRes: false }
     case POST_DEPT_DEL:
       return { ...state, loading: true, postDeptDelRes: false }
     case POST_DEPT_DEL_SUCCESS:
       return { ...state, loading: false, postDeptDelRes: true }
     case POST_DEPT_DEL_ERROR:
-      return { ...state, loading: false, postDeptDelRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, postDeptDelRes: false }
 
     default:
       return { ...state };

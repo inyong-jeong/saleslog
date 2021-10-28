@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import List from '@material-ui/core/List';
@@ -14,43 +13,25 @@ import { Modal, Divider, Button, Avatar } from 'antd';
 import { getWorkGroupInfo, getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { getUserInfo } from 'helpers/authUtils';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '98%',
-    height: 200,
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 100, //nav bottom tab 
-  },
-  bottomBar: {
-    width: '100%',
-    position: 'fixed',
-    bottom: 60,
-    left: 0,
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-}));
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0000FF',
-    }
-  },
-});
+import { alertMessage } from 'constants/commonFunc';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { removeAll } from 'helpers/authUtils';
+import { ReactComponent as OrgIcon } from 'assets/icons/workgroup/org.svg'
+const { confirm } = Modal
 
 const WgroupManagePage = () => {
 
+  const marginStyle = {
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 0,
+    marginRight: 0
+  }
+
   const myInfo = getUserInfo();
-  const classes = useStyles();
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
   const dispatch = useDispatch()
-  const data = state.data;
   const [isShowModal, setIsShowModal] = useState(false)
   const [wgList, setWgList] = useState([])
   const [inputs, setInputs] = useState(
@@ -58,39 +39,23 @@ const WgroupManagePage = () => {
       data: null,
     }
   )
-
+  const [myOrgId, setmyOrgId] = useState(null)
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
 
-  //이전페이지
-  const navigateTo = () => history.goBack()
-
-  //워크그룹 리스트 팝업
-  const navigateNext = () => {
-    //워크그룹 리스트 가져오기
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: true
+    })
     dispatch(getWorkGroupList.call())
     setIsShowModal(true);
-  }
 
-  //워크그룹 체인지
-  const handelWGroupChange = (idx) => {
-    //워크그룹 변경
-    dispatch(postWorkGroupChange.call({ chg_idx: idx }))
-  }
-
-  //워크그룹 생성
-  const handelWGroupRegi = () => {
-    setIsShowModal(false)
-    //워크그룹 생성페이지 이동
-    history.push('/main/workgroup/register');
-
-  }
-
+  }, [])
   useEffect(() => {
     if (state.getWorkGroupListRes) {
-      console.log('wglist:::::::::::::::', state.getWorkGroupListRes)
       setWgList(state.getWorkGroupListRes)
     }
 
@@ -98,55 +63,94 @@ const WgroupManagePage = () => {
 
   useEffect(() => {
     if (state.postWorkGroupChangeRes) {
-      console.log('wglist:::::::::::::::', state.postWorkGroupChangeRes)
-      state.postWorkGroupChangeRes = null;
-      setIsShowModal(false)
-      //워크그룹  이동
+      state.postWorkGroupChangeRes = null
+      removeAll();
       history.push('/main/workgroup');
     }
-
   }, [state.postWorkGroupChangeRes])
 
-
   useEffect(() => {
-    // 하단 네비 설정 
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: true
-    }
-    )
+    if (!state.getWorkGroupInfoRes) return
+    setmyOrgId(state.data[0].org_idx)
 
-    //워크그룹 리스트 가져오기
+  }, [state.getWorkGroupInfoRes])
+
+  const navigateTo = () => history.goBack()
+
+  const navigateNext = () => {
     dispatch(getWorkGroupList.call())
     setIsShowModal(true);
+  }
 
-  }, [])
+  const handleWGroupRegister = () => {
+    history.push('/main/workgroup/register');
+    setIsShowModal(false)
+  }
+
+  const handleChangeWorkGroup = (idx) => {
+    if (idx === myOrgId) return alertMessage('현재 워크그룹입니다.')
+    confirm({
+      title: '워크그룹 선택시 로그아웃 됩니다.',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        dispatch(postWorkGroupChange.call({ chg_idx: idx }))
+      }
+    })
+  }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <MyAppBar
         barTitle={(cmm.isEmpty(inputs.data)) ? '워크그룹' : inputs.data.organization}
         navigateTo={navigateTo}
         navigateNext={navigateNext}
       />
       <div className='content_body'>
-        <div style={{ height: 20 }}></div>
-        <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
-        <Divider style={{ margin: 10 }} />
-        <>
+        <div style={{
+          cursor: 'pointer',
+          marginTop: 10,
+          color: '#333',
+          fontSize: 14,
+          fontWeight: 500
+        }}>
+          <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
+          <Divider style={marginStyle} />
           <IconLabel title="멤버 관리" pathUri="main/workgroup/member"></IconLabel>
-          <Divider style={{ margin: 10 }} />
-        </>
-        <IconLabel title="조직도 설정" pathUri="main/workgroup/dept"></IconLabel>
-        <Divider style={{ margin: 10 }} />
-        <div className={classes.bottomBar} >
-          <IconLabel title="워크그룹 나가기" pathUri="main/workgroup/outwgroup" isIcon={false}></IconLabel>
-          <div>&nbsp; |&nbsp; </div>
-          <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false}></IconLabel>
+          <Divider style={marginStyle} />
+
+          {
+            myInfo.permission == 0 || myInfo.permission == -1000 ?
+              <>
+                <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
+                <Divider style={marginStyle} />
+              </>
+              : null}
         </div>
+        <div style={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 19,
+          color: '#666',
+          fontSize: 14,
+          fontWeight: 500
+        }}>
+          <IconLabel title="워크그룹 나가기" pathUri="main/workgroup/outwgroup" isIcon={false} />
+
+          {myInfo.permission == 0 ?
+            <>
+              <div>&nbsp; |&nbsp; </div>
+              <IconLabel title="워크그룹 삭제" pathUri="main/workgroup/delwgroup" isIcon={false} />
+            </> : null}
+
+        </div>
+
         <Modal
-          title="워크그룹을 선택 또는 생성 해주세요."
-          style={{ positon: 'fixed', left: 0, top: 100 }}
+          title="워크그룹을 선택/생성해주세요"
+          style={{ positon: 'fixed', left: 0, top: 100, cursor: 'pointer' }}
           visible={isShowModal}
           width={((isMobile) ? '90%' : '50%')}
           closable={false}
@@ -179,7 +183,7 @@ const WgroupManagePage = () => {
                   }}
                   key={1}
                   onClick={() => {
-                    handelWGroupRegi()
+                    handleWGroupRegister()
                   }}>워크그룹 생성</Button></div>
             </div>
           ]}
@@ -201,7 +205,7 @@ const WgroupManagePage = () => {
                       <div
                         style={{ display: 'flex', width: '100%' }}
                         onClick={() => {
-                          handelWGroupChange(org_idx)
+                          handleChangeWorkGroup(org_idx)
                         }}>
                         <Avatar
                           src={(cmm.isEmpty(item.logo_url)) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.logo_url}
@@ -212,28 +216,28 @@ const WgroupManagePage = () => {
                           <span style={{ fontSize: 14 }}>{organization}</span><br />
                           <span style={{ fontSize: 12 }}>{org_domain}</span>
                         </div>
-                        <div style={{ fontSize: 12, width: 70, paddingLeft: 10, color: '#aaaaaa' }}>
+                        <div style={{ fontSize: 12, width: 70, color: '#aaaaaa' }}>
                           <span>멤버</span><br />
-                          <span>고객사</span>
+                          <span>고객</span>
                         </div>
-                        <div style={{ fontSize: 12, width: 30, paddingLeft: 10, textAlign: 'right', right: 10, justifyContent: 'flex-end' }}>
+                        <div style={{ fontSize: 12, width: 40, paddingLeft: 10, textAlign: 'right', right: 10, justifyContent: 'flex-end' }}>
                           <span>{member_cnt}</span><br />
                           <span>{accounts_cnt}</span>
                         </div>
                       </div>
                     </ListItem>
-                    <Divider dashed style={{ margin: 3 }} />
+                    <Divider dashed style={{ marginLeft: 0, marginRight: 0, marginTop: 2, marginBottom: 2, }} />
+
                   </div>
                 )
-              }) : '')
+              }) : null)
 
               }
             </List>
           </InfiniteScroll>
-
         </Modal>
       </div>
-    </ThemeProvider>
+    </>
   );
 }
 

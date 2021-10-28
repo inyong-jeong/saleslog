@@ -16,7 +16,11 @@ import { ReactComponent as EditIcon } from '../../assets/icons/workgroup/edit.sv
 import { ReactComponent as MemberIcon } from '../../assets/icons/workgroup/member.svg'
 import { ReactComponent as OrgIcon } from '../../assets/icons/workgroup/org.svg'
 import { getUserInfo } from 'helpers/authUtils';
+import { alertMessage } from '../../constants/commonFunc';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { removeAll } from 'helpers/authUtils';
 
+const { confirm } = Modal;
 const WgroupManagePage = () => {
 
   const marginStyle = {
@@ -38,26 +42,20 @@ const WgroupManagePage = () => {
       data: null,
     }
   )
+  const [myOrgId, setmyOrgId] = useState(null)
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
 
-  const navigateTo = () => history.goBack()
 
-  const navigateNext = () => {
-    dispatch(getWorkGroupList.call())
-    setIsShowModal(true);
-  }
-
-  const handelWGroupChange = (idx) => {
-    dispatch(postWorkGroupChange.call({ chg_idx: idx }))
-  }
-
-  const handleWGroupRegister = () => {
-    history.push('/main/workgroup/register');
-    setIsShowModal(false)
-  }
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: true
+    })
+    dispatch(getWorkGroupInfo.call())
+  }, [])
 
   useEffect(() => {
     if (state.getWorkGroupListRes) {
@@ -68,27 +66,50 @@ const WgroupManagePage = () => {
 
   useEffect(() => {
     if (state.postWorkGroupChangeRes) {
-      dispatch(getWorkGroupInfo.call())
-      setIsShowModal(false)
+      state.postWorkGroupChangeRes = null
+      removeAll();
+      history.push('/signin')
     }
-
   }, [state.postWorkGroupChangeRes])
 
   useEffect(() => {
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: true
-    }
-    )
-    dispatch(getWorkGroupInfo.call())
+    if (!state.getWorkGroupInfoRes) return
+    setmyOrgId(state.data[0].org_idx)
 
-  }, [])
+  }, [state.getWorkGroupInfoRes])
 
   useEffect(() => {
     if (!cmm.isEmpty(data) && data.length > 0) {
       setInputs({ ...inputs, data: data[0], prevImg: (cmm.isEmpty(data[0].logo_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + data[0].logo_url) })
     }
   }, [data])
+
+  const navigateTo = () => history.goBack()
+
+  const navigateNext = () => {
+    dispatch(getWorkGroupList.call())
+    setIsShowModal(true);
+  }
+
+  const handleWGroupRegister = () => {
+    history.push('/main/workgroup/register');
+    setIsShowModal(false)
+  }
+
+  const handleChangeWorkGroup = (idx) => {
+
+    if (idx === myOrgId) return alertMessage('현재 워크그룹입니다.')
+    confirm({
+      title: '워크그룹을 변경하면 로그아웃 됩니다. \n정말 변경하시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        dispatch(postWorkGroupChange.call({ chg_idx: idx }))
+      }
+    })
+
+  }
 
   return (
     <>
@@ -111,7 +132,7 @@ const WgroupManagePage = () => {
           <Divider style={marginStyle} />
 
           {
-            myInfo.permission == 0 || -1000 ?
+            myInfo.permission == 0 || myInfo.permission == -1000 ?
               <>
                 <IconLabel title="조직도 설정" pathUri="main/workgroup/dept" src={<OrgIcon />} />
                 <Divider style={marginStyle} />
@@ -141,7 +162,7 @@ const WgroupManagePage = () => {
 
         <Modal
           title="워크그룹 선택"
-          style={{ positon: 'fixed', left: 0, top: 100, cursor: 'pointer', }}
+          style={{ positon: 'fixed', left: 0, top: 100, cursor: 'pointer' }}
           visible={isShowModal}
           width={((isMobile) ? '90%' : '50%')}
           onOk={() => { setIsShowModal(false) }}
@@ -191,7 +212,7 @@ const WgroupManagePage = () => {
                       <div
                         style={{ display: 'flex', width: '100%' }}
                         onClick={() => {
-                          handelWGroupChange(org_idx)
+                          handleChangeWorkGroup(org_idx)
                         }}>
                         <Avatar
                           src={(cmm.isEmpty(item.logo_url)) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + item.logo_url}
@@ -204,7 +225,7 @@ const WgroupManagePage = () => {
                         </div>
                         <div style={{ fontSize: 12, width: 70, color: '#aaaaaa' }}>
                           <span>멤버</span><br />
-                          <span>고객사</span>
+                          <span>고객</span>
                         </div>
                         <div style={{ fontSize: 12, width: 40, paddingLeft: 10, textAlign: 'right', right: 10, justifyContent: 'flex-end' }}>
                           <span>{member_cnt}</span><br />
