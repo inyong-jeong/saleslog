@@ -154,7 +154,7 @@ export default function RightMenu() {
               {(birthday && bday.length > 0) ?
                 <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> {`오늘은 ${bday[0].man_name}(${bday[0].account_name})님 외 ${birthdaylist.length - 1}명의 생일입니다`} </p>
                 :
-                <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
+                <p onClick={handleCommingAnn} style={{ fontSize: 14, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
               }
               <div className='mt-1' />
               {birthday &&

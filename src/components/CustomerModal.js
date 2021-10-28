@@ -66,7 +66,7 @@ const CustomerModal = (props) => {
 
   const handleOnChange = () => {
     if (
-      (accountbody.account_name === '' || accountbody.man_name === '' || accountbody.ceo_name === '' || accountbody.dept === '')) {
+      (accountbody.account_name === '' || accountbody.ceo_name === '')) {
       return alert('필수항목 누락입니다.')
     }
 
@@ -132,7 +132,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label={<span >고객담당자<span style={{ color: 'red' }}>*</span></span>}
+              label={<span >고객담당자</span>}
             >
               <Input
                 name='man_name'
@@ -141,7 +141,7 @@ const CustomerModal = (props) => {
               />
             </Form.Item>
             <Form.Item
-              label={<span >담당자부서<span style={{ color: 'red' }}>*</span></span>}
+              label={<span >담당자부서</span>}
             >
               <Input
                 name='dept'

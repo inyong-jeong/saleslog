@@ -119,8 +119,8 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
             <span style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{loglist.dept_fname}</span>
             <div className='mt-1'></div>
             {(tabkey === '0010001') ?
-              <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> {loglist.needs_cods && <><Dot /><span style={orangebox}> {loglist.needs_cods}</span></>}</p>
-              : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><Dot /> <span style={bluebox}>{loglist.sales_activity_t}</span> {loglist.needs_cods && <><Dot /><span style={orangebox}> {loglist.needs_cods}</span></>}</p>}
+              <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><span>&#183;</span> <span style={bluebox}>{loglist.sales_activity_t}</span> {loglist.needs_cods && <><span>&#183;</span><span style={orangebox}> {loglist.needs_cods}</span></>}</p>
+              : <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{loglist.sales_goal_t}</span><span>&#183;</span> <span style={bluebox}>{loglist.sales_activity_t}</span> {loglist.needs_cods && <><span>&#183;</span><span style={orangebox}> {loglist.needs_cods}</span></>}</p>}
             <div className='mt-1'></div>
 
           </div>
@@ -137,7 +137,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
               autoEscape={true}
               textToHighlight={loglist.account_name}
             />
-          </span> <Dot /><span style={greenbox}>
+          </span> <span>&#183;</span><span style={greenbox}>
               <Highlighter
                 highlightClassName="man_name"
                 searchWords={[state.keyword]}
@@ -157,7 +157,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
               autoEscape={true}
               textToHighlight={loglist.account_name}
             />
-          </span> <Dot /><span style={greenbox}>
+          </span> <span>&#183;</span><span style={greenbox}>
               <Highlighter
                 highlightClassName="man_name2"
                 searchWords={[state.keyword]}
@@ -166,7 +166,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
               />
               <span>&nbsp;</span>
               {loglist.man_posi}
-            </span><Dot /> <span style={bluebox}>{loglist.score}</span></div>
+            </span><span>&#183;</span> <span style={bluebox}>{loglist.score}</span></div>
         }
         <div className='mt-1'></div>
 

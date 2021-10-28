@@ -16,7 +16,7 @@ import Divider from 'components/Divider'
 import { TimePicker, Radio, DatePicker, Tooltip } from 'antd';
 import Input from 'components/styledcomponent/Input'
 
-import CouserModal from 'components/CouserModal'
+import CouserUModal from 'components/CouserUModal'
 import UcouserList from 'components/UcouserList';
 import LogListModal from 'components/LogListModal'
 import CustomerLeadModal from 'components/CustomerLeadModal'
@@ -194,7 +194,7 @@ function UploadSalesLog(props) {
       //데이터 set
       setRadioCheck(props.log.sales_gb)
       setSelectedAccount(props.log.acc_idx)
-      setSelectedAccountPerson(props.log.accm_idx)
+      setSelectedAccountPerson(props.log.accm_idx === 0 ? null : props.log.accm_idx)
       setLeadActivity(props.log.score)
       setActivity(props.log.sales_goal)
       setChannel(props.log.sales_activity)
@@ -451,7 +451,7 @@ function UploadSalesLog(props) {
 
   // 일지 작성
   const onFormSubmit = () => {
-    if (fromData.acc_idx === 0 || fromData.accm_idx === 0) {
+    if (fromData.acc_idx === 0) {
       return errorMessage('고객, 고객 담당자는 필수항목입니다.')
     }
     if (fromData.sales_goal === null || fromData.sales_activity === null) {
@@ -656,9 +656,7 @@ function UploadSalesLog(props) {
         <div className="mt-2"></div>
         <div className="row">
           <div className="col-12">
-            {radiocheck === '0010001' && <label style={labelStyle}> 담당자 정보 <span style={{ color: 'red' }}>*</span></label>}
-            {radiocheck === '0010002' && <label style={labelStyle}> 담당자 정보 </label>}
-
+            <label style={labelStyle}> 담당자 정보 </label>
           </div>
         </div>
         <div className="mt-2"></div>
@@ -798,7 +796,7 @@ function UploadSalesLog(props) {
                 multiple />
             </div>
             <div>
-              <CouserModal handleonInsert={handleonInsert} />
+              <CouserUModal handleonInsert={handleonInsert} />
             </div>
           </div>
           <div ></div>
@@ -811,7 +809,7 @@ function UploadSalesLog(props) {
             <div>
             </div>
             <div>
-              <CouserModal handleonInsert={handleonInsert} />
+              <CouserUModal handleonInsert={handleonInsert} />
             </div>
           </div>
           <div ></div>
