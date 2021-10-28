@@ -19,7 +19,7 @@ const contents = [{
 }, {
   title: "알림 서비스",
   icon: "images/icon/icon-noti.png",
-  content: "새 영업일지 등록, 피드백 등 새로운 업데이트 내용을 실시간 알림 받을 수 있습니다."  
+  content: "새 영업일지 등록, 피드백 등 새로운 업데이트 내용을 실시간 알림 받을 수 있습니다."
 }, {
   title: "리포팅",
   icon: "images/icon/icon-report.png",
@@ -31,33 +31,33 @@ function FeatureSection(prosp) {
     <React.Fragment>
       <section id="feature" className="bg-light wide-50 services-section division">
         <div className="container">
-          <div className="row"> 
-            <div className="col-lg-10 offset-lg-1 section-title"> 
+          <div className="row">
+            <div className="col-lg-10 offset-lg-1 section-title">
               <h3 className="h3-md">주요 기능</h3>
-            </div>    
-          </div>          
+            </div>
+          </div>
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
               <div className="row">
-                  {contents.map((v) => 
-                    <div className="col-sm-6" key={v.title}>
-                      <div className="sbox-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <img className="img-70" src={v.icon} alt={v.content}/> 
-                        <div className="sbox-4-txt">
-                          <h5 className="h5-sm">{v.title}</h5>
-                          <p>
+                {contents.map((v) =>
+                  <div className="col-sm-6" key={v.title}>
+                    <div className="sbox-4 wow fadeInUp" data-wow-delay="0.4s">
+                      {/* <img className="img-70" src={v.icon} alt={v.content}/>  */}
+                      <div className="sbox-4-txt">
+                        <h5 className="h5-sm">{v.title}</h5>
+                        <p>
                           {v.content}
-                          </p>
-                        </div>  
-                      </div>              
-                    </div>)}              
-                </div>
-            </div>    
-          </div>      
+                        </p>
+                      </div>
+                    </div>
+                  </div>)}
+              </div>
+            </div>
+          </div>
 
 
-        </div>        
-      </section>  
+        </div>
+      </section>
     </React.Fragment>
   );
 }

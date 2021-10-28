@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import { NavbarToggler, Collapse, Progress } from 'reactstrap'
+import { ReactComponent as WhiteLogo } from 'assets/icons/main/whiteLogo.svg'
 
 const header = [{
   title: "소개",
@@ -58,11 +59,8 @@ export default function Header(props) {
         <Progress value={scrolled} style={{ position: 'absolute', top: '0', width: '100%', height: '6px', 'padding': '-4px 0px' }} />
         <div className="container">
           <Link to="/" className="navbar-brand logo-black">
-            {/* <img
-              src="images/common/sl-logo-ko.png"
-              width="200"
-              alt="header-logo"
-            /> */}
+            <WhiteLogo width={100} height={64} fill='white' />
+
           </Link>
 
           <NavbarToggler
@@ -82,13 +80,10 @@ export default function Header(props) {
                 </li>)}
             </ul>
             <span className="nav-item navbar-text">
-              <button className="btn btn-outline-primary waves-effect mr-2" onClick={onSignInClick} disabled={clicked}>
+              <button className="btn btn-light waves-effect mr-2" onClick={onSignInClick} disabled={clicked}>
                 {clicked && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
                 로그인
               </button>
-              {/* <button className="btn btn-outline-primary" onClick={props.onSignUpClick}>
-                무료체험
-              </button> */}
             </span>
           </Collapse>
         </div>
