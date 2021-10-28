@@ -11,7 +11,7 @@ import RoundInputField from "components/RoundInputField";
 import RoundHalfInputField from "components/RoundHalfInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import { successMessage, } from 'constants/commonFunc';
-
+import SignUpModal from '../../components/SignUpModal';
 const SignUp = () => {
 
   const state = useSelector(state => state.Auth)
@@ -281,9 +281,10 @@ const SignUp = () => {
                         onChange={onChangeTerm}
                         style={CheckBoxStyle}>
                         <span> </span>
-                        동의 버튼을 선택하면 <span style={{ color: '#000000', textDecoration: 'underline' }}>세일즈로그 서비스 이용 약관,< br /> 위치정보 서비스 약관, 개인정보 처리방침</span>에 동의하게< br /> 됩니다.
+                        동의버튼을 선택하면 <span style={{ color: '#000000', textDecoration: 'underline' }}>세일즈로그 서비스 이용 약관,< br />개인정보 처리방침</span>에 동의하게됩니다.
                       </StyledCheckbox>
                     </div>
+                    <SignUpModal />
                     {termerror && <p className='text-danger mt-2 text-center'> 약관에 동의하여 주세요.</p>}
 
                   </div>
