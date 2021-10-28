@@ -158,7 +158,7 @@ export const getUserInfo = () => {
 }
 // 사용자정보 저장
 export const setUserInfo = (data) => {
-  console.log('setUserInfo:::::', data)
+  //console.log('setUserInfo:::::', data)
   localStorage.setItem('user-permission', data.permissions);
   localStorage.setItem('user-name', data.user_name);
   localStorage.setItem('user-wgroup-name', data.wgroupName);
@@ -182,6 +182,10 @@ export const isAccessToken = async () => {
 
   //console.log('isUserAuthticated::: 엑세스 토큰 체크완료...',await res);
   const result = await res;
+
+  if (!await result) {
+    return null;
+  }
 
   if (await result.success) {
     //console.log('result::::::::::::::::',result);
