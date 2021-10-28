@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Row, Col, Divider } from 'antd';
+import { Tabs, Row, Col, Divider, message } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
-
 import LogList from 'components/LogList'
 import SalesLogFilter from 'components/SalesLogFilter';
 import LeadLogFilter from 'components/LeadLogFilter';
@@ -18,14 +17,10 @@ import {
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import CustomFab from '../../components/styledcomponent/CustomFab';
 import { useHistory } from 'react-router-dom';
-import { getUserInfo } from 'helpers/authUtils';
-
-
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
   const state = useSelector(state => state.SalesLog)
-
 
   const dispatch = useDispatch()
 
@@ -39,8 +34,6 @@ function SalesLogList(props) {
 
   const history = useHistory();
 
-  console.log(history);
-  console.log(props);
 
   const navigateTo = () => history.push({
     pathname: '/main/upload'
@@ -65,36 +58,32 @@ function SalesLogList(props) {
   }
   )
 
+
+
   useEffect(() => {
-    if (state.StoredData) {
-      if (state.StoredData.data.accts) {
-        window.location.reload();
-      }
-    }
+    data.pageno = 1;
   }, [])
-  console.log(data);
+
 
   useEffect(() => {
     if (state.StoredData) {
       setTabKey(state.StoredData.data.log_gb);
     }
   }, [state.StoredData])
+
   // 권한에 따른 dispatch call
 
+  // useEffect(() => {
+  //   if (!firsttime) {
+  //     props.getLogLists(data)
+  //   }
+  // }, [data])
+
   useEffect(() => {
-    if (!firsttime) {
-      props.getLogLists(data)
-    }
+    // setFirsttime(false);
+    props.getLogLists(data)
   }, [data])
 
-  useEffect(() => {
-    setFirsttime(false);
-    if (getUserInfo().permission === '9') {
-      props.getLogLists(data)
-    }
-  }, [])
-
-  console.log(data);
   // 데이터 받아 온 것 set
   useEffect(() => {
     if (props.loglist && !props.loadLogsLoading) {
@@ -169,7 +158,6 @@ function SalesLogList(props) {
   const [word, setWord] = useState('')
   const [focus, setFocus] = useState(false)
   const onSearch = (keyword) => {
-    console.log(keyword)
     if (keyword) {
       setFocus(keyword)
       setWord(keyword)
@@ -186,14 +174,11 @@ function SalesLogList(props) {
       setData({ ...data, srch: '', pageno: 1 })
     }
   }
-  console.log(word);
   const clearKeyword = () => {
-    console.log('clear Keyword:::::::::::::')
     setSearchStr('')
   }
 
   const setKeyword = (v) => {
-    console.log('click:::::::::::::', v)
     setSearchStr(v)
   }
 

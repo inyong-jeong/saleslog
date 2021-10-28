@@ -10,6 +10,7 @@ export const useScrollToTop = () => {
   }, [location])
 }
 
+
 const key = 'loading'
 export const loadingMessage = () => {
   message.loading(
@@ -34,18 +35,22 @@ export const hideMessage = () => {
       },
     }
   );
-  hide()
+  hide();
+
 }
 
 
 export const successMessage = (msg) => {
-  message.success({
+  setTimeout(() => {
+    message.success({
+      content: msg,
+      key,
+      duration: 1.5,
+      style: {
+        marginTop: 100,
+      }
+    }, 1000)
 
-    content: msg,
-    duration: 0.8,
-    style: {
-      marginTop: 100,
-    },
   });
 }
 

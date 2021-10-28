@@ -1,10 +1,7 @@
 import { getOauthAccessToken, getOauthRefreshToken, removeAll } from 'helpers/authUtils'
-import { useHistory } from 'react-router';
 import cmm from 'constants/common';
 import FileSaver from 'file-saver';
 import moment from 'moment';
-import { ErrorOutlineRounded } from '@material-ui/icons';
-
 
 //토큰 만료 확인 (authUtil 에서 호출)
 const check_token_fetch = async (url, token) => {
@@ -103,14 +100,11 @@ const post_fetch = async (url, body) => {
     body: formBody
   })
 
-  
   const result = await response.json()
   const data = await result
-  //console.log('result:::',url, result, data)
-  if (await data.status !== 200) {
-    throw new Error(await data.message)
+  if (data.status !== 200) {
+    throw new Error(data.message)
   }
-
   return await data
 }
 
@@ -189,8 +183,8 @@ const post_fetch_files = async (url, data) => {
 //post file download
 const post_fetch_download = async (url, body) => {
   const token = getOauthAccessToken();
-  console.log('webview::::::::::::::',cmm.getWebview());
-  console.log('post_fetch:::',url, body)
+  console.log('webview::::::::::::::', cmm.getWebview());
+  console.log('post_fetch:::', url, body)
   let formBody = [];
   for (let property in body) {
     let encodedKey = encodeURIComponent(property)
@@ -206,12 +200,12 @@ const post_fetch_download = async (url, body) => {
       'Authorization': `Bearer ${token}`
     },
     body: formBody,
-    responseType: 'blob' 
+    responseType: 'blob'
   })
   let result = await response
 
   if (cmm.getWebview() == 'web') {
-    
+
     const dt = moment().format('YYYYMMDD')
     var data = await response.blob();
     //console.log('csvURL:::',data.message);
@@ -219,44 +213,28 @@ const post_fetch_download = async (url, body) => {
     //console.log('csvURL:::',window.URL.createObjectURL(response.blob()));
     var tempLink = document.createElement('a');
     tempLink.href = csvURL; // 'https://backend.saleslog.co/files/tmpfiles/166d32f1e6ce497556181b66eee980a2cadd0928.xlsx';//csvURL;
-  
-    
-    tempLink.setAttribute('download', 'saleslog_'+dt+'.xlsx');
+
+
+    tempLink.setAttribute('download', 'saleslog_' + dt + '.xlsx');
     document.body.appendChild(tempLink);
     tempLink.setAttribute("target", '_blank');
     tempLink.click();
     //return;
   } else {
 
-    console.log('result:::',result)  
+    console.log('result:::', result)
     window.ReactNativeWebView.postMessage(result.url)
     return result;
-  
+
   }
 
-  
-  // // //console.log('result:::',response.headers.get('Content-Disposition'))
+  const dt = moment().format('YYYYMMDD')
+  FileSaver.saveAs(await response.blob(), '세일즈로그_실적다운로드_' + dt + '.xlsx');
+  //const result = await response.blob();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //let result = await response.json()
-
-  // const data = await result
-  // if ( data.status !== 200) {
+  //console.log('result:::',url, result)
+  return true;
+  // if (data.status !== 200) {
   //   throw new Error(data.message)
   // }
 
@@ -265,7 +243,7 @@ const post_fetch_download = async (url, body) => {
 
 
   //await console.log('result::::::::::::::', data)
-  
+
   // return data ;
   // if (result.status !== 200) {
   //   throw new Error(result.message)
@@ -283,7 +261,7 @@ const post_fetch_download = async (url, body) => {
   //FileSaver.saveAs(await response.blob(), '세일즈로그_실적다운로드_'+dt+'.xlsx');
   //window.saveAs(await response.blob(), '세일즈로그_실적다운로드_'+dt+'.xlsx');
   // //const result = await response.blob();
-  
+
   // //console.log('result:::',url, result)
   // return true;
   // // if (data.status !== 200) {

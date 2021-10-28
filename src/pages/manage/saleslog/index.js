@@ -258,12 +258,12 @@ function SalesLog(props) {
   //   }
   // }, [file])
 
+
+
   const handleChange = (info) => {
-    console.log(11111)
-    console.log(info.file.status)
+
 
     if (info.file.status === 'uploading') {
-
 
       let arrFiles = [];
       if (info && info.fileList.length > 0) {
@@ -273,6 +273,7 @@ function SalesLog(props) {
           }
         }
       }
+
       console.log(arrFiles)
       const data = {
         slog_idx: base64Dec(props.match.params.id),
@@ -295,7 +296,6 @@ function SalesLog(props) {
 
   useEffect(() => {
     if (props.logneeds) {
-      console.log(props.logneeds);
       setLogNeedsList(props.logneeds)
     }
   }, [props.logneeds])
@@ -342,7 +342,6 @@ function SalesLog(props) {
   }
 
 
-  console.log(props)
   // useEffect(() => {
   //   console.log('페이지 변환', data)
   //   dispatch({
@@ -351,7 +350,6 @@ function SalesLog(props) {
   //   })
   // }, [])
 
-  console.log(filelist)
 
   const handleOnCancle = () => {
     setPreviewVisible(false);
@@ -445,7 +443,7 @@ function SalesLog(props) {
                 </Upload>
                 {source && <Modal
                   visible={previewVisible}
-                  title={' '}
+                  title={<span><br /></span>}
                   footer={null}
                   onCancel={handleOnCancle}
                 >

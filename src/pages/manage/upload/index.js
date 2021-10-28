@@ -562,9 +562,11 @@ function UploadSalesLog(props) {
       <div className="container">
         <div className='mt-3'></div>
         <div className="row">
-          <div className="col-12">
+          <div className="col-12" style={{ display: 'flex', justifyContent: 'space-between' }}>
             <label style={labelStyle}> 활동 일시 <span style={{ color: 'red' }}>*</span></label>
             {/* <ButtonTab tab={tabs} onSelected={onSelected} defaultSelected="SALESLOG" /> */}
+            {!id ? <LogListModal buttonLabel='임시저장함' /> : <></>}
+            {(id ? id.length < 3 : false) && <LogListModal buttonLabel='임시저장함' />}
           </div>
         </div>
         <div className='mt-2'></div>
@@ -777,11 +779,6 @@ function UploadSalesLog(props) {
         <div className="mt-3"></div>
         <div className="row" style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 2px 0px 2px' }}>
           <label style={labelStyle}> 내용 <span style={{ color: 'red' }}>*</span></label>
-
-          {!id ? <LogListModal buttonLabel='임시저장함' /> : <></>}
-          {(id ? id.length < 3 : false) && <LogListModal buttonLabel='임시저장함' />}
-
-
         </div>
         <div className="mt-2"></div>
         <div className="input-group">
