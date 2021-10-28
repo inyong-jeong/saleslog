@@ -220,7 +220,7 @@ const SalesLogFilter = (props, { firsttime }) => {
   return (
     <>
       {(getUserInfo().permission !== '9')
-        ? <Row gutter={6}>
+        && <Row gutter={6}>
           <Col sm={12} xs={12} md={12} lg={12}>
             <TreeSelect
               style={{ width: '100%' }}
@@ -252,17 +252,9 @@ const SalesLogFilter = (props, { firsttime }) => {
               ))}
             </Select>
           </Col>
-        </Row> : null}
+        </Row>}
       <Row className='mt-1'></Row>
       <Row gutter={6}>
-        {/* <Col sm={6} xs={6} md={6} lg={6}>
-          <Select placeholder='단계'
-            disabled={true}
-            style={selectStyle}
-            options={leadActivityOption}
-            value={leadActivityOption.value}
-            onChange={onLeadActivity} />
-        </Col> */}
         <Col sm={8} xs={8} md={8} lg={8}>
           <Select placeholder='활동'
             onChange={onSalesActivity}
@@ -283,7 +275,6 @@ const SalesLogFilter = (props, { firsttime }) => {
             value={state2.StoredData ? state2.StoredData.data.need_cod : NeedsOption.value}
             onChange={onNeeds}
             style={selectStyle} />
-
         </Col>
       </Row>
     </>

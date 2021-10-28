@@ -152,7 +152,7 @@ export default function RightMenu() {
           <Panel header="생일" key="1" style={customPanelStyle} >
             <div>
               {(birthday && bday.length > 0) ?
-                <p style={{ fontSize: 14, color: '#666666' }}><BdayLogo /> {`오늘의 생일은 ${bday[0].man_name}님 외 ${birthdaylist.length - 1}명 입니다`} </p>
+                <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> {`오늘은 ${bday[0].man_name}(${bday[0].account_name})님 외 ${birthdaylist.length - 1}명의 생일입니다`} </p>
                 :
                 <p onClick={handleCommingAnn} style={{ fontSize: 12, color: '#666666', cursor: 'pointer' }}><BdayLogo /> 다가오는 생일을 확인하세요</p>
               }
@@ -200,7 +200,7 @@ export default function RightMenu() {
           <Panel header={<>
             <span>시스템 공지사항</span>
             <span>&nbsp;</span>
-            <Tooltip title="세일즈로그 서비스 관리자가 등록한 공지사항 입니다">
+            <Tooltip title="서비스 관리자가 등록한 공지사항 입니다">
               <Info />
             </Tooltip>
           </>

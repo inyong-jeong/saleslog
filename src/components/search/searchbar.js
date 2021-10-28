@@ -39,6 +39,7 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
     console.log('handelEnter:::::::::::::::::::', e)
     if (keyword || keyword === '') {
       console.log(keyword)
+      searchInput.current.blur()
       onAddKeyword(keyword)
       // setKeyword('')
       SearchEnter(false)
@@ -51,7 +52,6 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
     console.log('searchEnter:::::::::::::::::::', v)
     if (v || v === '') {
       onAddKeyword(v)
-      searchInput.current.blur()
 
       // setKeyword('')
       SearchEnter(false)

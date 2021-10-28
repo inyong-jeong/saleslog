@@ -66,7 +66,7 @@ const AnniversaryPage = () => {
       <div className='content_body'>
 
 
-        {state.postAnniveraryResponse.length > 0 && state.postAnniveraryResponse[0].map(item => (
+        {state.postAnniveraryResponse > 0 && state.postAnniveraryResponse[0].map(item => (
 
           <div
             className={styles.dateItem}

@@ -59,7 +59,7 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
           <Col sm={12} xs={12} md={12} lg={12}>
             <DatePicker key={1} style={{ width: '100%' }}
               defaultValue={sdt}
-              format={'YYYY-MM-DD'}
+              format={'YYYY.MM.DD'}
               allowClear={false}
               inputReadOnly={true}
               onChange={handleonChangeFrom}
@@ -68,7 +68,7 @@ export default function DashButton({ tab, onSelected, defaultSelected, onChangeF
           <Col sm={12} xs={12} md={12} lg={12}>
             <DatePicker key={1} style={{ width: '100%' }}
               defaultValue={edt}
-              format={'YYYY-MM-DD'}
+              format={'YYYY.MM.DD'}
               allowClear={false}
               inputReadOnly={true}
               onChange={handleonChangeTo}
