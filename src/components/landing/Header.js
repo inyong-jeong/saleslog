@@ -67,7 +67,7 @@ export default function Header(props) {
             type="button"
             onClick={toggleNav}
           >
-            <span className="navbar-bar-icon"><i className="fas fa-bars"></i></span>
+            <span className="navbar-bar-icon" style={{ color: '#fff' }}><i className="fas fa-bars"></i></span>
           </NavbarToggler>
 
           <Collapse isOpen={toggle} navbar id="navbarSupportedContent" >
@@ -79,7 +79,7 @@ export default function Header(props) {
                   </Link>
                 </li>)}
             </ul>
-            <span className="nav-item navbar-text">
+            <span className="nav-item navbar-text ">
               <button className="btn btn-light waves-effect mr-2" onClick={onSignInClick} disabled={clicked}>
                 {clicked && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
                 로그인

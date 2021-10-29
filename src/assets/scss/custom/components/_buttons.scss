@@ -19,8 +19,9 @@
 //
 // light button
 // 
-.btn-light,.btn-white {
-    color: $gray-900;
+.btn-light,
+.btn-white {
+    color: #111;
 }
 
 //
@@ -31,24 +32,30 @@
     font-weight: $font-weight-normal;
     color: $link-color;
     background-color: transparent;
+
     @include hover {
         color: $link-hover-color;
         text-decoration: $link-hover-decoration;
         background-color: transparent;
         border-color: transparent;
     }
+
     &:focus,
     &.focus {
         text-decoration: $link-hover-decoration;
         border-color: transparent;
         box-shadow: none;
     }
+
     &:disabled,
     &.disabled {
         color: $btn-link-disabled-color;
         pointer-events: none;
-    } // No need for an active state here
-} 
+    }
+
+    // No need for an active state here
+}
+
 //
 // Alternate buttons
 //
@@ -66,13 +73,13 @@ $value in $theme-colors {
 .btn-label {
     margin: -.55rem .9rem -.55rem -.9rem;
     padding: .6rem .9rem;
-    background-color: rgba($gray-900,0.1);
+    background-color: rgba($gray-900, 0.1);
 }
 
 .btn-label-right {
     margin: (-$btn-padding-y) (-$btn-padding-x) (-$btn-padding-y) ($btn-padding-x);
     padding: ($btn-padding-y) ($btn-padding-x);
-    background-color: rgba($gray-900,0.1);
+    background-color: rgba($gray-900, 0.1);
     display: inline-block;
 }
 

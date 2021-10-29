@@ -108,7 +108,7 @@
   .navbar>.show>a,
   .navbar>.show>a:focus,
   .navbar>.show>a:hover {
-    color: #3a3a3a;
+    color: #fff;
     background: transparent;
     outline: 0;
   }
@@ -1161,12 +1161,20 @@
     border-top: 1px solid #173562;
   }
 
+
+  @media only screen and (max-width:550px) {
+    .navbar-brand {
+      margin-left: 20px;
+    }
+  }
+
   @media only screen and (max-width: 767px) {
     .navbar .btn {
       display: block;
       margin-top: 10px;
       margin-bottom: 10px;
-      margin-left: 0;
+      margin-left: 30px;
+      margin-right: 30px;
       font-size: 1.145rem;
       font-weight: 700;
       padding: 1rem 2.5rem;
@@ -1199,7 +1207,7 @@
 
   @media only screen and (max-width: 991px) {
     .navbar {
-      background-color: #fff !important;
+      background-color: #111 !important;
     }
 
     .hover-menu .show>.dropdown-toggle::after {
