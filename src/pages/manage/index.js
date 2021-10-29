@@ -220,7 +220,7 @@ function SalesLogList(props) {
               <TabPane tab="영업일지" key="0010001">
                 <SalesLogFilter data={data} setData={setData} firsttime={firsttime} />
                 <div className='mt-3 ml-2'>
-                  <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#000fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
+                  <Text style={{ fontSize: 12, fontWeight: 500 }} ><span style={{ color: '#398fff' }}>{props.loglistcount ? props.loglistcount : 0}</span> 개의 일지</Text>
                 </div>
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
 

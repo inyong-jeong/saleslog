@@ -60,7 +60,7 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
     fontSize: 12,
     backgroundColor: '#F6F6F6',
     // marginLeft: 6,
-    color: '#000fff',
+    color: '#398fff',
     fontWeight: 400,
     padding: 4,
     borderRadius: '3px'

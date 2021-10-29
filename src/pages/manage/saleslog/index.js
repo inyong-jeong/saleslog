@@ -259,6 +259,29 @@ function SalesLog(props) {
   // }, [file])
 
 
+  const onFileDelete = (info) => {
+    confirm({
+      title: '파일 삭제',
+      icon: <ExclamationCircleOutlined />,
+      content: '파일을 삭제하시겠습니까? 삭제된 파일은 복구되지 않습니다',
+      okText: '확인',
+      cancelText: '취소',
+      onOk() {
+        if (Log.upd_yn === 'Y') {
+          const data = {
+            slog_idx: base64Dec(props.match.params.id),
+            f_idx: info.file.uid
+          }
+          props.deleteFile(data)
+          return
+        } else {
+          return;
+        }
+      },
+
+    })
+  }
+
 
   const handleChange = (info) => {
 
@@ -282,16 +305,7 @@ function SalesLog(props) {
       // setFile({ ...file, fileup: arrFiles })
       props.putFile(data)
     } else if (info.file.status === 'removed') {
-      if (Log.upd_yn === 'Y') {
-        const data = {
-          slog_idx: base64Dec(props.match.params.id),
-          f_idx: info.file.uid
-        }
-        props.deleteFile(data)
-        return
-      } else {
-        return;
-      }
+      onFileDelete(info);
 
     }
   }
