@@ -4,8 +4,6 @@ import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
 import { Spinner } from "reactstrap";
 import RoundInputField from "components/RoundInputField";
-import { isUserAuthenticated, getOauthAccessToken } from 'helpers/authUtils';
-import { isUserAuthorized } from 'helpers/authUtils';
 import { Checkbox, Modal } from 'antd';
 import { authorize, getOauthToken } from 'redux/actions';
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
@@ -16,54 +14,30 @@ import cmm from 'constants/common';
 import { Helmet } from "react-helmet";
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
+
 const { confirm } = Modal;
-
-
 const SignIn = (props) => {
+
   const state = useSelector(state => state.Auth)
   const history = useHistory()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
-
-
-  // const [username, onChangeId] = useInput('');
-  // const [password, onChangePassword] = useInput('')
-  //const [username, setUsername] = useState('');
-  //const [password, setPassword] = useState('');
-  const [platform, setPlatForm] = useState('pc');
   const [isSaveId, setIsSaveId] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(['userEmail']);
+
   const [inputs, setInputs] = useState({
     username: (cookies.userEmail) ? cookies.userEmail : '',
     password: '',
     platform: cmm.getPlatform()
   })
 
-  //modal state
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  //페이지 첫 로딩
   useEffect(() => {
-
     if (cookies.userEmail !== undefined) {
       setInputs({ ...inputs, username: cookies.userEmail })
     }
 
   }, []);
-
 
   //아이디저장 클릭
   const handleChecked = (e) => {
@@ -73,12 +47,10 @@ const SignIn = (props) => {
     }
   }
 
-  //Input change
   const handelChange = (e) => {
     setInputs({ ...inputs, [e.target.id]: e.target.value })
   }
 
-  // 로그인 버튼 클릭
   const handleOnLogin = () => {
     if (!inputs.username.length > 0 || !inputs.password.length > 0) {
       return errorMessage('이메일 주소와 비밀번호를 입력하세요.')
@@ -95,8 +67,6 @@ const SignIn = (props) => {
     const state = 'myState';
 
     dispatch(authorize.call(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform))
-
-    //props.authorize(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform)
   }
 
   // access token 
@@ -138,45 +108,6 @@ const SignIn = (props) => {
     }
 
   }, [state.authcodeResponse])
-
-  // // getAccesToek fetch 후
-  // useEffect(() => {
-  //   console.log('로그인 응답 :::::22222::::::::::::',state.accesstokenResponse)
-
-  //   if (!state.accesstokenResponse) {
-  //     return;
-  //   }
-
-  //   if (state.authcodeResponse.message == 'No User !!') {
-  //     errorMessage('로그인 인증코드가 잘못되었습니다.');
-  //     setInputs({...inputs, password:''})      
-  //     state.accesstokenResponse=null;
-  //     return; 
-  //   } else {
-  //     console.log('로그인 ::::::::::::',state.accesstokenResponse)
-
-  //     if (isUserAuthenticated()) {
-  //       console.log('access Token :::::::::::::::::',getOauthAccessToken());
-  //       history.push('/main');
-  //     }
-
-
-
-  //     state.accesstokenResponse=null;
-  //     return;
-  //   }
-
-  // }, [state.accesstokenResponse])
-
-
-
-
-  // useEffect(() => {
-  //   if (isUserAuthorized()) {
-  //     props.history.push('/authing')
-  //   }
-  // }, [isUserAuthorized()])
-
 
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);

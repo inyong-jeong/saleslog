@@ -2,11 +2,6 @@ import cmm from 'constants/common';
 import { check_token_fetch } from 'model/FetchManage'
 import { oauthgetrefreshaccesstoken } from 'model/auth'
 
-// export const isUserAuthenticated = () => {
-//   let userInfo = localStorage.getItem('tk-sso-token');
-//   return userInfo ? true : false;
-// }
-
 export const isUserAuthenticating = () => {
   let userInfo = localStorage.getItem('is_authenticateing');
   return userInfo;
@@ -16,100 +11,12 @@ export const setUserAuthenticating = (state) => {
   localStorage.setItem('is_authenticateing', state);
 }
 
-export const getAuthCode = () => {
-  return localStorage.getItem('tk-sso-auth-code');
-}
-
-export const setAuthCode = (authCode) => {
-  localStorage.setItem('tk-sso-auth-code', authCode);
-}
-
-export const setPCKE = (pcke) => {
-  localStorage.setItem('pcke', pcke);
-}
-
-export const getPCKE = () => {
-  return localStorage.getItem('pcke');
-}
-
-export const getAccessToken = () => {
-  return localStorage.getItem('tk-sso-token');
-}
-
-export const setAccessToken = (token) => {
-  localStorage.setItem('tk-sso-token', token);
-}
-
-export const removeAccessToken = () => {
-  localStorage.removeItem('tk-sso-token');
-}
-
-export const getRefreshToken = () => {
-  return localStorage.getItem('tk-sso-refresh-token');
-}
-
-export const setRefreshToken = (token) => {
-  localStorage.setItem('tk-sso-refresh-token', token);
-}
-
-export const setUserId = (userId) => {
-  localStorage.setItem('user_id', userId);
-}
-
-export const getUserId = () => {
-  return localStorage.getItem('user_id');
-}
-
-export const removeUserId = () => {
-  localStorage.removeItem('user_id');
-}
-
 export const Info = () => {
   const items = ['user_id', 'tk-sso-refresh-token', 'tk-sso-token', 'pcke', 'is_authenticateing'];
   items.map((item) => {
     localStorage.removeItem(item);
     return 0;
   });
-}
-
-// export const setAccessToken = (token) => {
-//   let iframe = document.createElement('iframe');
-//   iframe.id = "sso";
-//   iframe.style.display = "none";
-//   iframe.src = "https://sso.theklab.co";
-//   document.body.append(iframe);
-//   iframe.contentWindow.addEventListener('message', function(token) {
-//     console.log(`toekn from parent: ${token}`);
-//   });
-//   iframe.contentWindow.postMessage(token);
-// }
-
-const toHex = (buffer) => {
-  return buffer.map(b => b.toString(16).padStart(2, '0')).join('')
-}
-
-const getRandomNumbers = () => {
-  var array = new Uint32Array(1);
-  window.crypto.getRandomValues(array);
-  return toHex(Array.from(array));
-}
-
-export const getRandomSHA256 = async () => {
-  const array = new Uint32Array(2);
-  const randBuf = window.crypto.getRandomValues(array);
-  const crypto = window.crypto || window.msCrypto;
-  const hash = await crypto.subtle.digest('SHA-256', randBuf);
-  return toHex(Array.from(new Uint8Array(hash)));
-}
-
-export const saveSSOSession = () => {
-  const state = getRandomNumbers();
-  sessionStorage.setItem('state', state);
-  return state;
-}
-
-export const validateSSOSession = (state) => {
-
 }
 
 //RENEWAL 
@@ -127,7 +34,6 @@ export const getOauthAccessToken = () => {
 }
 
 export const setOauthAccessToken = (token) => {
-  //console.log('토큰저장  setOauthAccessToken:',token)
   localStorage.setItem('oauth-token', token);
 }
 
@@ -188,7 +94,7 @@ export const isAccessToken = async () => {
   }
 
   if (await result.success) {
-    console.log('result::::::::::::::::',await result);
+    console.log('result::::::::::::::::', await result);
     if (await result.message.org_idx == '' || await result.message.org_idx == '0' || await result.message.org_idx == 'GO6rfQ+FQ77EyUfC0Vfo4w==') {
       //워크그룹이 없는 경우
       return 'NoWorkgroup';
@@ -224,32 +130,7 @@ export const isAccessToken = async () => {
     return 'NoWorkgroup';
 
   }
-  //return (token && token !== 'undefined') ? true : false;
-
-  //});
-  // console.log('check')
-  // // refresh 토큰으로 다시 받음
-  // const reToken = await getOauthRefreshToken();
-  // if (reToken == null || reToken == '' || reToken == 'undefined' ){
-  //   return false;
-  // } 
-
-  // await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
-  // .then(res => {
-  //   console.log('리프래시 토큰 ::: ', res)
-  // })
-
-
-  //console.log(cmm.FILE_PATH_FILES)
-
-  // refresh 토큰이 만료 인경우 로그인으로 
-
-
-
-
-
 }
-
 
 
 //storage 토큰 확인

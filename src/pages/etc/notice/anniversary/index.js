@@ -81,7 +81,7 @@ const AnniversaryPage = () => {
           </div>
 
         )) :
-          <><div style={{ fontSize: 16 }}>최근 30일 이내에 나가오는 생일이 없습니다</div></>
+          <><div style={{ fontSize: 16 }}>최근 30일 이내에 다가오는 생일이 없습니다</div></>
         }
 
         {/* {myInfo.permission != 9 ?

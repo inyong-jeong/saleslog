@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useSelector } from "react-redux";
@@ -6,20 +5,17 @@ import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import AvatarUp from 'components/AvatarUp';
-import { useHistory, useParams } from 'react-router';
-import { Divider, Button, Avatar, Select } from 'antd';
+import { useHistory } from 'react-router';
+import { Divider } from 'antd';
 import Input from 'components/styledcomponent/Input';
-import { RightOutlined } from "@ant-design/icons";
 import { getProfileDetail, postProfilePhoto, postProfileUpd } from 'redux/etc/actions';
 import cmm from 'constants/common';
-import { base64Dec } from 'constants/commonFunc';
-const { Option } = Select;
 
 
-const myProfilePage = (props) => {
+const myProfilePage = () => {
+
   const state = useSelector(state => state.Etc)
   const history = useHistory()
-  const params = useParams()
   const dispatch = useDispatch()
   const [myData, setMyData] = useState(null)
   const [inputs, setInputs] = useState(
@@ -57,19 +53,14 @@ const myProfilePage = (props) => {
   });
 
   useEffect(() => {
-    // 하단 네비 설정 
     dispatch({
       type: SET_NAVIBAR_SHOW,
       payload: false
-    }
-    )
-
-    //내 프로필 정보 
+    })
     dispatch(getProfileDetail.call())
 
   }, [])
 
-  //내 프로필 정보 fetch 후
   useEffect(() => {
     if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
       setMyData(state.getProfileDetailRes)
@@ -78,20 +69,15 @@ const myProfilePage = (props) => {
         ...inputs,
         user_name: state.getProfileDetailRes[0].user_name,
         phone_number: state.getProfileDetailRes[0].phone_number,
-        prevImg: (cmm.isEmpty(state.getProfileDetailRes[0].thumb_url) ? '' : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url)
+        prevImg: state.getProfileDetailRes[0].thumb_url ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url : ''
       })
-
-
     }
   }, [state.getProfileDetailRes])
 
   const onSaveClick = (e) => {
-    console.log(inputs)
     dispatch(postProfileUpd.call({ user_name: inputs.user_name, phone_number: inputs.phone_number }))
     return
   }
-
-
   const handleChangeFile = e => {
     const fileUploaded = e.target.files;
     const reader = new FileReader();
