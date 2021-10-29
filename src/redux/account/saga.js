@@ -2,35 +2,23 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
 import {
-  GET_USER_ACCOUNT,
   SELECT_ACCOUNTS,
   SELECT_ACCOUNT_PERSON
 } from '../../constants/actionTypes';
 
 
 import {
-  getUserAccounts,
   selectAccounts,
   selectAccountperson
 } from './actions';
 
-import { getUserAccountsCall } from 'model/account';
 
 import {
-  get_fetch,
   post_fetch,
-  post_fetch_files
 } from 'model/FetchManage'
 
 
-function* _getUserAccounts({ payload: { userId } }) {
-  try {
-    const response = yield call(getUserAccountsCall, userId);
-    yield put(getUserAccounts.success(response));
-  } catch (error) {
-    yield put(getUserAccounts.error(error.message));
-  }
-}
+
 
 function* _selectAccounts({ payload: { data } }) {
   try {
@@ -51,10 +39,6 @@ function* _selectAccountsperson({ payload: { data } }) {
 }
 
 
-export function* watchGetUserAccounts() {
-  yield takeEvery(GET_USER_ACCOUNT, _getUserAccounts);
-}
-
 export function* watchSelectAccounts() {
   yield takeEvery(SELECT_ACCOUNTS, _selectAccounts);
 }
@@ -65,7 +49,6 @@ export function* watchSelectAccountsperson() {
 
 function* accountSaga() {
   yield all([
-    fork(watchGetUserAccounts),
     fork(watchSelectAccounts),
     fork(watchSelectAccountsperson)
   ]);

@@ -65,8 +65,10 @@ const AnniversaryPage = () => {
       <MyAppBar barTitle={'다가오는 생일'} />
       <div className='content_body'>
 
+        <div style={{ fontSize: 16 }}> 30일 이내에 다가오는 생일 리스트입니다.</div>
+        <Divider />
 
-        {state.postAnniveraryResponse.length > 0 ? state.postAnniveraryResponse[0].map(item => (
+        {state.postAnniveraryResponse.length > 0 && state.postAnniveraryResponse[0].map(item => (
 
           <div
             className={styles.dateItem}
@@ -80,8 +82,7 @@ const AnniversaryPage = () => {
             <Divider />
           </div>
 
-        )) :
-          <><div style={{ fontSize: 16 }}>최근 30일 이내에 다가오는 생일이 없습니다</div></>
+        ))
         }
 
         {/* {myInfo.permission != 9 ?
