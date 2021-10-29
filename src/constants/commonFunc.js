@@ -70,6 +70,7 @@ export const errorMessage = (msg) => {
 export const alertMessage = (msg) => {
   Modal.info({
     content: msg,
+    okText: '확인',
     onOk() { },
   })
 }
