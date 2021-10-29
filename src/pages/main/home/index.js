@@ -65,8 +65,11 @@ const DashBoardPage = () => {
     display: 'flex',
     alignItems: 'center',
     marginBottom: 5,
-
   }
+
+  const riseColor = '#0000ff'
+  const dropColor = '#EE1818'
+
   const chartCardStyle = {
     backgroundColor: '#F2F2F2',
     height: 80,
@@ -313,10 +316,10 @@ const DashBoardPage = () => {
     }
 
     if (parseInt(data.calc_cnt) > 0) {
-      arrowChartcolor = '#0000ff';
+      arrowChartcolor = riseColor
       ArrowIcon = <Up />
     } else if (parseInt(data.calc_cnt) < 0) {
-      arrowChartcolor = '#EE1818';
+      arrowChartcolor = dropColor
       ArrowIcon = <Down />
     }
 
@@ -529,7 +532,6 @@ const DashBoardPage = () => {
                 <NivoPieChart data={pieChartData(salesStat[2])} hasData={salesStat[2].length <= 0 ? false : true} />
               </Col>
             </Row>
-            <div className='mt-5' />
           </>
         }
         <Row justify='center'>
@@ -537,6 +539,7 @@ const DashBoardPage = () => {
             <StyledButton onClick={handleCsvDownload}>영업일지 실적 다운로드</StyledButton>
           </Col>
         </Row>
+        <div className='mt-5' />
         <Divider style={{ borderColor: '#dfdfdf' }} />
         <div className='mt-5' />
 
@@ -599,7 +602,7 @@ const DashBoardPage = () => {
 
             <div style={leadChartCardWrapperStyle}>
               <div style={chartCardStyle}>
-                유입
+                <span style={{ color: riseColor }}>유입</span>
                 <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                   {dispPrevCnt(leadStat[2][0], LEADLOG_TYPE)}
                   {dispPrevCnt(leadStat[2][1], LEADLOG_TYPE)}
@@ -608,7 +611,7 @@ const DashBoardPage = () => {
                 </div>
               </div>
               <div style={chartCardStyle}>
-                드롭
+                <span style={{ color: dropColor }}> 드롭</span>
                 <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                   {dispPrevCnt(leadStat[3][0], LEADLOG_TYPE)}
                   {dispPrevCnt(leadStat[3][1], LEADLOG_TYPE)}
@@ -671,10 +674,7 @@ const DashBoardPage = () => {
               <Col sm={24} xs={24} md={24} lg={24}>
                 <NivoPieChart data={pieChartData(leadStat[5])} hasData={leadStat[5].length <= 0 ? false : true} />
               </Col>
-
             </Row>
-
-            <div className='mt-5'></div>
           </>
         }
         <Row justify='center'>
