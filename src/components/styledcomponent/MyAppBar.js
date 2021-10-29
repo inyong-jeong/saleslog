@@ -105,25 +105,18 @@ const MyAppBar = ({
 
   const onLogoutClick = () => {
     confirm({
-      title: '정말로 로그아웃 하시겠습니까?',
+      title: '정말 로그아웃 하시겠습니까?',
       icon: <ExclamationCircleOutlined />,
-      // content: '로그아웃을 하시면 재로그인이 필요합니다.',
       cancelText: '취소',
       okText: '확인',
       onOk() {
         removeAll();
         history.push('/signin')
-      },
-      onCancel() {
-        //취소
-      },
+      }
     })
 
   }
-  const onDotsClick = () => {
 
-
-  }
   //profile menu 
   //warnKey error & keyEvent error는 link로 감싸서 생기는 문제
   // 안에 키값으로 이동하는 걸로 바꿔야됨 
@@ -194,14 +187,7 @@ const MyAppBar = ({
         top: 0,
         zIndex: 50,
         backgroundColor: '#fff'
-      }
-        // isMobile ? {
-        //   backgroundColor: '#000',
-        // } : {
-        //   backgroundColor: '#fff'
-        // }
-
-      }
+      }}
     >
       <div>
         <div
