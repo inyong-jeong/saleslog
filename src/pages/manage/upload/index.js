@@ -624,8 +624,8 @@ function UploadSalesLog(props) {
         <div className="row">
           <div className="col-12" style={{ display: 'flex', alignItems: 'center' }}>
             <label style={labelStyle}> 고객 <span style={{ color: 'red' }}>*</span></label>
-            {radiocheck === '0010001' && <CustomerModal buttonLabel='고객 간편 등록' />}
-            {radiocheck === '0010002' && <CustomerLeadModal buttonLabel='고객 간편 등록' />}
+            {radiocheck === '0010001' && (id ? id.length < 3 : true) && <CustomerModal buttonLabel='고객 간편 등록' />}
+            {radiocheck === '0010002' && (id ? id.length < 3 : true) && <CustomerLeadModal buttonLabel='고객 간편 등록' />}
           </div>
         </div>
         <div className="mt-2"></div>
