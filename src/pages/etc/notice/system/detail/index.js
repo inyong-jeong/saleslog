@@ -90,7 +90,7 @@ const sysNoticeRegi = () => {
           <Divider />
         </div>
       </div> :
-      <p className={classes.showDetails}>공지 내역이 존재하지 않습니다.</p>
+      <p className={classes.showDetails}>공지를 가져오는 중입니다.</p>
 
   );
 }
