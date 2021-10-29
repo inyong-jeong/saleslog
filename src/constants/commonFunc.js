@@ -45,7 +45,7 @@ export const successMessage = (msg) => {
   message.success({
     content: msg,
     key,
-    duration: 1.5,
+    duration: 1,
     style: {
       marginTop: 100,
     }
