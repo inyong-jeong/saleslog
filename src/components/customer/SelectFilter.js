@@ -1,6 +1,6 @@
 import React from 'react';
 import StyledSelect from '../styledcomponent/StyledSelect';
-
+import { useRef } from 'react';
 const { Option } = StyledSelect
 const eachSelectStyle = {
   flex: 1,
@@ -16,6 +16,8 @@ const SelectFilter = ({
   setPage,
 }) => {
 
+  const memberInputRef = useRef()
+
   const onChangeSortType = (value) => {
     setInputs({ ...inputs, order: value })
     setPage(1)
@@ -25,8 +27,7 @@ const SelectFilter = ({
     setPage(1)
   }
   const onChangeUsers = (value) => {
-
-    //console.log('change users', value)
+    memberInputRef.current.blur()
     setInputs({ ...inputs, users: value })
     setPage(1)
   }
@@ -59,6 +60,7 @@ const SelectFilter = ({
       </StyledSelect>
 
       <StyledSelect
+        ref={memberInputRef}
         style={eachSelectStyle}
         showSearch
         value={inputs.users ? inputs.users : null}
