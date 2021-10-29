@@ -84,12 +84,13 @@ const CustomerDetail = () => {
   return (
     <div>
       <MyAppBar barTitle={'고객 프로필'}
+        showThreeDots={managerPermission === 'Y' ? 'Y' : 'N'}
         showBackButton
         navigateTo={navigateTo}
         onEditClick={onEditClick}
         onDeleteClick={onDeleteClick}
-        Dbutton={managerPermission === 'Y' ? 'Y' : 'N'}
-        Ubutton={managerPermission === 'Y' ? 'Y' : 'N'}
+      //Dbutton={managerPermission === 'Y' ? 'Y' : 'N'}
+      //Ubutton={managerPermission === 'Y' ? 'Y' : 'N'}
       />
 
       <div className='content_body'>

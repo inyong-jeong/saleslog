@@ -19,6 +19,7 @@ import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
 import { ReactComponent as Support } from '../.././assets/icons/main/support.svg'
 import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_workgroup.svg'
 import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
+import { ReactComponent as MoreIcon } from '../.././assets/icons/workgroup/threeDots.svg'
 import { Menu, Dropdown, } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
@@ -28,8 +29,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import cmm from '../../constants/common';
 import { getProfileDetail } from '../../redux/etc/actions';
 import { useSelector, useDispatch } from 'react-redux';
-
-
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 const useStyles = makeStyles({
   appBarIcon: {
@@ -39,6 +39,11 @@ const useStyles = makeStyles({
   textButtonStyle: {
     position: 'absolute',
     right: 10,
+  },
+
+  dotsStyle: {
+    position: 'absolute',
+    right: 15,
   },
   tempButtonStyle: {
     position: 'absolute',
@@ -64,7 +69,8 @@ const MyAppBar = ({
   Dbutton,
   Ubutton,
   onWorkGroupEdit,
-  onWorkGroupDelete
+  onWorkGroupDelete,
+  showThreeDots,
 }) => {
 
   const dispatch = useDispatch()
@@ -80,9 +86,9 @@ const MyAppBar = ({
     if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
 
       setProfileImage(
-        cmm.isEmpty(state.getProfileDetailRes[0].thumb_url)
-          ? null
-          : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+        state.getProfileDetailRes[0].thumb_url
+          ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+          : null
       )
 
     }
@@ -112,6 +118,10 @@ const MyAppBar = ({
         //취소
       },
     })
+
+  }
+  const onDotsClick = () => {
+
 
   }
   //profile menu 
@@ -157,6 +167,22 @@ const MyAppBar = ({
       <Menu.Item key="7">
         <Link to={'/main/information'}>
           <Info /> 정보</Link>
+      </Menu.Item>
+    </Menu>
+  )
+
+  const dotsMenu = (
+    <Menu>
+      <Menu.Item key="1">
+        <div style={{ display: 'flex', alignItems: 'center' }} onClick={onEditClick}>
+          <EditOutlined /> &nbsp; 수정
+        </div>
+
+      </Menu.Item>
+      <Menu.Item key="2">
+        <div style={{ display: 'flex', alignItems: 'center' }} onClick={onDeleteClick}>
+          <DeleteOutlined /> &nbsp;  삭제
+        </div>
       </Menu.Item>
     </Menu>
   )
@@ -226,6 +252,21 @@ const MyAppBar = ({
                 </IconButton>
               </div>
             }
+
+            {showThreeDots === 'Y' &&
+              <div className={classes.dotsStyle}>
+                <Dropdown
+                  placement={'bottomCenter'}
+                  trigger="click"
+                  overlay={dotsMenu}
+                >
+                  <IconButton color="inherit">
+                    <MoreIcon />
+                  </IconButton>
+                </Dropdown>
+              </div>
+            }
+
             {
               (Ubutton === 'Y' && onEditClick) &&
               <div className={classes.tempButtonStyle}>

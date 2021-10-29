@@ -88,8 +88,9 @@ const ManagerProfilePage = () => {
         navigateTo={navigateTo}
         onEditClick={onEditClick}
         onDeleteClick={onDeleteClick}
-        Dbutton={managerPermission === 'Y' ? 'Y' : 'N'}
-        Ubutton={managerPermission === 'Y' ? 'Y' : 'N'}
+        showThreeDots={managerPermission === 'Y' ? 'Y' : 'N'}
+      // Dbutton={managerPermission === 'Y' ? 'Y' : 'N'}
+      //Ubutton={managerPermission === 'Y' ? 'Y' : 'N'}
       />
       {
         state.getMangerResponse ?

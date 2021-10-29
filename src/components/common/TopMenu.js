@@ -17,28 +17,23 @@ import { Link } from 'react-router-dom';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import cmm from 'constants/common';
-import { getProfileDetail } from '../../redux/etc/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const { confirm } = Modal;
 export default function TopMenu({ badgeContent }) {
 
-  const dispatch = useDispatch()
   const history = useHistory()
   const state = useSelector(state => state.Etc)
   const [profileImage, setProfileImage] = useState(null)
 
   useEffect(() => {
-    dispatch(getProfileDetail.call())
-  }, [])
-
-  useEffect(() => {
     if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
 
+
       setProfileImage(
-        cmm.isEmpty(state.getProfileDetailRes[0].thumb_url)
-          ? null
-          : cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+        state.getProfileDetailRes[0].thumb_url
+          ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+          : null
       )
 
     }

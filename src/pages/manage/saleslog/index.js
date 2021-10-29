@@ -381,8 +381,9 @@ function SalesLog(props) {
         navigateTo={handleOnBack}
         onEditClick={handleOnRevise}
         onDeleteClick={handleOndelete}
-        Dbutton={Log && Log.del_yn}
-        Ubutton={Log && Log.upd_yn}
+        //Dbutton={Log && Log.del_yn}
+        //Ubutton={Log && Log.upd_yn}
+        showThreeDots={Log && Log.del_yn}
       />
       <div className='content_body'>
         <Row>
