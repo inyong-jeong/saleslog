@@ -5,11 +5,13 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory, useParams } from 'react-router';
 import { getLogLists } from '../../redux/saleslog/actions';
 import { ReactComponent as Dot } from '../../assets/icons/main/dot.svg'
-import { base64Dec, base64Enc } from '../../constants/commonFunc';
+import { base64Dec, base64Enc, ConvertDate } from '../../constants/commonFunc';
 import styles from '../../assets/style/Main.module.css'
 import cmm from 'constants/common';
 import { ReactComponent as Feedback } from '../.././assets/icons/main/feedback.svg'
 import CustomFab from '../styledcomponent/CustomFab';
+import Highlighter from "react-highlight-words";
+
 const CustomerLogPage = () => {
 
   const dispatch = useDispatch()
@@ -48,6 +50,33 @@ const CustomerLogPage = () => {
       'need_cod': '',
       'dept_idx': '',
     })
+
+  const bluebox = {
+    fontSize: 12,
+    backgroundColor: '#F6F6F6',
+    color: '#398fff',
+    fontWeight: 400,
+    padding: 4,
+    borderRadius: '3px'
+  }
+
+  const orangebox = {
+    fontSize: 12,
+    backgroundColor: '#F6F6F6',
+    color: '#F09A32',
+    fontWeight: 400,
+    padding: 4,
+    borderRadius: '3px'
+  }
+
+  const greenbox = {
+    fontSize: 12,
+    backgroundColor: '#F6F6F6',
+    color: 'green',
+    fontWeight: 400,
+    padding: 4,
+    borderRadius: '3px'
+  }
 
   const grayTextStyles = {
     fontSize: 12,
@@ -116,20 +145,62 @@ const CustomerLogPage = () => {
             <Avatar src={cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + singleList.thumb_url} />
           </div>
           <div style={{ flexGrow: 2 }}>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 500 }}>{singleList.user_name}</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname} { }</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}>
-              {singleList.sales_goal_t}<Dot />  {singleList.sales_activity_t} <Dot /> {singleList.needs_cods}</p>
+            <span style={{ margin: 0, fontSize: 14, fontWeight: 500 }}><strong>{singleList.user_name}</strong>&nbsp;</span>
+            <div className='mt-1'></div>
+            <span style={{ margin: 0, fontSize: 12, color: '#666666', fontWeight: 400 }}>{singleList.dept_fname}</span>
+            <div className='mt-1'></div>
+            <p style={{ margin: 0, fontSize: 12, color: '#333333', fontWeight: 300 }}><span style={bluebox}>{singleList.sales_goal_t}</span><span>&#183;</span>
+              <span style={bluebox}>{singleList.sales_activity_t}</span> {singleList.needs_cods && <><span>&#183;</span><span style={orangebox}> {loglist.needs_cods}</span></>}</p>
+            <div className='mt-1'></div>
           </div>
-          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{singleList.meeting_date} {singleList.meeting_stime}</div>
+          <div style={{ fontSize: 12, color: '#333333', fontWeight: 400 }}>{ConvertDate(singleList.meeting_date)} {singleList.meeting_stime}</div>
         </div>
         <Divider dashed style={{ marginLeft: 0, marginBottom: 2, marginTop: 4, marginRight: 0 }} />
-        <div style={grayTextStyles}>{singleList.account_name} <Dot /> {singleList.man_name} </div>
-        <div style={{ fontSize: 14, fontWeight: 500 }}>{singleList.title}</div>
+        <div className='mt-1'></div>
+
+        <div style={grayTextStyles}>
+          <span style={greenbox}>
+            <Highlighter
+              highlightClassName="Account_name"
+              searchWords={[state.keyword]}
+              autoEscape={true}
+              textToHighlight={singleList.account_name}
+            />
+          </span> <span>&#183;</span>
+          <span style={greenbox}>
+            <Highlighter
+              highlightClassName="man_name"
+              searchWords={[state.keyword]}
+              autoEscape={true}
+              textToHighlight={singleList.man_name}
+            />
+            <span>&nbsp;</span>
+
+            {singleList.man_posi}
+          </span>
+        </div>
+
+        <div className='mt-1'></div>
+
+        <div style={{ fontSize: 16, fontWeight: 500 }}><strong>
+          <Highlighter
+            highlightClassName="Title"
+            searchWords={[state.keyword]}
+            autoEscape={true}
+            textToHighlight={singleList.title}
+          />
+        </strong></div>
         <div className='mt-1'></div>
         <div>
-          <div style={contentstyles}>{singleList.log}</div>
+          <Highlighter
+            style={contentstyles}
+            highlightClassName="Log"
+            searchWords={[state.keyword]}
+            autoEscape={true}
+            textToHighlight={singleList.log}
+          />
         </div>
+
         <div className='mt-1'></div>
         <div style={{ display: 'flex' }}>
           {(singleList.file1 !== '') && <Avatar size={64} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + singleList.file1} />}
@@ -148,7 +219,7 @@ const CustomerLogPage = () => {
           }}>
           <Feedback /> 피드백 {singleList.feedback_cnt}개</div>
       </div>
-      <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0 }} />
+      <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
     </>
 
 
