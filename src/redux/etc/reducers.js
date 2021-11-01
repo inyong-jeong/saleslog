@@ -47,7 +47,7 @@ import {
   POST_WORKGROUP_NOTICE,
   POST_WORKGROUP_NOTICE_ERROR,
   POST_WORKGROUP_NOTICE_SUCCESS,
-  POST_WORKGROUP_ERROR
+  BADEGE_CONTENT,
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -71,9 +71,8 @@ const initialState = {
   postSysResponse: null,
   //워크그룹 삭제 response
   workDeleteRes: false,
-  sysDeleteRes: false
-
-
+  sysDeleteRes: false,
+  NotificationBadgeContent: null,
 }
 
 const Etc = (state = initialState, action) => {
@@ -179,6 +178,8 @@ const Etc = (state = initialState, action) => {
     case POST_WORKGROUP_NOTICE_ERROR:
       return { ...state, loading: true, postWGResponse: false }
 
+    case BADEGE_CONTENT:
+      return { ...state, NotificationBadgeContent: action.payload }
     default:
       return { ...state };
   }

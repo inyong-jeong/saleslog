@@ -141,11 +141,11 @@ const MyAppBar = ({
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      {/* <Menu.Item key="4">
+      <Menu.Item key="4">
         <Link to={'/main/notification'}>
           <Setting /> 알림 설정
         </Link>
-      </Menu.Item> */}
+      </Menu.Item>
       <Menu.Item key="5">
         <Link to={'/main/support'}>
           <Support /> 지원센터
@@ -209,11 +209,11 @@ const MyAppBar = ({
             {
               isMobile && !showBackButton &&
               <div className={classes.appBarIcon}>
-                {/* <IconButton color="inherit" onClick={notiClick}>
+                <IconButton color="inherit" onClick={notiClick}>
                   <Badge badgeContent={badgeContent} color="secondary">
                     <Noti stroke='#333333' />
                   </Badge>
-                </IconButton> */}
+                </IconButton>
                 <Dropdown
                   trigger="click"
                   overlay={menu}>
