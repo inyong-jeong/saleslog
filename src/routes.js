@@ -18,9 +18,6 @@ const WorkGroup = React.lazy(() => import('./pages/auth/WorkGroup'));
 const InVite = React.lazy(() => import('./pages/auth/InVite'));
 const CongratuLation = React.lazy(() => import('./pages/auth/CongratuLation'));
 
-//테스트
-
-
 //메인 화면 관련 컴포넌트
 const Home = React.lazy(() => import('./pages/main/home'));
 const Manage = React.lazy(() => import('./pages/manage'));
@@ -49,7 +46,7 @@ const WorkgroupOut = React.lazy(() => import('./pages/workgroup/outwgroup'))
 const WorkgroupDel = React.lazy(() => import('./pages/workgroup/delwgroup'))
 const WorkgroupChg = React.lazy(() => import('./pages/workgroup/chgwgroup'))
 
-//프로필 , 공지사항, 기념일
+//프로필 , 공지사항, 기념일, 알림
 const myProfile = React.lazy(() => import('./pages/etc/profile'))
 const wgroupNotice = React.lazy(() => import('./pages/etc/notice/group'))
 const wgroupNoticeRegi = React.lazy(() => import('./pages/etc/notice/group/register'))
@@ -61,12 +58,12 @@ const systemNoticeDetail = React.lazy(() => import('./pages/etc/notice/system/de
 const systemNoticeUpd = React.lazy(() => import('./pages/etc/notice/system/update'))
 const anniversary = React.lazy(() => import('./pages/etc/notice/anniversary'))
 
-
 //const systemNoticeList = React.lazy(() => import('./pages/etc/notice/system/list'))
 
 // 설정 등
 const AppInfo = React.lazy(() => import('./pages/appInfo'))
 const NotificationSetting = React.lazy(() => import('./pages/settings/notification'))
+const NotificationList = React.lazy(() => import('./pages/notification'))
 
 // device token
 const SaveDevice = React.lazy(() => import('./pages/etc/devicetoken'))
@@ -92,25 +89,25 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
   <Route {...rest} render={props => {
     //const isTokenValid = isUserAuthenticated();
     //if (isTokenValid) {
-      //토큰 만료 확인 및 갱신 
-      let isTokenOK = isAccessToken().then((res) => {
-        if (res == 'NoToken') {
-          console.log('LOGIN PUSH :: MainRoute NoToken ', res)
-          removeAll();
-          props.history.push('/signin')
+    //토큰 만료 확인 및 갱신 
+    let isTokenOK = isAccessToken().then((res) => {
+      if (res == 'NoToken') {
+        console.log('LOGIN PUSH :: MainRoute NoToken ', res)
+        removeAll();
+        props.history.push('/signin')
 
-        } else if (res == 'ReToken') {
-          //props.history.replace(props.history.location)
-          window.location.reload();
-        } else if (res == 'NoWorkgroup') {
-          if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
-            props.history.location.pathname != '/main/workgroup/register') {
-            //console.log('test')
-            props.history.push('/main/workgroup/chgwgroup')
-          }
+      } else if (res == 'ReToken') {
+        //props.history.replace(props.history.location)
+        window.location.reload();
+      } else if (res == 'NoWorkgroup') {
+        if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
+          props.history.location.pathname != '/main/workgroup/register') {
+          //console.log('test')
+          props.history.push('/main/workgroup/chgwgroup')
         }
-      })
-      return <Component {...props} />
+      }
+    })
+    return <Component {...props} />
 
     // } else {
     //   console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
@@ -174,7 +171,8 @@ const routes = [
 
   //프로필 및 설정 등
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
-  { path: '/main/notification', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
+  { path: '/main/notification/setting', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
+  { path: '/main/notification/lists', name: 'NotificationList', component: NotificationList, route: MainRoute, exact: true },
 
   //지원
   { path: '/main/support', name: 'SupportPage', component: SupportPage, route: MainRoute, exact: true },

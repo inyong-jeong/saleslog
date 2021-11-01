@@ -99,8 +99,8 @@ export default function TopMenu({ badgeContent }) {
   const onLogoClick = () => {
     history.push('/main')
   }
-  const onNotiClick = e => {
-    console.log('알림 클릭 ')
+  const onNotiClick = () => {
+    history.push('/main/notification/lists')
   }
 
   return (
