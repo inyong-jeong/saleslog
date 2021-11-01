@@ -20,6 +20,7 @@ import {
   POST_ANNIVERSARY,
   POST_SYSTEM_NOTICE,
   POST_WORKGROUP_NOTICE,
+  POST_DTOKEN_REGI,
 } from '../../constants/actionTypes'
 import {
   postAnniversary,
@@ -37,8 +38,8 @@ import {
   postNoticeSysDel,
   postNoticeSysRegi,
   postWorkgroupNotice,
-  postSystemNotice
-
+  postSystemNotice,
+  postDtokenRegi,
 } from './actions'
 
 const cmm = require('../../constants/common');
@@ -63,6 +64,9 @@ const NOTICE_SYS_REGI = '/etc/regi_notic_sys'         //notice system register
 const ANNIVERSARY = '/saleslog/list_anniversary'
 const SYSTEM_NOTICE = '/etc/list_notic_sys_gmb'
 const WORKGROUP_NOTICE = '/etc/list_notic_gmb'
+
+// device token
+const DTOKEN_REGI = '/secure/save_device_token'       //save device token
 
 function* _postSystemNotice() {
   try {
@@ -276,6 +280,23 @@ function* _postNoticeSysRegi({ payload: { body } }) {
     yield put(postNoticeSysRegi.error(error))
   }
 }
+
+//디바이스 토큰 등록
+function* _postDtokenRegi({ payload: { body } }) {
+  try {
+    //yield loadingMessage()
+    const response = yield call(post_fetch, cmm.SERVER_API_URL + DTOKEN_REGI, body)
+    //yield hideMessage()
+    yield put(postNoticeSysRegi.success(response))
+    //yield successMessage('등록되었습니다.')
+
+  } catch (error) {
+    //yield errorMessage(error.message)
+    yield put(postNoticeSysRegi.error(error))
+  }
+}
+
+
 
 function* watchPostSystemNotice() {
   yield takeEvery(POST_SYSTEM_NOTICE, _postSystemNotice)

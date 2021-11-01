@@ -68,6 +68,10 @@ const anniversary = React.lazy(() => import('./pages/etc/notice/anniversary'))
 const AppInfo = React.lazy(() => import('./pages/appInfo'))
 const NotificationSetting = React.lazy(() => import('./pages/settings/notification'))
 
+// device token
+const SaveDevice = React.lazy(() => import('./pages/etc/devicetoken'))
+
+
 //지원센터 
 const SupportPage = React.lazy(() => import('./pages/support'))
 const MyInquiryDetails = React.lazy(() => import('./pages/support/detail'))
@@ -175,6 +179,9 @@ const routes = [
   //지원
   { path: '/main/support', name: 'SupportPage', component: SupportPage, route: MainRoute, exact: true },
   { path: '/main/support/details/:id', name: 'MyInquiryDetails', component: MyInquiryDetails, route: MainRoute, exact: true },
+
+  //devict token
+  { path: "/main/etc/savedevice/:device", name: 'SaveDevice', component: SaveDevice, route: MainRoute, exact: true },
 
 
   //landing Route

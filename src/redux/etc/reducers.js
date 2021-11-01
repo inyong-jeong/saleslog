@@ -48,6 +48,9 @@ import {
   POST_WORKGROUP_NOTICE_ERROR,
   POST_WORKGROUP_NOTICE_SUCCESS,
   BADEGE_CONTENT,
+  POST_DTOKEN_REGI,
+  POST_DTOKEN_REGI_SUCCESS,
+  POST_DTOKEN_REGI_ERROR,
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -73,6 +76,8 @@ const initialState = {
   workDeleteRes: false,
   sysDeleteRes: false,
   NotificationBadgeContent: null,
+  //device token
+  postDtokenRegiRes: null,
 }
 
 const Etc = (state = initialState, action) => {
@@ -180,6 +185,13 @@ const Etc = (state = initialState, action) => {
 
     case BADEGE_CONTENT:
       return { ...state, NotificationBadgeContent: action.payload }
+
+    case POST_DTOKEN_REGI:
+      return { ...state, loading: false }
+    case POST_DTOKEN_REGI_SUCCESS:
+      return { ...state, loading: true, postDtokenRegiRes: action.payload.response.message }
+    case POST_DTOKEN_REGI_ERROR:
+      return { ...state, loading: true, postDtokenRegiRes: false }      
     default:
       return { ...state };
   }

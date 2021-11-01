@@ -14,7 +14,8 @@ import {
   POST_NOTICE_SYS_REGI,
   POST_ANNIVERSARY,
   POST_SYSTEM_NOTICE,
-  POST_WORKGROUP_NOTICE
+  POST_WORKGROUP_NOTICE,
+  POST_DTOKEN_REGI
 } from '../../constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -37,3 +38,6 @@ export const postNoticeSysRegi = fetchActionGenerator(POST_NOTICE_SYS_REGI, 'bod
 export const postAnniversary = fetchActionGenerator(POST_ANNIVERSARY)
 export const postSystemNotice = fetchActionGenerator(POST_SYSTEM_NOTICE)
 export const postWorkgroupNotice = fetchActionGenerator(POST_WORKGROUP_NOTICE)
+
+// device token
+export const postDtokenRegi = fetchActionGenerator(POST_DTOKEN_REGI, 'body');
