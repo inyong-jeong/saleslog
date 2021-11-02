@@ -36,6 +36,7 @@ const ManagerEdit = React.lazy(() => import('./pages/customer/edit/manager'))
 
 //일정
 const Calendar = React.lazy(() => import('./pages/calendar'))
+const CalendarRegister = React.lazy(() => import('./pages/calendar/registerCalendar'))
 
 
 //워크그룹, 그룹 수정 , 그룹 나가기
@@ -150,6 +151,7 @@ const routes = [
 
   //일정
   { path: '/main/calendar', name: 'Calendar', component: Calendar, route: MainRoute, exact: true },
+  { path: '/main/calendar/register', name: 'CalendarRegister', component: CalendarRegister, route: MainRoute, exact: true },
 
 
 
