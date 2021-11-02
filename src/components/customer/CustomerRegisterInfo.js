@@ -18,6 +18,11 @@ import { Tooltip } from "antd";
 import { ReactComponent as Info } from '../../assets/icons/info.svg'
 import { customerType, gradeTypeTooltip, stageTypeTooltip, managerTooltip, tagToolTip } from './toolTipText'
 import { useScrollToTop } from "../../constants/commonFunc";
+import { clearCache, getCachingKeys, dropByCacheKey, } from "react-router-cache-route";
+
+window.clearCache = clearCache;
+window.getCachingKeys = getCachingKeys;
+
 const { Option } = StyledSelect;
 const useStyles = makeStyles({
 
@@ -59,7 +64,10 @@ const useStyles = makeStyles({
 
 const CustomerRegisterInfo = () => {
 
-  const navigateTo = () => history.goBack()
+  const navigateTo = () => {
+    console.log('cache key', getCachingKeys())
+    history.goBack()
+  }
 
   const dispatch = useDispatch()
   const classes = useStyles()

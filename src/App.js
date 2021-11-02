@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { HashRouter } from "react-router-dom";
 // import { BrowserRouter } from "react-router-dom";
+
 import 'antd/dist/antd.css';
 
 import { createHashHistory } from "history";
