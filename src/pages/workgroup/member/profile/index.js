@@ -55,7 +55,7 @@ const WgroupMemberPage = () => {
     query: "(max-width:1190px)"
   });
   //이전페이지
-  const navigateTo = () => history.push('/main/workgroup/member')
+  const navigateTo = () => history.goBack()
 
   //권한 select
   const handleChange = (value) => {
