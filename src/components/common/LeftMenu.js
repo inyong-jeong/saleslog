@@ -5,6 +5,7 @@ import { ReactComponent as Home } from '../../../src/assets/icons/main/home.svg'
 import { ReactComponent as Customer } from '../../../src/assets/icons/main/customer.svg'
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
 import { ReactComponent as WorkGroup } from '../../../src/assets/icons/main/workgroup.svg'
+import { ReactComponent as ThreeLines } from '../../../src/assets/icons/main/grayCalendar.svg'
 import { withRouter, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -31,16 +32,17 @@ function LeftMenu() {
     title: "고객",
     icon: <Customer />,
     to: "/main/customer"
-  }, {
+  },
+  {
+    title: '일정',
+    icon: <ThreeLines />,
+    to: '/main/calendar'
+  },
+  {
     title: "워크그룹",
     icon: <WorkGroup />,
     to: "/main/workgroup"
   },
-    // {
-    //   title: '초대 테스트용',
-    //   icon: <WorkGroup />,
-    //   to: '/invite'
-    // }
   ];
 
 

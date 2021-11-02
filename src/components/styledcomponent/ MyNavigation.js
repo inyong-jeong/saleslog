@@ -4,6 +4,7 @@ import { ReactComponent as Home } from '../../../src/assets/icons/main/home.svg'
 import { ReactComponent as Customer } from '../../../src/assets/icons/main/customer.svg'
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
 import { ReactComponent as WorkGroup } from '../../../src/assets/icons/main/workgroup.svg'
+import { ReactComponent as Calendar } from '../../../src/assets/icons/main/grayCalendar.svg'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import { useHistory, useLocation } from 'react-router';
 
@@ -42,6 +43,7 @@ const MyNavigation = () => {
       <BottomNavigationAction label="홈" icon={<Home />} value='/main' />
       <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' />
       <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' />
+      <BottomNavigationAction label="일정" icon={<Calendar />} value='/main/calendar' />
       <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' />
 
     </BottomNavigation>
