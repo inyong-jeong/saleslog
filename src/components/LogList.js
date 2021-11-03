@@ -99,10 +99,21 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
 
   )
 
+  const test = () => {
+    console.log(1111);
+  }
+
 
   const handleLogClick = (loglist) => {
     history.push({
       pathname: `/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`
+    })
+  }
+
+  const handleFeedClick = (loglist) => {
+    history.push({
+      pathname: `/main/manage/saleslog/${base64Enc(loglist.slog_idx)}`,
+      state: true
     })
   }
   const SalesLogItem = ({ loglist, tabkey }) => (
@@ -199,16 +210,10 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
           {(loglist.file5 !== '') && <Avatar size={60} className='mr-1' shape='square' src={cmm.SERVER_API_URL + cmm.FILE_PATH_FILES + loglist.file5} />}
         </div> */}
         {/* { xs: 80, sm: 80, md: 80, lg: 80, xl: 80, xxl: 100 } */}
-
-        <div
-          style={{
-            position: 'relative',
-            bottom: 0,
-            fontSize: 12,
-            color: '#333333',
-            fontWeight: 400,
-          }}>
-          <Feedback /> 피드백 {loglist.feedback_cnt}개</div>
+        <div className='mt-1'></div>
+        <div className="loglist_feed" onClick={() => handleFeedClick(loglist)}>
+          <Feedback /> 피드백 {loglist.feedback_cnt}개
+        </div>
       </div>
       <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
     </>

@@ -92,25 +92,21 @@ function SearchBar({ searchStr, onAddKeyword, SearchChange, SearchEnter, BlankEn
   }
   return (
     <>
-      <div>
 
-        <Search
-          id='searchbar'
-          ref={searchInput}
+      <Search
+        id='searchbar'
+        ref={searchInput}
 
-          // allowClear
-          onClick={handleOnClick}
-          placeholder="검색어(고객, 고객담당자, 제목, 내용)"
-          value={keyword}
-          size='large'
-          onChange={handleKeyword}
-          onSearch={handleEnter}
-          style={{
-            width: '100%',
-            marginBottom: 10,
-            marginTop: 10,
-          }} />
-      </div>
+        // allowClear
+        onClick={handleOnClick}
+        placeholder="검색어(고객, 고객담당자, 제목, 내용)"
+        value={keyword}
+        size='large'
+        onChange={handleKeyword}
+        onSearch={handleEnter}
+        style={{
+          width: '100%',
+        }} />
     </>
   )
 }

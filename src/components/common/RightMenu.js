@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Collapse, Divider, Tooltip } from 'antd';
+import { Collapse, Divider, Tooltip, Tag } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { postAnniversary, postSystemNotice, postWorkgroupNotice } from '../../redux/etc/actions';
@@ -9,6 +9,8 @@ import { ReactComponent as BdayLogo } from '../../../src/assets/icons/main/bday.
 import { ReactComponent as Notice } from '../../../src/assets/icons/main/notice.svg'
 import styles from '../../../src/assets/style/Main.module.css'
 import { ReactComponent as Info } from 'assets/icons/info.svg'
+import moment from 'moment';
+
 
 
 const { Panel } = Collapse
@@ -26,6 +28,16 @@ export default function RightMenu() {
   const [bday, setBday] = useState([])
   const [birthday, setBirthDay] = useState();
   const [birthdaylist, setBirthDayList] = useState([]);
+
+  const getFiveDateGap = (before) => {
+    const Bdate = moment(before)._d.getTime();
+    const Ndate = new Date().getTime();
+    if ((Ndate - Bdate) > 1000 * 60 * 60 * 24 * 5) {
+      return false;
+    } else if (Ndate - Bdate <= 1000 * 60 * 60 * 24 * 5) {
+      return true;
+    }
+  }
 
   useEffect(() => {
     dispatch(postAnniversary.call())
@@ -45,7 +57,6 @@ export default function RightMenu() {
       setWgNotice(state.postWGResponse)
     }
   }, [state.loading])
-
 
   const customPanelStyle = {
     background: '#fff',
@@ -84,6 +95,7 @@ export default function RightMenu() {
           overflow: 'hidden',
           width: 200
         }}>{item.title}</p>
+        {getFiveDateGap(item.cre_dt) && <Tag color="blue">New</Tag>}
         <p style={{ color: '#666666', fontSize: 12, marginLeft: 'auto' }}>
           {ConvertDate(item.cre_dt)}
         </p>
@@ -134,6 +146,8 @@ export default function RightMenu() {
   const handleOnSystem = () => {
     history.push('/main/etc/notice/system')
   }
+
+  console.log()
 
   return (
     <div style={{

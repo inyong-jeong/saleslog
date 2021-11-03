@@ -34,8 +34,7 @@ const MyNavigation = () => {
       value={value}
       onChange={(e, newValue) => {
         history.push(`${newValue}`)
-        setValue(newValue)
-
+        // setValue(newValue)
       }}
     //showLabels
     >

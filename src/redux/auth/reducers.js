@@ -49,6 +49,7 @@ let INIT_STATE = {
   response: null,
   refreshtokenresponse: null,
   isShowNaviBar: true,
+  isCacheShowNaviBar: true,
   authcodeError: null,
   postCheckisRegisteredResponse: null,
   postInviteRegisteredResponse: null,

@@ -21,19 +21,7 @@ import { useHistory } from 'react-router-dom';
 const { TabPane } = Tabs;
 function SalesLogList(props) {
   const state = useSelector(state => state.SalesLog)
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch({
-      type: SET_NAVIBAR_SHOW,
-      payload: true
-    })
-
-  }, [])
-
   const history = useHistory();
-
 
   const navigateTo = () => history.push({
     pathname: '/main/upload'
@@ -93,6 +81,7 @@ function SalesLogList(props) {
       setLogLists(loglists.concat(props.loglist))
     }
   }, [props.loadLogsLoading])
+
 
 
   const handleNextPage = () => {
@@ -189,7 +178,7 @@ function SalesLogList(props) {
       <div className='content_body'>
         {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
-        <Row>
+        <Row >
           <Col sm={24} xs={24} md={24} lg={24}>
             <SearchBar searchStr={searchStr}
               word={state.StoredData && state.StoredData.data.srch}
@@ -211,8 +200,6 @@ function SalesLogList(props) {
             />}
           </Col>
         </Row>
-
-
         <Row>
           <Col sm={24} xs={24} md={24} lg={24} >
             <FullTabs type='line' defaultActiveKey="0010001" onChange={onTabChange} activeKey={tabkey}>

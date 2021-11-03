@@ -10,6 +10,13 @@ export const useScrollToTop = () => {
   }, [location])
 }
 
+// export const useScrollToBottom = () => {
+//   const location = useLocation()
+//   useEffect(() => {
+//     window.scrollTo({ top: 1000 })
+//   }, [location])
+// }
+
 
 const key = 'loading'
 export const loadingMessage = () => {

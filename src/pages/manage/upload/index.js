@@ -465,7 +465,7 @@ function UploadSalesLog(props) {
 
   useEffect(() => {
     if (postresponse) {
-      props.history.push('/main/manage');
+      props.history.push({ pathname: '/main/manage', state: 'regilog' });
       state.postlog = false;
     }
   }, [postresponse])
@@ -581,6 +581,7 @@ function UploadSalesLog(props) {
           inputReadOnly={true}
           format={'HH:mm'}
           defaultValue={moment}
+          minuteStep={10}
           value={start}
           onChange={onChangesSartValue}
           onSelect={(value) => {
@@ -592,6 +593,7 @@ function UploadSalesLog(props) {
           inputReadOnly={true}
           format={'HH:mm'}
           defaultValue={moment}
+          minuteStep={10}
           value={end}
           onChange={onChangeEndValue}
           onSelect={(value) => {

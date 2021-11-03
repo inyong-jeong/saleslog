@@ -23,12 +23,17 @@ const AuthLayout = (props) => {
 
   // 하단 NaviBar Show
   const [isNaviShow, setisNaviShow] = useState(false)
+  const [isCashNaviShow, setisCashNaviShow] = useState(false)
 
   useEffect(() => {
     props.checkAccessToken()
+    if (props.location.pathname === '/main/manage' || props.location.pathname === '/main/customer') {
+      setisCashNaviShow(true)
+    }
   }, [])
 
   useEffect(() => {
+    // setisCashNaviShow(props.isCacheShowNaviBar)
     setisNaviShow(props.isShowNaviBar);
   }, [props.isShowNaviBar])
 
@@ -46,7 +51,7 @@ const AuthLayout = (props) => {
             {props.children}
             {/* <CustomUp /> */}
           </div>
-          {isNaviShow && <MyNavigation />}
+          {(isNaviShow || isCashNaviShow) && <MyNavigation />}
         </Layout>
         :
         <div>
@@ -82,8 +87,8 @@ const AuthLayout = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar } = state.Auth;
-  return { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar };
+  const { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar, isCacheShowNaviBar } = state.Auth;
+  return { refTokenResponse, refTokenError, accesstokenerror, refreshtokenresponse, isShowNaviBar, isCacheShowNaviBar };
 }
 
 const mapDispatchToProps = {

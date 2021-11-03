@@ -20,13 +20,17 @@ import { ReactComponent as SquaresIcon } from 'assets/icons/log/fourSquares.svg'
 import { ReactComponent as LocationIcon } from 'assets/icons/log/location.svg'
 import { ReactComponent as TimeIcon } from 'assets/icons/log/time.svg'
 import { ReactComponent as BuildingIcon } from 'assets/icons/log/building.svg'
-import { useScrollToTop } from '../../../constants/commonFunc';
+import { useScrollToTop, useScrollToBottom } from '../../../constants/commonFunc';
 const { confirm } = Modal;
 
 
 function SalesLog(props) {
 
-  useScrollToTop();
+  // console.log(props.history.location.state);
+
+  if (!props.history.location.state) {
+    useScrollToTop();
+  }
 
   const dispatch = useDispatch();
 
@@ -76,6 +80,16 @@ function SalesLog(props) {
     }
     return FileList
   }
+
+  // 피드백 클릭에 따른 화면 스크롤
+  // useEffect(() => {
+  //   if (props.history.location.state) {
+  //     window.scrollTo({ top: 500 });
+  //   } else {
+  //     window.scrollTo({ top: 10 });
+  //   }
+  // }, [])
+
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
@@ -373,10 +387,9 @@ function SalesLog(props) {
   const handleOnCancle = () => {
     setPreviewVisible(false);
   }
-  console.log(Log)
 
   return (
-    <>
+    <div id='root'>
       <MyAppBar barTitle={'영업일지 상세'} showBackButton
         navigateTo={handleOnBack}
         onEditClick={handleOnRevise}
@@ -526,13 +539,19 @@ function SalesLog(props) {
           <Col sm={24} xs={24} md={24} lg={24}>
             <div className='mt-1' />
             <Divider style={{ margin: 0 }} />
-            <Comments key={props.match.params.id} id={props.match.params.id} CommentLists={CommentLists} postId={base64Dec(props.match.params.id)} refreshFunction={updateComment} />
+            <Comments
+              key={props.match.params.id}
+              id={props.match.params.id}
+              CommentLists={CommentLists}
+              postId={base64Dec(props.match.params.id)}
+              refreshFunction={updateComment}
+              scroll={props.history.location.state && props.history.location.state} />
             <Divider style={{ margin: 0 }} />
             <div className='mt-1' />
           </Col>
         </Row>
       </div>
-    </>
+    </div>
   )
 }
 

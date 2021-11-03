@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button, Input, Collapse, Divider } from 'antd';
 import { useSelector } from 'react-redux';
 import SingleComment from 'components/Comments//SingleComment';
@@ -13,6 +13,8 @@ const { TextArea } = Input;
 
 
 function Comments(props) {
+  const CurrentRef = useRef();
+
   const [Comment, setComment] = useState("")
 
   const handleChange = (e) => {
@@ -29,6 +31,13 @@ function Comments(props) {
     props.postComment(data)
     setComment('')
   }
+
+  useEffect(() => {
+    if (props.scroll) {
+      console.log(props.scroll);
+      CurrentRef.current.focus({ preventScroll: false });
+    }
+  }, [])
 
   return (
     <>
@@ -50,6 +59,7 @@ function Comments(props) {
               onChange={handleChange}
               value={Comment}
               placeholder="피드백 남기기"
+              ref={CurrentRef}
             />
             <br />
             <Button style={{ width: '20%', height: '52px', backgroundColor: 'black', color: 'white' }} onClick={onSubmit}>게시</Button>

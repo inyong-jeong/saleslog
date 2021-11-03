@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Comment, Avatar, Button, Input } from 'antd';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { postComment, deleteComment, putComment, getprofile } from 'redux/actions';
 import { LaptopWindowsOutlined } from '@material-ui/icons';
 import cmm from 'constants/common';
@@ -10,6 +10,8 @@ import moment from 'moment';
 const { TextArea } = Input;
 
 function SingleComment(props) {
+  // const state = useSelector(state => state.SalesLog)
+
   const [CommentValue, setCommentValue] = useState("")
   const [CommentChangeValue, setCommentChangeValue] = useState(props.comment.note)
 
@@ -54,8 +56,8 @@ function SingleComment(props) {
 
   const actions = [
     <>{!(props.feedbackCount > 0) && <span onClick={openReply} key="comment-basic-reply-to">답글달기 </span>}</>,
-    <>{props.comment.upd_yn === 'Y' && <span onClick={OnChange} key="comment-basic-delete-to">수정 </span>}</>,
-    <>{props.comment.del_yn === 'Y' && <span onClick={OnDelete} key="comment-basic-delete-to">삭제 </span>}</>,
+    <>{props.comment.upd_yn === 'Y' && props.comment.child_yn === 'N' && <span onClick={OnChange} key="comment-basic-delete-to">수정 </span>}</>,
+    <>{props.comment.del_yn === 'Y' && props.comment.child_yn === 'N' && <span onClick={OnDelete} key="comment-basic-delete-to">삭제 </span>}</>,
   ]
 
   const handleOnChange = (e) => {
