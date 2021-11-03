@@ -51,7 +51,8 @@ const WgroupDeptPage = () => {
     }
   )
   const [treeExpanded, setTreeExpanded] = useState([])
-  const [focusId, setFocusId] = useState();
+  const [focusId, setFocusId] = useState(0);
+  
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -158,6 +159,7 @@ const WgroupDeptPage = () => {
       dispatch(getDeptInfo.call(inputs))
       state.postDeptUpdRes = false;
       updRes = false;
+      setFocusId(0)
     }
   }, [updRes]);
 
@@ -318,6 +320,7 @@ const WgroupDeptPage = () => {
   // tree 수정
   const inputChange = (data) => {
     //console.log('inputChange:::',data)
+    
     setInputs({
       ...inputs,
       treedata: setTreeData(data)
@@ -325,10 +328,9 @@ const WgroupDeptPage = () => {
   }
 
   const handleInputFocus = (data, dept_idx) => {
+    //console.log('focus',data,dept_idx)
     if (data) {
       setFocusId(dept_idx)
-    } else {
-      setFocusId(data)
     }
   }
 
@@ -398,7 +400,7 @@ const WgroupDeptPage = () => {
                   />
                 ),
                 buttons: [
-                  <>{node.dept_idx === focusId && <CheckOutlined
+                  <>{node.dept_idx === focusId  && <CheckOutlined
                     style={{
                       position: 'relative',
                       fontSize: 16,
@@ -408,7 +410,7 @@ const WgroupDeptPage = () => {
                     }}
 
                     onClick={(e) => {
-                      //console.log('onclick::',node, inputs.treedata);                    
+                      console.log('onclick::',node, inputs.treedata);                    
                       updDept({ dept_idx: node.dept_idx, dept_name: node.title })
                     }}
                   />}</>,

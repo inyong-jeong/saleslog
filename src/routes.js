@@ -91,7 +91,8 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 );
 
 const MainRoute = ({ component: Component, roles, ...rest }) => (
-  <CacheRoute
+  (rest.path == '/main/manage' || rest.path == '/main/customer') ? 
+  <CacheRoute  
     {...rest} render={props => {
       console.log('route', { ...rest })
       //const isTokenValid = isUserAuthenticated();
@@ -130,6 +131,47 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
       // }
       // return <Component {...props} />
     }} />
+    :
+    <Route  
+    {...rest} render={props => {
+      console.log('route', { ...rest })
+      //const isTokenValid = isUserAuthenticated();
+      //if (isTokenValid) {
+      //토큰 만료 확인 및 갱신 
+      let isTokenOK = isAccessToken().then((res) => {
+        if (res == 'NoToken') {
+          console.log('LOGIN PUSH :: MainRoute NoToken ', res)
+          removeAll();
+          props.history.push('/signin')
+
+        } else if (res == 'ReToken') {
+          //props.history.replace(props.history.location)
+          window.location.reload();
+        } else if (res == 'NoWorkgroup') {
+          if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
+            props.history.location.pathname != '/main/workgroup/register') {
+            //console.log('test')
+            props.history.push('/main/workgroup/chgwgroup')
+          }
+        }
+      })
+      return <Component {...props} />
+
+      // } else {
+      //   console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
+      //   removeAll();
+      //   props.history.push('/signin')
+      //   //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
+      // }
+
+
+      // if (props.match.path.startsWith('/main') && !isTokenValid) {
+      //   removeAll();
+      //   return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
+      // }
+      // return <Component {...props} />
+    }} />
+
 );
 
 const routes = [
