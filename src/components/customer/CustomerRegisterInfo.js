@@ -65,7 +65,6 @@ const useStyles = makeStyles({
 const CustomerRegisterInfo = () => {
 
   const navigateTo = () => {
-    console.log('cache key', getCachingKeys())
     history.goBack()
   }
 
@@ -135,7 +134,7 @@ const CustomerRegisterInfo = () => {
   }
   useEffect(() => {
     if (state.postCustomerResponse) {
-      history.goBack()
+      history.push({ pathname: '/main/customer', state: 'needReload' });
     }
 
   }, [state.postCustomerResponse])

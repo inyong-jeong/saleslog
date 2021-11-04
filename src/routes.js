@@ -101,7 +101,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
         //const isTokenValid = isUserAuthenticated();
         //if (isTokenValid) {
         //토큰 만료 확인 및 갱신 
-        if (props.history.location.state === 'regilog') {
+        if (props.history.location.state === 'needReload') {
           window.location.reload();
         }
 

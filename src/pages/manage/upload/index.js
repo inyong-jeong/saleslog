@@ -465,7 +465,7 @@ function UploadSalesLog(props) {
 
   useEffect(() => {
     if (postresponse) {
-      props.history.push({ pathname: '/main/manage', state: 'regilog' });
+      props.history.push({ pathname: '/main/manage', state: 'needReload' });
       state.postlog = false;
     }
   }, [postresponse])
