@@ -122,7 +122,8 @@ const EditCustomerManager = () => {
     if (!accountMangerInputs.man_name || !accountMangerInputs.posi) {
       return errorMessage('담당자명과 직급 및 소속은 필수 항목입니다.')
     }
-    if (accountMangerInputs.etc.length || accountMangerInputs.family.length || accountMangerInputs.personality.length ||
+    console.log(accountMangerInputs)
+    if (accountMangerInputs.etc.length > 100 || accountMangerInputs.family.length > 100 || accountMangerInputs.personality.length > 100 ||
       accountMangerInputs.org_history.length > 100) return errorMessage('기타 정보는 100자 이내로 작성해야 합니다.')
 
     dispatch(postEditManager.call(accountMangerInputs))
