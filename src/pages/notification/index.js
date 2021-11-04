@@ -84,8 +84,8 @@ const NotificationList = () => {
   }, [isLoading, hasMore])
 
   const NotificationItems = ({ singleNoti }) => (
-    <div style={notistyle}>
-      <p style={{ color: '#333', fontSize: 14 }} onClick={() => handleSaleslogNoti(singleNoti.uri)}>{singleNoti.note}</p>
+    <div style={notistyle} onClick={() => handleSaleslogNoti(singleNoti.uri)}>
+      <p style={{ color: '#333', fontSize: 14 }} >{singleNoti.note}</p>
       <p style={{ textAlign: 'right', color: '#666', fontSize: 12 }}>{ConvertDate(singleNoti.cre_dt)}</p>
     </div>
   )

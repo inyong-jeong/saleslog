@@ -60,7 +60,7 @@ const MyAppBar = ({
   onSaveClick,
   onDeleteClick,
   onAddClick,
-  notiClick,
+  // onNotiClick,
   onRevise,
   tempSaveClick,
   navigateNext,
@@ -116,6 +116,10 @@ const MyAppBar = ({
     })
 
   }
+  const onNotiClick = () => {
+    history.push('/main/notification/lists')
+  }
+
 
   //profile menu 
   //warnKey error & keyEvent error는 link로 감싸서 생기는 문제
@@ -209,7 +213,7 @@ const MyAppBar = ({
             {
               isMobile && !showBackButton &&
               <div className={classes.appBarIcon}>
-                <IconButton color="inherit" onClick={notiClick}>
+                <IconButton color="inherit" onClick={onNotiClick}>
                   <Badge badgeContent={badgeContent} color="secondary">
                     <Noti stroke='#333333' />
                   </Badge>
