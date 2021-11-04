@@ -70,6 +70,7 @@ const CustomerItems = ({ page, setPage, tabkey }) => {
     })
     node && observerRef.current.observe(node)
   }, [isLoading, hasMore])
+
   return (
 
     <List>

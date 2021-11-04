@@ -10,7 +10,7 @@ import Profile from './profile/reducers';
 import Support from './support/reducers';
 import Dashboard from './dashboard/reducers';
 import Etc from './etc/reducers';
-
+import Notification from './notification/reducers'
 
 
 
@@ -25,5 +25,6 @@ export default combineReducers({
   Support,
   Dashboard,
   Etc,
+  Notification,
   routing: routerReducer
 });
