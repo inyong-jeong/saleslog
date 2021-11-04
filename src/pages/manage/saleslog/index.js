@@ -21,6 +21,8 @@ import { ReactComponent as LocationIcon } from 'assets/icons/log/location.svg'
 import { ReactComponent as TimeIcon } from 'assets/icons/log/time.svg'
 import { ReactComponent as BuildingIcon } from 'assets/icons/log/building.svg'
 import { useScrollToTop, useScrollToBottom } from '../../../constants/commonFunc';
+import { base64Enc } from 'constants/commonFunc';
+
 const { confirm } = Modal;
 
 
@@ -188,7 +190,7 @@ function SalesLog(props) {
   // 삭제하면 일지 리스트 화면으로 이동
   useEffect(() => {
     if (deletelog) {
-      props.history.push('/main/manage');
+      props.history.push({ pathname: '/main/manage', state: 'needReload' });
       state.deletelog = false;
     }
   }, [deletelog])
@@ -388,6 +390,14 @@ function SalesLog(props) {
     setPreviewVisible(false);
   }
 
+  const getAccmanuUrl = () => {
+    props.history.push(`/main/manager/profile/${base64Enc(Log.acc_idx)}/${base64Enc(Log.accm_idx)}`)
+  }
+
+  const getAccuUrl = () => {
+    props.history.push(`/main/customer/details/${base64Enc(Log.acc_idx)}`)
+  }
+
   return (
     <div id='root'>
       <MyAppBar barTitle={'영업일지 상세'} showBackButton
@@ -427,7 +437,23 @@ function SalesLog(props) {
                 </li>
                 <li key={5} id={5} style={{ display: 'flex', fontSize: 16 }}>
                   <BuildingIcon />
-                  <div className='ml-1'>{Log.account_name} <span>&#183;</span> {Log.man_name} {Log.posi} <span>&#183;</span> {Log.dept}</div>
+                  <div style={{ cursor: 'pointer' }} className='ml-1'>
+                    <u>
+                      <span onClick={getAccuUrl}>{Log.account_name}</span>
+                    </u>
+                    {Log.man_name &&
+                      <>
+                        <span>&nbsp;</span>
+                        <span>&#183;</span>
+                        <span>&nbsp;</span>
+                        <u>
+                          <span onClick={getAccmanuUrl}>
+                            {Log.man_name} {Log.posi}
+                          </span>
+                        </u>
+                      </>
+                    }
+                  </div>
                 </li>
                 <li key={6} id={6} >
                   {/* <div style={{ display: 'flex' }}>
@@ -437,12 +463,17 @@ function SalesLog(props) {
                     <span>&nbsp;</span>
                     <p style={{ marginTop: '2px' }}>공동 작성자 현황</p>
                   </div> */}
-                  <div>
-                    <CouserModal handleonInsert={handleonInsert} update={Log && Log.upd_yn} />
-                  </div>
-                  <div>
-                    <CouserList lists={lists} handleonRemove={handleonRemove} revise={Log && Log.del_yn} />
-                  </div>
+                  {state.logcouser.length > 0 &&
+                    <>
+                      <div>
+                        <CouserModal handleonInsert={handleonInsert} update={Log && Log.upd_yn} />
+                      </div>
+                      <div>
+                        <CouserList lists={lists} handleonRemove={handleonRemove} revise={Log && Log.del_yn} />
+                      </div>
+                    </>
+                  }
+
                   {/* {props.logcouser && props.logcouser.map(v => {
                     return (
                       <div className='mt-1' style={{ display: 'flex' }} >

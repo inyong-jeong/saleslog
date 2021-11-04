@@ -10,6 +10,9 @@ import supportSaga from './support/saga';
 import dashboardSaga from './dashboard/saga';
 import EtcSaga from './etc/saga';
 import NotificationSaga from './notification/saga';
+import CalendarSaga from './calendar/saga';
+
+
 
 
 export default function* rootSaga(getState) {
@@ -24,6 +27,7 @@ export default function* rootSaga(getState) {
     supportSaga(),
     dashboardSaga(),
     EtcSaga(),
-    NotificationSaga()
+    NotificationSaga(),
+    CalendarSaga(),
   ]);
 }

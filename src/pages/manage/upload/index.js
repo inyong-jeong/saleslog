@@ -486,7 +486,7 @@ function UploadSalesLog(props) {
   }
   useEffect(() => {
     if (putresponse) {
-      props.history.push('/main/manage');
+      props.history.push({ pathname: '/main/manage', state: 'needReload' });
       state.putlog = false;
     }
 

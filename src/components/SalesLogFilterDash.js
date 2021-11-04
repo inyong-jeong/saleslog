@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TreeSelect, Row, Col, Select } from 'antd';
 import { connect } from 'react-redux';
 import { getorganizationDash, getorganizationusersDash } from 'redux/actions';
 import { useMediaQuery } from "react-responsive";
 
 const SalesLogFilterDash = (props) => {
+
+
+  const memberInputRef = useRef()
+
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -36,10 +40,10 @@ const SalesLogFilterDash = (props) => {
 
     if (props.organizationuserDashRes && (selIdUser === props.id)) {
       const memList = props.organizationuserDashRes.map(v => v.user_name);
-      const optList = memList && memList.filter((v) => !selectedItems.includes(v))
+      // const optList = memList && memList.filter((v) => !selectedItems.includes(v))
       const userlist = props.organizationuserDashRes.map(v => v.login_idx);
 
-      setFilteredOptions(optList);
+      setFilteredOptions(memList);
       //props.setData({ ...props.data, sales_man: userlist })
       setSelectedItems([]);
       setSelIdUser()
@@ -119,15 +123,30 @@ const SalesLogFilterDash = (props) => {
 
   }
 
+  //다중 필터 일때 함수
+  // function filterList(label) {
+  //   let list = []
+  //   console.log(props.organizationuserDashRes)
+  //   for (let i = 0; i < props.organizationuserDashRes.length; i++) {
+  //     for (let j = 0; j < label.length; j++) {
+  //       if (label[j] === props.organizationuserDashRes[i].user_name) {
+  //         list = list.concat(props.organizationuserDashRes[i].login_idx);
+  //       } else if (label === []) {
+  //         list = [];
+  //       }
+  //     }
+  //   }
+  //   return list
+  // }
+
+  //단일 필터 일때 함수
   function filterList(label) {
     let list = []
     for (let i = 0; i < props.organizationuserDashRes.length; i++) {
-      for (let j = 0; j < label.length; j++) {
-        if (label[j] === props.organizationuserDashRes[i].user_name) {
-          list = list.concat(props.organizationuserDashRes[i].login_idx);
-        } else if (label === []) {
-          list = [];
-        }
+      if (label === props.organizationuserDashRes[i].user_name) {
+        list = list.concat(props.organizationuserDashRes[i].login_idx);
+      } else if (label === []) {
+        list = [];
       }
     }
     return list
@@ -135,6 +154,8 @@ const SalesLogFilterDash = (props) => {
 
   //맴버 선택
   const onOrganizationUserSelectChange = (selectedMembers) => {
+    memberInputRef.current.blur()
+
     console.log('맴버 선택', selectedMembers)
     if (!selectedMembers.length > 0) {
       let array = props.organizationuserDashRes.map(v => v.login_idx);
@@ -142,8 +163,10 @@ const SalesLogFilterDash = (props) => {
       setSelectedItems([])
 
     } else {
+      console.log(selectedMembers);
       setSelectedItems(selectedMembers);
       let memberlist = filterList(selectedMembers)
+      console.log(memberlist);
       setSelectedOrganizationUser(memberlist);
     }
   }
@@ -177,9 +200,10 @@ const SalesLogFilterDash = (props) => {
         </Col>
         <Col sm={12} xs={12} md={12} lg={12}>
           <Select placeholder='멤버 전체'
-            mode='multiple'
+            ref={memberInputRef}
             style={selectStyle}
             value={selectedItems}
+            showSearch
             onChange={onOrganizationUserSelectChange}
             id={props.id}
             maxTagCount={isMobile ? 1 : 2} >

@@ -11,6 +11,9 @@ import Support from './support/reducers';
 import Dashboard from './dashboard/reducers';
 import Etc from './etc/reducers';
 import Notification from './notification/reducers'
+import Calendar from './calendar/reducers';
+
+
 
 
 
@@ -26,5 +29,6 @@ export default combineReducers({
   Dashboard,
   Etc,
   Notification,
+  Calendar,
   routing: routerReducer
 });
