@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import { useHistory } from 'react-router';
 import FullTabs from '../../components/styledcomponent/FullTabs';
 import Serviceinfo from './info';
 import PrivacyPolicy from './privacy';
-
+import { useDispatch } from 'react-redux';
+import { SET_NAVIBAR_SHOW } from '../../constants/actionTypes';
 const { TabPane } = FullTabs;
 const AppInfo = () => {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type: SET_NAVIBAR_SHOW,
+      payload: true
+    })
+  }, [])
   const history = useHistory()
   const navigateTo = () => {
     history.goBack()
