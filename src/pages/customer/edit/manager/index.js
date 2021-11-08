@@ -136,7 +136,10 @@ const EditCustomerManager = () => {
       }))
     }
 
-
+  }
+  if (state.postManagerEditResponse) {
+    history.push({ pathname: '/main/customer' });
+    window.location.reload()
   }
 
   const handleFileChange = (e) => {

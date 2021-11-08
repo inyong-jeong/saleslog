@@ -21,6 +21,8 @@ import {
   GET_MANAGER_INFO_ERROR,
   GET_MANAGER_INFO_SUCCESS,
   POST_EDIT_MANAGER_INFO,
+  POST_EDIT_MANAGER_INFO_SUCCESS,
+  POST_EDIT_MANAGER_INFO_ERROR,
   POST_EDIT_NAMECARD,
   POST_EDIT_NAMECARD_ERROR,
   POST_EDIT_NAMECARD_SUCCESS,
@@ -95,38 +97,38 @@ const Customer = (state = initialState, action) => {
       return { ...state, userListsResponse: false, }
 
     case POST_CUSTOMER_MANAGER:
-      return { ...state, loading: true }
+      return { ...state, loading: true, postCustomerMangerResponse: false }
     case POST_CUSTOMER_MANAGER_SUCCESS:
       return { ...state, loading: false, postCustomerMangerResponse: true }
     case POST_CUSTOMER_MANAGER_ERROR:
       return { ...state, loading: false, postCustomerMangerResponse: false }
 
     case GET_CUSTOMER_DETAILS:
-      return { ...state, loading: true }
+      return { ...state, loading: true, postCustomerMangerResponse: false }
     case GET_CUSTOMER_DETAILS_SUCCESS:
       return { ...state, loading: false, getCustomerDetailsResponse: true, customerDetails: action.payload.response.message[0] }
     case GET_CUSTOMER_DETAILS_ERROR:
       return { ...state, loading: false, getCustomerDetailsResponse: false }
 
     case POST_EDIT_CUSTOMER:
-      return { ...state, loading: true }
+      return { ...state, loading: true, postCustomerEditResponse: false }
     case POST_EDIT_CUSTOMER_SUCCESS:
       return { ...state, loading: false, postCustomerEditResponse: true }
     case POST_EDIT_CUSTOMER_ERROR:
       return { ...state, loading: false, postCustomerEditResponse: false }
 
     case GET_MANAGER_INFO:
-      return { ...state, loading: true, }
+      return { ...state, loading: true, postManagerEditResponse: false }
     case GET_MANAGER_INFO_SUCCESS:
       return { ...state, loading: false, getMangerResponse: true, managerDetails: action.payload.response.message[0] }
     case GET_MANAGER_INFO_ERROR:
       return { ...state, loading: false, getMangerResponse: false }
 
     case POST_EDIT_MANAGER_INFO:
-      return { ...state, loading: true }
-    case POST_EDIT_CUSTOMER_SUCCESS:
+      return { ...state, loading: true, postManagerEditResponse: false }
+    case POST_EDIT_MANAGER_INFO_SUCCESS:
       return { ...state, loading: false, postManagerEditResponse: true }
-    case POST_EDIT_CUSTOMER_ERROR:
+    case POST_EDIT_MANAGER_INFO_ERROR:
       return { ...state, loading: false, postManagerEditResponse: false }
 
     case POST_EDIT_NAMECARD:

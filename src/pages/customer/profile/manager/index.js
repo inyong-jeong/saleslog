@@ -59,6 +59,8 @@ const ManagerProfilePage = () => {
       okText: '확인',
       onOk() {
         dispatch(deleteCustomerManager.call({ accm_idx: base64Dec(params.singleId) }))
+        history.push({ pathname: '/main/customer' });
+        window.location.reload()
       },
       onCancel() {
         //취소

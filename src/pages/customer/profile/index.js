@@ -14,9 +14,6 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { SET_LAST_TAB } from '../../../constants/actionTypes';
 import { useScrollToTop } from '../../../constants/commonFunc';
-
-import  { clearCache } from 'react-router-cache-route'
-
 const { confirm } = Modal
 const { TabPane } = FullTabs;
 
@@ -44,7 +41,7 @@ const CustomerDetail = () => {
 
   useEffect(() => {
     if (state.deleteCustomerRepsonse) {
-      history.goBack()
+      history.push({ pathname: '/main/customer', state: 'needReload' });
     }
 
   }, [state.deleteCustomerRepsonse])
@@ -74,6 +71,7 @@ const CustomerDetail = () => {
       okText: '확인',
       onOk() {
         dispatch(deleteCustomer.call({ acc_idx: customerId }))
+
       }
     })
   }

@@ -54,7 +54,6 @@ const useStyles = makeStyles({
 const CustomerEditPage = () => {
 
   const navigateTo = () => history.goBack()
-
   const params = useParams()
   const dispatch = useDispatch()
   const classes = useStyles()
@@ -166,8 +165,13 @@ const CustomerEditPage = () => {
     }
 
     dispatch(postEditCustomer.call(inputs))
-    history.goBack()
   }
+
+  useEffect(() => {
+    if (state.postCustomerEditResponse) {
+      history.push({ pathname: '/main/customer', state: 'needReload' });
+    }
+  }, [state.postCustomerEditResponse])
 
   //console.log('고객사 수정:::', inputs)
   const handleChange = (e) => {

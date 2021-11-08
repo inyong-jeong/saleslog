@@ -16,7 +16,7 @@ import AvatarUp from "../../../components/AvatarUp";
 import { base64Dec } from 'constants/commonFunc';
 import { alertMessage, errorMessage } from "../../../constants/commonFunc";
 import { useScrollToTop } from "constants/commonFunc";
-
+import { useSelector } from "react-redux";
 const { Panel } = Collapse
 export const useStyles = makeStyles({
   FormControl: {
@@ -66,6 +66,7 @@ const RegisterManager = () => {
   const menuDiv = useRef()
   const history = useHistory()
   const params = useParams()
+  const state = useSelector(state => state.Customer)
 
   useScrollToTop()
   useEffect(() => {
@@ -112,12 +113,17 @@ const RegisterManager = () => {
     })
   }
 
-  const onSaveClick = (e) => {
+  const onSaveClick = () => {
     if (!accountMangerInputs.man_name || !accountMangerInputs.posi || !accountMangerInputs.dept) {
       return errorMessage('담당자명, 직급 및 소속은 필수 항목입니다. ')
     }
     dispatch(postCustomerManger.call(accountMangerInputs))
-    history.goBack()
+
+  }
+
+  if (state.postCustomerMangerResponse) {
+    //  이런식으로 하면 saga 메시지 다 안먹는데
+    history.push({ pathname: '/main/customer', state: 'needReload' });
   }
 
   const handleFileChange = (e) => {
@@ -154,7 +160,10 @@ const RegisterManager = () => {
   return (
 
     <div>
-      <MyAppBar barTitle={'담당자 추가'} showBackButton navigateTo={navigateTo} onSaveClick={onSaveClick} />
+      <MyAppBar barTitle={'담당자 추가'}
+        showBackButton
+        navigateTo={navigateTo}
+        onSaveClick={onSaveClick} />
 
       <div className='content_body'>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
