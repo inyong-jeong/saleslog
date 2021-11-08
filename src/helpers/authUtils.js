@@ -133,6 +133,33 @@ export const isAccessToken = async () => {
 }
 
 
+//Access Token 재발급 (워크그룹 변경시 재발급) 
+export const reAccessToken = async () => {
+    // 엑세스 토큰 재발행(refresh token)
+    const reToken = localStorage.getItem('oauth-refresh-token');
+    //console.log('reToken:::',reToken);
+
+    if (reToken == null || reToken == '' || reToken == 'undefined') {
+      return 'NoToken';
+    }
+
+    const reRes = await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
+    const reResult = await reRes;
+    //console.log('리프래시 토큰 재발행 :::', await reRes);
+    if (reResult.error == 'invalid_grant') {
+      //console.log('false:::::::::::::::::::::')
+
+      return 'NoToken';
+    } else {
+      //console.log('true:::::::::::::::::::::')
+      setOauthAccessToken(reResult.access_token);
+      setOauthRefreshToken(reResult.refresh_token);
+      return 'ReToken';
+    }
+
+}
+
+
 //storage 토큰 확인
 export const isUserAuthenticated = () => {
   let token = localStorage.getItem('oauth-token');

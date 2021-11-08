@@ -15,10 +15,9 @@ import cmm from 'constants/common';
 import { ReactComponent as EditIcon } from '../../assets/icons/workgroup/edit.svg'
 import { ReactComponent as MemberIcon } from '../../assets/icons/workgroup/member.svg'
 import { ReactComponent as OrgIcon } from '../../assets/icons/workgroup/org.svg'
-import { getUserInfo } from 'helpers/authUtils';
+import { getUserInfo, removeAll, reAccessToken } from 'helpers/authUtils';
 import { alertMessage } from '../../constants/commonFunc';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { removeAll } from 'helpers/authUtils';
 
 const { confirm } = Modal;
 const WgroupManagePage = () => {
@@ -64,11 +63,25 @@ const WgroupManagePage = () => {
 
   }, [state.getWorkGroupListRes])
 
-  useEffect(() => {
+  useEffect( () => {
     if (state.postWorkGroupChangeRes) {
       state.postWorkGroupChangeRes = null
-      removeAll();
-      history.push('/signin')
+      console.log('workGroup change')
+      //엑세스토큰 재발행
+      let ReToken = reAccessToken().then((res) => {
+        if (res == 'NoToken') {
+          console.log('LOGIN PUSH :: MainRoute NoToken ', res)
+          removeAll();
+          history.push('/signin')
+
+        } else if (res == 'ReToken') {
+          //props.history.replace(props.history.location)
+          window.location.reload();
+        } 
+      })
+  
+      //removeAll();
+      //history.push('/signin')
     }
   }, [state.postWorkGroupChangeRes])
 
@@ -100,7 +113,7 @@ const WgroupManagePage = () => {
 
     if (idx === myOrgId) return alertMessage('현재 워크그룹입니다.')
     confirm({
-      title: '워크그룹을 변경하면 로그아웃 됩니다. \n정말 변경하시겠습니까?',
+      title: '워크그룹을 변경하시겠습니까?',
       icon: <ExclamationCircleOutlined />,
       cancelText: '취소',
       okText: '확인',

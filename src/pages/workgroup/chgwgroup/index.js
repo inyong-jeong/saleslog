@@ -12,7 +12,7 @@ import { useHistory } from 'react-router';
 import { Modal, Divider, Button, Avatar } from 'antd';
 import { getWorkGroupInfo, getWorkGroupList, postWorkGroupChange } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
-import { getUserInfo } from 'helpers/authUtils';
+import { getUserInfo, reAccessToken } from 'helpers/authUtils';
 import { alertMessage } from 'constants/commonFunc';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { removeAll } from 'helpers/authUtils';
@@ -64,9 +64,25 @@ const WgroupManagePage = () => {
   useEffect(() => {
     if (state.postWorkGroupChangeRes) {
       state.postWorkGroupChangeRes = null
-      removeAll();
-      history.push('/main/workgroup');
-    }
+      console.log('workGroup change')
+      //엑세스토큰 재발행
+      let ReToken = reAccessToken().then((res) => {
+        if (res == 'NoToken') {
+          console.log('LOGIN PUSH :: MainRoute NoToken ', res)
+          removeAll();
+          history.push('/signin')
+
+        } else if (res == 'ReToken') {
+          //props.history.replace(props.history.location)
+          
+          history.push('/main/workgroup');
+          window.location.reload();
+        } 
+      })
+  
+      //removeAll();
+      //history.push('/signin')
+    }      
   }, [state.postWorkGroupChangeRes])
 
   useEffect(() => {
@@ -89,15 +105,17 @@ const WgroupManagePage = () => {
 
   const handleChangeWorkGroup = (idx) => {
  
-    confirm({
-      title: '워크그룹 선택시 재로그인이 필요합니다.',
-      icon: <ExclamationCircleOutlined />,
-      cancelText: '취소',
-      okText: '확인',
-      onOk() {
-        dispatch(postWorkGroupChange.call({ chg_idx: idx }))
-      }
-    })
+    dispatch(postWorkGroupChange.call({ chg_idx: idx }))
+
+    // confirm({
+    //   title: '워크그룹을 선택 하세요.',
+    //   icon: <ExclamationCircleOutlined />,
+    //   cancelText: '취소',
+    //   okText: '확인',
+    //   onOk() {
+    //     dispatch(postWorkGroupChange.call({ chg_idx: idx }))
+    //   }
+    // })
   }
 
   return (
