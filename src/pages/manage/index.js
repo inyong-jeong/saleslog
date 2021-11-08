@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Tabs, Row, Col, Divider, message } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,6 +17,7 @@ import {
 import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import CustomFab from '../../components/styledcomponent/CustomFab';
 import { useHistory } from 'react-router-dom';
+import { InvertColorsOff } from '@material-ui/icons';
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
@@ -26,7 +27,8 @@ function SalesLogList(props) {
   const navigateTo = () => history.push({
     pathname: '/main/upload'
   })
-
+  const listref = useRef();
+  // console.log(listref);
   const [loglists, setLogLists] = useState([]);
   const [tabkey, setTabKey] = useState('0010001');
   const [firsttime, setFirsttime] = useState(true);
@@ -66,10 +68,13 @@ function SalesLogList(props) {
   //     props.getLogLists(data)
   //   }
   // }, [data])
+  console.log(props.history);
 
   useEffect(() => {
-    // setFirsttime(false);
     props.getLogLists(data)
+    console.log(222222);
+    console.log(222222);
+    // setFirsttime(false);
   }, [data])
 
   // 데이터 받아 온 것 set
@@ -82,6 +87,7 @@ function SalesLogList(props) {
     }
   }, [props.loadLogsLoading])
 
+  console.log(listref);
 
 
   const handleNextPage = () => {
@@ -90,6 +96,8 @@ function SalesLogList(props) {
       data.pageno = data.pageno + 1
       setData({ ...data, 'pageno': data.pageno })
     }
+
+
   }
 
   // tab 바뀔 때 sets
@@ -171,11 +179,26 @@ function SalesLogList(props) {
     setSearchStr(v)
   }
 
+  const observerRef = useRef();
+
+  const observer = useCallback((node) => {
+    if (state.loadLogsLoading) return
+    if (observerRef.current) observerRef.current.disconnect()
+    observerRef.current = new IntersectionObserver((entries, options) => {
+      if (entries[0].isIntersecting) {
+        data.pageno = data.pageno + 1
+        setData({ ...data, 'pageno': data.pageno })
+      }
+    })
+    node && observerRef.current.observe(node)
+  }, [state.loadLogsLoading])
+
   return (
     <>
       <MyAppBar barTitle={'일지'} />
 
-      <div className='content_body'>
+      <div className='content_body'
+      >
         {/* <Row>
         <Col md={24} lg={24} xs={24}> */}
         <Row >
@@ -212,8 +235,10 @@ function SalesLogList(props) {
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
 
                 {loglists.length > 0 ? loglists.map((v) => (
-                  <LogList key={v.slog_idx}
+                  <LogList
+                    key={v.slog_idx}
                     data={data}
+                    setData={setData}
                     loglist={v}
                     tabkey={tabkey}
                     handleNextPage={handleNextPage}
@@ -233,6 +258,7 @@ function SalesLogList(props) {
                 <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
                 {loglists.length > 0 ? loglists.map((v) => (
                   <LogList key={v.slog_idx}
+                    setData={setData}
                     data={data}
                     loglist={v}
                     tabkey={tabkey}
@@ -254,6 +280,7 @@ function SalesLogList(props) {
             <CustomFab navigateTo={navigateTo} />
           </div>
         </Row>
+        <div ref={observer} />
       </div>
     </>
   )

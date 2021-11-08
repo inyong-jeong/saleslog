@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Divider, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -12,8 +12,9 @@ import memberPng from 'assets/icons/workgroup/member.png'
 import Highlighter from "react-highlight-words";
 
 // import useResizeObserver from 'components/useResizeObserver';
-function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
+function LogList({ loglist, handleNextPage, loglists, tabkey, data, setData }) {
   const state = useSelector(state => state.SalesLog);
+  // const [hasMore, setHasMore] = useState(true)
 
   const history = useHistory()
   const grayTextStyles = {
@@ -116,9 +117,16 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
       state: true
     })
   }
+
+
+
+
+
+
+
   const SalesLogItem = ({ loglist, tabkey }) => (
 
-    <>
+    <section >
       <div className={styles.logWrapper} onClick={() => handleLogClick(loglist)} style={{ position: 'relative' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
@@ -216,21 +224,23 @@ function LogList({ loglist, handleNextPage, loglists, tabkey, data }) {
         </div>
       </div>
       <Divider style={{ marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0, borderWidth: '5px' }} />
-    </>
+
+
+    </section>
   )
 
   return (
     <>
-      <InfiniteScroll
+      {/* <InfiniteScroll
         hasMore={true}
         dataLength={loglists.length}
-        next={handleNextPage}>
-        <div>
-          {
-            <SalesLogItem loglist={loglist} tabkey={tabkey} />
-          }
-        </div>
-      </InfiniteScroll>
+        next={handleNextPage}> */}
+      <div>
+
+        <SalesLogItem loglist={loglist} tabkey={tabkey} />
+
+      </div >
+      {/* </InfiniteScroll> */}
 
     </>
   )
