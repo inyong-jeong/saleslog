@@ -469,6 +469,7 @@ const DashBoardPage = () => {
         <div className='mt-5' />
 
         {sectionTitle("영업일지 현황", <Calendar />)}
+        <div>조회 기간 선택</div>
         <div className='mt-1' />
         <DashButton
           key='sales_button'
@@ -537,8 +538,10 @@ const DashBoardPage = () => {
         <Row justify='center'>
           <Col sm={12} xs={12} md={12} lg={12}>
             <StyledButton onClick={handleCsvDownload}>영업일지 실적 다운로드</StyledButton>
+            <div style={{ textAlign: 'center', marginTop: 2 }}>조회기간의 실적만 다운로드됩니다.</div>
           </Col>
         </Row>
+
         <div className='mt-5' />
         <Divider style={{ borderColor: '#dfdfdf' }} />
         <div className='mt-5' />
@@ -546,6 +549,7 @@ const DashBoardPage = () => {
         <Row>
           {sectionTitle("리드관리 현황", <Paper />)}
         </Row>
+        <div>조회 기간 선택</div>
         <div className='mt-1' />
 
         <DashButton key='sales_buttonRd'
@@ -680,6 +684,7 @@ const DashBoardPage = () => {
         <Row justify='center'>
           <Col sm={12} xs={12} md={12} lg={12}>
             <StyledButton onClick={handleCsvDownloadRd}>리드일지 실적 다운로드</StyledButton>
+            <div style={{ textAlign: 'center', marginTop: 2 }}>조회기간의 실적만 다운로드됩니다.</div>
           </Col>
         </Row>
         <div className='mt-5' />
