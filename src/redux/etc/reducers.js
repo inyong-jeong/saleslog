@@ -102,11 +102,11 @@ const Etc = (state = initialState, action) => {
     case POST_PROFILE_PHOTO_ERROR:
       return { ...state, loading: false, postProfilePhotoRes: false }
     case GET_NOTICE_GRP_LIST:
-      return { ...state, loading: true }
+      return { ...state, loading: true , getNoticeGrpListRes:false }
     case GET_NOTICE_GRP_LIST_SUCCESS:
       return { ...state, loading: false, getNoticeGrpListRes: action.payload.response.message }
     case GET_NOTICE_GRP_LIST_ERROR:
-      return { ...state, loading: false, getNoticeGrpListRes: { state: false, message: action.payload.error } }
+      return { ...state, loading: false, getNoticeGrpListRes:false }
     case GET_NOTICE_GRP_DETAIL:
       return { ...state, loading: true }
     case GET_NOTICE_GRP_DETAIL_SUCCESS:

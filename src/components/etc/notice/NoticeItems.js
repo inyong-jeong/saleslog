@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import List from '@material-ui/core/List';
 import { Divider } from 'antd';
 import Typography from '@material-ui/core/Typography';
@@ -6,21 +6,25 @@ import { base64Enc, ConvertDate } from 'constants/commonFunc';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
 
-const NoticeItems = ({ page, setPage, data, loading, noticeType }) => {
+const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
 
   const history = useHistory()
 
   const handleNextPage = () => {
     if (loading == true) return
     setPage(page + 1)
+    
+    console.log('page::handlenext:::::::::',page)
   }
 
   return (
     <InfiniteScroll
       hasMore={true}
-      dataLength={20}
-      next={handleNextPage}>
+      dataLength={totcnt}
+      next={handleNextPage}
+      
 
+      >
       <List>
         {data ?
           data.map(singleList => {

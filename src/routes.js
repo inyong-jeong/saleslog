@@ -97,7 +97,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
   (rest.path == '/main/manage' || rest.path == '/main/customer') ?
     <CacheRoute
       {...rest} render={props => {
-        console.log('route', { ...rest })
+        console.log('cashRoute', { ...rest })
         //const isTokenValid = isUserAuthenticated();
         //if (isTokenValid) {
         //토큰 만료 확인 및 갱신 

@@ -25,11 +25,12 @@ const SystemNoticePage = () => {
   const loading = state.loading
   //let responseLists = state.list
   const [noticeList, setNoticeList] = useState([])
-  const [page, setPage] = useState(1)
+  //const [page, setPage] = useState(1)
   const [inputs, setInputs] = useState({
     srch: '',
-    pageno: page,
+    pageno: 1,
   })
+  const [totcnt, setTotcnt] = useState(0)
   const myInfo = getUserInfo();
 
 
@@ -38,43 +39,67 @@ const SystemNoticePage = () => {
       type: SET_NAVIBAR_SHOW,
       payload: true
     })
-
-    //공지리스트 
-    dispatch(getNoticeSysList.call(inputs))
-
+    setPage(1)
   }, [])
 
-  useEffect(() => {
-    if (page == 1 && loading == false) {
-      dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
-    }
-  }, [inputs])
+  // useEffect(() => {
+  //   if (page == 1 && loading == false) {
+  //     dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
+  //   }
+  // }, [inputs])
+
+  // useEffect(() => {
+  //   if (loading == true) return
+  //   dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
+  // }, [page])
+
+  // //paging 
+  // useEffect(() => {
+  //   console.log('state.getNotice:::::::::::::::::::::::', state.getNoticeSysListRes)
+  //   if (state.getNoticeSysListRes && loading == false) {
+  //     if (page == 1) {
+  //       return setNoticeList(state.getNoticeSysListRes)
+  //     }
+  //     setNoticeList(noticeList.concat(state.getNoticeSysListRes))
+  //   }
+  // }, [state.getNoticeSysListRes])
 
   useEffect(() => {
-    if (loading == true) return
-    dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
-  }, [page])
-
-  //paging 
-  useEffect(() => {
-    console.log('state.getNotice:::::::::::::::::::::::', state.getNoticeSysListRes)
     if (state.getNoticeSysListRes && loading == false) {
-      if (page == 1) {
-        return setNoticeList(state.getNoticeSysListRes)
+      if (state.getNoticeSysListRes.length <= 0 ) return
+      if (state.getNoticeSysListRes[0].length <= 0 ) return
+      //console.log('state.getNoticeSysListRes[0]',state.getNoticeSysListRes[0].length)
+      setTotcnt(state.getNoticeSysListRes[1][0].totcnt)
+      //console.log('0000000',state.getNoticeSysListRes, state.getNoticeSysListRes[1][0].totcnt);
+      if (state.getNoticeSysListRes[0][0].pageno === '1') {
+      ///if (inputs.pageno == 1) {
+        //console.log('page::::::::::1111111111',state.getNoticeSysListRes[0].pageno)
+        setNoticeList(state.getNoticeSysListRes[0])
+        return
       }
-      setNoticeList(noticeList.concat(state.getNoticeSysListRes))
+      //console.log('page::::::::::',inputs.pageno, state.getNoticeSysListRes.length)
+      setNoticeList(noticeList.concat(state.getNoticeSysListRes[0]))
     }
-  }, [state.getNoticeSysListRes])
+    state.getNoticeSysListRes = null;
 
+  }, [state.getNoticeSysListRes])
+  
+
+  const setPage = (page) => {
+    //console.log(page, inputs.pageno)
+    if (page!=1 && page <= inputs.pageno ) return;
+    dispatch(getNoticeSysList.call({ srch: inputs.srch, pageno: page }))
+    setInputs({ ...inputs, pageno:page })
+  }
 
   const setData = () => {
     //공지리스트 
-    dispatch(getNoticeSysList.call(inputs))
+    //dispatch(getNoticeSysList.call(inputs))
   }
 
   const onSearch = (keyword) => {
-    setInputs({ ...inputs, srch: keyword })
-    setPage(1)
+    setInputs({ ...inputs, srch: keyword, pageno:1 })
+    //setPage(1)
   }
 
   return (
@@ -91,13 +116,14 @@ const SystemNoticePage = () => {
             marginTop: 10,
           }} />
         <NoticeItems
-          page={page}
+          page={inputs.page}
           setPage={setPage}
           setInputs={setInputs}
           setData={setData}
           data={noticeList}
           loading={loading}
           noticeType={'system'}
+          totcnt={totcnt}
         />
         {/* 우리가 등록하는 공지 */}
         {/* <div className={styles.Wrapper}>
