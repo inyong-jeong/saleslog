@@ -69,14 +69,12 @@ const grpNoticeRegi = () => {
         />
         <div className='content_body'>
           <div style={{ marginTop: 10 }}>
-            <Typography variant='h6' align='left' className={classes.title}>공지 제목</Typography>
-            <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10 }}>
-              <label className={classes.showDetails}>{noticeData[0].title}</label>
-            </div>
-            <Divider />
+            {/* <Typography variant='h6' align='left' className={classes.title}>공지 제목</Typography> */}
+            <label className={classes.showDetails}>{noticeData[0].title}</label>
+            <Divider style={{ margin: 0 }} />
           </div>
 
-          <Typography variant='h6' align='left' className={classes.title}>공지 내용</Typography>
+          {/* <Typography variant='h6' align='left' className={classes.title}>공지 내용</Typography> */}
           <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10, whiteSpace: 'pre-wrap' }}>
             <label className={classes.showDetails}>{noticeData[0].content}</label>
           </div>
