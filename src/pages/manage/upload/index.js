@@ -303,7 +303,6 @@ function UploadSalesLog(props) {
     }
 
   }, [props.postCustomerResponse])
-  console.log(fromData)
 
 
   // 고객 담당자 불러오기
@@ -355,6 +354,7 @@ function UploadSalesLog(props) {
       sales_lead_gb: null,
     })
   };
+  console.log(fromData)
 
   const onLeadActivity = (option) => {
     setLeadActivity(option);
@@ -584,9 +584,7 @@ function UploadSalesLog(props) {
           minuteStep={10}
           value={start}
           onChange={onChangesSartValue}
-          onSelect={(value) => {
-            setStart(value);
-          }}
+
         />
         <TimePicker className='col-6'
           // getPopupContainer={trigger => console.log(trigger.parentElement)}
@@ -596,9 +594,7 @@ function UploadSalesLog(props) {
           minuteStep={10}
           value={end}
           onChange={onChangeEndValue}
-          onSelect={(value) => {
-            setEnd(value);
-          }}
+
         />
         <div className='mt-2'></div>
         <div className="row">
