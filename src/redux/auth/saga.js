@@ -139,7 +139,9 @@ function* _getRefreshOauthToken({ payload: { refresh_token, client_id, client_se
 
 function* _postAuthNumber({ payload: { email } }) {
   try {
+    yield loadingMessage()
     const response = yield call(postAuthorizationNumber, email);
+    yield hideMessage()
     yield put(postAuthNumber.success(response));
   } catch (error) {
     yield put(postAuthNumber.error(error.message));
@@ -148,9 +150,9 @@ function* _postAuthNumber({ payload: { email } }) {
 
 function* _postRegistration({ payload: { useremail, password, user_name } }) {
   try {
-    console.log('_postRegistration::::', user_name)
+    yield loadingMessage()
     const response = yield call(postClientRegisteration, useremail, password, user_name);
-    console.log(response);
+    yield hideMessage()
     yield put(postRegisteration.success(response));
   } catch (error) {
     yield put(postRegisteration.error(error.message));
@@ -159,8 +161,11 @@ function* _postRegistration({ payload: { useremail, password, user_name } }) {
 
 function* _postInvite({ payload: { login_id, invite_email, permission } }) {
   try {
+    yield loadingMessage()
     const response = yield call(postInviteEmail, login_id, invite_email, permission);
+    yield hideMessage()
     yield put(postInvite.success(response));
+
   } catch (error) {
     yield put(postInvite.error(error.message));
   }

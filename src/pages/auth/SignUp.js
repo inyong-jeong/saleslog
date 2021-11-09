@@ -288,11 +288,19 @@ const SignUp = () => {
                     {termerror && <p className='text-danger mt-2 text-center'> 약관에 동의하여 주세요.</p>}
 
                   </div>
+
                   <div className="form-group">
                     <StyledButton
                       onClick={handleOnSubmit}>
                       다음
                     </StyledButton>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <u
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        history.push('/signin')
+                      }}>로그인</u>
                   </div>
                 </form>
                 <div style={{ textAlign: 'center', fontColor: 'black' }}>
