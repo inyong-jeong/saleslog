@@ -32,6 +32,7 @@ function SalesLogList(props) {
   const [loglists, setLogLists] = useState([]);
   const [tabkey, setTabKey] = useState('0010001');
   const [firsttime, setFirsttime] = useState(true);
+  const [hasMore, setHasMore] = useState(true)
 
   const [data, setData] = useState(state.StoredData ? state.StoredData.data : {
     log_gb: tabkey,
@@ -68,12 +69,9 @@ function SalesLogList(props) {
   //     props.getLogLists(data)
   //   }
   // }, [data])
-  console.log(props.history);
 
   useEffect(() => {
     props.getLogLists(data)
-    console.log(222222);
-    console.log(222222);
     // setFirsttime(false);
   }, [data])
 
@@ -81,24 +79,27 @@ function SalesLogList(props) {
   useEffect(() => {
     if (props.loglist && !props.loadLogsLoading) {
       if (data.pageno === 1) {
+        setHasMore(true)
         return setLogLists(props.loglist)
+      }
+      if (loglists.length >= props.loglistcount) {
+        setHasMore(false);
       }
       setLogLists(loglists.concat(props.loglist))
     }
   }, [props.loadLogsLoading])
 
-  console.log(listref);
 
 
-  const handleNextPage = () => {
-    if (props.loglistcount >= loglists.length) {
-      if (props.loadLogsLoading === true) return
-      data.pageno = data.pageno + 1
-      setData({ ...data, 'pageno': data.pageno })
-    }
+  // const handleNextPage = () => {
+  //   if (props.loglistcount >= loglists.length) {
+  //     if (props.loadLogsLoading === true) return
+  //     data.pageno = data.pageno + 1
+  //     setData({ ...data, 'pageno': data.pageno })
+  //   }
 
 
-  }
+  // }
 
   // tab 바뀔 때 sets
   const onTabChange = (key) => {
@@ -182,16 +183,19 @@ function SalesLogList(props) {
   const observerRef = useRef();
 
   const observer = useCallback((node) => {
+    console.log(node)
     if (state.loadLogsLoading) return
     if (observerRef.current) observerRef.current.disconnect()
     observerRef.current = new IntersectionObserver((entries, options) => {
-      if (entries[0].isIntersecting) {
+      console.log(entries);
+      if (entries[0].isIntersecting && hasMore) {
+        console.log(entries);
         data.pageno = data.pageno + 1
         setData({ ...data, 'pageno': data.pageno })
       }
     })
     node && observerRef.current.observe(node)
-  }, [state.loadLogsLoading])
+  }, [state.loadLogsLoading, hasMore])
 
   return (
     <>
@@ -241,7 +245,7 @@ function SalesLogList(props) {
                     setData={setData}
                     loglist={v}
                     tabkey={tabkey}
-                    handleNextPage={handleNextPage}
+                    // handleNextPage={handleNextPage}
                     loglists={loglists} />
                 ))
                   :
@@ -249,6 +253,8 @@ function SalesLogList(props) {
                     <p>작성된 일지가 없습니다. </p>
                   </>
                 }
+
+
               </TabPane>
               <TabPane tab="리드일지" key="0010002">
                 <LeadLogFilter key={'leadlog'} id={'leadlog'} data={data} setData={setData} />
@@ -262,25 +268,28 @@ function SalesLogList(props) {
                     data={data}
                     loglist={v}
                     tabkey={tabkey}
-                    handleNextPage={handleNextPage}
+                    // handleNextPage={handleNextPage}
                     loglists={loglists} />
                 ))
                   :
                   <>
                     <p>작성된 일지가 없습니다. </p>
                   </>
+
                 }
+
+
               </TabPane>
             </FullTabs>
 
           </Col>
         </Row>
+        <div ref={observer} />
         <Row>
           <div>
             <CustomFab navigateTo={navigateTo} />
           </div>
         </Row>
-        <div ref={observer} />
       </div>
     </>
   )
