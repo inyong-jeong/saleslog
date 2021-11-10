@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import AvatarUp from 'components/AvatarUp';
 import { useHistory } from 'react-router';
-import { Divider } from 'antd';
+import { Divider, Button } from 'antd';
 import Input from 'components/styledcomponent/Input';
 import { getProfileDetail, postProfilePhoto, postProfileUpd } from 'redux/etc/actions';
 import cmm from 'constants/common';
@@ -55,7 +55,7 @@ const myProfilePage = () => {
   useEffect(() => {
     dispatch({
       type: SET_NAVIBAR_SHOW,
-      payload: false
+      payload: true
     })
     dispatch(getProfileDetail.call())
 
@@ -116,9 +116,9 @@ const myProfilePage = () => {
     <div >
       <MyAppBar
         barTitle={'내 프로필'}
-        showBackButton
-        navigateTo={navigateTo}
-        onSaveClick={onSaveClick}
+      // showBackButton
+      // navigateTo={navigateTo}
+      // onSaveClick={onSaveClick}
       />
 
       <div className='content_body'>
@@ -177,6 +177,9 @@ const myProfilePage = () => {
           <label style={grayResultTextStyle}>{myData[0].dept_name}</label>
         </div>
         <Divider />
+        <div style={{ margin: '0 auto', width: 96 }}>
+          <Button onClick={onSaveClick}>프로필 저장</Button>
+        </div>
       </div>
     </div>
   );
