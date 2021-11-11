@@ -53,6 +53,11 @@ export default function Header(props) {
     }
   }, []);
 
+  const handleOnClick = (e) => {
+    props.onSignInClick(e);
+    setClicked(true);
+  }
+
   return (
     <header id="header" className="header">
       <nav className={"navbar fixed-top navbar-expand-md navbar-light bg-tra hover-menu " + (scroll ? "scroll" : "")}>
@@ -79,12 +84,18 @@ export default function Header(props) {
                   </Link>
                 </li>)}
             </ul>
-            <span className="nav-item navbar-text ">
-              <button className="btn btn-light waves-effect mr-2" onClick={onSignInClick} disabled={clicked}>
-                {clicked && <span className="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>}
+            <ul >
+              <li calssName='nav-item dropdown'>
+                {/* <button className="btn btn-light">로그인</button> */}
+                <Link className="btn btn-light" onClick={handleOnClick}>로그인</Link>
+              </li>
+            </ul>
+            {/* <span className="nav-item navbar-text">
+              <button className="nav-button btn btn-light mr-2" onClick={onSignInClick} disabled={clicked}>
+                {clicked && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
                 로그인
               </button>
-            </span>
+            </span> */}
           </Collapse>
         </div>
       </nav>
