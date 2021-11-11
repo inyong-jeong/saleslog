@@ -3,28 +3,43 @@ import List from '@material-ui/core/List';
 import { Divider } from 'antd';
 import Typography from '@material-ui/core/Typography';
 import { base64Enc, ConvertDate } from 'constants/commonFunc';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router';
 
 const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
 
   const history = useHistory()
+  const [hasMore, setHasMore] = useState(true)
 
-  const handleNextPage = () => {
-    if (loading == true) return
-    setPage(page + 1)
-    
-    console.log('page::handlenext:::::::::',page)
-  }
+  useEffect(() => {
+    if (data) {
+      if (page == 1) {
+        setHasMore(true)
+        return
+      }
+      if (data.length >= totcnt) {
+        setHasMore(false)
+      }
+    }
+
+  }, [loading])
+
+  const observerRef = useRef()
+  const observer = useCallback((node) => {
+    if (loading) return
+    if (observerRef.current) observerRef.current.disconnect()
+
+    observerRef.current = new IntersectionObserver((entries) => {
+
+      if (entries[0].isIntersecting && hasMore) {
+        setPage(page + 1)
+      }
+    })
+    node && observerRef.current.observe(node)
+  }, [loading, hasMore])
+
 
   return (
-    <InfiniteScroll
-      hasMore={true}
-      dataLength={totcnt}
-      next={handleNextPage}
-      
-
-      >
+    <div>
       <List>
         {data ?
           data.map(singleList => {
@@ -49,7 +64,8 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
           </div>
         }
       </List>
-    </InfiniteScroll>
+      <div ref={observer} />
+    </div>
   );
 }
 
