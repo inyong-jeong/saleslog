@@ -3,7 +3,7 @@ import React from 'react';
 function RoundInputField(props) {
 
   const Styles = {
-    width: '343px',
+    width: props.width ? props.width : '343px',
     height: '48px',
     fontSize: '14px',
     border: '1px solid',
