@@ -6,7 +6,7 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 
 import { isUserAuthenticated, removeAll, isAccessToken } from './helpers/authUtils';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
-import { alertMessage } from './constants/commonFunc';
+import { alertMessage, errorMessage } from './constants/commonFunc';
 
 //로그인 관련 컴포넌트
 const Landing = React.lazy(() => import('./pages/landing'));
@@ -103,7 +103,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 
         let isTokenOK = isAccessToken().then((res) => {
           if (res == 'NoToken') {
-            alertMessage('다시 시도하세요.')
+            errorMessage('로그인정보가 없습니다. 다시 시도하세요.')
             console.log('LOGIN PUSH :: MainRoute NoToken res :: ', res)
             removeAll();
             props.history.push('/signin')
@@ -129,7 +129,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 
         let isTokenOK = isAccessToken().then((res) => {
           if (res == 'NoToken') {
-            alertMessage('다시 시도하세요.')
+            errorMessage('로그인정보가 없습니다. 다시 시도하세요.')
             console.log('LOGIN PUSH :: MainRoute NoToken res :: ', res)
             removeAll();
             props.history.push('/signin')
