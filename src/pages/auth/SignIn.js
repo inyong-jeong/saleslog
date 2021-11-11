@@ -160,7 +160,7 @@ const SignIn = (props) => {
       <div className="container-md">
         <div className="row" style={ViewStyle}>
           <div style={{ margin: 'auto' }}>
-            <div style={{ width: 390, backgroundColor: '#fff' }}>
+            <div style={{ width: 360, backgroundColor: '#fff' }}>
               <div className="card-body" style={CardStyle} >
                 <div style={{ padding: 10, margin: 10, cursor: 'pointer' }} onClick={handleLandingPage}>
                   <WhiteLogo width={150} height={50} fill='black' />
@@ -168,6 +168,7 @@ const SignIn = (props) => {
                 <form>
                   <div className="form-group">
                     <RoundInputField
+                      width={'300px'}
                       id="username"
                       title="이메일"
                       type='text'
@@ -177,6 +178,7 @@ const SignIn = (props) => {
                     />
                   </div>
                   <RoundInputField
+                    width={'300px'}
                     onKeyPress={onKeyPress}
                     id="password"
                     title="비밀번호"
