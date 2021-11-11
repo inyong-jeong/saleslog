@@ -543,7 +543,7 @@ const DashBoardPage = () => {
         </Row>
 
         <div className='mt-5' />
-        <Divider style={{ borderColor: '#dfdfdf' }} />
+        <Divider style={{ borderColor: '#ccc', borderWidth: 3 }} />
         <div className='mt-5' />
 
         <Row>
