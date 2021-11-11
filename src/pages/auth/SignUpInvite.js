@@ -11,6 +11,7 @@ import RoundInputField from "components/RoundInputField";
 import { ReactComponent as WhiteLogo } from '../../../src/assets/icons/main/whiteLogo.svg'
 import { useParams } from "react-router";
 import { removeAll } from 'helpers/authUtils';
+import SignUpModal from "../../components/SignUpModal";
 
 const SignUpInvite = () => {
 
@@ -48,8 +49,8 @@ const SignUpInvite = () => {
 
 
   useEffect(() => {
-    console.log('state.postCheckisRegisteredResponse ',state.postCheckisRegisteredResponse )
-    if (state.postCheckisRegisteredResponse ) {
+    console.log('state.postCheckisRegisteredResponse ', state.postCheckisRegisteredResponse)
+    if (state.postCheckisRegisteredResponse) {
       state.postCheckisRegisteredResponse = undefined;
       removeAll();
       return history.push('/signin');
@@ -59,24 +60,11 @@ const SignUpInvite = () => {
 
   useEffect(() => {
     if (state.postInviteRegisteredResponse) {
-      state.postInviteRegisteredResponse = null;      
+      state.postInviteRegisteredResponse = null;
       return history.push('/congratulation');
     }
 
-    //return setUserEmail(decodeURIComponent(params.inviteEmail))
   }, [state.postInviteRegisteredResponse])
-
-
-
-
-  // useEffect(() => {
-  //   if (state.postCheckisRegisteredResponse || state.postInviteRegisteredResponse) {
-  //     removeAll();
-  //     return history.push('/signin');
-  //   }
-
-  //   return setUserEmail(decodeURIComponent(params.inviteEmail))
-  // }, [state.loading])
 
   const updateWindowDimensions = () => {
     setViewHeight(window.innerHeight);
@@ -200,6 +188,7 @@ const SignUpInvite = () => {
                         동의 버튼을 선택하면 <span style={{ color: '#000000', textDecoration: 'underline' }}>세일즈로그 서비스 이용 약관,< br /> 위치정보 서비스 약관, 개인정보 처리방침</span>에 동의하게< br /> 됩니다.
                       </StyledCheckbox>
                     </div>
+                    <SignUpModal />
                     {!isTermChecked ? <p className='text-danger mt-2 text-center'> 약관에 동의하여 주세요.</p> : null}
 
                   </div>
