@@ -74,15 +74,15 @@ const WgroupManagePage = () => {
 
         } else if (res == 'ReToken') {
           //props.history.replace(props.history.location)
-          
+
           history.push('/main/workgroup');
           window.location.reload();
-        } 
+        }
       })
-  
+
       //removeAll();
       //history.push('/signin')
-    }      
+    }
   }, [state.postWorkGroupChangeRes])
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const WgroupManagePage = () => {
   }
 
   const handleChangeWorkGroup = (idx) => {
- 
+
     dispatch(postWorkGroupChange.call({ chg_idx: idx }))
 
     // confirm({
@@ -133,7 +133,7 @@ const WgroupManagePage = () => {
           fontSize: 14,
           fontWeight: 500
         }}>
-          <IconLabel title="정보 수정" pathUri="main/workgroup/update"></IconLabel>
+          <IconLabel title="워크그룹 정보 수정" pathUri="main/workgroup/update"></IconLabel>
           <Divider style={marginStyle} />
           <IconLabel title="멤버 관리" pathUri="main/workgroup/member"></IconLabel>
           <Divider style={marginStyle} />
