@@ -8,7 +8,6 @@ import { Divider } from 'antd';
 import { getNoticeSysDetail, postNoticeSysDel } from 'redux/etc/actions';
 import { base64Dec, errorMessage } from 'constants/commonFunc';
 import { useStyles } from '../../../../customer/registerManager'
-import Typography from '@material-ui/core/Typography';
 import { getUserInfo } from 'helpers/authUtils';
 
 const sysNoticeRegi = () => {
@@ -19,6 +18,9 @@ const sysNoticeRegi = () => {
   const dispatch = useDispatch()
   const [noticeData, setNoticeData] = useState([])
   const [noticeId, setNoticeId] = useState(null)
+
+  let expression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+  let regex = new RegExp(expression);
 
   const navigateTo = () => history.goBack()
 
@@ -76,13 +78,11 @@ const sysNoticeRegi = () => {
 
         <div className='content_body'>
           <div style={{ marginTop: 10 }}>
-            {/* <Typography variant='h6' align='left' className={classes.title}>공지 제목</Typography> */}
             <label className={classes.showDetails}>{noticeData[0].title}</label>
             <Divider style={{ margin: 0 }} />
           </div>
 
-          {/* <Typography variant='h6' align='left' className={classes.title}>공지 내용</Typography> */}
-          <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10, whiteSpace: 'pre-wrap' }}>
+          <div style={{ margin: 10, whiteSpace: 'pre-wrap' }}>
             <label className={classes.showDetails}>{noticeData[0].content}</label>
           </div>
           <Divider />

@@ -14,7 +14,7 @@ const WgroupManagePage = () => {
 
   const state = useSelector(state => state.Workgroup)
   const history = useHistory()
-  const navigateTo = () => history.push('/main/workgroup')
+  const navigateTo = () => history.goBack()
   const dispatch = useDispatch()
   const regiRes = state.postWorkGroupRegiRes;
 

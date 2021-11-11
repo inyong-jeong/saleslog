@@ -20,7 +20,6 @@ const GroupNoticePage = () => {
   const state = useSelector(state => state.Etc)
   const loading = state.loading
   const [noticeList, setNoticeList] = useState([])
-  //const [page, setPage] = useState(1)
   const [inputs, setInputs] = useState({
     srch: '',
     pageno: 1,
@@ -34,64 +33,38 @@ const GroupNoticePage = () => {
       payload: true
     })
     setPage(1)
-    //dispatch(getNoticeGrpList.call(inputs))
+
   }, [])
-
-  // useEffect(() => {
-  //   // if (loading == false) {
-  //   //   dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
-  //   // }
-
-  //   if (loading == true) return
-  //   //if (page == 1) {
-  //     console.log('dispatch inpusts:::1111111111')
-  //     dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: inputs.pageno }))
-  //   //}
-  // }, [inputs])
-
-  // useEffect(() => {
-  //   if (loading == true) return
-  //   console.log('dispatch page:::222222')
-  //   dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
-  // }, [page])
 
 
   useEffect(() => {
-    
-    if (state.getNoticeGrpListRes && loading == false ) {
-      if (state.getNoticeGrpListRes.length <= 0 ) return      
-      if (state.getNoticeGrpListRes[0].length <= 0) return
 
+    if (state.getNoticeGrpListRes && loading == false) {
+      if (state.getNoticeGrpListRes.length <= 0) return
+      if (state.getNoticeGrpListRes[0].length <= 0) return
       setTotcnt(state.getNoticeGrpListRes[1][0].totcnt)
-      console.log('0000000',state.getNoticeGrpListRes, state.getNoticeGrpListRes[1][0].totcnt);
+
       if (state.getNoticeGrpListRes[0][0].pageno === '1') {
-      ///if (inputs.pageno == 1) {
-        //console.log('page::::::::::1111111111',state.getNoticeGrpListRes[0].pageno)
         setNoticeList(state.getNoticeGrpListRes[0])
         return
       }
-      //console.log('page::::::::::',inputs.pageno, state.getNoticeGrpListRes.length)
       setNoticeList(noticeList.concat(state.getNoticeGrpListRes[0]))
     }
     state.getNoticeGrpListRes = null;
 
   }, [state.getNoticeGrpListRes])
-  
-  
-  const setPage = (page) => {
-    //console.log(page, inputs.pageno)
-    if (page!=1 && page <= inputs.pageno ) return;
-    dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
-    setInputs({ ...inputs, pageno:page })
-  }
 
-  const setData = () => {
-    //dispatch(getNoticeGrpList.call(inputs))
+
+  const setPage = (page) => {
+    if (page != 1 && page <= inputs.pageno) return;
+    dispatch(getNoticeGrpList.call({ srch: inputs.srch, pageno: page }))
+    setInputs({ ...inputs, pageno: page })
   }
 
   const onSearch = (keyword) => {
-    setInputs({ ...inputs, srch: keyword, pageno:1 })
-    //setPage(1)
+    const trimmedKeyword = keyword.trim()
+    setInputs({ ...inputs, srch: trimmedKeyword, pageno: 1 })
+    dispatch(getNoticeGrpList.call({ srch: trimmedKeyword, pageno: 1 }))
   }
 
   return (
@@ -112,7 +85,6 @@ const GroupNoticePage = () => {
           page={inputs.pageno}
           setPage={setPage}
           setInputs={setInputs}
-          setData={setData}
           data={noticeList}
           loading={loading}
           noticeType={'group'}
