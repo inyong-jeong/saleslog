@@ -84,8 +84,10 @@ function SalesLogList(props) {
       }
       if (loglists.length >= props.loglistcount) {
         setHasMore(false);
+      } else {
+        setLogLists(loglists.concat(props.loglist))
       }
-      setLogLists(loglists.concat(props.loglist))
+      
     }
   }, [props.loadLogsLoading])
 
