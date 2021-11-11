@@ -6,6 +6,7 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 
 import { isUserAuthenticated, removeAll, isAccessToken } from './helpers/authUtils';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
+import { alertMessage } from './constants/commonFunc';
 
 //로그인 관련 컴포넌트
 const Landing = React.lazy(() => import('./pages/landing'));
@@ -66,8 +67,6 @@ const systemNoticeDetail = React.lazy(() => import('./pages/etc/notice/system/de
 const systemNoticeUpd = React.lazy(() => import('./pages/etc/notice/system/update'))
 const anniversary = React.lazy(() => import('./pages/etc/notice/anniversary'))
 
-//const systemNoticeList = React.lazy(() => import('./pages/etc/notice/system/list'))
-
 // 설정 등
 const AppInfo = React.lazy(() => import('./pages/appInfo'))
 const NotificationSetting = React.lazy(() => import('./pages/settings/notification'))
@@ -76,7 +75,6 @@ const NotificationList = React.lazy(() => import('./pages/notification'))
 // device token
 const SaveDevice = React.lazy(() => import('./pages/etc/devicetoken'))
 
-
 //지원센터 
 const SupportPage = React.lazy(() => import('./pages/support'))
 const MyInquiryDetails = React.lazy(() => import('./pages/support/detail'))
@@ -84,9 +82,9 @@ const MyInquiryDetails = React.lazy(() => import('./pages/support/detail'))
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
-    //console.log('LandingRoute::::::::::::', isTokenValid)
+
     if (props.match.path === '/' && isTokenValid) {
-      // redirect to main
+
       return <Redirect to={{ pathname: '/main', state: { from: props.location } }} />
     }
     return <Component {...props} />
@@ -98,85 +96,57 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
     <CacheRoute
       {...rest} render={props => {
         console.log('cashRoute', { ...rest })
-        //const isTokenValid = isUserAuthenticated();
-        //if (isTokenValid) {
-        //토큰 만료 확인 및 갱신 
+
         if (props.history.location.state === 'needReload') {
           window.location.reload();
         }
 
         let isTokenOK = isAccessToken().then((res) => {
           if (res == 'NoToken') {
-            console.log('LOGIN PUSH :: MainRoute NoToken ', res)
+            alertMessage('다시 시도하세요.')
+            console.log('LOGIN PUSH :: MainRoute NoToken res :: ', res)
             removeAll();
             props.history.push('/signin')
 
           } else if (res == 'ReToken') {
-            //props.history.replace(props.history.location)
+            console.log('LOGIN PUSH :: MainRoute ReToken res :: ', res)
             window.location.reload();
+
           } else if (res == 'NoWorkgroup') {
             if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
               props.history.location.pathname != '/main/workgroup/register') {
-              //console.log('test')
+
               props.history.push('/main/workgroup/chgwgroup')
             }
           }
         })
         return <Component {...props} />
-
-        // } else {
-        //   console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
-        //   removeAll();
-        //   props.history.push('/signin')
-        //   //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-        // }
-
-
-        // if (props.match.path.startsWith('/main') && !isTokenValid) {
-        //   removeAll();
-        //   return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-        // }
-        // return <Component {...props} />
       }} />
     :
     <Route
       {...rest} render={props => {
         console.log('route', { ...rest })
-        //const isTokenValid = isUserAuthenticated();
-        //if (isTokenValid) {
-        //토큰 만료 확인 및 갱신 
+
         let isTokenOK = isAccessToken().then((res) => {
           if (res == 'NoToken') {
-            console.log('LOGIN PUSH :: MainRoute NoToken ', res)
+            alertMessage('다시 시도하세요.')
+            console.log('LOGIN PUSH :: MainRoute NoToken res :: ', res)
             removeAll();
             props.history.push('/signin')
 
           } else if (res == 'ReToken') {
-            //props.history.replace(props.history.location)
+            console.log('LOGIN PUSH :: MainRoute ReToken res :: ', res)
             window.location.reload();
+
           } else if (res == 'NoWorkgroup') {
             if (props.history.location.pathname != '/main/workgroup/chgwgroup' &&
               props.history.location.pathname != '/main/workgroup/register') {
-              //console.log('test')
+
               props.history.push('/main/workgroup/chgwgroup')
             }
           }
         })
         return <Component {...props} />
-
-        // } else {
-        //   console.log('LOGIN PUSH :: MainRoute !isTokenValid ', isTokenValid)
-        //   removeAll();
-        //   props.history.push('/signin')
-        //   //return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-        // }
-
-
-        // if (props.match.path.startsWith('/main') && !isTokenValid) {
-        //   removeAll();
-        //   return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-        // }
-        // return <Component {...props} />
       }} />
 
 );
