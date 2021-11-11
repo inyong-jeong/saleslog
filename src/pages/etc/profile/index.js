@@ -180,6 +180,7 @@ const myProfilePage = () => {
         <div style={{ margin: '0 auto', width: 96 }}>
           <Button onClick={onSaveClick}>프로필 저장</Button>
         </div>
+        <div className='mt-5' />
       </div>
     </div>
   );
