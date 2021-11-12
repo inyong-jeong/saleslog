@@ -56,10 +56,6 @@ const SignIn = (props) => {
       return errorMessage('이메일 주소와 비밀번호를 입력하세요.')
     }
 
-    //아이디저장
-    if (isSaveId) {
-      setCookie('userEmail', inputs.username, { maxAge: 60 * 60 * 24 * 30 });
-    }
     const client_id = 'saleslog.co';
     const redirect_uri = cmm.AUTH_SERVER_API_URL + '/oauth/client_auth';
     const response_type = 'code';
@@ -67,6 +63,13 @@ const SignIn = (props) => {
     const state = 'myState';
 
     dispatch(authorize.call(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform))
+
+    //아이디저장
+    if (isSaveId) {
+      setCookie('userEmail', inputs.username, { maxAge: 60 * 60 * 24 * 30 });
+    }
+
+
   }
 
   // access token 
