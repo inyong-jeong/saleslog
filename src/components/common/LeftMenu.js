@@ -8,23 +8,17 @@ import { ReactComponent as WorkGroup } from '../../../src/assets/icons/main/work
 import { ReactComponent as ThreeLines } from '../../../src/assets/icons/main/grayCalendar.svg'
 import { withRouter, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import {
-  useDidCache,
-  useDidRecover,
-  clearCache,
-  getCachingKeys
-} from 'react-router-cache-route'
 
 function LeftMenu() {
 
   const [selectedKeys, setSelectedKeys] = useState('')
   const history = useHistory()
+  const pathname = history.location.pathname
+
   useEffect(() => {
     //현재 location 
-    const pathname = history.location.pathname
     setSelectedKeys(pathname)
-  }, [])
-
+  }, [pathname])
 
   const menuList = [{
     title: "홈",
