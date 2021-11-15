@@ -105,7 +105,8 @@ function* _getProfileDetail({ payload: { body } }) {
       yield setUserInfo({
         permissions: response.message[0].permissions,
         user_name: response.message[0].user_name,
-        wgroupName: response.message[0].organization
+        wgroupName: response.message[0].organization,
+        login_idx: response.message[0].login_idx
       })
     }
     yield put(getProfileDetail.success(response))

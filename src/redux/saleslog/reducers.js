@@ -114,7 +114,8 @@ const INIT_STATE = {
   //임시저장 삭제 response
   deletetempresponse: false,
   salesgb: '0010001',
-  keyword: ''
+  keyword: '',
+  userlistresponse: false
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
@@ -158,11 +159,11 @@ const SalesLog = (state = INIT_STATE, action) => {
     case POST_TEMPORARY_SALESLOG_ERROR:
       return { ...state, postTemporarySalesLogError: action.payload.error, submitLoading: false, posttempres: false };
     case SELECT_USER_LIST:
-      return { ...state, submitLoading: true };
+      return { ...state, submitLoading: true, userlistresponse: false };
     case SELECT_USER_LIST_SUCCESS:
-      return { ...state, userlist: action.payload.response.message, submitLoading: false };
+      return { ...state, userlist: action.payload.response.message, submitLoading: false, userlistresponse: true };
     case SELECT_USER_LIST_ERROR:
-      return { ...state, userlisterror: action.payload.error, submitLoading: false };
+      return { ...state, userlisterror: action.payload.error, submitLoading: false, userlistresponse: false };
     case GET_TEMPORARY_LISTS:
       return { ...state };
     case GET_TEMPORARY_LISTS_SUCCESS:

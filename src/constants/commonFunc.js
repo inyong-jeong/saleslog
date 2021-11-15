@@ -95,4 +95,9 @@ export const ConvertDate = (date) => {
   return result;
 }
 
+export const ConvertTime = (date) => {
+  const result = date.replaceAll('-', ':');
+  return result;
+}
+
 

@@ -6,17 +6,17 @@ import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
 import { ReactComponent as WorkGroup } from '../../../src/assets/icons/main/workgroup.svg'
 import { ReactComponent as Calendar } from '../../../src/assets/icons/main/grayCalendar.svg'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 const MyNavigation = () => {
 
   const [value, setValue] = useState("");
   const history = useHistory();
+  const pathname = history.location.pathname;
 
   useEffect(() => {
-    const pathname = history.location.pathname
     setValue(pathname)
-  }, [])
+  }, [pathname])
 
   return (
 

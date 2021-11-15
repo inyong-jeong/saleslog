@@ -60,7 +60,9 @@ export const getUserInfo = () => {
   const permission = localStorage.getItem('user-permission');
   const userName = localStorage.getItem('user-name');
   const wgroupName = localStorage.getItem('user-wgroup-name');
-  return { permission: permission, userName: userName, wgroupName: wgroupName };
+  const login_idx = localStorage.getItem('login_idx');
+
+  return { permission: permission, userName: userName, wgroupName: wgroupName, login_idx: login_idx };
 }
 // 사용자정보 저장
 export const setUserInfo = (data) => {
@@ -68,6 +70,8 @@ export const setUserInfo = (data) => {
   localStorage.setItem('user-permission', data.permissions);
   localStorage.setItem('user-name', data.user_name);
   localStorage.setItem('user-wgroup-name', data.wgroupName);
+  localStorage.setItem('login_idx', data.login_idx);
+
 }
 
 //Access Token 확인 (routes.js 에서 호출, 반환값:'NoToken', 'OkToke', 'ReToke' )
@@ -135,27 +139,27 @@ export const isAccessToken = async () => {
 
 //Access Token 재발급 (워크그룹 변경시 재발급) 
 export const reAccessToken = async () => {
-    // 엑세스 토큰 재발행(refresh token)
-    const reToken = localStorage.getItem('oauth-refresh-token');
-    //console.log('reToken:::',reToken);
+  // 엑세스 토큰 재발행(refresh token)
+  const reToken = localStorage.getItem('oauth-refresh-token');
+  //console.log('reToken:::',reToken);
 
-    if (reToken == null || reToken == '' || reToken == 'undefined') {
-      return 'NoToken';
-    }
+  if (reToken == null || reToken == '' || reToken == 'undefined') {
+    return 'NoToken';
+  }
 
-    const reRes = await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
-    const reResult = await reRes;
-    //console.log('리프래시 토큰 재발행 :::', await reRes);
-    if (reResult.error == 'invalid_grant') {
-      //console.log('false:::::::::::::::::::::')
+  const reRes = await oauthgetrefreshaccesstoken(reToken, cmm.CLIENT_ID, cmm.CLIENT_SECRET, 'refresh_token')
+  const reResult = await reRes;
+  //console.log('리프래시 토큰 재발행 :::', await reRes);
+  if (reResult.error == 'invalid_grant') {
+    //console.log('false:::::::::::::::::::::')
 
-      return 'NoToken';
-    } else {
-      //console.log('true:::::::::::::::::::::')
-      setOauthAccessToken(reResult.access_token);
-      setOauthRefreshToken(reResult.refresh_token);
-      return 'ReToken';
-    }
+    return 'NoToken';
+  } else {
+    //console.log('true:::::::::::::::::::::')
+    setOauthAccessToken(reResult.access_token);
+    setOauthRefreshToken(reResult.refresh_token);
+    return 'ReToken';
+  }
 
 }
 

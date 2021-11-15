@@ -10,7 +10,10 @@ html {
 body {
   overflow-x: hidden;
 }
-
+.rbc-active button {
+  color: 'green';
+  background-color: green;
+}
 .content_body {
   margin-left: 10px !important;
   margin-right: 10px !important;
@@ -149,6 +152,11 @@ hr {
 
 }
 
+//캘린더 이월 날짜 색깔
+
+.rbc-day-bg.rbc-off-range-bg{
+  background-color: white;
+}
 
 // .comment_submit:hover{
 //   transform: scale(1.05);
@@ -190,7 +198,7 @@ ant-btn {
 }
 
 .ant-switch-checked {
-  background-color: #000;
+  background-color: #398fff;
 }
 
 

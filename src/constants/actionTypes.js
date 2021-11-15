@@ -492,3 +492,18 @@ export const DELETE_CALENDAR = 'DELETE_CALENDAR';
 export const DELETE_CALENDAR_SUCCESS = 'DELETE_CALENDAR_SUCCESS';
 export const DELETE_CALENDAR_ERROR = 'DELETE_CALENDAR_ERROR';
 
+//해당 slot 일정 클릭 action
+export const CALENDAR_DATE = 'CALENDAR_DATE';
+
+//일정 수정용 action
+export const CALENDAR_EDIT_MODAL = 'CALENDAR_EDIT_MODAL';
+
+//bottom Button plus click action
+export const CALENDAR_PLUS = 'CALENDAR_PLUS';
+
+//일정 back, next event 값 
+export const CALENDAR_EVENT = 'CALENDAR_EVENT';
+
+
+
+
