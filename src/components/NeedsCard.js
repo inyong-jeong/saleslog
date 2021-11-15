@@ -27,10 +27,8 @@ export default function NeedsCard(props) {
                         </div> */}
                       </div>
                       <div className="col-8">
-                        <a href="javascropt:void(0)" className="text-reset mb-2 d-block">
-                          <i className={`mdi mdi-checkbox-blank-circle-outline mr-1 text-${props.needs}`}></i>
-                          <span className="mb-0 mt-1 text-dark text-bold font-14">{v}</span>
-                        </a>
+                        <i className={`mdi mdi-checkbox-blank-circle-outline mr-1 text-${props.needs}`}></i>
+                        <span className="mb-0 mt-1 text-dark text-bold font-14">{v}</span>
                       </div>
                     </div>
                   )
