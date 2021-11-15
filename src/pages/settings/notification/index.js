@@ -1,24 +1,25 @@
 import React from 'react'
-import { useHistory } from 'react-router';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import { Divider, Switch } from 'antd';
+import { useDispatch } from 'react-redux';
+import { postNotificationSetting } from '../../../redux/notification/actions';
 
 const NotificationSetting = () => {
 
-  const history = useHistory()
-
-  const navigateTo = () => {
-    history.goBack()
-  }
+  const dispatch = useDispatch()
   const onChange = (checked) => {
-    console.log('알림 ::::', checked)
+
+    if (checked === true) {
+      dispatch(postNotificationSetting.call({ alarm_yn: 'Y' }))
+      return
+    }
+    dispatch(postNotificationSetting.call({ alarm_yn: 'N' }))
+
   }
   return (
     <>
       <MyAppBar
         barTitle='알림 설정'
-        //  showBackButton
-        navigateTo={navigateTo}
       />
 
       <div className='content_body'>

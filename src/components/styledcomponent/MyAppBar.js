@@ -100,7 +100,7 @@ const MyAppBar = ({
   });
 
   const onProfileClick = (e) => {
-    console.log('프로필 클릭 ', e)
+
   }
 
   const onLogoutClick = () => {
@@ -148,11 +148,11 @@ const MyAppBar = ({
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      {/* <Menu.Item key="4">
-        <Link to={'/main/notification'}>
+      <Menu.Item key="4">
+        <Link to={'/main/notification/setting'}>
           <Setting /> 알림 설정
         </Link>
-      </Menu.Item> */}
+      </Menu.Item>
       <Menu.Item key="5">
         <Link to={'/main/support'}>
           <Support /> 지원센터

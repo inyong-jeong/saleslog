@@ -57,7 +57,7 @@ export default function TopMenu({ badgeContent }) {
   }
 
   const onProfileClick = e => {
-    console.log('프로필 클릭 ')
+
   }
 
   //profile menu 
@@ -140,8 +140,8 @@ export default function TopMenu({ badgeContent }) {
               {/* <IconButton color="inherit" onClick={onNotiClick}>
                 <Badge badgeContent={badgeContent} color="secondary">
                   <Noti stroke='white' />
-                </Badge> 
-            </IconButton>*/}
+                </Badge>
+              </IconButton> */}
             </div>
             <div>
               <Dropdown overlay={menu}>
