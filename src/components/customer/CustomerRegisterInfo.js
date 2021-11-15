@@ -354,9 +354,9 @@ const CustomerRegisterInfo = () => {
               margin="normal"
             />
           </div>
-          <span style={{ marginLeft: 10 }}>고객 등록 후 담당자를 추가 등록할 수 있습니다.</span>
+          <div style={{ marginLeft: '10px', fontSize: '10px', fontWeight: 500, color: 'black' }}>고객 등록 후 담당자를 추가 등록할 수 있습니다 </div>
         </div>
-        <div className='mt-2' />
+        <div className='mt-2'></div>
         <div>
           <Typography variant='h6' align='left' className={classes.title}>메모</Typography>
           <div className={classes.innerBox}>

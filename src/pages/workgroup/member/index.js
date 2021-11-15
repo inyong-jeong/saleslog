@@ -11,7 +11,7 @@ import { Modal, Divider, Button, Avatar, Menu, Dropdown, Input } from 'antd';
 import { getWorkGroupInfo, getGroupMemberList, postGroupMemberOut } from 'redux/workgroup/actions';
 import cmm from 'constants/common';
 import { base64Enc } from 'constants/commonFunc';
-import { ReactComponent as MoreIcon } from '../../../assets/icons/workgroup/threeDots.svg'
+import { ReactComponent as MoreIcon } from '../../../assets/icons/main/menudots.svg'
 import { getUserInfo } from 'helpers/authUtils';
 import memberPng from 'assets/icons/workgroup/member.png'
 const { Search } = Input;

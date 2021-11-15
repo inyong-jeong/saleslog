@@ -12,7 +12,7 @@ import MyAppBar from "components/styledcomponent/MyAppBar";
 import { useHistory } from 'react-router';
 import { Divider, Button, Select, Avatar, Dropdown, Menu } from 'antd';
 import { getProfileInfo, postGroupInvite, getInviteList, postInviteDel } from 'redux/workgroup/actions';
-import { ReactComponent as MoreIcon } from 'assets/icons/workgroup/threeDots.svg'
+import { ReactComponent as MoreIcon } from 'assets/icons/main/menudots.svg'
 const { Option } = Select;
 const { TabPane } = FullTabs;
 

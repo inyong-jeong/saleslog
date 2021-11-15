@@ -455,7 +455,7 @@ function UploadSalesLog(props) {
       return errorMessage('고객, 고객 담당자는 필수항목입니다.')
     }
     if (fromData.sales_goal === null || fromData.sales_activity === null) {
-      return errorMessage('영업 목적, 영업채널은 필수항목입니다.')
+      return errorMessage('활동 목적, 영업채널은 필수항목입니다.')
     }
     if (fromData.title === '' || fromData.log === '') {
       return errorMessage('제목, 내용은 필수항목입니다.')

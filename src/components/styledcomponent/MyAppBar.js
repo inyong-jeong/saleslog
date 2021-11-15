@@ -19,7 +19,7 @@ import { ReactComponent as Notice } from '../.././assets/icons/main/notice.svg'
 import { ReactComponent as Support } from '../.././assets/icons/main/support.svg'
 import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_workgroup.svg'
 import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
-import { ReactComponent as MoreIcon } from '../.././assets/icons/workgroup/threeDots.svg'
+import { ReactComponent as MoreIcon } from '../.././assets/icons/main/menudots.svg'
 import { Menu, Dropdown, } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
