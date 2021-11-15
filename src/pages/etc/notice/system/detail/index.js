@@ -83,7 +83,7 @@ const sysNoticeRegi = () => {
           </div>
 
           <div style={{ margin: 10, whiteSpace: 'pre-wrap' }}>
-            <label className={classes.showDetails}>{noticeData[0].content}</label>
+            <div className={classes.showDetails} dangerouslySetInnerHTML={{ __html: noticeData[0].content }} ></div>
           </div>
           <Divider />
         </div>

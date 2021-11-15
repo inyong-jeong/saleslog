@@ -73,7 +73,8 @@ const grpNoticeRegi = () => {
             <Divider style={{ margin: 0 }} />
           </div>
           <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10, whiteSpace: 'pre-wrap' }}>
-            <label className={classes.showDetails}>{noticeData[0].content}</label>
+            <div className={classes.showDetails} dangerouslySetInnerHTML={{ __html: noticeData[0].content }} ></div>
+            
           </div>
           <Divider />
         </div>

@@ -103,7 +103,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 
         let isTokenOK = isAccessToken().then((res) => {
           if (res == 'NoToken') {
-            errorMessage('로그인정보가 없습니다. 다시 시도하세요.')
+            //errorMessage('로그인정보가 없습니다. 다시 시도하세요.')
             console.log('LOGIN PUSH :: MainRoute NoToken res :: ', res)
             removeAll();
             props.history.push('/signin')
@@ -129,7 +129,7 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 
         let isTokenOK = isAccessToken().then((res) => {
           if (res == 'NoToken') {
-            errorMessage('로그인정보가 없습니다. 다시 시도하세요.')
+            //errorMessage('로그인정보가 없습니다. 다시 시도하세요.')
             console.log('LOGIN PUSH :: MainRoute NoToken res :: ', res)
             removeAll();
             props.history.push('/signin')
