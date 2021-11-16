@@ -22,12 +22,20 @@ const NotificationList = () => {
   const isLoading = state.isLoading
 
   const notistyle = {
-    height: 55,
+    position: 'relative',
+    display: '-webkit-box',
+    // display: 'flex',
+    // justifyContent: 'space-between',
     cursor: 'pointer',
-    margin: '5px 0',
+    margin: '5px',
     padding: 10,
+    // textOverflow: 'ellipsis',
+    whiteSpace: 'pre-wrap',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 2,
     //borderRadius: 5
     border: '1px solid #ddd',
+
   }
 
   useEffect(() => {
@@ -85,8 +93,8 @@ const NotificationList = () => {
 
   const NotificationItems = ({ singleNoti }) => (
     <div style={notistyle} onClick={() => handleSaleslogNoti(singleNoti.uri)}>
-      <p style={{ color: '#333', fontSize: 14 }} >{singleNoti.note}</p>
-      <p style={{ textAlign: 'right', color: '#666', fontSize: 12 }}>{ConvertDate(singleNoti.cre_dt)}</p>
+      <div style={{ color: '#333', fontSize: 14 }} >{singleNoti.note}</div>
+      <div style={{ float: 'right', color: '#666', fontSize: 12 }}>{ConvertDate(singleNoti.cre_dt)}</div>
     </div>
   )
 
