@@ -147,8 +147,6 @@ export default function RightMenu() {
     history.push('/main/etc/notice/system')
   }
 
-  console.log()
-
   return (
     <div style={{
       height: '100%',
@@ -175,24 +173,9 @@ export default function RightMenu() {
                 birthdaylist.map(item => (
                   <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
                 ))}
-              {/* {state.postAnniveraryResponse &&
-                mday.map(item => (
-                  <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
-                ))
-              } */}
+
             </div>
           </Panel>
-          {/* <Panel header="결혼 기념일" key="2" style={customPanelStyle}>
-            <div>
-              <p style={{ fontSize: 12, color: '#666666' }}><BdayLogo /> 오늘 기준 7일 내 결혼 기념일만 표시됩니다.</p>
-              <div className='mt-1' />
-              {state.postAnniveraryResponse &&
-                mday.map(item => (
-                  <DateItem key={item.b_idx} item={item} onClick={() => handleAnniversary(item)} />
-                ))
-              }
-            </div>
-          </Panel> */}
           <Panel header={<>
             <span>워크그룹 공지사항</span>
             <span>&nbsp;</span>

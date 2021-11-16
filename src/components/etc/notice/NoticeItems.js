@@ -4,11 +4,23 @@ import { Divider } from 'antd';
 import Typography from '@material-ui/core/Typography';
 import { base64Enc, ConvertDate } from 'constants/commonFunc';
 import { useHistory } from 'react-router';
+import { Tag } from "antd";
+import moment from 'moment';
 
 const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
 
   const history = useHistory()
   const [hasMore, setHasMore] = useState(true)
+
+  const getFiveDateGap = (before) => {
+    const Bdate = moment(before)._d.getTime();
+    const Ndate = new Date().getTime();
+    if ((Ndate - Bdate) > 1000 * 60 * 60 * 24 * 5) {
+      return false;
+    } else if (Ndate - Bdate <= 1000 * 60 * 60 * 24 * 5) {
+      return true;
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -52,7 +64,13 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
                 }}
                 key={singleList.b_idx} >
                 <div style={{ height: 50, cursor: 'pointer' }}>
-                  <p style={{ color: '#333', fontSize: 14 }}>{singleList.title}</p>
+                  <div
+                    style={{ display: 'flex' }}>
+                    <p style={{ color: '#333', fontSize: 14, marginRight: 5 }}>{singleList.title}</p>
+
+                    {getFiveDateGap(singleList.cre_dt) && <Tag color="blue">New</Tag>}
+                  </div>
+
                   <p style={{ textAlign: 'right', color: '#666', fontSize: 12 }}>{ConvertDate(singleList.cre_dt)}</p>
                   <Divider style={{ margin: 0 }} />
                 </div>
