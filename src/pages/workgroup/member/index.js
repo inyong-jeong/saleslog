@@ -177,7 +177,7 @@ const WgroupMemberPage = () => {
                                 </Menu>}
                               placement="bottomRight"
                               trigger={['click', 'hover']} >
-                              <MoreIcon />
+                              <MoreIcon fill="#333" />
                             </Dropdown>
                             : null
                         }
