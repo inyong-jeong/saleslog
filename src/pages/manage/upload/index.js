@@ -13,7 +13,7 @@ import StyledSelect from 'components/styledcomponent/StyledSelect';
 import { base64Dec } from "constants/commonFunc";
 
 import Divider from 'components/Divider'
-import { TimePicker, Radio, DatePicker, Tooltip } from 'antd';
+import { TimePicker, Radio, DatePicker, Tooltip, Modal } from 'antd';
 import Input from 'components/styledcomponent/Input'
 
 import CouserUModal from 'components/CouserUModal'
@@ -26,7 +26,9 @@ import { ReactComponent as Info } from 'assets/icons/info.svg'
 import 'moment/locale/ko';
 import { useIdleTimer } from 'react-idle-timer'
 import { useScrollToTop } from '../../../constants/commonFunc';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
+const { confirm } = Modal;
 
 
 const { Option } = StyledSelect;
@@ -446,7 +448,15 @@ function UploadSalesLog(props) {
   }, [lists])
 
   const handleOnBack = () => {
-    props.history.goBack()
+    confirm({
+      title: '작성 내용을 삭제하고 이전 화면으로 이동할까요?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: '취소',
+      okText: '확인',
+      onOk() {
+        props.history.goBack()
+      }
+    })
   };
 
   // 일지 작성
