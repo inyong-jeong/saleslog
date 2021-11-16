@@ -4,8 +4,7 @@ import { Modal, Divider, Switch } from 'antd'
 import StyledSelect from 'components/styledcomponent/StyledSelect';
 
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
-import { getCalendarLists, getCalendarList, postCalendar, putCalendar, deleteCalendar } from 'redux/calendar/actions'
-import moment from 'moment'
+import { getCalendarLists, deleteCalendar } from 'redux/calendar/actions'
 
 import { ReactComponent as CalIcon } from 'assets/icons/log/cal.svg'
 import { ConvertDate, ConvertTime } from '../../constants/commonFunc'
@@ -23,11 +22,8 @@ export default function CalendarDetailModal({ isModalDVisible, setIsModalDVisibl
   const dispatch = useDispatch();
   const state = useSelector(state => state.Calendar)
 
-  const [IsEdit, setIsEdit] = useState(false);
   const [CouserList, setCouserList] = useState([])
-  console.log(state.getListRes[0]);
 
-  console.log(getUserInfo().login_idx);
   const handleOk = () => {
     dispatch(deleteCalendar.call({
       p_idx: state.getListRes[0].p_idx
@@ -35,7 +31,6 @@ export default function CalendarDetailModal({ isModalDVisible, setIsModalDVisibl
   }
 
   const handleCancel = (close) => {
-    console.log(close);
     if (close.target.innerHTML === '수정' || close.target.className === 'ant-btn') {
       setIsModalDVisible(false);
       dispatch({

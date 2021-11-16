@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCalendarLists, getCalendarList, postCalendar, putCalendar, deleteCalendar } from 'redux/calendar/actions'
+import { getCalendarLists, postCalendar } from 'redux/calendar/actions'
 import { getUserList } from 'redux/actions';
-import { Modal, Input, Row, DatePicker, TimePicker, Col, Divider, Switch, Radio, Select } from 'antd';
+import { Modal, Input, DatePicker, TimePicker, Divider, Switch, Select } from 'antd';
 import moment from 'moment'
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as PersonIcon } from 'assets/icons/log/person.svg'
@@ -10,10 +10,8 @@ import { ReactComponent as LocationIcon } from 'assets/icons/log/location.svg'
 import { ReactComponent as CalIcon } from 'assets/icons/log/cal.svg'
 import StyledSelect from 'components/styledcomponent/StyledSelect';
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
-import { ReactComponent as Share } from '../../../src/assets/icons/main/share.svg'
-import { momentLocalizer } from 'react-big-calendar';
 
-export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, setIsModalVisible, onSelectSlot }) {
+export default function CalendarModal({ Cdata, isModalVisible, setIsModalVisible }) {
 
   const dispatch = useDispatch();
   const state = useSelector(state => state.Calendar);
@@ -30,13 +28,8 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
   const [CheckAlarm, setCheckAlarm] = useState(false);
   const [CheckAllDay, setCheckAllDay] = useState(false);
 
-  // const [isModalVisible, setIsModalVisible] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
-  // const [radiocheck, setRadioCheck] = useState('Y');
-
-  // const [CalendarDate, setCalendarDate] = useState(moment);
-
 
   //날짜 스테이트
   const [sdateString, setsDateString] = useState(moment());
@@ -52,7 +45,6 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
       sdt: moment(new Date(state.ClickDate)).format('YYYY-MM-DD'),
       edt: moment(new Date(state.ClickDate)).format('YYYY-MM-DD')
     });
-    // state.ClickDate = undefined;
   }, [state.ClickDate])
 
 
@@ -70,7 +62,6 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
 
   }, [state.CalendarPlus])
 
-  // console.log(calendarDate);
   //알람시간
   const [AlarmTime, setAlarmTime] = useState();
 
@@ -91,16 +82,13 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
     alarm_min: 10
   })
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+
 
   const handleOk = () => {
     if (body.plan === '') {
       return alert('일정은 필수값입니다')
     }
     dispatch(postCalendar.call(body))
-
   }
 
   const handleCancel = () => {
@@ -109,7 +97,6 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
 
 
   const AllDayCheck = (e) => {
-    console.log(e);
     if (e === true) {
       setBody({ ...body, stime: '00:00', etime: '00:00' })
     } else if (e === false) {
@@ -130,17 +117,7 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
     setCheckAlarm(!e)
   }
 
-  const onChange = (e) => {
-    setBody({ ...body, pub_yn: e.target.value });
-  }
 
-  const onPrivate = () => {
-
-  }
-
-  const onPublic = () => {
-
-  }
   const selectStyle =
     { width: '100%' }
 
@@ -187,7 +164,6 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
     setsDateString(date);
     seteDateString(date);
     const convertdate = moment(date).format('YYYY-MM-DD');
-    console.log(convertdate);
     setBody({
       ...body,
       'sdt': convertdate,
@@ -195,13 +171,10 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
     })
   }
 
-  console.log(body);
 
   const onDatePickerEChange = (date) => {
-    console.log(date);
     seteDateString(date)
     const convertdate = moment(date).format('YYYY-MM-DD');
-    console.log(convertdate);
     setBody({
       ...body,
       'edt': convertdate
@@ -210,9 +183,7 @@ export default function CalendarModal({ Cdata, CalendarDate, isModalVisible, set
 
   const onChangesSartValue = (stime) => {
     setStart(stime)
-    console.log(stime);
     const convertstime = moment(stime).format('HH:mm');
-    console.log(convertstime);
     setBody({
       ...body,
       'stime': convertstime

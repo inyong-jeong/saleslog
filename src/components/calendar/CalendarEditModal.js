@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCalendarLists, getCalendarList, postCalendar, putCalendar, deleteCalendar } from 'redux/calendar/actions'
+import { getCalendarLists, putCalendar } from 'redux/calendar/actions'
 import { getUserList } from 'redux/actions';
-import { Modal, Input, Row, DatePicker, TimePicker, Col, Divider, Switch, Radio, Select } from 'antd';
+import { Modal, Input, DatePicker, TimePicker, Divider, Switch, Select } from 'antd';
 import moment from 'moment'
 import { ReactComponent as Noti } from '../.././assets/icons/noti.svg'
 import { ReactComponent as PersonIcon } from 'assets/icons/log/person.svg'
@@ -10,9 +10,8 @@ import { ReactComponent as LocationIcon } from 'assets/icons/log/location.svg'
 import { ReactComponent as CalIcon } from 'assets/icons/log/cal.svg'
 import StyledSelect from 'components/styledcomponent/StyledSelect';
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
-import { ReactComponent as Share } from '../../../src/assets/icons/main/share.svg'
 import { CALENDAR_EDIT_MODAL } from 'constants/actionTypes';
-import { ConvertTime, ConvertDate } from '../../constants/commonFunc';
+import { ConvertTime } from '../../constants/commonFunc';
 
 export default function CalendarEditModal({ Cdata }) {
   const dispatch = useDispatch();
@@ -40,13 +39,8 @@ export default function CalendarEditModal({ Cdata }) {
   const [CheckAlarm, setCheckAlarm] = useState(false);
   const [CheckAllDay, setCheckAllDay] = useState(false);
 
-  // const [isModalVisible, setIsModalVisible] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
-  // const [radiocheck, setRadioCheck] = useState('Y');
-
-  // const [CalendarDate, setCalendarDate] = useState(moment);
-
 
   //날짜 스테이트
   const [sdateString, setsDateString] = useState(moment());
@@ -54,7 +48,6 @@ export default function CalendarEditModal({ Cdata }) {
   const [start, setStart] = useState(moment());
   const [end, setEnd] = useState(moment());
 
-  // console.log(calendarDate);
   //알람시간
   const [AlarmTime, setAlarmTime] = useState();
 
@@ -76,18 +69,8 @@ export default function CalendarEditModal({ Cdata }) {
     alarm_min: 10
   })
 
-
-
-
-
-
-
-
   const AllDayCheck = (e) => {
-    console.log(e);
     if (e === true) {
-      // setStart(moment());
-      // setEnd(moment());
       setBody({ ...body, stime: '00:00', etime: '00:00' })
     } else if (e === false) {
       setStart(moment());
@@ -107,20 +90,8 @@ export default function CalendarEditModal({ Cdata }) {
     setCheckAlarm(!e)
   }
 
-  const onChange = (e) => {
-    setBody({ ...body, pub_yn: e.target.value });
-  }
-
-  const onPrivate = () => {
-
-  }
-
-  const onPublic = () => {
-
-  }
   const selectStyle =
     { width: '100%' }
-
 
   //일정, 설명, 주소 변환
   const handleOnChange = (e) => {
@@ -148,7 +119,6 @@ export default function CalendarEditModal({ Cdata }) {
 
   const onOrganizationUserSelectChange = (label) => {
 
-    console.log(label);
     setSelectedItems(label);
     let memberlist = filterList(label);
     setBody({ ...body, pub_mans: memberlist })
@@ -160,7 +130,6 @@ export default function CalendarEditModal({ Cdata }) {
     setsDateString(date)
     seteDateString(date);
     const convertdate = moment(date).format('YYYY-MM-DD');
-    console.log(convertdate);
     setBody({
       ...body,
       'sdt': convertdate,
@@ -170,10 +139,8 @@ export default function CalendarEditModal({ Cdata }) {
   }
 
   const onDatePickerEChange = (date) => {
-    console.log(date);
     seteDateString(date)
     const convertdate = moment(date).format('YYYY-MM-DD');
-    console.log(convertdate);
     setBody({
       ...body,
       'edt': convertdate
@@ -182,9 +149,7 @@ export default function CalendarEditModal({ Cdata }) {
 
   const onChangesSartValue = (stime) => {
     setStart(stime)
-    console.log(stime);
     const convertstime = moment(stime).format('HH:mm');
-    console.log(convertstime);
     setBody({
       ...body,
       'stime': convertstime
@@ -201,7 +166,6 @@ export default function CalendarEditModal({ Cdata }) {
   }
 
   const handleAlarmTime = (option) => {
-    console.log(option)
     setAlarmTime(option);
     setBody({ ...body, alarm_min: option })
   }
@@ -270,10 +234,8 @@ export default function CalendarEditModal({ Cdata }) {
 
   }, [state2.userlistresponse])
 
+
   // 일정 수정 후 모달 닫기
-
-
-
   useEffect(() => {
     if (state.putState) {
       setBody({
@@ -295,7 +257,6 @@ export default function CalendarEditModal({ Cdata }) {
       setAlarmTime(10);
       setCheckAlarm(false);
       setSelectedItems([]);
-      // setIsModalVisible(false);
       dispatch({
         type: CALENDAR_EDIT_MODAL,
         payload: false
@@ -311,11 +272,7 @@ export default function CalendarEditModal({ Cdata }) {
       return alert('일정은 필수값입니다')
     }
     dispatch(putCalendar.call(body))
-    // setIsModalVisible(false);
   }
-
-
-
 
   return (
     <div>
