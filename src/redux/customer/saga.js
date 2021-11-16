@@ -193,9 +193,11 @@ function* _postAccFile({ payload: { body } }) {
   try {
     const response = yield call(post_fetch_files, BASE_URL + ACC_FILE_EXCEL, body)
     yield put(postAccFile.success(response))
+    yield successMessage('등록되었습니다')
   }
   catch (error) {
     yield put(postAccFile.error(error))
+    yield successMessage('등록이 실패하였습니다. 잠시 후 다시 시도해 주세요')
   }
 }
 
