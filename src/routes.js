@@ -86,7 +86,7 @@ const LandingRoute = ({ component: Component, ...rest }) => (
 
     if (props.match.path === '/' && isTokenValid) {
 
-      return <Redirect to={{ pathname: '/main', state: { from: props.location } }} />
+      return <Redirect to={{ pathname: '/main/manage', state: { from: props.location } }} />
     }
     return <Component {...props} />
   }} />
@@ -171,7 +171,7 @@ const routes = [
   { path: '/main/manager/profile/:accId/:singleId', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
   { path: '/main/manager/editManager/:singleId/:accId', name: 'ManagerEdit', component: ManagerEdit, route: MainRoute, exact: true },
   { path: '/main/customer/registerexcel', name: 'CustomerAddExcel', component: CustomerAddExcel, route: MainRoute, exact: true },
-  
+
   //일정
   { path: '/main/calendar', name: 'Calendar', component: Calendar, route: MainRoute, exact: true },
   { path: '/main/calendar/register', name: 'CalendarRegister', component: CalendarRegister, route: MainRoute, exact: true },

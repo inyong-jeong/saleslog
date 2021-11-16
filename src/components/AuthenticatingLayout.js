@@ -26,7 +26,7 @@ const AuthenticatingLayout = (props) => {
   }, [isUserAuthorized()])
 
   useEffect(() => {
-    if (isUserAuthenticated() === true) props.history.push('/main');
+    if (isUserAuthenticated() === true) props.history.push('/main/manage');
 
   }, [isUserAuthenticated()])
 
