@@ -14,11 +14,13 @@ import "@yaireo/tagify/dist/tagify.css" // Tagify CSS
 import MyAppBar from "../../components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { alertMessage, errorMessage } from "../../constants/commonFunc";
-import { Tooltip } from "antd";
+import { Row, Col, Tooltip } from "antd";
 import { ReactComponent as Info } from '../../assets/icons/info.svg'
 import { customerType, gradeTypeTooltip, stageTypeTooltip, managerTooltip, tagToolTip } from './toolTipText'
 import { useScrollToTop } from "../../constants/commonFunc";
 import { clearCache, getCachingKeys, dropByCacheKey, } from "react-router-cache-route";
+import StyledButton from 'components/styledcomponent/Button'
+import { useMediaQuery } from "react-responsive";
 
 window.clearCache = clearCache;
 window.getCachingKeys = getCachingKeys;
@@ -58,12 +60,18 @@ const useStyles = makeStyles({
     margin: 10,
     fontSize: 14,
     color: '#333333',
+  },
+  infoBox: {
+    padding: 10,
   }
 
 })
 
 const CustomerRegisterInfo = () => {
 
+  const isMobile = useMediaQuery({
+    query: "(max-width:1190px)"
+  });
   const navigateTo = () => {
     history.goBack()
   }
@@ -171,6 +179,13 @@ const CustomerRegisterInfo = () => {
 
   }
 
+  //고객 일괄등록
+  const accExcelUpload = () => {
+    history.push('/main/customer/registerexcel');
+    // dispatch(getlogsdownload.call({ dt_typ: bodyLog.dt_typ, from_dt: bodyLog.from_dt, to_dt: bodyLog.to_dt, sales_man: bodyLog.sales_man, dept_idx: bodyLog.dept_idx, sales_gb: '0010001' }));
+  }
+
+
   const [gradeType, setGradeType] = useState([])
   const scoreType = [{ 'A': 'A' }, { 'B': 'B' }, { 'C': 'C' }, { 'D': 'D' }, { 'E': 'E' }, { 'F': 'F' }, { 'BLACK': 'BLACK' }]
   const stageType = [{ '발굴': '발굴' }, { '접촉': '접촉' }, { '제안': '제안' }, { '검증': '검증' }]
@@ -194,6 +209,14 @@ const CustomerRegisterInfo = () => {
 
       <div className='content_body'>
         <div>
+          {(!isMobile) ? <Row justify='end' >
+            <Col sm={7} xs={7} md={7} lg={7}>
+              <StyledButton style={{height:25}} onClick={accExcelUpload}>고객프로필 엑셀 업로드</StyledButton>
+              <div style={{height:10}}></div>
+            </Col>
+          </Row>:
+          <div style={{height:0}}></div>
+          }
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
             <label className={classes.laebelStyle}>고객명 <span style={{ color: 'red' }}>*</span></label>

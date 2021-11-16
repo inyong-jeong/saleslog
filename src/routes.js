@@ -37,6 +37,7 @@ const CustomerDetails = React.lazy(() => import('./pages/customer/profile'))
 const CustomerEdit = React.lazy(() => import('./pages/customer/edit'))
 const ManagerProfile = React.lazy(() => import('./pages/customer/profile/manager'))
 const ManagerEdit = React.lazy(() => import('./pages/customer/edit/manager'))
+const CustomerAddExcel = React.lazy(() => import('./pages/customer/registerExcel'))
 
 //일정
 const Calendar = React.lazy(() => import('./pages/calendar'))
@@ -169,7 +170,8 @@ const routes = [
   { path: '/main/customer/edit/:accId/:managerId', name: 'CustomerEdit', component: CustomerEdit, route: MainRoute, exact: true },
   { path: '/main/manager/profile/:accId/:singleId', name: 'ManagerProfile', component: ManagerProfile, route: MainRoute, exact: true },
   { path: '/main/manager/editManager/:singleId/:accId', name: 'ManagerEdit', component: ManagerEdit, route: MainRoute, exact: true },
-
+  { path: '/main/customer/registerexcel', name: 'CustomerAddExcel', component: CustomerAddExcel, route: MainRoute, exact: true },
+  
   //일정
   { path: '/main/calendar', name: 'Calendar', component: Calendar, route: MainRoute, exact: true },
   { path: '/main/calendar/register', name: 'CalendarRegister', component: CalendarRegister, route: MainRoute, exact: true },
