@@ -41,7 +41,7 @@ const MyNavigation = () => {
 
       <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' />
       <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' />
-      {/* <BottomNavigationAction label="일정" icon={<Calendar />} value='/main/calendar' /> */}
+      <BottomNavigationAction label="일정" icon={<Calendar />} value='/main/calendar' />
       <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' />
       <BottomNavigationAction label="대시보드" icon={<Home />} value='/main' />
 

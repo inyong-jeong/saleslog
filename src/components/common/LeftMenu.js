@@ -30,11 +30,11 @@ function LeftMenu() {
       icon: <Customer />,
       to: "/main/customer"
     },
-    // {
-    //   title: '일정',
-    //   icon: <ThreeLines />,
-    //   to: '/main/calendar'
-    // },
+    {
+      title: '일정',
+      icon: <ThreeLines />,
+      to: '/main/calendar'
+    },
     {
       title: "워크그룹",
       icon: <WorkGroup />,
