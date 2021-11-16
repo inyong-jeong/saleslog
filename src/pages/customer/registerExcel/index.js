@@ -1,7 +1,7 @@
 import {  makeStyles, Typography, FormControl } from "@material-ui/core"
 import { useState, useEffect } from "react"
 import React from 'react';
-import { postCustomer } from "redux/customer/actions";
+import { postAccFile } from "redux/customer/actions";
 import Input from 'components/styledcomponent/Input'
 import { useDispatch, useSelector } from "react-redux";
 import TextArea from "antd/lib/input/TextArea";
@@ -76,9 +76,7 @@ const CustomerRegisterExcel = () => {
   const history = useHistory()
   const classes = useStyles()
   const state = useSelector(state => state.Customer)
-  const [inputs, setInputs] = useState({
-      acc_excel: ''
-    })
+  const [accExcel, setAccExcel] = useState(null)
   useScrollToTop()
 
   useEffect(() => {
@@ -89,11 +87,30 @@ const CustomerRegisterExcel = () => {
   }, [])
 
   const onSaveClick = () => {
-    if (!inputs.acc_excel) {
+    if (!accExcel) {
       return errorMessage('업로드 할 고객프로필 엑셀파일을 선택 하세요')
     }
-    //dispatch(postCustomer.call(inputs))
+    console.log(accExcel)
+    dispatch(postAccFile.call({acc_excel:accExcel}))
 
+  }
+
+  const onChange = (e) => {
+    if (e.target.files.length > 0) {
+      setAccExcel(e.target.files[0])
+
+      // const fileUploaded = e.target.files[0];
+      // const reader = new FileReader();
+      // reader.onloadend = () => {
+      //   setAccExcel(fileUploaded)
+      // }
+      // if (e.target.files[0]) {
+      //   reader.readAsDataURL(e.target.files[0]);
+      // }
+
+    } else {
+      setAccExcel(null)
+    }
   }
 
   return (
@@ -119,12 +136,13 @@ const CustomerRegisterExcel = () => {
         <lebel className={classes.laebelStyle} >업로드 파일:</lebel>        
         </Col>
         <Col  sm={18} xs={18} md={18} lg={18}>
-        <input type="file" name="acc_excel" className={classes.input} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+        <input type="file" name="acc_excel" onChange={onChange} className={classes.input} accept='.xlsx' />
         </Col>
       </Row>
       <Row justify='start' >
         <Col sm={18} xs={18} md={18} lg={18}>
-          <lebel >*파일선택 후 저장을 클릭 하세요.</lebel>        
+          <lebel> * 파일선택 후 저장을 클릭 하세요</lebel><br/>
+          <lebel> * 고객사 명이 중복된 경우 제외하고 나머지 고객사만 등록 됩니다</lebel>        
         </Col>
       </Row>
     </div>
