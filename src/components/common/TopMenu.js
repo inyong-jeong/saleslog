@@ -137,11 +137,11 @@ export default function TopMenu({ badgeContent }) {
             alignItems: 'center'
           }}>
             <div>
-              {/* <IconButton color="inherit" onClick={onNotiClick}>
-                <Badge badgeContent={badgeContent} color="secondary">
-                  <Noti stroke='white' />
-                </Badge>
-              </IconButton> */}
+              <IconButton color="inherit" onClick={onNotiClick}>
+                {/* <Badge badgeContent={badgeContent} color="secondary"> */}
+                <Noti stroke='white' />
+                {/* </Badge> */}
+              </IconButton>
             </div>
             <div>
               <Dropdown overlay={menu}>

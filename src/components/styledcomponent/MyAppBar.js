@@ -217,11 +217,11 @@ const MyAppBar = ({
             {
               isMobile && !showBackButton &&
               <div className={classes.appBarIcon}>
-                {/* <IconButton color="inherit" onClick={onNotiClick}>
+                <IconButton color="inherit" onClick={onNotiClick}>
                   <Badge badgeContent={badgeContent} color="secondary">
-                    <Noti stroke='#333333' />
+                    <Noti stroke={isMobile ? '#fff' : '#333'} />
                   </Badge>
-                </IconButton> */}
+                </IconButton>
                 <Dropdown
                   trigger="click"
                   overlay={menu}>

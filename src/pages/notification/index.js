@@ -26,8 +26,8 @@ const NotificationList = () => {
     cursor: 'pointer',
     margin: '5px 0',
     padding: 10,
-    borderRadius: 5,
-    backgroundColor: '#F5F5F5'
+    //borderRadius: 5
+    border: '1px solid #ddd',
   }
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const NotificationList = () => {
 
   useEffect(() => {
     if (responseLists && !isLoading) {
-      if (page == 1) {
+      if (page === 1) {
 
         setHasMore(true)
         setNotificationList(responseLists)
@@ -98,6 +98,7 @@ const NotificationList = () => {
       />
 
       <div className='content_body'>
+        <div>최근 2개월 동안의 알림 목록입니다.</div>
         {
           notiResponse ?
             notificationList.map(singleNoti =>
@@ -108,6 +109,7 @@ const NotificationList = () => {
             <div>알림을 가져오는 중입니다.</div>
         }
         <div ref={observer} />
+        <div style={{ marginBottom: 10 }} />
       </div>
 
     </>
