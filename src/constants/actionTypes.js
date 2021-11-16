@@ -225,6 +225,13 @@ export const SET_LAST_TAB = 'SET_LAST_TAB'
 //고객 리스트 전체, 거래고객, 리드고객 탭
 export const SET_ACCOUNT_TAB = 'SET_ACCOUNT_TAB'
 
+//고객사 프로필 엑셀 업로드
+export const POST_ACC_FILE = 'POST_ACC_FILE'
+export const POST_ACC_FILE_SUCCESS = 'POST_ACC_FILE_SUCCESS'
+export const POST_ACC_FILE_ERROR = 'POST_ACC_FILE_ERROR'
+
+
+
 //workgroup
 //워크그룹 로고등록
 export const POST_WORKGROUP_LOGO = 'POST_WORKGROUP_LOGO'

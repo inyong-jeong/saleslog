@@ -11,7 +11,8 @@ import {
   GET_MANAGER_INFO,
   POST_EDIT_NAMECARD,
   DEL_CUSTOMER,
-  DEL_CUSTOMER_MANAGER
+  DEL_CUSTOMER_MANAGER,
+  POST_ACC_FILE
 } from '../../constants/actionTypes'
 
 import {
@@ -25,7 +26,8 @@ import {
   postEditManager,
   postEditNamecard,
   deleteCustomer,
-  deleteCustomerManager
+  deleteCustomerManager,
+  postAccFile
 } from './actions'
 import { successMessage, loadingMessage, hideMessage, errorMessage } from '../../constants/commonFunc'
 
@@ -42,6 +44,7 @@ const DETAIL_MANAGER_EDIT = 'upd_accounts_man'
 const DETAIL_MANAGER = 'detail_accounts_man'
 const NAMECARD_EDIT = 'upd_accounts_man_photo'
 const MANAGER_DEL = 'del_accounts_man'
+const ACC_FILE_EXCEL = 'regi_accounts_excel'
 
 function* _deleteCustomerManager({ payload: { body } }) {
   try {
@@ -186,6 +189,17 @@ function* _getUser({ payload: { body } }) {
   }
 }
 
+function* _postAccFile({ payload: { body } }) {
+  try {
+    const response = yield call(post_fetch_files, BASE_URL + ACC_FILE_EXCEL, body)
+    yield put(postAccFile.success(response))
+  }
+  catch (error) {
+    yield put(postAccFile.error(error))
+  }
+}
+
+
 function* watchDeleteCustomerManager() {
   yield takeEvery(DEL_CUSTOMER_MANAGER, _deleteCustomerManager)
 }
@@ -222,6 +236,9 @@ function* watchPostEditManager() {
 function* watchGetMangerInfo() {
   yield takeEvery(GET_MANAGER_INFO, _getManagerInfo)
 }
+function* watchPostAccFile() {
+  yield takeEvery(POST_ACC_FILE, _postAccFile)
+}
 
 function* customerSaga() {
   yield all([
@@ -235,7 +252,8 @@ function* customerSaga() {
     fork(watchGetMangerInfo),
     fork(watchPostEditNamecard),
     fork(watchDeleteCustomer),
-    fork(watchDeleteCustomerManager)
+    fork(watchDeleteCustomerManager),
+    fork(watchPostAccFile)    
   ])
 }
 

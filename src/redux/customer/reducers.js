@@ -33,7 +33,10 @@ import {
   DEL_CUSTOMER_MANAGER_ERROR,
   DEL_CUSTOMER_MANAGER_SUCCESS,
   SET_LAST_TAB,
-  SET_ACCOUNT_TAB
+  SET_ACCOUNT_TAB,
+  POST_ACC_FILE,
+  POST_ACC_FILE_SUCCESS,
+  POST_ACC_FILE_ERROR,
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -56,7 +59,8 @@ const initialState = {
   deleteCustomerManagerResponse: null,
   customerStoredData: null,
   tabStoreData: null,
-  accountBody: null
+  accountBody: null,
+  postAccFileRes: null,
 }
 
 const Customer = (state = initialState, action) => {
@@ -160,6 +164,14 @@ const Customer = (state = initialState, action) => {
       return {
         ...state, accountKey: action.payload
       }
+
+    case POST_ACC_FILE:
+      return { ...state, loading: true }
+    case POST_ACC_FILE_SUCCESS:
+      return { ...state, loading: false, postAccFileRes: true }
+    case POST_ACC_FILE_ERROR:
+      return { ...state, loading: false, postAccFileRes: false }
+
     default:
       return { ...state };
   }
