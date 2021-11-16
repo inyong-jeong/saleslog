@@ -160,6 +160,7 @@ const inVite = (props) => {
                   {inputerror && <p className="text-danger mt-2">{inputerror}</p>}
                   <div className='mt-3'></div>
                   <div className="form-group">
+
                     <button
                       className="btn btn-outline-primary"
                       style={{ width: '343px', height: '48px', backgroundColor: '#fff', border: '1px solid #111', color: '#111' }}

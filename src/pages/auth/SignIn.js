@@ -208,6 +208,12 @@ const SignIn = (props) => {
                       onClick={handleOnClick}>
                       회원가입
                     </StyledButton>
+
+                    <div style={{ marginTop: 10, fontSize: 12, textAlign: 'center' }}>
+                      <p >초대를 받으셨나요?</p>
+                      <p>메일이 보이지 않는다면, 스팸 메일함을 확인해주세요!</p>
+                    </div>
+
                   </div>
                   {props.error && (
                     <p className="text text-danger">로그인에 실패했습니다</p>

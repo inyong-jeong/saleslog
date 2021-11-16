@@ -184,9 +184,10 @@ const WgroupMemberPage = () => {
 
                 >초대장 보내기</Button>
               </div>
+
             </div>
           </TabPane>
-
+          ㅍ
           <TabPane tab="발송내역" key="2">
 
             <InfiniteScroll
