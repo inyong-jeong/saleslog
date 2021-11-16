@@ -20,29 +20,31 @@ function LeftMenu() {
     setSelectedKeys(pathname)
   }, [pathname])
 
-  const menuList = [{
-    title: "홈",
-    icon: <Home />,
-    to: "/main"
-  }, {
-    title: "일지",
-    icon: <Log />,
-    to: "/main/manage"
-  }, {
-    title: "고객",
-    icon: <Customer />,
-    to: "/main/customer"
-  },
-  // {
-  //   title: '일정',
-  //   icon: <ThreeLines />,
-  //   to: '/main/calendar'
-  // },
-  {
-    title: "워크그룹",
-    icon: <WorkGroup />,
-    to: "/main/workgroup"
-  },
+  const menuList = [
+    {
+      title: "일지",
+      icon: <Log />,
+      to: "/main/manage"
+    }, {
+      title: "고객",
+      icon: <Customer />,
+      to: "/main/customer"
+    },
+    // {
+    //   title: '일정',
+    //   icon: <ThreeLines />,
+    //   to: '/main/calendar'
+    // },
+    {
+      title: "워크그룹",
+      icon: <WorkGroup />,
+      to: "/main/workgroup"
+    },
+    {
+      title: "대시보드",
+      icon: <Home />,
+      to: "/main"
+    },
   ];
 
 
@@ -51,7 +53,7 @@ function LeftMenu() {
       <StyledMenu
         mode="inline"
         style={{ height: '100%', borderRight: 0 }}
-        defaultSelectedKeys={'/main'}
+        defaultSelectedKeys={'/main/manage'}
         selectedKeys={selectedKeys}
       >
         {

@@ -477,7 +477,7 @@ function UploadSalesLog(props) {
       return errorMessage('고객, 고객 담당자는 필수항목입니다.')
     }
     if (fromData.sales_goal === null || fromData.sales_activity === null) {
-      return errorMessage('영업 목적, 영업채널은 필수항목입니다.')
+      return errorMessage('활동 목적, 영업채널은 필수항목입니다.')
     }
     if (fromData.title === '' || fromData.log === '') {
       return errorMessage('제목, 내용은 필수항목입니다.')
@@ -692,7 +692,7 @@ function UploadSalesLog(props) {
           : null}
         <div className="row">
           <div className="col-12" style={{ display: 'flex' }}>
-            <label style={labelStyle}> 영업 목적 <span style={{ color: 'red' }}>*</span>
+            <label style={labelStyle}> 활동 목적 <span style={{ color: 'red' }}>*</span>
               <Tooltip title="고객에 대한 전반적 '정보/동향수집', '특정내용,수요,기술에 대한 니즈조사
               , '실질적인 제안, 검증, 협의 등' 영업활동의 목적(의도)을 선택해주세요.">
                 <Info />
@@ -706,7 +706,7 @@ function UploadSalesLog(props) {
           <div className="col-12">
             <StyledSelect
               isSearchable={false}
-              placeholder="영업 목적을 선택해주세요."
+              placeholder="활동 목적을 선택해주세요."
               options={salesActivityOption}
               value={activity}
               // defaultValue={salesActivityOption}
@@ -718,8 +718,8 @@ function UploadSalesLog(props) {
         <div className='mt-3'></div>
         <div className="row">
           <div className="col-12" style={{ display: 'flex' }}>
-            <label style={labelStyle}> 영업 채널 <span style={{ color: 'red' }}>*</span>
-              <Tooltip title="영업 목적을 위해 사용한 채널을 선택해주세요.
+            <label style={labelStyle}> 활동 채널 <span style={{ color: 'red' }}>*</span>
+              <Tooltip title="활동 목적을 위해 사용한 채널을 선택해주세요.
                2개 이상 채널을 병행한 경우 활용 가중치가 높거나 핵심적인 채널을 선택해주세요.">
                 <Info />
               </Tooltip>
@@ -732,7 +732,7 @@ function UploadSalesLog(props) {
           <div className="col-12">
             <StyledSelect
               isSearchable={false}
-              placeholder="영업 채널을 선택해주세요."
+              placeholder="활동 채널을 선택해주세요."
               options={salesChannelOption}
               value={channel}
               onChange={onSalesChannel}

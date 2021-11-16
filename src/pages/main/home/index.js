@@ -198,27 +198,11 @@ const DashBoardPage = () => {
   }, [etcState.loading])
 
   useEffect(() => {
-    // if (userPermission != 9) {
-    //   orgState.organizationDashRes && dispatch(getsaleslogstat.call(bodyLog))
-    //   return
-    // }
 
-    // if (firstTime) {
-    //   return;
-    // }
-    console.log('222')
     dispatch(getsaleslogstat.call(bodyLog))
   }, [bodyLog])
 
   useEffect(() => {
-    // if (userPermission != 9) {
-    //   orgState.organizationDashRes && dispatch(getleadlogstat.call(bodyLogRd))
-    //   return
-    // }
-
-    // if (firstTime) {
-    //   return;
-    // }
 
     dispatch(getleadlogstat.call(bodyLogRd))
   }, [bodyLogRd])
@@ -410,7 +394,6 @@ const DashBoardPage = () => {
   }
 
   useEffect(() => {
-    //console.log('excel::111::', state.getlogsdownloadRes);
     if (state.getlogsdownloadRes) {
       console.log('excel::::', state.getlogsdownloadRes);
     }
@@ -444,7 +427,7 @@ const DashBoardPage = () => {
   return (
     <>
       <MyAppBar
-        barTitle={'홈'} />
+        barTitle={'대시보드'} />
       <div className='content_body'>
         {
           isMobile ?
@@ -492,7 +475,7 @@ const DashBoardPage = () => {
         {salesStat &&
           <>
             <div>
-              {sectionTitle("영업 목적", <ChartIcon />)}
+              {sectionTitle("활동 목적", <ChartIcon />)}
               <div className='mt-1' />
               <div style={isMobile ? mobileCardContainerStyle : cardContainerStyle}>
                 <div style={chartCardStyle}>
@@ -519,7 +502,7 @@ const DashBoardPage = () => {
             <div className='mt-5' />
 
             <Row>
-              {sectionTitle("영업 채널", <Channel />)}
+              {sectionTitle("활동 채널", <Channel />)}
             </Row>
             <div className='mt-1' />
             <DashButton3 key='channel_button' tab={tabs2} onSelected={onSelected_goal} defaultSelected={bodyLog.sales_goal} />

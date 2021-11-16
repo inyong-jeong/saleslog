@@ -465,7 +465,7 @@ function UploadSalesLog(props) {
         <div className="row">
           <div className="col-12">
             <Select
-              placeholder="영업 채널을 선택해주세요."
+              placeholder="활동 채널을 선택해주세요."
               options={salesChannelOption}
               // value={channel}
               onChange={onSalesChannel}

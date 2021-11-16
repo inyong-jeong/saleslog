@@ -211,11 +211,11 @@ const CustomerRegisterInfo = () => {
         <div>
           {(!isMobile) ? <Row justify='end' >
             <Col sm={7} xs={7} md={7} lg={7}>
-              <StyledButton style={{height:25}} onClick={accExcelUpload}>고객프로필 엑셀 업로드</StyledButton>
-              <div style={{height:10}}></div>
+              <StyledButton style={{ height: 25 }} onClick={accExcelUpload}>고객프로필 엑셀 업로드</StyledButton>
+              <div style={{ height: 10 }}></div>
             </Col>
-          </Row>:
-          <div style={{height:0}}></div>
+          </Row> :
+            <div style={{ height: 0 }}></div>
           }
           <Typography variant='h6' align='left' className={classes.title}>기본정보</Typography>
           <div className={classes.innerBox}>
@@ -377,7 +377,7 @@ const CustomerRegisterInfo = () => {
               margin="normal"
             />
           </div>
-          <div style={{ marginLeft: '10px', fontSize: '10px', fontWeight: 500, color: 'black' }}>고객 등록 후 담당자를 추가 등록할 수 있습니다 </div>
+          <div style={{ marginLeft: '10px', fontSize: '13px', fontWeight: 500, color: '#333' }}>고객 등록 후 담당자를 추가 등록할 수 있습니다 </div>
         </div>
         <div className='mt-2'></div>
         <div>
