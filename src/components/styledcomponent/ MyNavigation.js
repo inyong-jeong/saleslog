@@ -30,6 +30,8 @@ const MyNavigation = () => {
         width: '100%',
         justifyContent: 'space-evenly',
         zIndex: 50,
+        paddingLeft: 10,
+        paddingRight: 10,
       }}
       value={value}
       onChange={(e, newValue) => {
