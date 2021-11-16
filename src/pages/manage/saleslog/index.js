@@ -427,10 +427,10 @@ function SalesLog(props) {
                   <TimeIcon />
                   <div className='ml-1'>{Log.meeting_stime} ~ {Log.meeting_etime}</div>
                 </li>
-                <li key={3} id={3} style={{ display: 'flex', fontSize: 16 }}>
+                {Log.addr !== '' && <li key={3} id={3} style={{ display: 'flex', fontSize: 16 }}>
                   <LocationIcon />
                   <div className='ml-1'>{Log.addr}</div>
-                </li>
+                </li>}
                 <li key={4} id={4} style={{ display: 'flex', fontSize: 16 }}>
                   <SquaresIcon />
                   <div className='ml-1'>{Log.sales_goal_t} <span>&#183;</span> {Log.sales_activity_t}</div>
