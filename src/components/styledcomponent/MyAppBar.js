@@ -31,25 +31,6 @@ import { getProfileDetail } from '../../redux/etc/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
-const useStyles = makeStyles({
-  appBarIcon: {
-    position: 'absolute',
-    right: 10,
-  },
-  textButtonStyle: {
-    position: 'absolute',
-    right: 10,
-  },
-
-  dotsStyle: {
-    position: 'absolute',
-    right: 15,
-  },
-  tempButtonStyle: {
-    position: 'absolute',
-    right: 80,
-  },
-})
 
 const MyAppBar = ({
   barTitle,
@@ -94,10 +75,30 @@ const MyAppBar = ({
     }
   }, [state.getProfileDetailRes])
 
-  const classes = useStyles()
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
+
+  const useStyles = makeStyles({
+    appBarIcon: {
+      position: 'absolute',
+      right: 10,
+    },
+    textButtonStyle: {
+      position: 'absolute',
+      right: 10,
+    },
+
+    dotsStyle: {
+      position: 'absolute',
+      right: 15,
+    },
+    tempButtonStyle: {
+      position: 'absolute',
+      right: 80,
+    },
+  })
+  const classes = useStyles()
 
   const onProfileClick = (e) => {
 
@@ -193,7 +194,7 @@ const MyAppBar = ({
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        backgroundColor: '#fff'
+        backgroundColor: isMobile ? '#000' : '#fff'
       }}
     >
       <div>
@@ -209,7 +210,7 @@ const MyAppBar = ({
             {
               showBackButton &&
               <IconButton color="inherit" onClick={navigateTo}>
-                <BackIcon />
+                <BackIcon stroke={isMobile ? '#fff' : '#000'} />
               </IconButton>
 
             }
@@ -231,7 +232,7 @@ const MyAppBar = ({
                         size={30}
                       />
                       :
-                      <Person stroke='#333333' />
+                      <Person stroke={isMobile ? '#fff' : '#333'} />
                     }
                   </IconButton>
                 </Dropdown>
@@ -241,7 +242,7 @@ const MyAppBar = ({
               showAddButton &&
               <div className={classes.appBarIcon}>
                 <IconButton color="inherit" onClick={onAddClick}>
-                  <AddIcon />
+                  <AddIcon stroke={isMobile ? '#fff' : '#333'} />
                 </IconButton>
               </div>
             }
@@ -254,7 +255,7 @@ const MyAppBar = ({
                   overlay={dotsMenu}
                 >
                   <IconButton color="inherit">
-                    <MoreIcon />
+                    <MoreIcon fill={isMobile ? '#fff' : '#333'} />
                   </IconButton>
                 </Dropdown>
               </div>
@@ -263,7 +264,7 @@ const MyAppBar = ({
             {
               (Ubutton === 'Y' && onEditClick) &&
               <div className={classes.tempButtonStyle}>
-                <Button size="small" onClick={onEditClick} >
+                <Button size="small" onClick={onEditClick} style={{ color: isMobile ? '#fff' : '#000' }}>
                   수정
                 </Button>
               </div>
@@ -271,7 +272,7 @@ const MyAppBar = ({
             {
               (Dbutton === 'Y' && onDeleteClick) &&
               <div className={classes.textButtonStyle}>
-                <Button size="small" onClick={onDeleteClick} >
+                <Button size="small" onClick={onDeleteClick} style={{ color: isMobile ? '#fff' : '#000' }}>
                   삭제
                 </Button>
               </div>
@@ -279,7 +280,7 @@ const MyAppBar = ({
             {
               (onWorkGroupEdit) &&
               <div className={classes.tempButtonStyle}>
-                <Button size="small" onClick={onWorkGroupEdit} >
+                <Button size="small" onClick={onWorkGroupEdit} style={{ color: isMobile ? '#fff' : '#000' }}>
                   수정
                 </Button>
               </div>
@@ -287,7 +288,7 @@ const MyAppBar = ({
             {
               (onWorkGroupDelete) &&
               <div className={classes.textButtonStyle}>
-                <Button size="small" onClick={onWorkGroupDelete} >
+                <Button size="small" onClick={onWorkGroupDelete} style={{ color: isMobile ? '#fff' : '#000' }}>
                   삭제
                 </Button>
               </div>
@@ -296,7 +297,7 @@ const MyAppBar = ({
             {
               ((paramId ? paramId.length > 4 : false) && onRevise) &&
               <div className={classes.textButtonStyle}>
-                <Button size="small" onClick={onRevise} >
+                <Button size="small" onClick={onRevise} style={{ color: isMobile ? '#fff' : '#000' }}>
                   수정 완료
                 </Button>
               </div>
@@ -305,7 +306,7 @@ const MyAppBar = ({
             {
               (!paramId && tempSaveClick) &&
               <div className={classes.tempButtonStyle}>
-                <Button size="small" onClick={tempSaveClick} >
+                <Button size="small" onClick={tempSaveClick} style={{ color: isMobile ? '#fff' : '#000' }}>
                   임시저장
                 </Button>
               </div>
@@ -313,7 +314,7 @@ const MyAppBar = ({
             {
               (!paramId && onSaveClick) &&
               <div className={classes.textButtonStyle}>
-                <Button size="small" onClick={onSaveClick} >
+                <Button size="small" onClick={onSaveClick} style={{ color: isMobile ? '#fff' : '#000' }}>
                   저장
                 </Button>
               </div>
@@ -322,7 +323,7 @@ const MyAppBar = ({
             {
               ((paramId ? paramId.length < 3 : false) && tempSaveClick) &&
               <div className={classes.tempButtonStyle}>
-                <Button size="small" onClick={tempSaveClick} >
+                <Button size="small" onClick={tempSaveClick} style={{ color: isMobile ? '#fff' : '#000' }}>
                   임시저장
                 </Button>
               </div>
@@ -330,7 +331,7 @@ const MyAppBar = ({
             {
               ((paramId ? paramId.length < 3 : false) && onSaveClick) &&
               <div className={classes.textButtonStyle}>
-                <Button size="small" onClick={onSaveClick} >
+                <Button size="small" onClick={onSaveClick} style={{ color: isMobile ? '#fff' : '#000' }}>
                   저장
                 </Button>
               </div>
@@ -339,7 +340,11 @@ const MyAppBar = ({
 
             <Typography variant="h6"
               onClick={handleBarTitleClick}
-              style={{ fontSize: 20, fontWeight: 'bold' }}>
+              style={{
+                fontSize: 20,
+                fontWeight: 700,
+                color: isMobile ? '#fff' : '#000'
+              }}>
               {barTitle}
             </Typography>
 
@@ -360,5 +365,3 @@ const MyAppBar = ({
 }
 
 export default MyAppBar;
-
-            // {/* (!paramId || paramId ? paramId.length < 3 : false) */}
