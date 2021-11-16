@@ -494,7 +494,7 @@ function SalesLog(props) {
         <Row gutter={[4, 4]}>
           <Col sm={24} xs={24} md={24} lg={24}>
             {Log && <StyledCard title='일지 내용'>
-              <p style={{ whiteSpace: 'pre-wrap' }}>{Log.log}</p>
+              <p style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{Log.log}</p>
               <div className="clearfix">
                 <Upload
                   listType="picture-card"

@@ -72,14 +72,21 @@ const grpNoticeRegi = () => {
             <label className={classes.showDetails}>{noticeData[0].title}</label>
             <Divider style={{ margin: 0 }} />
           </div>
-          <div style={{ marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10, whiteSpace: 'pre-wrap' }}>
-            <div className={classes.showDetails} dangerouslySetInnerHTML={{ __html: noticeData[0].content }} ></div>
-            
+          <div style={{ margin: 5 }}>
+            {/* <div className={classes.showDetails}
+              dangerouslySetInnerHTML={{ __html: noticeData[0].content }} ></div> */}
+            <div
+              className={classes.showDetails}
+              style={{ wordWrap: 'break-word' }}
+            >{noticeData[0].content}</div>
           </div>
           <Divider />
         </div>
       </div> :
-      <p className={classes.showDetails}>공지를 가져오는 중입니다.</p>
+      <div style={{ marginTop: 15 }}>
+        <p className={classes.showDetails} style={{ textAlign: 'center' }}>공지를 가져오는 중입니다.</p>
+      </div>
+
   );
 }
 
