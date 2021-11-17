@@ -7,8 +7,25 @@ import { ReactComponent as WorkGroup } from '../../../src/assets/icons/main/work
 import { ReactComponent as Calendar } from '../../../src/assets/icons/main/grayCalendar.svg'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import { useHistory } from 'react-router';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    position: "fixed",
+    bottom: 0,
+    "& .MuiBottomNavigationAction-root": {
+      "@media (max-width: 768px)": {
+        minWidth: "auto",
+        padding: "6px 0"
+      }
+    }
+  }
+})
 
 const MyNavigation = () => {
+
+  const classes = useStyles()
 
   const [value, setValue] = useState("");
   const history = useHistory();
@@ -19,20 +36,9 @@ const MyNavigation = () => {
   }, [pathname])
 
   return (
-    <BottomNavigation   
-       
-      style={{
-        borderTop: 'solid',
-        borderColor: '#F6F6F6',
-        borderWidth: 1,
-        position: 'fixed',
-        bottom: 0,
-        width: '100%',
-        justifyContent: 'space-evenly',
-        zIndex: 50,
-        paddingLeft: 10,
-        paddingRight: 10,
-      }}
+
+    <BottomNavigation
+      className={classes.root}
       value={value}
       onChange={(e, newValue) => {
         history.push(`${newValue}`)
@@ -40,14 +46,15 @@ const MyNavigation = () => {
       }}
     //showLabels
     >
-      
-      <BottomNavigationAction label={<span style={{fontSize:11}}>일지</span>} icon={<Log />} value='/main/manage' />
-      <BottomNavigationAction label={<span style={{fontSize:11}}>고객</span>} icon={<Customer />}  value='/main/customer' />
-      <BottomNavigationAction label={<span style={{fontSize:11}}>일정</span>} icon={<Calendar />}  value='/main/calendar' />
-      <BottomNavigationAction label={<span style={{fontSize:10}}>워크그룹</span>} icon={<WorkGroup />}  value='/main/workgroup' />
-      <BottomNavigationAction label={<span style={{fontSize:10}}>대시보드</span>} icon={<Home />}  value='/main' />
+
+      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>일지</span>} icon={<Log />} value='/main/manage' />
+      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>고객</span>} icon={<Customer />} value='/main/customer' />
+      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>일정</span>} icon={<Calendar />} value='/main/calendar' />
+      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>워크그룹</span>} icon={<WorkGroup />} value='/main/workgroup' />
+      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>대시보드</span>} icon={<Home />} value='/main' />
 
     </BottomNavigation>
+
 
   );
 }
