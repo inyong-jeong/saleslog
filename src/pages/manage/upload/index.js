@@ -800,7 +800,7 @@ function UploadSalesLog(props) {
           {isMobile ? <TextArea
             className="form-control"
             placeholder='내용을 입력해주세요'
-            style={{ whiteSpace: 'normal', height: '100px' }}
+            style={{ whiteSpace: 'normal', height: '200px' }}
             size='large'
             value={fromData.log}
             onChange={onChangeContent}
