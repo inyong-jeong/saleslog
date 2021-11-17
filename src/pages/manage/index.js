@@ -18,6 +18,7 @@ import MyAppBar from '../../components/styledcomponent/MyAppBar';
 import CustomFab from '../../components/styledcomponent/CustomFab';
 import { useHistory } from 'react-router-dom';
 import { InvertColorsOff } from '@material-ui/icons';
+import { setLogCount } from 'helpers/authUtils';
 
 const { TabPane } = Tabs;
 function SalesLogList(props) {
@@ -55,6 +56,12 @@ function SalesLogList(props) {
     data.pageno = 1;
   }, [])
 
+  useEffect(() => {
+    if (state.loglistcount) {
+      setLogCount(state.loglistcount)
+    }
+  }, [state.loglistcount])
+
 
   useEffect(() => {
     if (state.StoredData) {
@@ -87,7 +94,7 @@ function SalesLogList(props) {
       } else {
         setLogLists(loglists.concat(props.loglist))
       }
-      
+
     }
   }, [props.loadLogsLoading])
 

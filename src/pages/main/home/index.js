@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Divider, Collapse } from 'antd'
+import { Row, Col, Divider, Collapse, Modal } from 'antd'
 import MyAppBar from "components/styledcomponent/MyAppBar";
 import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import moment from 'moment';
@@ -12,8 +12,7 @@ import NivoBarChart from "components/NivoBarChart";
 import NivoPieChart from "components/NivoPieChart";
 import { Baroption } from 'constants/chart'
 import SalesLogFilterDash from 'components/SalesLogFilterDash';
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { ReactComponent as Calendar } from '../../../assets/icons/main/calendar.svg'
 import { ReactComponent as Channel } from '../../../assets/icons/main/channel.svg'
@@ -27,7 +26,7 @@ import { base64Enc } from 'constants/commonFunc';
 import { useHistory } from "react-router";
 import { postAnniversary } from "../../../redux/etc/actions";
 import styles from '../../../assets/style/Main.module.css'
-import { getUserInfo } from 'helpers/authUtils';
+import { getUserInfo, getLogCount } from 'helpers/authUtils';
 import StyledButton from 'components/styledcomponent/Button'
 // json & excel
 //import XLSX from 'xlsx';
@@ -40,6 +39,7 @@ const DashBoardPage = () => {
 
   const myInfo = getUserInfo();
   const state = useSelector(state => state.Dashboard)
+  const Logstate = useSelector(state => state.SalesLog)
   const etcState = useSelector(etcState => etcState.Etc)
   const orgState = useSelector(orgState => orgState.Organization)
   const dispatch = useDispatch()
@@ -50,6 +50,8 @@ const DashBoardPage = () => {
   const [birthday, setBirthDay] = useState();
   const [birthdaylist, setBirthDayList] = useState([]);
   const [firstTime, setFirstTime] = useState(true)
+
+  const [IsVisible, setIsVisible] = useState(false);
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
   });
@@ -393,6 +395,12 @@ const DashBoardPage = () => {
     dispatch(getlogsdownload.call({ dt_typ: bodyLogRd.dt_typ, from_dt: bodyLogRd.from_dt, to_dt: bodyLogRd.to_dt, sales_man: bodyLogRd.sales_man, dept_idx: bodyLogRd.dept_idx, sales_gb: '0010002' }));
   }
 
+  //모달 닫기
+
+  const handleOnClick = () => {
+    setIsVisible(false);
+  }
+
   useEffect(() => {
     if (state.getlogsdownloadRes) {
       console.log('excel::::', state.getlogsdownloadRes);
@@ -424,6 +432,14 @@ const DashBoardPage = () => {
   const handleCommingAnn = () => {
     history.push(`/main/etc/notice/anniversary`)
   }
+
+  useEffect(() => {
+    const logcount = getLogCount();
+    if (logcount <= 5) {
+      setIsVisible(true);
+    }
+  }, []);
+
   return (
     <>
       <MyAppBar
@@ -671,6 +687,16 @@ const DashBoardPage = () => {
           </Col>
         </Row>
         <div className='mt-5' />
+        <Modal
+          visible={IsVisible}
+          closable={false}
+          okText='확인'
+          cancelText='닫기'
+          onOk={handleOnClick}
+          onCancel={handleOnClick}
+        >
+          <p>최소 5개 이상 일지가 등록되어야 데이터를 확인하실 수 있습니다.</p>
+        </Modal>
       </div>
     </>
   );

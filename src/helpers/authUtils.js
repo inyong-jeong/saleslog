@@ -20,6 +20,14 @@ export const Info = () => {
 }
 
 //RENEWAL 
+export const getLogCount = () => {
+  return localStorage.getItem('log-count');
+}
+
+export const setLogCount = (logcount) => {
+  localStorage.setItem('log-count', logcount);
+}
+
 
 export const getOauthCode = () => {
   return localStorage.getItem('auth-code');
