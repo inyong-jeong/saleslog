@@ -24,7 +24,7 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
 
   useEffect(() => {
     if (data) {
-      if (page == 1) {
+      if (page === 1) {
         setHasMore(true)
         return
       }
@@ -43,6 +43,7 @@ const NoticeItems = ({ page, setPage, data, loading, noticeType, totcnt }) => {
     observerRef.current = new IntersectionObserver((entries) => {
 
       if (entries[0].isIntersecting && hasMore) {
+        if (!page) return
         setPage(page + 1)
       }
     })

@@ -38,6 +38,7 @@ const SystemNoticePage = () => {
 
   useEffect(() => {
     if (state.getNoticeSysListRes && loading == false) {
+      if (!state.getNoticeSysListRes[0]) return
       if (state.getNoticeSysListRes.length <= 0) return
       if (state.getNoticeSysListRes[0].length <= 0) return
       setTotcnt(state.getNoticeSysListRes[1][0].totcnt)
@@ -89,9 +90,6 @@ const SystemNoticePage = () => {
           totcnt={totcnt}
         />
         {/* 우리가 등록하는 공지 */}
-        <div className={styles.Wrapper}>
-          <CustomFab navigateTo={navigateTo} />
-        </div>
         {myInfo.permission === -1000 ?
           <div className={styles.Wrapper}>
             <CustomFab navigateTo={navigateTo} />
