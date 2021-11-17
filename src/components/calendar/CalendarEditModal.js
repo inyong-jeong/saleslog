@@ -30,7 +30,8 @@ export default function CalendarEditModal({ Cdata }) {
   const state2 = useSelector(state => state.SalesLog);
 
   const AlarmOption =
-    [{ label: '2분전', value: 2 },
+    [{ label: '정시', value: 0 },
+    { label: '5분전', value: 5 },
     { label: '10분전', value: 10 },
     { label: '30분전', value: 30 },
     { label: '2시간전', value: 120 },
