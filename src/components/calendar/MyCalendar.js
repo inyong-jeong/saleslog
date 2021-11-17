@@ -123,7 +123,7 @@ export default function MyCalendar(props) {
         {isMobile ?
           <Calendar
             onNavigate={handleOnNavigate}
-            longPressThreshold={0.1}
+            longPressThreshold={500}
             localizer={localizer}
             events={mtEventsList}
             style={{ height: '80vh' }}
@@ -158,8 +158,8 @@ export default function MyCalendar(props) {
             messages={
               {
                 'today': '오늘',
-                'previous': '이전달',
-                'next': '다음달',
+                'previous': '<',
+                'next': '>',
                 'month': '월',
                 'week': '주',
                 'day': '일'

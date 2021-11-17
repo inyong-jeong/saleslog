@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
 import {
@@ -15,6 +15,7 @@ import { base64Dec } from "constants/commonFunc";
 import Divider from 'components/Divider'
 import { TimePicker, Radio, DatePicker, Tooltip, Modal } from 'antd';
 import Input from 'components/styledcomponent/Input'
+import { useMediaQuery } from "react-responsive";
 
 import CouserUModal from 'components/CouserUModal'
 import UcouserList from 'components/UcouserList';
@@ -64,6 +65,12 @@ function UploadSalesLog(props) {
 
   // 처음 마운트 될 때 일지 최상단으로 
   useScrollToTop();
+  const isMobile = useMediaQuery({
+    query: "(max-width:768px)"
+  });
+
+
+  const AccountSelect = useRef();
 
   const dispatch = useDispatch()
   const state = useSelector(state => state.SalesLog)
@@ -525,6 +532,7 @@ function UploadSalesLog(props) {
   }
 
   const onAccountSelectChange = (v, actiontype) => {
+    AccountSelect.current.blur();
     setLeadActivity(accountsList[getScoreIndex(v)].score)
     setSelectedAccountPerson(null);
     setSelectedAccount(v);
@@ -640,6 +648,7 @@ function UploadSalesLog(props) {
         <div className="row">
           <div className="col-12">
             <StyledSelect
+              ref={AccountSelect}
               placeholder="고객 검색"
               showSearch
               // mode='multiple'
@@ -788,12 +797,24 @@ function UploadSalesLog(props) {
         </div>
         <div className="mt-2"></div>
         <div className="input-group">
-          <TextArea className="form-control"
+          {isMobile ? <TextArea
+            className="form-control"
             placeholder='내용을 입력해주세요'
-            style={{ height: '391px', whiteSpace: 'pre' }}
+            style={{ whiteSpace: 'normal', height: '100px' }}
+            size='large'
             value={fromData.log}
             onChange={onChangeContent}
           />
+            :
+            <TextArea
+              className="form-control"
+              placeholder='내용을 입력해주세요'
+              style={{ height: '300px', whiteSpace: 'normal' }}
+              size='large'
+              value={fromData.log}
+              onChange={onChangeContent}
+            />
+          }
         </div>
         <div className='mt-1'></div>
         {!id ? <>
