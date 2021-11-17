@@ -56,11 +56,11 @@ function SalesLogList(props) {
     data.pageno = 1;
   }, [])
 
-  useEffect(() => {
-    if (state.loglistcount) {
-      setLogCount(state.loglistcount)
-    }
-  }, [state.loglistcount])
+  // useEffect(() => {
+  //   if (state.loglistcount) {
+  //     setLogCount(state.loglistcount)
+  //   }
+  // }, [state.loglistcount])
 
 
   useEffect(() => {

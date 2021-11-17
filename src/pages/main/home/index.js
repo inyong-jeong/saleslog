@@ -433,12 +433,12 @@ const DashBoardPage = () => {
     history.push(`/main/etc/notice/anniversary`)
   }
 
-  useEffect(() => {
-    const logcount = getLogCount();
-    if (logcount <= 5) {
-      setIsVisible(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const logcount = getLogCount();
+  //   if (logcount <= 5) {
+  //     setIsVisible(true);
+  //   }
+  // }, []);
 
   return (
     <>
@@ -687,7 +687,7 @@ const DashBoardPage = () => {
           </Col>
         </Row>
         <div className='mt-5' />
-        <Modal
+        {/* <Modal
           visible={IsVisible}
           closable={false}
           okText='확인'
@@ -696,7 +696,7 @@ const DashBoardPage = () => {
           onCancel={handleOnClick}
         >
           <p>최소 5개 이상 일지가 등록되어야 데이터를 확인하실 수 있습니다.</p>
-        </Modal>
+        </Modal> */}
       </div>
     </>
   );
