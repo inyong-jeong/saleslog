@@ -19,8 +19,8 @@ const MyNavigation = () => {
   }, [pathname])
 
   return (
-
-    <BottomNavigation
+    <BottomNavigation   
+       
       style={{
         borderTop: 'solid',
         borderColor: '#F6F6F6',
@@ -40,12 +40,12 @@ const MyNavigation = () => {
       }}
     //showLabels
     >
-
-      <BottomNavigationAction label="일지" icon={<Log />} value='/main/manage' />
-      <BottomNavigationAction label="고객" icon={<Customer />} value='/main/customer' />
-      <BottomNavigationAction label="일정" icon={<Calendar />} value='/main/calendar' />
-      <BottomNavigationAction label="워크그룹" icon={<WorkGroup />} value='/main/workgroup' />
-      <BottomNavigationAction label="대시보드" icon={<Home />} value='/main' />
+      
+      <BottomNavigationAction label={<span style={{fontSize:11}}>일지</span>} icon={<Log />} value='/main/manage' />
+      <BottomNavigationAction label={<span style={{fontSize:11}}>고객</span>} icon={<Customer />}  value='/main/customer' />
+      <BottomNavigationAction label={<span style={{fontSize:11}}>일정</span>} icon={<Calendar />}  value='/main/calendar' />
+      <BottomNavigationAction label={<span style={{fontSize:10}}>워크그룹</span>} icon={<WorkGroup />}  value='/main/workgroup' />
+      <BottomNavigationAction label={<span style={{fontSize:10}}>대시보드</span>} icon={<Home />}  value='/main' />
 
     </BottomNavigation>
 
