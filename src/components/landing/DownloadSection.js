@@ -10,7 +10,7 @@ function DownloadSection(props) {
               <div className="cta-txt pc-45">
                 <h3 className="h3-lg text-white">지금 무료로 다운로드!</h3>
                 <div className="mt-4">
-                  <a href="https://apps.apple.com/kr/app/%EC%84%B8%EC%9D%BC%EC%A6%88%EB%A1%9C%EA%B7%B8-saleslog/id1594126546" className="store">
+                  <a href="https://apps.apple.com/kr/app/%EC%84%B8%EC%9D%BC%EC%A6%88%EB%A1%9C%EA%B7%B8-saleslog/id1594126546?l" className="store">
                     <img className="appstore-white" width="140" src="images/common/appstore-tra-white.png" alt="appstore link" />
                   </a>
                   <a href="https://play.google.com/store/apps/details?id=com.saleslog" className="store ml-2">
