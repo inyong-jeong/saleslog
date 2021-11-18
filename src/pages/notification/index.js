@@ -5,7 +5,7 @@ import { SET_NAVIBAR_SHOW } from 'constants/actionTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationLists } from 'redux/notification/actions'
 import { ConvertDate } from 'constants/commonFunc';
-import { Divider } from 'antd'
+import { Badge } from '@material-ui/core';
 
 const NotificationList = () => {
 
@@ -22,18 +22,15 @@ const NotificationList = () => {
   const isLoading = state.isLoading
 
   const notistyle = {
+    height: 60,
     position: 'relative',
     display: '-webkit-box',
-    // display: 'flex',
-    // justifyContent: 'space-between',
     cursor: 'pointer',
     margin: '5px',
     padding: 10,
-    // textOverflow: 'ellipsis',
     whiteSpace: 'pre-wrap',
     WebkitBoxOrient: 'vertical',
     WebkitLineClamp: 2,
-    //borderRadius: 5
     border: '1px solid #ddd',
 
   }
@@ -43,7 +40,6 @@ const NotificationList = () => {
       type: SET_NAVIBAR_SHOW,
       payload: true
     })
-
   }, [])
 
   useEffect(() => {
@@ -51,9 +47,9 @@ const NotificationList = () => {
   }, [page])
 
   useEffect(() => {
-    if (responseLists && !isLoading) {
-      if (page === 1) {
+    if (responseLists) {
 
+      if (page === 1) {
         setHasMore(true)
         setNotificationList(responseLists)
         return
@@ -63,9 +59,10 @@ const NotificationList = () => {
         setHasMore(false)
       }
       setNotificationList(notificationList.concat(responseLists))
-    }
 
+    }
   }, [isLoading])
+
 
   const navigateTo = () => {
     history.goBack()
@@ -75,7 +72,6 @@ const NotificationList = () => {
       pathname: uri
     })
   }
-
 
   const observerRef = useRef()
   const observer = useCallback((node) => {
@@ -93,9 +89,13 @@ const NotificationList = () => {
 
   const NotificationItems = ({ singleNoti }) => (
     <div style={notistyle} onClick={() => handleSaleslogNoti(singleNoti.uri)}>
-      <div style={{ color: '#333', fontSize: 14 }} >{singleNoti.note}</div>
+      <Badge color="secondary" variant="dot" invisible={singleNoti.new_yn === 'N' ? true : false}>
+        <div style={{ color: '#333', fontSize: 14, marginRight: 10 }} >{singleNoti.note}</div>
+      </Badge>
+      <br />
       <div style={{ float: 'right', color: '#666', fontSize: 12 }}>{ConvertDate(singleNoti.cre_dt)}</div>
     </div>
+
   )
 
   return (
@@ -110,11 +110,9 @@ const NotificationList = () => {
         {
           notiResponse ?
             notificationList.map(singleNoti =>
-              <NotificationItems key={singleNoti.noti_idx} singleNoti={singleNoti} />
-
-            )
+              <NotificationItems key={singleNoti.noti_idx} singleNoti={singleNoti} />)
             :
-            <div>알림을 가져오는 중입니다.</div>
+            <div style={{ marginTop: 20, textAlign: 'center' }}>알림을 가져오는 중입니다.</div>
         }
         <div ref={observer} />
         <div style={{ marginBottom: 10 }} />
