@@ -10,12 +10,18 @@ import TopMenu from "./common/TopMenu";
 import styles from '../assets/style/Main.module.css'
 import RightMenu from "./common/RightMenu";
 import { withRouter } from 'react-router-dom'
-import CustomUp from "./styledcomponent/CustomUpButton";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { postNotificationBadge } from "../redux/notification/actions";
+
+//import CustomUp from "./styledcomponent/CustomUpButton";
+
 const { Content, Sider, Footer } = Layout;
-
-
 const AuthLayout = (props) => {
+
+  const dispatch = useDispatch()
+  const notiState = useSelector(state => state.Notification)
+  const [badgeContent, setBadgeContent] = useState(0)
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"
@@ -37,9 +43,6 @@ const AuthLayout = (props) => {
     setisNaviShow(props.isShowNaviBar);
   }, [props.isShowNaviBar])
 
-  //알림 badge 카운트 
-  const badgeContent = 1
-
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Helmet>
@@ -55,9 +58,7 @@ const AuthLayout = (props) => {
         </Layout>
         :
         <div>
-          <TopMenu
-            badgeContent={badgeContent}
-          />
+          <TopMenu />
           <div style={{
             width: '100%',
             display: 'flex',

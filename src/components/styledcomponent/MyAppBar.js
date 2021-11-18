@@ -30,8 +30,10 @@ import cmm from '../../constants/common';
 import { getProfileDetail } from '../../redux/etc/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-const { confirm } = Modal;
+import { postNotificationBadge } from "../../redux/notification/actions";
 
+
+const { confirm } = Modal;
 const MyAppBar = ({
   barTitle,
   showBackButton,
@@ -45,7 +47,6 @@ const MyAppBar = ({
   onRevise,
   tempSaveClick,
   navigateNext,
-  badgeContent,
   paramId,
   Dbutton,
   Ubutton,
@@ -56,24 +57,36 @@ const MyAppBar = ({
 
   const dispatch = useDispatch()
   const history = useHistory()
-  const state = useSelector(state => state.Etc)
+  const etcState = useSelector(state => state.Etc)
+  const notiState = useSelector(state => state.Notification)
+  const [badgeContent, setBadgeContent] = useState(0)
+
   const [profileImage, setProfileImage] = useState(null)
 
   useEffect(() => {
+    if (showBackButton) return
     dispatch(getProfileDetail.call())
+    dispatch(postNotificationBadge.call())
+
   }, [])
 
   useEffect(() => {
-    if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
+    if (etcState.getProfileDetailRes && etcState.getProfileDetailRes.length > 0) {
 
       setProfileImage(
-        state.getProfileDetailRes[0].thumb_url
-          ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+        etcState.getProfileDetailRes[0].thumb_url
+          ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + etcState.getProfileDetailRes[0].thumb_url
           : null
       )
-
     }
-  }, [state.getProfileDetailRes])
+  }, [etcState.getProfileDetailRes])
+
+  useEffect(() => {
+    if (!notiState.isLoading && notiState.notiBadge) {
+      setBadgeContent(notiState.notiBadge.noti_cnt)
+    }
+
+  }, [notiState.isLoading])
 
   const isMobile = useMediaQuery({
     query: "(max-width:1190px)"

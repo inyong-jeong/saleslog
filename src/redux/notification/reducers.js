@@ -5,6 +5,9 @@ import {
   POST_NOTIFICATION_SETTING,
   POST_NOTIFICATION_SETTING_SUCCESS,
   POST_NOTIFICATION_SETTING_ERROR,
+  POST_NOTIFICATION_BEDGE,
+  POST_NOTIFICATION_BEDGE_SUCCESS,
+  POST_NOTIFICATION_BEDGE_ERROR
 
 } from '../../constants/actionTypes'
 
@@ -13,6 +16,7 @@ const initialState = {
   notificationLists: null,
   isLoading: false,
   postNotificationResponse: null,
+  notiBadge: null
 }
 
 const Notification = (state = initialState, action) => {
@@ -31,6 +35,13 @@ const Notification = (state = initialState, action) => {
       return { ...state, postNotificationResponse: true, isLoading: false }
     case POST_NOTIFICATION_SETTING_ERROR:
       return { ...state, postNotificationResponse: null, isLoading: false }
+
+    case POST_NOTIFICATION_BEDGE:
+      return { ...state, notiBadge: null, isLoading: true }
+    case POST_NOTIFICATION_BEDGE_SUCCESS:
+      return { ...state, notiBadge: action.payload.response.message[0], isLoading: false }
+    case POST_NOTIFICATION_BEDGE_ERROR:
+      return { ...state, notiBadge: null, isLoading: false }
 
     default: return { ...state }
   }

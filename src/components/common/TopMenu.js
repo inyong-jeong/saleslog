@@ -17,27 +17,40 @@ import { Link } from 'react-router-dom';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import cmm from 'constants/common';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { postNotificationBadge } from '../../redux/notification/actions';
 
 const { confirm } = Modal;
-export default function TopMenu({ badgeContent }) {
+export default function TopMenu() {
 
   const history = useHistory()
-  const state = useSelector(state => state.Etc)
+  const etcState = useSelector(state => state.Etc)
+  const dispatch = useDispatch()
+  const notiState = useSelector(state => state.Notification)
+  const [badgeContent, setBadgeContent] = useState(0)
   const [profileImage, setProfileImage] = useState(null)
 
   useEffect(() => {
-    if (state.getProfileDetailRes && state.getProfileDetailRes.length > 0) {
+    dispatch(postNotificationBadge.call())
+  }, [])
 
-
+  useEffect(() => {
+    if (etcState.getProfileDetailRes && etcState.getProfileDetailRes.length > 0) {
       setProfileImage(
-        state.getProfileDetailRes[0].thumb_url
-          ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + state.getProfileDetailRes[0].thumb_url
+        etcState.getProfileDetailRes[0].thumb_url
+          ? cmm.SERVER_API_URL + cmm.FILE_PATH_PHOTOS + etcState.getProfileDetailRes[0].thumb_url
           : null
       )
 
     }
-  }, [state.getProfileDetailRes])
+  }, [etcState.getProfileDetailRes])
+
+  useEffect(() => {
+    if (!notiState.isLoading && notiState.notiBadge) {
+      setBadgeContent(notiState.notiBadge.noti_cnt)
+    }
+
+  }, [notiState.isLoading])
 
   const onLogoutClick = () => {
     confirm({
@@ -138,9 +151,9 @@ export default function TopMenu({ badgeContent }) {
           }}>
             <div>
               <IconButton color="inherit" onClick={onNotiClick}>
-                {/* <Badge badgeContent={badgeContent} color="secondary"> */}
-                <Noti stroke='white' />
-                {/* </Badge> */}
+                <Badge badgeContent={badgeContent} color="secondary">
+                  <Noti stroke='white' />
+                </Badge>
               </IconButton>
             </div>
             <div>
