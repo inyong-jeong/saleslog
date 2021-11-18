@@ -60,7 +60,8 @@ export default function TopMenu() {
       okText: '확인',
       onOk() {
         removeAll();
-        history.push('/signin')
+        window.location.reload()
+        // history.push('/signin')
       },
       onCancel() {
         //취소

@@ -125,7 +125,8 @@ const MyAppBar = ({
       okText: '확인',
       onOk() {
         removeAll();
-        history.push('/signin')
+        window.location.reload()
+        // history.push('/signin')
       }
     })
 
