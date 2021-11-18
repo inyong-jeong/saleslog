@@ -23,7 +23,7 @@ function LeftMenu() {
   const menuList = [
     {
       title: "일지",
-      icon: <Log />,
+      icon: <Log stroke="#666" />,
       to: "/main/manage"
     }, {
       title: "고객",
