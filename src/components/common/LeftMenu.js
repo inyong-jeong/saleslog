@@ -36,14 +36,14 @@ function LeftMenu() {
       to: '/main/calendar'
     },
     {
-      title: "워크그룹",
-      icon: <WorkGroup />,
-      to: "/main/workgroup"
-    },
-    {
       title: "대시보드",
       icon: <Home />,
       to: "/main"
+    },
+    {
+      title: "워크그룹",
+      icon: <WorkGroup />,
+      to: "/main/workgroup"
     },
   ];
 

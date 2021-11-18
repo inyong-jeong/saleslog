@@ -50,8 +50,8 @@ const MyNavigation = () => {
       <BottomNavigationAction label={<span style={{ fontSize: 10 }}>일지</span>} icon={<Log />} value='/main/manage' />
       <BottomNavigationAction label={<span style={{ fontSize: 10 }}>고객</span>} icon={<Customer />} value='/main/customer' />
       <BottomNavigationAction label={<span style={{ fontSize: 10 }}>일정</span>} icon={<Calendar />} value='/main/calendar' />
-      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>워크그룹</span>} icon={<WorkGroup />} value='/main/workgroup' />
       <BottomNavigationAction label={<span style={{ fontSize: 10 }}>대시보드</span>} icon={<Home />} value='/main' />
+      <BottomNavigationAction label={<span style={{ fontSize: 10 }}>워크그룹</span>} icon={<WorkGroup />} value='/main/workgroup' />
 
     </BottomNavigation>
 
