@@ -64,7 +64,12 @@ export default function MyCalendar(props) {
   }
 
   const handleOnNavigate = (e, v) => {
-    let data = new Date(e.getFullYear(), e.getMonth(), 1);
+    let data = undefined;
+    if (e.getMonth() === new Date().getMonth()) {
+      data = new Date();
+    } else {
+      data = new Date(e.getFullYear(), e.getMonth(), 1);
+    }
     dispatch({
       type: CALENDAR_EVENT,
       payload: data
@@ -123,7 +128,7 @@ export default function MyCalendar(props) {
         {isMobile ?
           <Calendar
             onNavigate={handleOnNavigate}
-            longPressThreshold={500}
+            longPressThreshold={10}
             localizer={localizer}
             events={mtEventsList}
             style={{ height: '80vh' }}
