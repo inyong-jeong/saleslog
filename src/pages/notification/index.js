@@ -22,7 +22,6 @@ const NotificationList = () => {
   const isLoading = state.isLoading
 
   const notistyle = {
-    height: 60,
     position: 'relative',
     display: '-webkit-box',
     cursor: 'pointer',
