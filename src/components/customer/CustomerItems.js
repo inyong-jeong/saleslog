@@ -53,7 +53,7 @@ const CustomerItems = ({ page, setPage, tabkey }) => {
       if (customerList.length >= listCounts) {
         setHasMore(false)
       }
-      setCustomerList(customerList.concat(responseLists))
+      setCustomerList(new Set([...customerList, ...responseLists]))
     }
   }, [isLoading])
 

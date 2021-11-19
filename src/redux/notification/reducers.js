@@ -27,7 +27,7 @@ const Notification = (state = initialState, action) => {
     case GET_NOTIFICATION_SUCCESS:
       return { ...state, getNotificationsResponse: true, notificationLists: action.payload.response.message, isLoading: false }
     case GET_NOTIFICATION_ERROR:
-      return { ...state, getNotificationsResponse: false, notificationLists: null, isLoading: false }
+      return { ...state, getNotificationsResponse: false, isLoading: false }
 
     case POST_NOTIFICATION_SETTING:
       return { ...state, postNotificationResponse: null, isLoading: true }

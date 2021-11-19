@@ -53,12 +53,12 @@ const NotificationList = () => {
         setHasMore(true)
         setNotificationList(responseLists)
         return
-      }
 
-      if (responseLists.length <= 10) {
+      }
+      if (responseLists.length < 10) {
         setHasMore(false)
       }
-      setNotificationList(notificationList.concat(responseLists))
+      setNotificationList(new Set([...notificationList, ...responseLists]))
 
     }
   }, [isLoading])
