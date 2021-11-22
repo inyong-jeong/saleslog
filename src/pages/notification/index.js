@@ -42,7 +42,7 @@ const NotificationList = () => {
   }, [])
 
   useEffect(() => {
-    console.log('page effect:::', isLoading, page)
+    // console.log('page effect:::', isLoading, page)
       if (page) {
         dispatch(getNotificationLists.call({ 'pageno': page }))
       }
@@ -52,7 +52,7 @@ const NotificationList = () => {
     if (responseLists) {
       if (isLoading) return;
       if (!page) return;
-      console.log('notilist::', isLoading, page, responseLists)
+      // console.log('notilist::', isLoading, page, responseLists)
       if (page === 1) {
         setHasMore(true)
         setNotificationList(responseLists)
