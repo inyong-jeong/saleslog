@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Divider, Switch } from 'antd'
 import StyledSelect from 'components/styledcomponent/StyledSelect';
+import moment from 'moment'
 
 import { ReactComponent as Log } from '../../../src/assets/icons/main/log.svg'
-import { getCalendarLists, deleteCalendar } from 'redux/calendar/actions'
+import { getCalendarLists, deleteCalendar, getCalendarList } from 'redux/calendar/actions'
 
 import { ReactComponent as CalIcon } from 'assets/icons/log/cal.svg'
 import { ConvertDate, ConvertTime } from '../../constants/commonFunc'
@@ -71,6 +72,11 @@ export default function CalendarDetailModal({ isModalDVisible, setIsModalDVisibl
     { label: '2시간전', value: 120 },
     { label: '4시간전', valuse: 240 }];
 
+  const getCalendarDetailList = (idx) => {
+    dispatch(getCalendarList.call({
+      p_idx: idx
+    }))
+  }
   return (
     <>
       {state.getListRes.length > 0 && getUserInfo().login_idx === String(state.getListRes[0].login_idx) ?
@@ -130,6 +136,18 @@ export default function CalendarDetailModal({ isModalDVisible, setIsModalDVisibl
                   </>
                 })}
               </div>
+              <Divider dashed style={{ marginBottom: 10, marginTop: 10 }} />
+              {
+                state.getListsRes.map((v) => {
+                  return (
+                    <div className='calendar_list mb-2' onClick={() => getCalendarDetailList(v.p_idx)}>
+                      <i className={`mdi mdi-checkbox-blank-circle-outline mr-1 ml-2 text`}></i>
+                      <span style={{ fontSize: '16px' }}><strong>{v.plan}</strong></span>
+                      <div className='ml-4'>{moment(v.sdt).format('YYYY.MM.DD HH:mm')} ~ {moment(v.edt).format('YYYY.MM.DD HH:mm')}</div>
+                    </div>
+                  )
+                })
+              }
             </div>}
           </>
         </Modal>
@@ -178,6 +196,18 @@ export default function CalendarDetailModal({ isModalDVisible, setIsModalDVisibl
                   </>
                 })}
               </div>
+              <Divider dashed style={{ marginBottom: 10, marginTop: 10 }} />
+              {
+                state.getListsRes.map((v) => {
+                  return (
+                    <div className='calendar_list mb-2' onClick={() => getCalendarDetailList(v.p_idx)}>
+                      <i className={`mdi mdi-checkbox-blank-circle-outline mr-1 ml-2 text`}></i>
+                      <span style={{ fontSize: '16px' }}><strong>{v.plan}</strong></span>
+                      <div className='ml-4'>{moment(v.sdt).format('YYYY.MM.DD HH:mm')} ~ {moment(v.edt).format('YYYY.MM.DD HH:mm')}</div>
+                    </div>
+                  )
+                })
+              }
             </div>}
           </>
         </Modal>

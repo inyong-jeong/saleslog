@@ -59,8 +59,12 @@ export default function MyCalendar(props) {
     dispatch(getCalendarList.call({
       p_idx: e.p_idx
     }))
+    dispatch(getCalendarLists.call({
+      cyear: e.start.getFullYear(),
+      cmonth: moment(e.start).format('MM'),
+      cday: moment(e.start).format('DD')
+    }))
     setIsModalDVisible(true);
-
   }
 
   const handleOnNavigate = (e, v) => {
@@ -112,6 +116,15 @@ export default function MyCalendar(props) {
   useEffect(() => {
     dispatch(getCalendarLists.call(Cdata))
   }, [Cdata])
+
+  //캘린더 디테일 확인 후 닫을 때 리스트 다시 호출
+  useEffect(() => {
+    if (!isModalDVisible) {
+      dispatch(getCalendarLists.call(Cdata))
+    }
+  }, [isModalDVisible])
+
+  console.log(isModalVisible);
 
   // 캘린더 리스트 받아오면 리스트 데이터 set
   useEffect(() => {
