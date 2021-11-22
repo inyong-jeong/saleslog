@@ -13,9 +13,9 @@ const NotificationList = () => {
   const state = useSelector(state => state.Notification)
   const history = useHistory()
 
-  const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [notificationList, setNotificationList] = useState([])
+  const [page, setPage] = useState(null)
 
   const responseLists = state.notificationLists
   const notiResponse = state.getNotificationsResponse
@@ -42,12 +42,17 @@ const NotificationList = () => {
   }, [])
 
   useEffect(() => {
-    dispatch(getNotificationLists.call({ 'pageno': page }))
+    console.log('page effect:::', isLoading, page)
+      if (page) {
+        dispatch(getNotificationLists.call({ 'pageno': page }))
+      }
   }, [page])
 
   useEffect(() => {
     if (responseLists) {
-
+      if (isLoading) return;
+      if (!page) return;
+      console.log('notilist::', isLoading, page, responseLists)
       if (page === 1) {
         setHasMore(true)
         setNotificationList(responseLists)
@@ -60,7 +65,7 @@ const NotificationList = () => {
       setNotificationList(new Set([...notificationList, ...responseLists]))
 
     }
-  }, [isLoading])
+  }, [responseLists])
 
 
   const navigateTo = () => {
