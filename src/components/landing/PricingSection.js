@@ -24,14 +24,19 @@ function PricingSection(props) {
             <div className="pricing-table highlight wow fadeInUp" data-wow-delay="0.4s">
               <div className="pricing-plan steelblue-color">
                 <h5 className="h5-lg">체험</h5>
-                <p className="text-dark">무료, 20개당 월</p>
+                <p className="text-dark">무료</p>
                 <p className="p-md"><br />작성하는 영업일지가 20개 이하일 때 적합한 상품</p>
               </div>
               <ul className="features steelblue-color">
-                <li><i className="fas fa-stop-circle"></i> 등록가능 구성인원: 5명</li>
-                <li><i className="fas fa-stop-circle"></i> 등록가능 고객사수: 3개</li>
-                <li><i className="fas fa-stop-circle"></i> 등록가능 영업일지수: 10개</li>
-                <li><i className="fas fa-stop-circle"></i> 영업일지 음성기록</li>
+                {/* <li><i className="fas fa-stop-circle"></i> 등록가능 구성인원: 5명</li> */}
+                {/* <li><i className="fas fa-stop-circle"></i> 등록가능 고객사수: 3개</li> */}
+                {/* <li><i className="fas fa-stop-circle"></i> 등록가능 영업일지수: 10개</li> */}
+                <li><i className="fas fa-stop-circle"></i> 저장 용량: 1Gb</li>
+                <li><i className="fas fa-stop-circle"></i> 1인 워크그룹수: 무제한</li>
+                <li><i className="fas fa-stop-circle"></i> 2인 워크그룹수: -</li>
+                <li><i className="fas fa-stop-circle"></i> 최대 등록 고객: 500</li>
+                <li><i className="fas fa-stop-circle"></i> 멀티 태스킹: Mobile & PC</li>
+                {/* <li><i className="fas fa-stop-circle"></i> 영업일지 음성기록</li> */}
                 <li><i className="fas fa-stop-circle"></i> 영업일지 피드백</li>
                 <li><i className="fas fa-stop-circle"></i> 알림 기능</li>
                 <li><i className="fas fa-stop-circle"></i> 검색 기능</li>
@@ -46,14 +51,20 @@ function PricingSection(props) {
             <div className="pricing-table highlight wow fadeInUp" data-wow-delay="0.7s">
               <div className="pricing-plan steelblue-color">
                 <h5 className="h5-lg">베이직</h5>
-                <p className="text-dark">20,000₩ 인당 월</p>
+                <p className="text-dark">43,000₩ 인당 월</p>
                 <p className="p-md">등록 영업일지 수 제한 없이 영업일지 & 고객정보 DB관리를 이용할 수 있는 상품</p>
               </div>
               <ul className="features steelblue-color">
-                <li><i className="fas fa-stop-circle"></i> 등록가능 구성원인원: 100명</li>
+                {/* <li><i className="fas fa-stop-circle"></i> 등록가능 구성원인원: 100명</li>
                 <li><i className="fas fa-stop-circle"></i> 무제한 고객사수 등록</li>
-                <li><i className="fas fa-stop-circle"></i> 무제한 영업일지 등록</li>
-                <li><i className="fas fa-stop-circle"></i> 영업일지 음성기록</li>
+                <li><i className="fas fa-stop-circle"></i> 무제한 영업일지 등록</li> */}
+                <li><i className="fas fa-stop-circle"></i> 저장 용량: 1Gb</li>
+
+                <li><i className="fas fa-stop-circle"></i> 1인 워크그룹수: 무제한</li>
+                <li><i className="fas fa-stop-circle"></i> 2인 워크그룹수: 1개</li>
+                <li><i className="fas fa-stop-circle"></i> 최대 등록 고객: 무제한</li>
+                <li><i className="fas fa-stop-circle"></i> 멀티 태스킹: Mobile & PC</li>
+                {/* <li><i className="fas fa-stop-circle"></i> 영업일지 음성기록</li> */}
                 <li><i className="fas fa-stop-circle"></i> 영업일지 피드백</li>
                 <li><i className="fas fa-stop-circle"></i> 알림 기능</li>
                 <li><i className="fas fa-stop-circle"></i> 검색 기능</li>
@@ -68,14 +79,20 @@ function PricingSection(props) {
             <div className="pricing-table highlight wow fadeInUp" data-wow-delay="1s">
               <div className="pricing-plan steelblue-color">
                 <h5 className="h5-lg">프리미엄</h5>
-                <p className="text-dark">협의 후 결정</p>
+                <p className="text-dark">79,000₩ 인당 월</p>
                 <p className="p-md"><br />사내 시스템과 연계 API 연동이 지원되는 상품</p>
               </div>
               <ul className="features steelblue-color">
-                <li><i className="fas fa-stop-circle"></i> 무제한 구성원 등록</li>
+                {/* <li><i className="fas fa-stop-circle"></i> 무제한 구성원 등록</li>
                 <li><i className="fas fa-stop-circle"></i> 무제한 고객사수 등록</li>
-                <li><i className="fas fa-stop-circle"></i> 무제한 영업일지 등록</li>
-                <li><i className="fas fa-stop-circle"></i> 영업일지 음성기록</li>
+                <li><i className="fas fa-stop-circle"></i> 무제한 영업일지 등록</li> */}
+                <li><i className="fas fa-stop-circle"></i> 저장 용량: 1Gb</li>
+
+                <li><i className="fas fa-stop-circle"></i> 1인 워크그룹수: 무제한</li>
+                <li><i className="fas fa-stop-circle"></i> 2인 워크그룹수: 5개</li>
+                <li><i className="fas fa-stop-circle"></i> 최대 등록 고객: 무제한</li>
+                <li><i className="fas fa-stop-circle"></i> 멀티 태스킹: Mobile & PC</li>
+                {/* <li><i className="fas fa-stop-circle"></i> 영업일지 음성기록</li> */}
                 <li><i className="fas fa-stop-circle"></i> 영업일지 피드백</li>
                 <li><i className="fas fa-stop-circle"></i> 알림 기능</li>
                 <li><i className="fas fa-stop-circle"></i> 검색 기능</li>
