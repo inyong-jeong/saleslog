@@ -696,7 +696,7 @@ function UploadSalesLog(props) {
             <div className="col-12">
               <label style={labelStyle}> 리드 단계 <span style={{ color: 'red' }}>*</span></label>
               <StyledSelect
-                disabled={true}
+                // disabled={true}
                 placeholder="리드단계"
                 options={leadActivityOption}
                 value={leadactivity}
