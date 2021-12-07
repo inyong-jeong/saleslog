@@ -65,10 +65,15 @@ const SignIn = (props) => {
     dispatch(authorize.call(inputs.username, inputs.password, client_id, redirect_uri, response_type, grant_type, state, inputs.platform))
 
     //아이디저장
-    if (isSaveId) {
-      setCookie('userEmail', inputs.username, { maxAge: 60 * 60 * 24 * 30 });
+    try {
+      
+      if (isSaveId) {
+        setCookie('userEmail', inputs.username, { maxAge: 60 * 60 * 24 * 30 });
+      }
+    } catch {
+      console.log('cookie error!!!');
     }
-
+    
 
   }
 

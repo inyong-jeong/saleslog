@@ -102,6 +102,7 @@ const SignUpInvite = () => {
 
     if (!isTermChecked) return setTermDesc('약관에 동의하여 주세요.')
     setTermDesc('')
+    console.log('invite::',userEmail, params.inviteCode, user_name, params.useName)
     dispatch(postInviteRegistration.call(userEmail, params.inviteCode, user_name, password, params.useName))
     return
   }
