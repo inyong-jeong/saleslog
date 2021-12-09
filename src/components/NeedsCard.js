@@ -9,14 +9,28 @@ export default function NeedsCard(props) {
   useEffect(() => {
     setSentence(props.sentences.split('\n'))
   }, [])
+
+
+  function getKeyWords(str) {
+    let result = [];
+    for (let i = 0; i < str.length; i++) {
+
+      result = result.concat(str[i].split(' '));
+    }
+    return result;
+  }
+  console.log(sentence);
+  sentence && console.log(getKeyWords(sentence));
+
+
   return (
     <React.Fragment>
       <div>
-        <Button color="secondary" onClick={toggle} style={{ marginBottom: '1rem' }}>{`${props.needs}니즈`}</Button>
+        <Button onClick={toggle} style={{ marginBottom: '1rem', backgroundColor: '#000000' }}>{`${props.needs}니즈`}</Button>
         <Collapse isOpen={isOpen}>
           <Card>
             <CardBody>
-              <CardTitle tag="h4">{`${props.needs}니즈 코칭이 필요합니다.`}</CardTitle>
+              {/* <CardTitle tag="h4">{`${props.needs}니즈 코칭이 필요합니다.`}</CardTitle> */}
               {sentence &&
                 sentence.map((v) => {
                   return (

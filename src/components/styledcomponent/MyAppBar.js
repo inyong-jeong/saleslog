@@ -53,6 +53,8 @@ const MyAppBar = ({
   onWorkGroupEdit,
   onWorkGroupDelete,
   showThreeDots,
+  onNeedsTrain,
+  params
 }) => {
 
   const dispatch = useDispatch()
@@ -134,6 +136,11 @@ const MyAppBar = ({
   const onNotiClick = () => {
     history.push('/main/notification/lists')
   }
+
+  const handleOnRoute = () => {
+    history.push(`/main/manage/saleslog/needsedit/needslist/${params}`)
+  }
+
 
   const handleBarTitleClick = () => {
     window.location.reload()
@@ -273,6 +280,22 @@ const MyAppBar = ({
                   </IconButton>
                 </Dropdown>
               </div>
+            }
+
+            {(onNeedsTrain && !isMobile) &&
+
+              <div className={classes.appBarIcon}>
+                <Button size='large' onClick={handleOnRoute} style={{ border: '1px solid #f0f0f0' }}>학습 요청 목록</Button>
+              </div>
+
+            }
+
+            {(onNeedsTrain && isMobile) &&
+
+              <div className={classes.appBarIcon}>
+                <Button size='large' onClick={handleOnRoute} style={{ border: '1px solid #f0f0f0', color: 'white' }}>학습 요청 목록</Button>
+              </div>
+
             }
 
             {

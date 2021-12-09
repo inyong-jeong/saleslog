@@ -21,7 +21,11 @@ import {
   POST_AUTO_SALESLOG,
   DELETE_SALESLOG,
   PUT_COUSER,
-  DELETE_COUSER
+  DELETE_COUSER,
+  NEEDS_TRAIN,
+  NEEDS_TRAIN_LISTS,
+  NEEDS_TRAIN_DEFINE,
+  NEEDS_TRAIN_SAVE
 } from 'constants/actionTypes';
 
 import { fetchActionGenerator } from '../utils';
@@ -57,6 +61,15 @@ export const getCommentLists = fetchActionGenerator(GET_COMMENT_LISTS, 'data');
 //공동작성자 관련
 export const putCouser = fetchActionGenerator(PUT_COUSER, 'data');
 export const deleteCouser = fetchActionGenerator(DELETE_COUSER, 'data');
+
+
+//니즈학습 관련
+
+export const postNeedsTrain = fetchActionGenerator(NEEDS_TRAIN, 'data');
+export const getNeedsTrainLists = fetchActionGenerator(NEEDS_TRAIN_LISTS, 'data');
+export const getNeedsTrainDefine = fetchActionGenerator(NEEDS_TRAIN_DEFINE, 'data');
+export const postNeedsTrainSave = fetchActionGenerator(NEEDS_TRAIN_SAVE, 'data');
+
 
 export const clearLog = () => ({
   type: CLEAR_SALESLOG,

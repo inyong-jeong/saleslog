@@ -62,7 +62,19 @@ import {
   DELETE_COUSER,
   DELETE_COUSER_SUCCESS,
   DELETE_COUSER_ERROR,
-  SET_KEYWORD
+  SET_KEYWORD,
+  NEEDS_TRAIN,
+  NEEDS_TRAIN_SUCCESS,
+  NEEDS_TRAIN_ERROR,
+  NEEDS_TRAIN_LISTS,
+  NEEDS_TRAIN_LISTS_SUCCESS,
+  NEEDS_TRAIN_LISTS_ERROR,
+  NEEDS_TRAIN_DEFINE,
+  NEEDS_TRAIN_DEFINE_SUCCESS,
+  NEEDS_TRAIN_DEFINE_ERROR,
+  NEEDS_TRAIN_SAVE,
+  NEEDS_TRAIN_SAVE_SUCCESS,
+  NEEDS_TRAIN_SAVE_ERROR
 } from '../../constants/actionTypes';
 
 const INIT_STATE = {
@@ -115,7 +127,14 @@ const INIT_STATE = {
   deletetempresponse: false,
   salesgb: '0010001',
   keyword: '',
-  userlistresponse: false
+  userlistresponse: false,
+  //일지 불러오기 
+  loglistresponse: false,
+  needslistsresponse: false,
+  needslist: [],
+  definelist: [],
+  definelistresponse: false,
+
 };
 
 const SalesLog = (state = INIT_STATE, action) => {
@@ -196,11 +215,11 @@ const SalesLog = (state = INIT_STATE, action) => {
     case SEARCH_SALESLOG_LIST_ERROR:
       return { ...state, loadLogsLoading: false, loadLogsDone: false };
     case GET_SALESLOG:
-      return { ...state, getloglistloading: true };
+      return { ...state, getloglistloading: true, loglistresponse: false };
     case GET_SALESLOG_SUCCESS:
-      return { ...state, getloglistloading: false, log: action.payload.response.message[0][0], logcouser: action.payload.response.message[1], logneeds: action.payload.response.message[2] };
+      return { ...state, getloglistloading: false, loglistresponse: true, log: action.payload.response.message[0][0], logcouser: action.payload.response.message[1], logneeds: action.payload.response.message[2] };
     case GET_SALESLOG_ERROR:
-      return { ...state, getloglistloading: false };
+      return { ...state, getloglistloading: false, loglistresponse: false };
     //피드백 관련
     case POST_COMMENT:
       return { ...state, commentres: false };
@@ -239,7 +258,6 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, deletecouserloading: true, deletecouser: true };
     case DELETE_COUSER_ERROR:
       return { ...state, deletecouserloading: false, deletecouser: false };
-
     //첨부파일
     case PUT_FILE:
       return { ...state, putfileloading: false };
@@ -253,6 +271,31 @@ const SalesLog = (state = INIT_STATE, action) => {
       return { ...state, deletefileloading: true };
     case DELETE_FILE_ERROR:
       return { ...state, deletefileloading: false };
+    // 니즈학습
+    case NEEDS_TRAIN:
+      return { ...state };
+    case NEEDS_TRAIN_SUCCESS:
+      return { ...state };
+    case NEEDS_TRAIN_ERROR:
+      return { ...state };
+    case NEEDS_TRAIN_LISTS:
+      return { ...state, needslistsresponse: false, loadNeedsLoading: true };
+    case NEEDS_TRAIN_LISTS_SUCCESS:
+      return { ...state, needslistsresponse: true, loadNeedsLoading: false, needslist: action.payload.response.message[0], needscount: action.payload.response.message[1][0].totcnt };
+    case NEEDS_TRAIN_LISTS_ERROR:
+      return { ...state, needslistsresponse: false, loadNeedsLoading: false };
+    case NEEDS_TRAIN_DEFINE:
+      return { ...state, definelistresponse: false };
+    case NEEDS_TRAIN_DEFINE_SUCCESS:
+      return { ...state, definelistresponse: true, definelist: action.payload.response.message };
+    case NEEDS_TRAIN_DEFINE_ERROR:
+      return { ...state, definelistresponse: false };
+    case NEEDS_TRAIN_SAVE:
+      return { ...state };
+    case NEEDS_TRAIN_SAVE_SUCCESS:
+      return { ...state };
+    case NEEDS_TRAIN_SAVE_ERROR:
+      return { ...state };
     default:
       return { ...state };
   }

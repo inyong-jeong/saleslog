@@ -21,7 +21,11 @@ import {
   POST_AUTO_SALESLOG,
   DELETE_SALESLOG,
   PUT_COUSER,
-  DELETE_COUSER
+  DELETE_COUSER,
+  NEEDS_TRAIN,
+  NEEDS_TRAIN_LISTS,
+  NEEDS_TRAIN_DEFINE,
+  NEEDS_TRAIN_SAVE
 } from '../../constants/actionTypes';
 
 import {
@@ -44,7 +48,11 @@ import {
   postAutoSalesLog,
   deleteSalesLog,
   putCouser,
-  deleteCouser
+  deleteCouser,
+  postNeedsTrain,
+  getNeedsTrainLists,
+  getNeedsTrainDefine,
+  postNeedsTrainSave
 } from './actions';
 
 import {
@@ -290,6 +298,60 @@ function* _deleteCouser({ payload: { data } }) {
   }
 }
 
+//니즈 학습
+
+function* _postNeedsTrain({ payload: { data } }) {
+  try {
+    yield loadingMessage()
+    console.log(data);
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/needs/regi_needs_learning', data);
+    console.log(response)
+    yield hideMessage()
+    yield put(postNeedsTrain.success(response));
+    yield successMessage('학습요청이 성공되었습니다')
+  } catch (error) {
+    yield put(postNeedsTrain.error(error));
+    yield errorMessage('학습요청이 실패하였습니다. 문장 및 선택한 키워드를 확인해주세요')
+
+  }
+}
+
+function* _getNeedsTrainLists({ payload: { data } }) {
+  try {
+    yield loadingMessage()
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/needs/list_needs_learning', data);
+    yield hideMessage()
+    yield put(getNeedsTrainLists.success(response));
+  } catch (error) {
+    yield put(getNeedsTrainLists.error(error));
+  }
+}
+
+function* _getNeedsDefine({ payload: { data } }) {
+  try {
+    yield loadingMessage()
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/needs/detail_needs_noun', data);
+    yield hideMessage()
+    yield put(getNeedsTrainDefine.success(response));
+  } catch (error) {
+    yield put(getNeedsTrainDefine.error(error));
+  }
+}
+
+function* _postNeedsSave({ payload: { data } }) {
+  try {
+    yield loadingMessage()
+    const response = yield call(post_fetch, 'https://backend.saleslog.co/needs/regi_needs_noun', data);
+    yield hideMessage()
+    yield put(postNeedsTrainSave.success(response));
+    yield successMessage('저장이 성공되었습니다')
+  } catch (error) {
+    yield put(postNeedsTrainSave.error(error));
+    yield errorMessage('저장이 실패되었습니다')
+
+  }
+}
+
 
 
 //일지작성 관련
@@ -376,6 +438,21 @@ export function* watchdeleteCouser() {
   yield takeEvery(DELETE_COUSER, _deleteCouser);
 }
 
+//니즈 학습
+export function* watchpostNeedsTrain() {
+  yield takeEvery(NEEDS_TRAIN, _postNeedsTrain);
+}
+export function* watchgetNeedsTrainLists() {
+  yield takeEvery(NEEDS_TRAIN_LISTS, _getNeedsTrainLists);
+}
+export function* watchgetNeedsDefine() {
+  yield takeEvery(NEEDS_TRAIN_DEFINE, _getNeedsDefine);
+}
+export function* watchpostNeedsSave() {
+  yield takeEvery(NEEDS_TRAIN_SAVE, _postNeedsSave);
+}
+
+
 
 function* salesLogSaga() {
   yield all([
@@ -403,6 +480,12 @@ function* salesLogSaga() {
     //공동작성자 관련
     fork(watchputCouser),
     fork(watchdeleteCouser),
+    //니즈학습
+    fork(watchpostNeedsTrain),
+    fork(watchgetNeedsTrainLists),
+    fork(watchgetNeedsDefine),
+    fork(watchpostNeedsSave),
+
   ]);
 }
 

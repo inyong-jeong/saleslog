@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getLogList, getCommentLists, getprofile, deleteFile, putFile, clearLog, deleteSalesLog, putCouser, deleteCouser } from 'redux/actions';
 import { connect } from 'react-redux';
-import { Row, Col, Upload, Modal, Divider } from 'antd'
+import { Row, Col, Upload, Modal, Divider, Button } from 'antd'
 import StyledCard from 'components/styledcomponent/Card'
 import Comments from 'components/Comments/Comments'
 import MyAppBar from '../../../components/styledcomponent/MyAppBar';
@@ -22,11 +22,20 @@ import { ReactComponent as TimeIcon } from 'assets/icons/log/time.svg'
 import { ReactComponent as BuildingIcon } from 'assets/icons/log/building.svg'
 import { useScrollToTop, useScrollToBottom } from '../../../constants/commonFunc';
 import { base64Enc } from 'constants/commonFunc';
+import { getUserInfo } from 'helpers/authUtils';
+import { errorMessage } from 'constants/commonFunc'
+import { useMediaQuery } from "react-responsive";
+
 
 const { confirm } = Modal;
 
 
 function SalesLog(props) {
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:768px)"
+  });
+
 
   // console.log(props.history.location.state);
 
@@ -126,14 +135,28 @@ function SalesLog(props) {
 
   // 로그 상세 일지 상태 set
   useEffect(() => {
+    if (base64Dec(props.match.params.id)) {
+      props.getLogList(data)
+      props.getCommentLists(body)
+      props.getprofile()
+    }
+  }, [])
+
+  useEffect(() => {
     if (props.log) {
       setLog(props.log)
       setSalesGb(props.log.sales_gb)
-      setFileList(getFileList(props.log))
     }
-    return () => { props.clearLog() }
+    return () => {
+      props.clearLog()
+    }
 
   }, [props.log])
+
+  useEffect(() => {
+    if (state.loglistresponse) {
+    }
+  }, [state.loglistresponse])
 
   const handleOnBack = () => {
     props.history.goBack()
@@ -150,13 +173,7 @@ function SalesLog(props) {
   // }, [props.putfileloading, props.deletefileloading])
 
   //마운트 될 떄, 댓글리스트, 로그리스트, 프로필 받아오기.
-  useEffect(() => {
-    if (base64Dec(props.match.params.id)) {
-      props.getLogList(data)
-      props.getCommentLists(body)
-      props.getprofile()
-    }
-  }, [])
+
 
   useEffect(() => {
     if (props.commentdelete) {
@@ -398,6 +415,32 @@ function SalesLog(props) {
     props.history.push(`/main/customer/details/${base64Enc(Log.acc_idx)}`)
   }
 
+  //니즈편집
+
+  const handleOnClick = () => {
+    if (getUserInfo().permission !== '9') {
+      props.history.push({
+        pathname: `/main/manage/saleslog/needsedit/${props.match.params.id}`,
+        state: Log && Log.log
+      });
+    }
+    else {
+      return errorMessage('접근 권한이 없습니다.')
+    }
+  }
+
+
+  Log && console.log(Log.log);
+
+  function setNeedsColor(lists, needs) {
+    let result = undefined;
+    for (let i = 0; i < lists.length; i++) {
+      if (needs === lists[i].needs_cod) {
+        result = lists[i].percent;
+      }
+    }
+    return result;
+  }
   return (
     <div id='root'>
       <MyAppBar barTitle={'영업일지 상세'} showBackButton
@@ -521,8 +564,31 @@ function SalesLog(props) {
         <div className='mt-1'></div>
         <Row gutter={[4, 4]} >
           <Col sm={24} xs={24} md={24} lg={24}>
-            {logneedslist.length > 0 ? <StyledCard title='니즈 분석'>
-              <div style={{ width: '100%', height: 500 }}>
+            {logneedslist.length > 0 ? <StyledCard title='니즈 현황'>
+              <div style={{ width: '80%' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {setNeedsColor(logneedslist, '전략') ? <div><Button style={{ backgroundColor: '#deebf7' }}>전략</Button> &nbsp;&nbsp; <span>{setNeedsColor(logneedslist, '전략')}%</span></div>
+                    :
+                    <div><Button>전략</Button> &nbsp;&nbsp; <span>0%</span></div>
+                  }
+                  {setNeedsColor(logneedslist, '제품') ? <div><Button style={{ backgroundColor: '#fff2cc' }}>제품</Button> &nbsp;&nbsp; <span>{setNeedsColor(logneedslist, '제품')}%</span></div>
+                    :
+                    <div><Button>제품</Button> &nbsp;&nbsp; <span>0%</span></div>
+                  }
+                </div>
+                <div className='mt-2'></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {setNeedsColor(logneedslist, '운영') ? <div><Button style={{ backgroundColor: '#e2f0d9' }}>운영</Button> &nbsp;&nbsp; <span>{setNeedsColor(logneedslist, '운영')}%</span></div>
+                    :
+                    <div><Button>운영</Button> &nbsp;&nbsp; <span>0%</span></div>
+                  }
+                  {setNeedsColor(logneedslist, '개인') ? <div><Button style={{ backgroundColor: '#fbe5d6' }}>개인</Button> &nbsp;&nbsp; <span>{setNeedsColor(logneedslist, '개인')}%</span></div>
+                    :
+                    <div><Button>개인</Button> &nbsp;&nbsp; <span>0%</span></div>
+                  }
+                </div>
+              </div>
+              {/* <div style={{ width: '100%', height: 500 }}>
                 <ResponsivePie
                   arcLinkLabelsDiagonalLength={9}
                   arcLinkLabelsStraightLength={9}
@@ -545,27 +611,36 @@ function SalesLog(props) {
                   arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
                   colors={'#398FFF'}
                 />
-              </div>
+              </div> */}
             </StyledCard> :
-              <StyledCard title='니즈 분석'>
+              <StyledCard title='니즈 현황'>
                 <div style={{ textAlign: 'center' }}>일지 로그에서 분류된 니즈가 없습니다. 코칭이 필요합니다.</div>
               </StyledCard>
             }
+            <div className='mt-2'></div>
             <Row gutter={[4, 4]}>
               <Col sm={24} xs={24} md={24} lg={24}>
-                {props.logneeds ? props.logneeds.map((v) =>
-                  <NeedsCard
-                    key={v.needs_cod}
-                    needs={v.needs_cod}
-                    sentences={v.needs}
-                  />
-                ) :
-                  <div>분석이 없습니다.</div>
-                }
+                <StyledCard title='니즈 분석'>
+                  {props.logneeds ? props.logneeds.map((v) =>
+                    <NeedsCard
+                      key={v.needs_cod}
+                      needs={v.needs_cod}
+                      sentences={v.needs}
+                    />
+                  ) :
+                    <div>분석이 없습니다.</div>
+                  }
+                </StyledCard>
               </Col>
             </Row>
           </Col>
         </Row>
+        <div className='mt-1'></div>
+        <div style={{ textAlign: 'center' }}>
+          {(!isMobile && getUserInfo().wgroupName === 'lsmetal' && getUserInfo().permission !== 9) && <Button size='large' onClick={handleOnClick}>니즈 학습하기 및 진행현황</Button>}
+          {/* <Button size='large' onClick={handleOnClick}>니즈 학습하기 및 진행현황</Button> */}
+
+        </div>
         <Row gutter={[4, 4]} >
           <Col sm={24} xs={24} md={24} lg={24}>
             <div className='mt-1' />

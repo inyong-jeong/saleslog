@@ -26,6 +26,10 @@ const CongratuLation = React.lazy(() => import('./pages/auth/CongratuLation'));
 const Home = React.lazy(() => import('./pages/main/home'));
 const Manage = React.lazy(() => import('./pages/manage'));
 const SalesLog = React.lazy(() => import('./pages/manage/saleslog'));
+const NeedsEdit = React.lazy(() => import('./pages/manage/saleslog/needsedit'));
+const NeedsList = React.lazy(() => import('./pages/manage/saleslog/needsedit/needslist'));
+
+
 const Upload = React.lazy(() => import('./pages/manage/upload'));
 const Temporary = React.lazy(() => import('./pages/manage/upload/temporary'));
 
@@ -155,8 +159,12 @@ const MainRoute = ({ component: Component, roles, ...rest }) => (
 const routes = [
   //Main Route
   { path: '/main', name: 'Home', component: Home, route: MainRoute, exact: true },
-
+  //일지
   { path: '/main/manage/saleslog/:id', name: 'SalesLog', component: SalesLog, route: MainRoute, exact: true },
+  { path: '/main/manage/saleslog/needsedit/:id', name: 'NeedsEdit', component: NeedsEdit, route: MainRoute, exact: true },
+  { path: '/main/manage/saleslog/needsedit/needslist/:id', name: 'NeedsList', component: NeedsList, route: MainRoute, exact: true },
+
+
   { path: '/main/manage', name: 'Manage', component: Manage, route: MainRoute, exact: true },
   { path: '/main/upload', name: 'Upload', component: Upload, route: MainRoute, exact: true },
   { path: '/main/upload/:id', name: 'Upload', component: Upload, route: MainRoute, exact: true },
@@ -175,11 +183,6 @@ const routes = [
   //일정
   { path: '/main/calendar', name: 'Calendar', component: Calendar, route: MainRoute, exact: true },
   { path: '/main/calendar/register', name: 'CalendarRegister', component: CalendarRegister, route: MainRoute, exact: true },
-
-
-
-
-
 
   //워크그룹 
   { path: '/main/workgroup', name: 'Workgroup', component: Workgroup, route: MainRoute, exact: true },
@@ -205,7 +208,6 @@ const routes = [
   { path: '/main/etc/notice/system/update/:noticeId', name: 'systemNoticeUpd', component: systemNoticeUpd, route: MainRoute, exact: true },
   { path: '/main/etc/notice/anniversary', name: 'anniversary', component: anniversary, route: MainRoute, exact: true },
 
-
   //프로필 및 설정 등
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
   { path: '/main/notification/setting', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
@@ -217,7 +219,6 @@ const routes = [
 
   //devict token
   { path: "/main/etc/savedevice/:device", name: 'SaveDevice', component: SaveDevice, route: MainRoute, exact: true },
-
 
   //landing Route
   { path: "/", name: 'Landing', component: Landing, route: LandingRoute, exact: true },
