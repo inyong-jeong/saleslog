@@ -3,7 +3,6 @@ import { HashRouter } from "react-router-dom";
 // import { BrowserRouter } from "react-router-dom";
 
 import 'antd/dist/antd.css';
-
 import { createHashHistory } from "history";
 import { syncHistoryWithStore } from "react-router-redux";
 import { connect } from "react-redux";
@@ -11,12 +10,10 @@ import Loadable from "react-loadable";
 import { Spin } from 'antd'
 import 'wowjs/css/libs/animate.css';
 import { WOW } from 'wowjs';
-
 import { routes } from "./routes";
 
 // setup fake backend
 import { isUserAuthenticated, isUserAuthenticating } from "helpers/authUtils";
-
 
 // Themes
 import "./assets/scss/DefaultTheme.scss";
