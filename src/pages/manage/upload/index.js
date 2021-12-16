@@ -463,7 +463,12 @@ function UploadSalesLog(props) {
       cancelText: '취소',
       okText: '확인',
       onOk() {
-        props.history.goBack()
+        if (id && id.length < 3) {
+          props.history.push('/main/manage')
+        } else {
+          props.history.goBack()
+
+        }
       }
     })
   };
