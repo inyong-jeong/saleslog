@@ -115,12 +115,12 @@ function SalesLog(props) {
         payload: salesgb
       })
 
-      return () => {
-        dispatch({
-          type: SET_SALES_GB,
-          payload: '0010001'
-        })
-      }
+      // return () => {
+      //   dispatch({
+      //     type: SET_SALES_GB,
+      //     payload: '0010001'
+      //   })
+      // }
 
     }
   }, [salesgb])
@@ -144,6 +144,7 @@ function SalesLog(props) {
 
   useEffect(() => {
     if (props.log) {
+      console.log(props.log);
       setLog(props.log)
       setSalesGb(props.log.sales_gb)
     }

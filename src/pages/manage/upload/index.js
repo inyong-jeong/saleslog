@@ -180,6 +180,7 @@ function UploadSalesLog(props) {
   // 고객사 간편등록 하면 바로 고객담당자 란에 fix
   useEffect(() => {
     if (props.accountpersonlist.length === 1 && selectedAccount !== null) {
+      setSelectedAccount(selectedAccount)
       setSelectedAccountPerson(props.accountpersonlist[0].accm_idx);
       setFromData({ ...fromData, accm_idx: props.accountpersonlist[0].accm_idx })
 
@@ -218,7 +219,7 @@ function UploadSalesLog(props) {
         log: props.log.log,
         addr: props.log.addr,
         sales_gb: props.log.sales_gb,
-        sales_lead_gb: props.log.score,
+        sales_lead_gb: props.log.sales_lead_gb,
         sales_goal: props.log.sales_goal,
         sales_activity: props.log.sales_activity,
         meeting_date: props.log.meeting_date,
@@ -250,7 +251,7 @@ function UploadSalesLog(props) {
         log: props.temporaryLoglist.log,
         addr: props.temporaryLoglist.addr,
         sales_gb: props.temporaryLoglist.sales_gb,
-        sales_lead_gb: props.temporaryLoglist.score,
+        sales_lead_gb: props.temporaryLoglist.sales_lead_gb,
         sales_goal: props.temporaryLoglist.sales_goal === 'null' ? null : props.temporaryLoglist.sales_goal,
         sales_activity: props.temporaryLoglist.sales_activity === 'null' ? null : props.temporaryLoglist.sales_activity,
         meeting_date: props.temporaryLoglist.meeting_date,
