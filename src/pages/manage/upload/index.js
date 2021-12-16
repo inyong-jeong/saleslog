@@ -235,6 +235,7 @@ function UploadSalesLog(props) {
   //임시저장
   useEffect(() => {
     if (props.temporaryLoglist) {
+      props.selectAccounts({ sales_gb: props.temporaryLoglist.sales_gb });
       setRadioCheck(props.temporaryLoglist.sales_gb);
       setSelectedAccount(props.temporaryLoglist.acc_idx === 0 ? null : props.temporaryLoglist.acc_idx)
       setSelectedAccountPerson(props.temporaryLoglist.accm_idx === 0 ? null : props.temporaryLoglist.accm_idx)
