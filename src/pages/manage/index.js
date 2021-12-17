@@ -25,6 +25,8 @@ function SalesLogList(props) {
   const state = useSelector(state => state.SalesLog)
   const history = useHistory();
 
+
+  console.log(history)
   const navigateTo = () => history.push({
     pathname: '/main/upload'
   })
@@ -53,6 +55,7 @@ function SalesLogList(props) {
 
 
   useEffect(() => {
+    history.push('/main/manage')
     data.pageno = 1;
   }, [])
 
