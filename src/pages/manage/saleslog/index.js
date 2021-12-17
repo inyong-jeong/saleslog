@@ -25,6 +25,7 @@ import { base64Enc } from 'constants/commonFunc';
 import { getUserInfo } from 'helpers/authUtils';
 import { errorMessage } from 'constants/commonFunc'
 import { useMediaQuery } from "react-responsive";
+import { useHistory } from 'react-router';
 
 
 const { confirm } = Modal;
@@ -51,6 +52,7 @@ function SalesLog(props) {
   let deletelog = state.deletelog;
   let putcouser = state.putcouser;
   let deletecouser = state.deletecouser;
+  const history = useHistory()
 
   const [salesgb, setSalesGb] = useState();
   const [CommentLists, setCommentLists] = useState([])
@@ -160,7 +162,9 @@ function SalesLog(props) {
   }, [state.loglistresponse])
 
   const handleOnBack = () => {
-    props.history.goBack()
+    history.goBack()
+
+    // props.history.goBack()
   }
 
   const updateComment = (newComment) => {
