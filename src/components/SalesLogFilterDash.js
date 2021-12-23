@@ -82,7 +82,7 @@ const SalesLogFilterDash = (props) => {
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
       //부서별 사용자
-      props.getorganizationusersDash({ dept_idx: departmentId, typ: 'tree' })
+      props.getorganizationusersDash({ dept_idx: departmentId, typ: 'mine' })
       props.setData({ ...props.data, dept_idx: departmentId, pageno: 1, sales_man: '' })
       setSelectedItems([])
     } else {

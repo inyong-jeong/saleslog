@@ -75,6 +75,7 @@ const SalesLogFilter = (props, { firsttime }) => {
   //부서데이타 treedata 변환
   const getTreeData = (array) => {
 
+
     if (!array || array.length <= 0) {
       return null;
     }
@@ -94,6 +95,7 @@ const SalesLogFilter = (props, { firsttime }) => {
       map[parent].children.push(obj);
     }
 
+
     return map['-'].children;
 
   }
@@ -111,7 +113,7 @@ const SalesLogFilter = (props, { firsttime }) => {
 
   //부서조회 fetch 후
   useEffect(() => {
-    if (organlistResponse && (selId === props.id) && getUserInfo().permission !== '9') {
+    if (organlistResponse && (selId === props.id)) {
       setTreedata(getTreeData(props.organizationlist))
       setSelId();
       state2.StoredData ? props.setData({ ...props.data, 'dept_idx': state2.StoredData.data.dept_idx, 'pageno': 1 })
@@ -123,15 +125,12 @@ const SalesLogFilter = (props, { firsttime }) => {
   //부서 선택
   const handeltreeOnChange = (departmentId, label, extra) => {
 
-    console.log(label);
-    console.log(departmentId);
-
     if (departmentId) {
       setSelId(extra.allCheckedNodes[0].node.props.id);
       setSelIdUser(extra.allCheckedNodes[0].node.props.id);
       setSelectedOrganization(departmentId);
       // props.setData({ ...props.data, organization: departmentId, members: undefined })
-      props.getorganizationusers({ dept_idx: departmentId, typ: 'tree' })
+      props.getorganizationusers({ dept_idx: departmentId, typ: 'mine' })
       props.setData({ ...props.data, dept_idx: departmentId, pageno: 1, sales_man: '', members: undefined, organization: departmentId })
     } else {
       setSelectedOrganization(departmentId);
@@ -219,40 +218,40 @@ const SalesLogFilter = (props, { firsttime }) => {
 
   return (
     <>
-      {(getUserInfo().permission !== '9')
-        && <Row gutter={6}>
-          <Col sm={12} xs={12} md={12} lg={12}>
-            <TreeSelect
-              style={{ width: '100%' }}
-              dropdownMatchSelectWidth={false}
-              value={state2.StoredData ? state2.StoredData.data.organization : selectedOrganization}
-              treeLine={true}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              treeData={treedata}
-              placeholder={'조직 전체'}
-              treeDefaultExpandAll
-              allowClear
-              onChange={handeltreeOnChange}
-              id={props.id}
-            />
-          </Col>
-          <Col sm={12} xs={12} md={12} lg={12}>
-            <Select placeholder='멤버 전체'
-              mode='multiple'
-              style={selectStyle}
-              onChange={onOrganizationUserSelectChange}
-              value={state2.StoredData ? state2.StoredData.data.members : selectedItems}
-              maxTagCount={isMobile ? 2 : 3}
-              id={props.id}
-            >
-              {filteredOptions && filteredOptions.map((item, index) => (
-                <Select.Option key={index} value={item} >
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-          </Col>
-        </Row>}
+
+      <Row gutter={6}>
+        <Col sm={12} xs={12} md={12} lg={12}>
+          <TreeSelect
+            style={{ width: '100%' }}
+            dropdownMatchSelectWidth={false}
+            value={state2.StoredData ? state2.StoredData.data.organization : selectedOrganization}
+            treeLine={true}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treedata}
+            placeholder={'조직 전체'}
+            treeDefaultExpandAll
+            allowClear
+            onChange={handeltreeOnChange}
+            id={props.id}
+          />
+        </Col>
+        <Col sm={12} xs={12} md={12} lg={12}>
+          <Select placeholder='멤버 전체'
+            mode='multiple'
+            style={selectStyle}
+            onChange={onOrganizationUserSelectChange}
+            value={state2.StoredData ? state2.StoredData.data.members : selectedItems}
+            maxTagCount={isMobile ? 2 : 3}
+            id={props.id}
+          >
+            {filteredOptions && filteredOptions.map((item, index) => (
+              <Select.Option key={index} value={item} >
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+        </Col>
+      </Row>
       <Row className='mt-1'></Row>
       <Row gutter={6}>
         <Col sm={8} xs={8} md={8} lg={8}>

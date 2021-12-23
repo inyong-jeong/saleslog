@@ -48,6 +48,7 @@ const WgroupMemberPage = () => {
       login_idx: base64Dec(params.memberId),
       permissions: 9,
       dept_idx: '',
+      dept_log_idx: ''
     }
   )
 
@@ -66,6 +67,11 @@ const WgroupMemberPage = () => {
     setInputs({ ...inputs, dept_idx: value });
   }
 
+  const handelAuthOnChange = (value) => {
+    setInputs({ ...inputs, dept_log_idx: value });
+  }
+
+
   useScrollToTop()
   useEffect(() => {
     dispatch({
@@ -81,7 +87,12 @@ const WgroupMemberPage = () => {
   useEffect(() => {
     if (!cmm.isEmpty(state.getGroupMemberDetailRes)) {
       setMemberData(state.getGroupMemberDetailRes)
-      setInputs({ ...inputs, permissions: state.getGroupMemberDetailRes[0].permissions, dept_idx: state.getGroupMemberDetailRes[0].dept_idx });
+      setInputs({
+        ...inputs, permissions: state.getGroupMemberDetailRes[0].permissions,
+        dept_idx: state.getGroupMemberDetailRes[0].dept_idx,
+        dept_log_idx: state.getGroupMemberDetailRes[0].dept_log_idx,
+
+      });
     }
   }, [state.getGroupMemberDetailRes])
 
@@ -110,6 +121,7 @@ const WgroupMemberPage = () => {
 
   const getTreeData = (array) => {
 
+
     if (!array || array.length <= 0) {
       return null;
     }
@@ -129,10 +141,10 @@ const WgroupMemberPage = () => {
       map[parent].children.push(obj);
     }
 
+
     return map['-'].children;
 
   }
-
 
   return (
     (memberData && memberData.length > 0) &&
@@ -182,13 +194,27 @@ const WgroupMemberPage = () => {
           <label style={labelTextStyle}>소속</label><br />
           <TreeSelect
             style={{ width: '100%' }}
-            value={inputs.dept_idx == 0 ? '소속 없음' : inputs.dept_idx}
+            value={inputs.dept_idx === 0 ? '소속 없음' : inputs.dept_idx}
             treeLine={true}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             treeData={treedata}
             placeholder={memberData[0].dept_name}
             treeDefaultExpandAll
             onChange={handeltreeOnChange} />
+
+          <Divider style={{ width: '100%', margin: 5 }} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label style={labelTextStyle}>일지 권한 관리</label><br />
+          <TreeSelect
+            style={{ width: '100%' }}
+            value={inputs.dept_log_idx === 0 ? '권한 없음' : inputs.dept_log_idx}
+            treeLine={true}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treedata}
+            placeholder={memberData[0].dept_name}
+            treeDefaultExpandAll
+            onChange={handelAuthOnChange} />
 
           <Divider style={{ width: '100%', margin: 5 }} />
         </div>
