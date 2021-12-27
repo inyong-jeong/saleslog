@@ -205,7 +205,7 @@ const WgroupMemberPage = () => {
           <Divider style={{ width: '100%', margin: 5 }} />
         </div>
         <div style={{ marginTop: 10 }}>
-          <label style={labelTextStyle}>일지 권한 관리</label><br />
+          <label style={labelTextStyle}>일지 조회 권한</label><br />
           <TreeSelect
             style={{ width: '100%' }}
             value={inputs.dept_log_idx === 0 ? '권한 없음' : inputs.dept_log_idx}
