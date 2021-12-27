@@ -161,9 +161,10 @@ function SalesLog(props) {
     }
   }, [state.loglistresponse])
 
-  const handleOnBack = () => {
+  const handleOnBack = (e) => {
+    e.preventDefault();
     history.goBack()
-
+    
     // props.history.goBack()
   }
 
