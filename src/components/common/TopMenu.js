@@ -12,7 +12,7 @@ import { ReactComponent as WorkNotice } from '../.././assets/icons/main/notice_w
 import { ReactComponent as Setting } from '../.././assets/icons/main/setting.svg'
 import { removeAll } from 'helpers/authUtils';
 import { useHistory } from 'react-router';
-import { Menu, Dropdown, Avatar } from 'antd';
+import { Menu, Dropdown, Avatar, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -117,6 +117,11 @@ export default function TopMenu() {
     history.push('/main/notification/lists')
   }
 
+  const onMemberClick = () => {
+    history.push('/main/membership')
+
+  }
+
   return (
     <>
       <div style={{
@@ -150,6 +155,13 @@ export default function TopMenu() {
             justifyContent: 'flex-end',
             alignItems: 'center'
           }}>
+            <div>
+              <IconButton color="inherit" onClick={onMemberClick}>
+                <Badge badgeContent={badgeContent} color="secondary">
+                  <Button> 멤버십</Button>
+                </Badge>
+              </IconButton>
+            </div>
             <div>
               <IconButton color="inherit" onClick={onNotiClick}>
                 <Badge badgeContent={badgeContent} color="secondary">

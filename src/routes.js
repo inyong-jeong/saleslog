@@ -84,6 +84,13 @@ const SaveDevice = React.lazy(() => import('./pages/etc/devicetoken'))
 const SupportPage = React.lazy(() => import('./pages/support'))
 const MyInquiryDetails = React.lazy(() => import('./pages/support/detail'))
 
+//멤버십
+const MembershipPage = React.lazy(() => import('./pages/membership'))
+const PaymentPage = React.lazy(() => import('./pages/membership/payment'))
+const GpaymentPage = React.lazy(() => import('./pages/membership/gpayment'))
+
+
+
 const LandingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
     const isTokenValid = isUserAuthenticated();
@@ -212,6 +219,13 @@ const routes = [
   { path: '/main/information', name: 'AppInfo', component: AppInfo, route: MainRoute, exact: true },
   { path: '/main/notification/setting', name: 'NotificationSetting', component: NotificationSetting, route: MainRoute, exact: true },
   { path: '/main/notification/lists', name: 'NotificationList', component: NotificationList, route: MainRoute, exact: true },
+
+  //멤버십
+  { path: '/main/membership', name: 'MembershipPage', component: MembershipPage, route: MainRoute, exact: true },
+  { path: '/main/membership/payment', name: 'PaymentPage', component: PaymentPage, route: MainRoute, exact: true },
+  { path: '/main/membership/gpayment/:id', name: 'GpaymentPage', component: GpaymentPage, route: MainRoute, exact: true },
+
+
 
   //지원
   { path: '/main/support', name: 'SupportPage', component: SupportPage, route: MainRoute, exact: true },
